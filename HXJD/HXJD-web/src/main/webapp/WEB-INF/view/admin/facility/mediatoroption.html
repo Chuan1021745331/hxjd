@@ -1,0 +1,68 @@
+<!-- top tiles -->
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					调理员<small>列表</small><div id="returnmessage"></div>
+				</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<table id="datatable" class="table table-striped jambo_table bulk_action">
+					<thead>
+						<tr>
+							<th>名称</th>
+							<th>阵营</th>
+							<th>席位</th>
+							<th>坐标X</th>
+							<th>坐标Y</th>
+							<th>状态</th>
+							<th>等级</th>
+							<th style="width: 180px;">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		tableData(
+			bpath+'/admin/mediator/optionData',		//数据连接
+			[{ "data": "mediator_name" },
+			 { "data": "camp" },
+			 { "data": "seatname" },
+			 { "data": "x" },
+			 { "data": "y" },
+				{ "data": "mediator_stauts" },
+                { "data": "mediator_grade" }],	//列表
+            function(row, data) { //data是后端返回的数据
+                if(data.camp=="1") {
+                    $('td:eq(1)', row).html('<span style="color:blue;">蓝方</span>');
+                }else {
+                    $('td:eq(1)', row).html('<span style="color:red;">红方</span>');
+                }
+                if(data.mediator_stauts=="1") {
+                    $('td:eq(5)', row).html('<span style="color:red;">关闭</span>');
+                }else {
+                    $('td:eq(5)', row).html('<span style="color:blue;">开启</span>');
+                }
+                if(data.x==null){
+                    $('td:eq(3)', row).html('<span style="color:red;">暂无数据</span>');
+				}
+                if(data.y==null){
+                    $('td:eq(4)', row).html('<span style="color:red;">暂无数据</span>');
+                }
+                if(data.seatname==null){
+                    $('td:eq(2)', row).html('<span style="color:red;">暂无席位</span>');
+                }
+            },
+			'${topButton}',
+			'${tableButton}',
+			[false,false,false],
+			true						//状态保存
+		);
+	} );
+</script>

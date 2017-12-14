@@ -1,0 +1,218 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<style>
+input[type=checkbox], input[type=radio]{margin: 0px 2px;}
+ .layui-form input[type=radio], .layui-form select{display: inline-block;}
+</style>
+
+<!-- <link href="${CPATH}/plus/mult/lib/google-code-prettify/prettify.css" />
+<link href="${CPATH}/plus/mult/css/bootstrap-multiselect.css" /> -->
+<!--corn-->
+<!-- <link href="${CPATH}/plus/cron/cron/jquery-cron.css" rel="stylesheet">
+<link href="${CPATH}/plus/cron/gentleSelect/jquery-gentleSelect.css" rel="stylesheet">
+cron
+<script src="${CPATH}/plus/cron/cron/jquery-cron-zh_CN.js"></script>
+<script src="${CPATH}/plus/cron/gentleSelect/jquery-gentleSelect.js"></script> -->
+
+<!-- <script src="${CPATH}/plus/mult/js/prettify.min.js"></script>
+<script src="${CPATH}/plus/mult/js/bootstrap-multiselect.js"></script> -->
+
+<form class="layui-form"  id="myForm" style="margin: 10px 10px 0px 10px;">
+  <div class="layui-form-item">
+    <label class="layui-form-label">任务方法</label>
+    <div class="layui-input-inline" style="width:20%">
+      <input type="text" name="jJob.jobName"  required  lay-verify="required" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">任务类</label>
+    <div class="layui-input-inline" style="width:20%">
+      <input type="text" name="jJob.jobGroup" required  lay-verify="required" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">执行时间</label>
+    <div id='selector'  >
+      	<select lay-ignore id="fir">  <!-- 年    分钟  -->
+				<option value="minute">分钟 </option>
+				<option value="hour">小时</option>
+				<option value="day">天</option>
+				<option value="month">月</option>
+				<option value="year">年</option>
+	  	</select>
+    	
+    </div>
+    <input id="cron" type="hidden"  name="jJob.cronExp" required="required">
+  </div>
+  
+<div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="jJob.jobStatus" value="1" lay-skin="switch" lay-text="开启|关闭" checked>
+    </div>
+  </div>  
+
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">备注</label>
+    <div class="layui-input-inline" style="width:20%">
+      <textarea name="jJob.remark" class="layui-textarea"></textarea>
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" id="doSubmit" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+  
+</form>
+<script type="text/javascript">
+window.onload = function(){
+	showString();
+}
+		
+	
+	$("select#fir").change(function(){
+		$("#fir").nextAll().remove();
+		var first = $(this).val(); 
+		console.log("first: " + first );
+		if(first == 'year'){
+			showMonth();
+		} else if(first == 'month'){
+			showDay(0);
+		} else if(first == 'day'){
+			showHour();
+		} else if(first == 'hour'){
+			showMinute();
+		} else if(first == 'minute'){
+			showString();
+		}
+		
+	});
+	
+	function showMonth(){
+		$("#selector").append('<select id="sec"></select>');
+		for(var i = 1; i <= 12; i++){
+			$("#sec").append('<option name="second_option" value="'+ i +'">'+i+'月</option>');
+		}
+			showDay(0);
+		//$("#selector").append('</select>');
+		$("select#sec").change(function(){
+			$("#sec").nextAll().remove();
+			var second = $(this).val(); 
+			console.log("month: " + second );
+			showDay(second);
+		
+		});		
+	}
+	
+	
+	
+	function showDay(month){
+		var days;
+		switch(month)
+		{
+		case '2':
+		  days = 28;
+		  break;
+		case '4':
+		case '6':
+		case '9':
+		case '11':
+		  days = 30;
+		  break;
+		default://1,3...& 不选择月份
+			days = 31;
+		};
+		$("#selector").append('<select id="thi"></select>');
+		for(var i = 1; i <= days; i++){
+			$("#thi").append('<option name="third_option" value="'+ i +'">'+i+'日</option>');
+		}
+		showHour();
+		$("select#thi").change(function(){
+			$("#thi").nextAll().remove();
+			var third = $(this).val(); 
+			console.log("day: " + third );
+			showHour();
+			
+		});
+		
+	}
+	
+	function showHour(){
+		$("#selector").append('<select id="fou"></select>');
+		for(var i = 0; i < 24; i++){
+			$("#fou").append('<option name="forth_option" value="'+ i +'">'+i+'时</option>');
+		}
+		showMinute();
+		$("select#fou").change(function(){
+			$("#fou").nextAll().remove();
+			var forth = $(this).val(); 
+			console.log("hour: " + forth );
+			showMinute();
+			
+		});
+	}
+	
+	function showMinute(){
+		$("#selector").append('<select id="fif"></select>');
+		for(var i = 0; i < 60; i++){
+			$("#fif").append('<option name="fifoption" value="'+ i +'">'+i+'分</option>');
+		}
+		showString();
+		$("select#fif").change(function(){
+			showString();
+		});
+		
+	}
+	function showString(){
+		  var first, second, third ,fourth, fifth;
+		  first = "\*";
+		  //console.log();
+		  //if(null!= $("#fir").val() && undefined != typeof($("#fir").val())){
+			 //first = $("#fir").val();
+		  //} else {
+			// first = "\*";
+		 // }
+		  if(null!= $("#sec").val() && undefined != typeof($("#sec").val())){
+			  second = $("#sec").val();
+		  } else {
+			  second = "\*";
+	      }
+		  if(null!= $("#thi").val() && undefined != typeof($("#thi").val())){
+			  third = $("#thi").val();
+		  } else {
+			  third = "\*";
+	      }
+		  if(null!= $("#fou").val() && undefined != typeof($("#fou").val())){
+			  fourth = $("#fou").val();
+		  } else {
+			  fourth = "\*";
+	      }
+		  if(null!= $("#fif").val() && undefined != typeof($("#fif").val())){
+			  fifth = $("#fif").val();
+		  } else {
+			  fifth = "\*";
+	      }
+			//alert(fifth+" "+fourth+" "+third+" "+second+" "+ first);
+		  var str = fifth+" "+fourth+" "+third+" "+second+" "+ first;
+		  $("#cron").val("");
+		  $("#cron").val(str);
+	}
+
+</script>
+<script>
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		common.formAjaxSubmit('formDemo','myForm',bpath+'/admin/schedule/addSave');
+	});
+</script>
+</@layout>
+
+
+
+

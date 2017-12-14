@@ -1,0 +1,83 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				终端信息详情
+			</h4>
+		</div>
+		<!--<form id="form" action="${BPATH}/admin/terminal/editSave" class="form-horizontal form-label-left input_mask">-->
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel">
+							<div class="x_content form-horizontal form-label-left input_mask">
+								<br>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">设备名称</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="hidden" value="${terminal.id!}" name="jTerminal.id">
+											<input type="text" class="form-control col-md-7 col-xs-12 inputNone" readonly = "readonly" value='${terminal.terminal_name!}' name="jTerminal.terminal_name">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">设备编码</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" class="form-control col-md-7 col-xs-12 inputNone" readonly = "readonly" value='${terminal.terminal_num!}' name="jTerminal.terminal_num">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">设备电量</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" class="form-control col-md-7 col-xs-12 inputNone" placeholder="暂无数据" readonly = "readonly" value="<#if terminal.terminal_power??>${terminal.terminal_power!}<#else>暂无数据</#if>" name="jTerminal.terminal_power">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">SD卡编码</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" class="form-control col-md-7 col-xs-12 inputNone" readonly = "readonly" value='${terminal.sdnum!}' name="jTerminal.sdnum">
+										</div>
+									</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">终端状态</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+											<#if terminal.terminal_stauts=='0'>
+											<label class="btn btn-success active">
+												<input type="radio" name="jTerminal.terminal_stauts" value="0" checked="checked">
+												开启
+											</label>
+											<#else>
+											<label class="btn btn-success ">
+												<input type="radio" name="jTerminal.terminal_stauts" value="1"> 关闭
+											</label>
+
+											</#if>
+										</div>
+									</div>
+								</div>
+								<!--<div class="form-group">-->
+									<!--<label class="control-label col-md-3 col-sm-3 col-xs-12">设备状态</label>-->
+									<!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+										<!--<input type="text" class="form-control col-md-7 col-xs-12 inputNone" readonly = "readonly" value='${terminal.terminal_stauts!}' name="jTerminal.terminal_stauts">-->
+									<!--</div>-->
+								<!--</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			    <!--<button type="submit" class="btn btn-success">提交更改</button>-->
+			</div>
+		<!--</form>-->
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script>
+	$(function() {
+		ajaxModelForm("form");
+	});
+</script>

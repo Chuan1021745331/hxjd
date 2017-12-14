@@ -1,0 +1,326 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<link rel="stylesheet" href="${CPATH}/vendors/zTree/css/metroStyle/metroStyle.css" type="text/css">
+<script type="text/javascript" src="${CPATH}/vendors/zTree/js/jquery.ztree.all.min.js"></script>
+<!-- top tiles -->
+<div class="">
+	<div class="page-title">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>
+							菜单<small>列表</small>
+							<div id="returnmessage"></div>
+						</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-md-3 col-sm-3 col-xs-12">
+								<div class="x_panel fixed_height_410" style="overflow-y: scroll;">
+									<div class="x_content">
+										<ul id="treeDemo" class="ztree"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9 col-sm-9 col-xs-12">
+								<div class="x_panel tile fixed_height_410">
+									<div class="x_content">
+										<form id="treeform" class="form-horizontal form-label-left input_mask" action="${BPATH}/admin/menu/editTree" method="post">
+											<div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">ID</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="id" placeholder="ID" readonly = "readonly">
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">父级ID</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="parent" placeholder="父级ID" readonly = "readonly">
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">菜单名称</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="name" placeholder="菜单名称" required="required" >
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">URL</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="url" placeholder="URL">
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tag</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="tag" placeholder="Tag" required="required" >
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">图标</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="hidden" class="form-control" name="ico">
+						                          	<i id="icoVessel" class="fa " style="float: left;margin-top: 8px;width: 26px;"></i>
+						                          	<a onclick="showModal('${BPATH}/admin/menu/optionIco')" style="padding-top: 8px;display: block;float: left;">修改图标</a>
+						                        </div>
+						                    </div>
+						                    <div class="form-group">
+						                        <label class="control-label col-md-3 col-sm-3 col-xs-12">排序</label>
+						                        <div class="col-md-9 col-sm-9 col-xs-12">
+						                          	<input type="text" class="form-control" name="sort" placeholder="排序" required="required" >
+						                        </div>
+						                    </div>
+											<div class="ln_solid"></div>
+											<div class="form-group">
+						                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+												   <button class="btn btn-primary" type="reset">清空</button>
+						                          <button type="submit" class="btn btn-success">提交</button>
+						                        </div>
+						                	</div>
+					                	</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(function(){
+	var zTree;
+	// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+	var setting = {
+	    isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
+	    treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
+	    showLine : true,                  //是否显示节点间的连线  
+	    view: {
+			addHoverDom: addHoverDom,
+			removeHoverDom: removeHoverDom,
+			selectedMulti: false
+		},
+		edit: {
+			enable: true,
+			editNameSelectAll: true,
+			showRemoveBtn: showRemoveBtn,
+			showRenameBtn: showRenameBtn
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",  
+	            pIdKey: "pId"
+			}
+		},
+		callback: {
+			beforeDrag: beforeDrag,
+			beforeEditName: beforeEditName,
+			beforeRemove: beforeRemove,
+			beforeRename: beforeRename,
+			onRemove: onRemove,
+			onRename: onRename,
+			onClick: zTreeOnClick
+		}
+	};
+	
+	var log, className = "dark";
+	
+	function showRemoveBtn(treeId, treeNode) {
+		if(treeNode.id==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function showRenameBtn(treeId, treeNode) {
+		return false;
+	}
+	
+	function beforeDrag(treeId, treeNodes) {
+		return false;
+	}
+	function beforeEditName(treeId, treeNode) {
+		$.ajax({
+			url : bpath + "/admin/menu/getMenu?id="+treeNode.id,
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				$(":input[name='id']").val(data.id);
+				$(":input[name='parent']").val(data.parent);
+				$(":input[name='name']").val(data.name);
+				$(":input[name='url']").val(data.url);
+				$(":input[name='tag']").val(data.tag);
+				$(":input[name='ico']").val(data.ico);
+				$("#icoVessel").attr("class","fa "+ data.ico +"  fa-lg");
+				$(":input[name='sort']").val(data.sort);
+			}
+		});
+		return false;
+	}
+	function zTreeOnClick(event, treeId, treeNode) {
+		$.ajax({
+			url : bpath + "/admin/menu/getMenu?id="+treeNode.id,
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				$(":input[name='id']").val(data.id);
+				$(":input[name='parent']").val(data.parent);
+				$(":input[name='name']").val(data.name);
+				$(":input[name='url']").val(data.url);
+				$(":input[name='tag']").val(data.tag);
+				$(":input[name='ico']").val(data.ico);
+				$("#icoVessel").attr("class","fa "+ data.ico +"  fa-lg");
+				$(":input[name='sort']").val(data.sort);
+			}
+		});
+	};
+	function beforeRemove(treeId, treeNode) {
+		className = (className === "dark" ? "":"dark");
+		showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+		zTree.selectNode(treeNode);
+		return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+	}
+	function onRemove(e, treeId, treeNode) {
+		$.ajax({
+			url : bpath + "/admin/menu/delTree?id="+treeNode.id,
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				console.log(data);
+			}
+		});
+		showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+	}
+	function beforeRename(treeId, treeNode, newName, isCancel) {
+		className = (className === "dark" ? "":"dark");
+		showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+		if (newName.length == 0) {
+			setTimeout(function() {
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.cancelEditName();
+				alert("节点名称不能为空.");
+			}, 0);
+			return false;
+		}
+		return true;
+	}
+	function onRename(e, treeId, treeNode, isCancel) {
+		$.ajax({
+			url : bpath + "/admin/menu/editTree?id="+treeNode.id+"&name="+treeNode.name,
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				console.log(data);
+			}
+		});
+	}
+	function showLog(str) {
+		if (!log) log = $("#log");
+		log.append("<li class='"+className+"'>"+str+"</li>");
+		if(log.children("li").length > 8) {
+			log.get(0).removeChild(log.children("li")[0]);
+		}
+	}
+	function getTime() {
+		var now= new Date(),
+		h=now.getHours(),
+		m=now.getMinutes(),
+		s=now.getSeconds(),
+		ms=now.getMilliseconds();
+		return (h+":"+m+":"+s+ " " +ms);
+	}
+
+	var newCount = 1;
+	function addHoverDom(treeId, treeNode) {
+		var sObj = $("#" + treeNode.tId + "_span");
+		if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+		var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+			+ "' title='add node' onfocus='this.blur();'></span>";
+		sObj.after(addStr);
+		var btn = $("#addBtn_"+treeNode.tId);
+		if (btn) btn.bind("click", function(){
+			var nc = newCount++;
+			$.ajax({
+				url : bpath + "/admin/menu/addTree?pId="+treeNode.id+"&name="+"新菜单_" + nc,
+				type : 'get',
+				dataType : 'json',
+				success : function(data) {
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					zTree.addNodes(treeNode, {id:data.id, pId:treeNode.id, name:"新菜单_" + nc});
+					var zt = zTree.getNodeByParam("id",data.id);
+					zTree.selectNode(zt);
+					$(":input[name='id']").val(data.id);
+					$(":input[name='parent']").val(data.parent);
+					$(":input[name='name']").val(data.name);
+					$(":input[name='url']").val(data.url);
+					$(":input[name='tag']").val(data.tag);
+					$(":input[name='ico']").val(data.ico);
+					$("#icoVessel").attr("class","fa "+ data.ico +"  fa-lg");
+					$(":input[name='sort']").val(data.sort);
+					
+				}
+			});
+			return false;
+		});
+	};
+	function removeHoverDom(treeId, treeNode) {
+		$("#addBtn_"+treeNode.tId).unbind().remove();
+	};
+	
+	$.ajax({
+		url : bpath + "/admin/menu/tree",
+		type : 'get',
+		dataType : 'json',
+		success : function(date) {
+			zTree = $.fn.zTree.init($("#treeDemo"), setting, date);
+			zTree.expandAll(true);
+		}
+	});
+	
+	$("#treeform").submit(function() {
+		$(this).ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					new PNotify({
+                        title: '提交成功！',
+                        text: '菜单更改为['+data.data.name+']',
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					var nodes = zTree.getSelectedNodes();
+					for(var i = 0;i<nodes.length;i++){
+						nodes[i].name = data.data.name;
+						zTree.updateNode(nodes[i]);
+					}
+				}else{
+					new PNotify({
+                        title: 'Oh No!',
+                        text: data.message,
+                        type: 'error',
+                        styling: 'bootstrap3'
+                    });
+				}
+			},
+			error : function() {
+				new PNotify({
+                    title: 'Oh No!',
+                    text: data.message,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+			}
+		});
+		return false; //不刷新页面  
+	});
+	
+});
+</script>
+</@layout>

@@ -1,0 +1,165 @@
+<!-- top tiles -->
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					对象列表<small></small><div id="returnmessage"></div>
+				</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<!--<div class="form-group" style="height: 30px">
+					<label class="control-label col-md-3 col-sm-3 col-xs-12" style="width: 70px;font-size: 17px">阶段:</label>
+					<div class="col-md-9 col-sm-9 col-xs-12">
+						<select type="button" style="width: 70px" class="btn btn-success" id="submitButton">
+							<option value ="volvo">战备等级转换</option>
+							<option value ="saab">战备等级转换</option>
+						</select>
+					</div>
+				</div>-->
+				<table id="datatable" class="table table-striped jambo_table bulk_action">
+					<thead>
+						<tr>
+							<th>训练代号</th>
+							<th>阶段</th>
+							<th>对象名称</th>
+							<th>调理员</th>
+							<th>备注</th>
+							<th style="width: 180px;">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+	setTimeout(function () {
+        $.ajax({
+            url:bpath+"/admin/objects/isDrill",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            type:"GET",   //请求方式
+            success:function(data){
+                $.each(data,function(index,value){ // 遍历Object数组 ，每个对象的值存放在value ，index2表示为第几个对象
+                    // 根据自己的逻辑进行数据的处理
+                    $("#project").append('<option value ='+value.name+'>'+value.name+'</option>');
+                });
+            },
+            error:function(){
+                //请求出错处理
+				alert("请求出错");
+            }
+        });
+        $.ajax({
+            url:bpath+"/admin/objects/isGrade",    //请求的url地址
+            dataType:"json",   //返回格式为json
+            type:"GET",   //请求方式
+            success:function(data){
+                $.each(data,function(index,value){ // 遍历Object数组 ，每个对象的值存放在value ，index2表示为第几个对象
+                    // 根据自己的逻辑进行数据的处理
+                    $("#submitButton").append('<option value ='+value.name+'>'+value.name+'</option>');
+                });
+            },
+            error:function(){
+                //请求出错处理
+                alert("请求出错");
+            }
+        });
+    },150);
+
+    setTimeout(function () {
+       /* $(".tabletoolbar").append( '<label style="float: left;font-size: 15px">阶段：</label><select type="button" style="float: left;width: 150px" class="btn btn-success" id="submitButton">' +
+			'' +
+			'' +
+			'</select>');*/
+
+        $(".tabletoolbar").append( '<label style="float: left;font-size: 15px">训练代号：</label><select type="button" style="float: left;width: 300px" class="btn btn-success" id="project"></select>' +
+			'<label style="float: left;font-size: 15px">阶段：</label><select type="button" style="float: left;width: 150px" class="btn btn-success" id="submitButton">' +
+            '' +
+            '' +
+            '</select>');
+    },100);
+
+
+    setTimeout(function () {
+        $("select#submitButton").change(function(){
+            console.log($(this).val());
+        });
+    },200);
+
+    function filterGlobal () {
+        $('#datatable').DataTable().
+			search($('#project').val()+"@"+$('#submitButton').val()).draw();
+    }
+
+    setTimeout(function () {
+        $(document).ready(function() {
+            $('#submitButton').on( 'keyup click', function () {
+                filterGlobal();
+            } );
+            $('#project').on( 'keyup click', function () {
+                filterGlobal();
+            } );
+        } );
+    },300);
+
+
+   /* setTimeout(function () {
+        var tables = $('#datatable').DataTable();
+        $('#submitButton').on( 'keyup click', function () {
+            alert("6");
+            tables
+//				.column(1)
+                .search($('#submitButton').val())
+                .draw();
+          /!*  $('#datatable').DataTable( {
+                "ajax": bpath+'/admin/objects/objectData',
+                "columns": [
+                    { "data": "drillname" },
+                    { "data": "grade" },
+                    { "data": "name" },
+                    { "data": "counts" },
+                    { "data": "remark" }
+                ]
+            } );*!/
+    },300);        });*/
+
+/*function reloadData() {
+    $(document).ready(function() {
+		$('#datatable').DataTable({
+			"ajax": bpath+'/admin/objects/objectData',
+			"columns": [
+				{ "data": "drillname" },
+				{ "data": "grade" },
+				{ "data": "name" },
+				{ "data": "counts" },
+				{ "data": "remark" }
+			]
+		} );
+    } );
+}*/
+
+
+    $(function(){
+		tableData(
+			bpath+'/admin/objects/objectData',		//数据连接
+			[{ "data": "drillname" },
+			 { "data": "grade" },
+			 { "data": "name" },
+			 { "data": "counts"},
+			 { "data": "remark"},],	//列表
+             function(row, data) { //data是后端返回的数据
+                if(data.remark == null) {
+                    $('td:eq(4)', row).html('<span style="color:black;">无</span>');
+                }
+             },
+			'${topButton}',
+			'${tableButton}',
+			[false,false,false],
+//			[false,false,true],
+			true						//状态保存
+		);
+	} );
+</script>

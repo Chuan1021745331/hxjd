@@ -1,0 +1,42 @@
+<!-- top tiles -->
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    指令列表<small></small><div id="returnmessage"></div>
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="datatable" class="table table-striped jambo_table bulk_action">
+                    <thead>
+                    <tr>
+                        <!--<th>发送者Id</th>-->
+                        <!--<th>发送者名字</th>-->
+                        <th>指令类型</th>
+                        <th>指令内容</th>
+                        <th>发送时间</th>
+                        <th style="width: 180px;">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        tableData(
+            bpath+'/admin/instruction/instructionData',		//数据连接
+               [{ "data":"instructionType" },
+                { "data":"message"},
+                { "data": "sendTime" }],	//列表
+            null,
+                'null',
+            '${tableButton}',
+            [false,false,false],
+            true						//状态保存
+        );
+    } );
+</script>

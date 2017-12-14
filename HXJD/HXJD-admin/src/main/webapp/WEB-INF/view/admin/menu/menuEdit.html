@@ -1,0 +1,73 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+	<input type="hidden" name="jMenu.id" value="<#if menu??>${menu.id}</#if>">
+	<input type="hidden" name="jMenu.parent" value="<#if menu??>${menu.parent}</#if>">
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属父级</label>
+		<div class="layui-input-inline">
+			<input type="text" required lay-verify="required"
+				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+				value="<#if pmenu??>${pmenu.name}</#if>"
+				id="menuSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">菜单名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jMenu.name" required lay-verify="required"
+				placeholder="请输入功能名称" autocomplete="off" class="layui-input"
+				 value="<#if menu??>${menu.name!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">指向链接</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jMenu.url" placeholder="请输入标题" autocomplete="off" 
+				class="layui-input" value="<#if menu??>${menu.url!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">标识符</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jMenu.tag" required lay-verify="required"
+				placeholder="请输入标识符" autocomplete="off" class="layui-input"
+				 value="<#if menu??>${menu.tag!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">图标</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jMenu.ico" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				 value="<#if menu??>${menu.ico!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">排序</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jMenu.sort" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				 value="<#if menu??>${menu.sort!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+
+<script>
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		common.formSubmit('formDemo',bpath+'/admin/menu/saveOrUpdataForMenu');
+	});
+</script>
+</@layout>

@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="${CPATH}/vendors/mult/lib/google-code-prettify/prettify.css" />
+<link rel="stylesheet" href="${CPATH}/vendors/mult/css/bootstrap-multiselect.css" />
+<style>
+    .multiselect{
+        width: 100%;
+        height: 34px;
+        min-width: 300px;
+    }
+    .multiselect-container{
+        margin-top: 5px;
+        min-width: 300px;
+    }
+    .multiselect-container li a label input{
+        width: 13px;
+    }
+    .multiselect-container li a:hover{
+        height: 26px;
+    }
+    .multiselect-container li{
+        height: 26px;
+    }
+    .multiselect-container .multiselect-filter{
+        height: 40px;
+    }
+    .multiselect-container li .input-group .input-group-btn button{
+        width: 50px;
+        height: 34px;
+    }
+</style>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title" id="defModalLabel">
+                下发指令
+            </h4>
+        </div>
+        <form id="form" action="${BPATH}/admin/instruction/issued" class="form-horizontal form-label-left input_mask">
+            <div class="modal-body">
+                <div id="contRow" class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <br>
+
+                                <h4>指令信息</h4>
+
+                                <div class="form-group"hidden>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text"  class="form-control col-md-7 col-xs-12 inputNone" value="${Jinstruction.id}" name="Jinstruction.id" required="required">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">指令内容</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text"  class="form-control col-md-7 col-xs-12 inputNone" value="${Jinstruction.message}" name="Jinstruction.message" required="required">
+                                    </div>
+                                </div>
+
+                                <div class="item divider-dashed"></div>
+                                <h4>接收人员</h4>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">调理员选择</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="medId" id="jmselect" multiple="multiple" class="form-control col-md-7 col-xs-12">
+                                            <option value="0" data-position="0">未选择</option>
+                                            <#if jMediator??>
+                                                <#list jMediator as bean>
+                                                    <option
+                                                        value="${bean.id!}+${bean.mediator_name!}" data-position="${bean.id!}">${bean.mediator_name!}
+                                                    </option>
+                                                </#list>
+                                            </#if>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-success">发送</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script  type="text/javascript" src="${CPATH}/vendors/mult/js/prettify.min.js"></script>
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/bootstrap-multiselect.js"></script>
+
+<script>
+    $(function() {
+        ajaxModelForm("form");
+        $('#jmselect').multiselect({
+            maxHeight: 400,
+            minHeight:160,
+            enableClickableOptGroups: true,
+            single: true,
+            enableCollapsibleOptGroups: true,
+            enableFiltering: true,
+            nonSelectedText: '暂无调理员',//没有值的时候button显示值
+            buttonWidth: '220px',//button宽度
+            numberDisplayed: 3,
+            filterPlaceholder: '搜索',
+            optionClass: function(element) {
+                var value = $(element).val();
+
+                if (value%2 == 0) {
+                    return 'even';
+                }
+                else {
+                    return 'odd';
+                }
+            }
+        });
+
+    });
+
+</script>

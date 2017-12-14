@@ -1,0 +1,53 @@
+<!-- top tiles -->
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					${title!}<small></small><div id="returnmessage"></div>
+				</h2>
+				<input id="parentId" style="display: none" value="${id!}" >
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+
+				<table id="datatable" class="table table-striped jambo_table bulk_action">
+					<thead>
+						<tr>
+							<th>训练代号</th>
+							<th>名字</th>
+							<th>项目</th>
+							<th>得分</th>
+							<th>阵营</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    var id = $("#parentId").val();
+    setTimeout(function () {
+        $(function(){
+            tableData(
+                bpath+'/admin/gradeMark/selectDetails?id='+id,		//数据连接
+                [{ "data": "drillname" },
+                    { "data": "name" },
+                    { "data": "mark" },
+                    { "data": "score" },
+                    { "data": "camp" },],	//列表
+                function(row, data) { //data是后端返回的数据
+                    if(data.camp=="0") {
+                        $('td:eq(4)', row).html('<span style="color:red;">红方</span>');
+                    }else {
+                        $('td:eq(4)', row).html('<span style="color:blue;">蓝方</span>');
+                    }
+                },
+				false
+            );
+        } );
+    },100);
+
+</script>

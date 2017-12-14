@@ -1,0 +1,64 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+
+
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+  <input type="hidden" name="jJob.id" value="<#if job??>${job.id}</#if>">
+  <div class="layui-form-item">
+    <label class="layui-form-label">任务方法</label>
+    <div class="layui-input-inline" style="width:20%">
+      <input type="text" value="<#if job??>${job.jobName!}</#if>" inputNone  readonly = "readonly" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">任务类</label>
+    <div class="layui-input-inline" style="width:20%">
+      <input type="text" value="<#if job??>${job.jobGroup!}</#if>" inputNone  readonly = "readonly" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">执行时间</label>
+    <div id='selector' class="layui-input-inline" >
+      <input id="cron" type="text" value="${job.cronExp!}" inputNone  readonly = "readonly" required="required">
+    	<!--<input type="text" name="jJob.cronExp" value="<#if job??>${job.cronExp!}</#if>" required  lay-verify="required" autocomplete="off" class="layui-input">-->
+    </div>
+  </div>
+  
+<div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="jJob.jobStatus" value="1" lay-skin="switch" disabled lay-text="开启|关闭" <#if job.jobStatus??><#if job.jobStatus == 1>checked</#if></#if>>
+    </div>
+  </div>  
+ 
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">备注</label>
+    <div class="layui-input-inline" style="width:20%">
+      <textarea name="jJob.remark" inputNone  readonly = "readonly" class="layui-textarea"><#if job.remark??>${job.remark!}</#if></textarea>
+    </div>
+  </div>
+  
+<!--   <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div> -->
+  
+</form>
+<script>
+/* $(document).ready(function() {
+    $('#selector').cron({
+        onChange: function() {
+            $('#cron').val($(this).cron("value"));
+        }
+    }); // apply cron with default options
+}); */
+</script>
+</@layout>
+
+
+
+

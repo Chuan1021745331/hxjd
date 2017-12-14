@@ -1,0 +1,188 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<link href="${CPATH}/plus/zTree/css/metroStyle/metroStyle.min.css" rel="stylesheet" type="text/css">
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+	<input type="hidden" name="jButton.id" value="<#if button??>${button.id}</#if>">
+	<input type="hidden" id="menuId" name="jButton.menuId" value="<#if menu??>${menu.id}</#if>">
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属菜单</label>
+		<div class="layui-input-inline">
+			<input type="text" required lay-verify="required"
+				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+				value="<#if menu??>${menu.name!}</#if>"
+				id="menuSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+		</div>
+		<#if menu??>
+			<#else>
+			<div class="layui-form-mid layui-word-aux"><a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></div>
+		</#if>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">功能名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.name" required lay-verify="required"
+				placeholder="请输入功能名称" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.name!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">标题</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.title" required lay-verify="required"
+				placeholder="请输入标题" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.title!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">标识符</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.code" required lay-verify="required"
+				placeholder="请输入标识符" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.code!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">功能链接</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.url" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.url!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">图标</label>
+		<div class="layui-input-inline">
+			<i class="icon iconfont ${button.icon!}" style="font-size: 25px;" id="iconShow"></i>
+			<input type="hidden" name="jButton.icon" required lay-verify="required" id="iconId" 
+				placeholder="请选择图标" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.icon!}</#if>">
+		</div>
+		<div class="layui-form-mid layui-word-aux"><a id="iconBtn" href="#">选择</a></div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">排序</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.sort" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.sort!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">样式</label>
+		<div class="layui-input-inline">
+			<textarea name="jButton.css" placeholder="请输入" class="layui-textarea">${button.css!}</textarea>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">扩展</label>
+		<div class="layui-input-block">
+			<input type="checkbox" name="jButton.isModal" value="1" lay-skin="switch" lay-text="新页|提示" <#if button.isModal>checked</#if>>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="jButton.isRight" value="1" lay-skin="switch" lay-text="有参|无参" <#if button.isRight>checked</#if>>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+
+<script src="${CPATH}/plus/zTree/js/jquery.ztree.all.min.js" type="text/javascript"></script>
+<script>
+
+	var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onClick: onClick
+			}
+	};
+	
+	function beforeClick(treeId, treeNode) {
+		var check = (treeNode && !treeNode.isParent);
+		if (!check) top.parent.MSG(2, "只能选择末尾节点");
+		return check;
+	}
+	
+	function onClick(e, treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+		nodes = zTree.getSelectedNodes(),
+		v = "";
+		iv = "";
+		nodes.sort(function compare(a,b){return a.id-b.id;});
+		for (var i=0, l=nodes.length; i<l; i++) {
+			v = nodes[i].name + ",";
+			iv =  nodes[i].id;
+		}
+		if (v.length > 0 ) v = v.substring(0, v.length-1);
+		var menuSel = $("#menuSel");
+		menuSel.attr("value", v);
+		var menuId = $("#menuId");
+		menuId.attr("value", iv);
+	}
+	
+	function showMenu() {
+		var menuSel = $("#menuSel");
+		var menuSelOffset = $("#menuSel").offset();
+		$("#menuContent").css({left:menuSelOffset.left + "px", top:menuSelOffset.top + menuSel.outerHeight() + "px",width:"188px"}).slideDown("fast");
+		$("#treeDemo").css({width:"178px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDown);
+	}
+	function hideMenu() {
+		$("#menuContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+	function onBodyDown(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+			hideMenu();
+		}
+	}
+	
+	$.ajax({
+		url : bpath + "/admin/menu/tree",
+		type : 'get',
+		dataType : 'json',
+		success : function(data) {
+			zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
+			zTree.expandAll(true);
+		}
+	});
+
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		common.formSubmit('formDemo',bpath+'/admin/menu/saveOrUpdata');
+		$('#iconBtn').on('click', function(){  
+			top.layer.open({
+		      	type: 2 ,
+		      	title: '图标选择',
+		      	btn: ['选择', '关闭'],
+		      	content: bpath+'/admin/menu/icon',
+		      	resize: false,
+		      	area: ['914px', '600px'],
+		      	anim: Math.ceil(Math.random() * 6),
+		      	yes: function(index, layero) {
+		      		iconId.value = $(layero).find('iframe')[0].contentWindow.iconVal.value; //将子窗口中的 user_id 抓过来
+		      		$("#iconShow").attr("class","icon iconfont "+$(layero).find('iframe')[0].contentWindow.iconVal.value);
+		      		parent.layer.close(index);
+				},
+				btn2: function(index) {
+					parent.layer.close(index);
+				}
+		   	});
+		});
+	});
+</script>
+</@layout>

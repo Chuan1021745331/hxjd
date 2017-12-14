@@ -1,0 +1,419 @@
+* {
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+*:before, *:after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+::-webkit-scrollbar {
+	width: 14px;
+	height: 14px;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: 1px 1px 5px #26b99a inset;
+}
+
+::-webkit-scrollbar-thumb {
+	min-height: 20px;
+	background-clip: content-box;
+	box-shadow: 0 0 0 5px #26b99a inset;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+body {
+	line-height: 1.5;
+	color: rgba(0, 0, 0, .85);
+	font-size: 14px;
+	background: #fff;
+	-webkit-transition: background 1s cubic-bezier(.075, .82, .165, 1);
+	transition: background 1s cubic-bezier(.075, .82, .165, 1);
+	overflow-x: hidden;
+}
+
+.iconfont {
+	width: 16px;
+}
+
+.login_form {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 400px;
+	height: 300px;
+	margin-left: -200px;
+	margin-top: -150px;
+	color: #fff;
+	background: #378821; 
+	padding: 45px 30px; 
+	border-radius: 4px; 
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.login_form h1 {
+	margin-bottom: 40px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.separator {
+	font-size: 13px;
+	text-align: center;
+	margin-top: 45px;
+}
+
+.larrycms-admin .larrycms-left {
+	width: 203px;
+	border-right: 0px;
+}
+
+.layui-nav * {
+	font-size: 13px;
+	color: #fff;
+}
+
+.larrycms-top ul.layui-nav li.layui-nav-item {
+	line-height: 53px;
+	height: 53px;
+}
+
+.larrycms-top ul.layui-nav li.layui-nav-item a {
+	line-height: 53px !important;
+	height: 53px;
+	vertical-align: top;
+	color: rgba(255, 255, 255, .7)
+}
+
+.larrycms-top ul.layui-nav li.layui-nav-item a cite {
+	font-size: 13px;
+	vertical-align: top;
+}
+
+.larrycms-top ul.layui-nav li.layui-nav-item a i {
+	vertical-align: top;
+}
+
+.larrycms-admin .larrycms-left .layui-side-scroll {
+	width: 203px
+}
+
+.larrycms-tab .title-right {
+	width: 190px;
+}
+
+.larrycms-tab .title-right .refresh, .larrycms-tab ul.larrycms-tab-title
+	{
+	left: 35px;
+}
+
+.larrycms-tab .title-right .often {
+	left: 104px;
+	width: 122px;
+}
+
+.layui-tab-title li, .larrycms-tab .title-right .refresh cite {
+	font-size: 13px;
+}
+
+.often ul.layui-nav li.layui-nav-item a.top cite {
+	font-size: 13px;
+}
+
+.often ul.layui-nav li.layui-nav-item dl.layui-nav-child {
+	top: 37px;
+	left: -63px;
+}
+
+.layui-tab-title li .layui-tab-close {
+	margin-left: 3px;
+}
+
+.larrycms-tab .larrycms-title-box, .larrycms-tab .key-press,
+	.larrycms-tab ul.larrycms-tab-title, .larrycms-tab .title-right,
+	.larrycms-tab ul.larrycms-tab-title .layui-this, .often ul.layui-nav li.layui-nav-item a.top i,
+	.often ul.layui-nav li.layui-nav-item a.top cite {
+	height: 35px;
+}
+
+.larrycms-tab .go-left, .larrycms-tab .key-press, .larrycms-tab .key-press
+	{
+	width: 35px;
+}
+
+.larrycms-tab ul.larrycms-tab-title, .layui-tab-title li, .larrycms-tab ul.larrycms-tab-title li i.larry-icon,
+	.larrycms-tab .key-press i, .larrycms-tab ul.larrycms-tab-title li em,
+	.larrycms-tab .title-right .refresh cite, .larrycms-tab .title-right .often ul.layui-nav li.layui-nav-item a.top,
+	.often ul.layui-nav li.layui-nav-item a.top i, .often ul.layui-nav li.layui-nav-item a.top cite
+	{
+	line-height: 35px
+}
+
+.often ul.layui-nav li.layui-nav-item a.top .layui-nav-more {
+	left: 65px;
+}
+
+.often ul.layui-nav li.layui-nav-item a.top:hover .layui-nav-more {
+	position: absolute;
+	top: 10px;
+	left: 65px;
+	border-color: transparent transparent #393D49;
+}
+
+.often ul.layui-nav li.layui-nav-item a.top cite {
+	width: 30px;
+}
+
+.larrycms-tab .title-right .often ul.layui-nav li.layui-nav-item,
+	.larrycms-tab .title-right .often ul.layui-nav {
+	width: 85px;
+}
+
+.layui-nav-item .larry-icon {
+	font-size: 16px;
+}
+
+.larrycms-admin .larrycms-header {
+	height: 53px;
+	z-index: 1001;
+	border-bottom: 0px;
+}
+
+.larrycms-top .larrycms-top-menu ul.layui-nav li.layui-nav-item a i {
+	font-size: 18px;
+}
+
+.larrycms-admin .larrycms-footer {
+	left: 202px;
+	background-color: #393D49;
+}
+
+.larry-theme-form .submit-form button.larry-button {
+	margin-left: 45px;
+	margin-right: 25px;
+}
+
+.larry-theme-form .submit-form button.larry-button1 {
+	margin-left: 30px;
+}
+
+.layui-table-click {
+	background-color: #00d0bd !important;
+	color: #fff;
+}
+
+.layui-table tbody tr:hover, .layui-table-hover {
+	background-color: #02b9b1 !important;
+	color: #fff;
+}
+
+.tableTool {
+	padding: 10px 10px;
+	margin: 5px 5px 0px 5px;
+	border-left: 1px solid #e2e2e2 !important;
+	border-top: 1px solid #e2e2e2 !important;
+	border-right: 1px solid #e2e2e2 !important;
+	border-radius: 0px;
+	background-color: #f2f2f2
+}
+
+.layui-input-small {
+	height: 30px;
+	line-height: 30px;
+}
+
+.float_left {
+	float: left;
+}
+
+.float_right {
+	float: right;
+}
+
+.layui-table-view {
+	margin: 0px 5px;
+}
+
+.layui-nav-tree {
+	width: 203px;
+}
+
+.menuPage .layui-sidev {
+	width: 300px;
+	overflow-y: auto;
+	padding: 5px;
+}
+
+.menuPage .layui-body {
+	left: 310px;
+	padding: 5px;
+	border-left: 1px solid #1AA094;
+}
+
+.menuContent {
+	background-color: #fff;
+	overflow: auto;
+	border-left: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+}
+
+.layui-table-page {
+	background-color: #f8f8f8;
+	padding: 8px 8px 0;
+}
+
+.layui-btn .iconfont {
+	margin-right: 5px;
+}
+
+.layui-tab-title .iconfont {
+	margin-right: 5px;
+}
+
+.larrycms-top-menu .iconfont {
+	width: 0px;
+}
+
+.ztree li a.curSelectedNode {
+	border: 1px solid #009688;
+}
+
+.layui-table-header span {
+	font-weight: bolder;
+	color: #000;
+}
+
+.layui-nav-tree .layui-nav-child a {
+	color: #c6c6c6
+}
+
+.layui-nav-itemed .layui-nav-child, .larrycms-admin .larrycms-header {
+	/* 	background-color: #2c2c2c!important; */
+	background-color: #393D49 !important
+}
+
+.layui-fluid {
+	padding: 10px 10px 0px 0px;
+}
+
+.panel_icon i {
+	font-size: 2.5em;
+	color: #fff;
+	line-height: 1;
+}
+
+.panel {
+	float: left;
+	text-align: center;
+	min-width: 210px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+}
+
+.panel a {
+	display: block;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.row, .col, .panel_word, .panel_icon {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+}
+
+.panel_icon {
+	width: 40%;
+	display: inline-block;
+	padding: 22px 0;
+	background-color: #54ade8;
+	float: left;
+}
+
+.panel_word {
+	width: 60%;
+	display: inline-block;
+	float: right;
+	margin-top: 16px;
+}
+
+.panel_word span {
+	font-size: 25px;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+
+.panel_box a cite {
+	font-size: 16px;
+	display: block;
+	font-style: normal;
+}
+
+.layui-row .layui-elem-quote {
+	text-align: left;
+}
+
+.panel .layui-table {
+	margin-top: 0;
+	border-left: 5px solid #e2e2e2;
+}
+
+.layui-table-view .layui-table[lay-size=lg] .layui-table-cell {
+	height: 26px;
+	line-height: 24px;
+	font-size: 13px;
+}
+
+.larrycms-admin .larrycms-footer .inline-block {
+	float: right;
+	margin-right: 0px;
+}
+/** 表格  **/
+.layui-table-body {
+	background-color: #fff;
+}
+
+.layui-table-page {
+	background-color: #f2f2f2;
+}
+
+.layui-table-view .layui-table td, .layui-table-view .layui-table th {
+	padding: 0px;
+}
+
+.layui-table-view .layui-table td {
+	padding: 0px;
+}
+
+.layui-table-view .layui-table[lay-size=sm] .layui-table-cell {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layui-table-view .layui-form-checkbox, .layui-table-view .layui-form-radio,
+	.layui-table-view .layui-form-switch {
+	top: -2px;
+}
+.often ul.layui-nav li.layui-nav-item dl a i {
+	height: 40px;
+	line-height: 40px;
+	width: 20px;
+}
+.layui-layer-title i{
+	margin-right: 5px;
+}

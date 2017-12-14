@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.base</groupId>
+	<artifactId>HXJD</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	
+	<url>http://maven.apache.org</url>
+	<modules>
+		<module>HXJD-cache</module>
+		<module>HXJD-core</module>
+		<module>HXJD-db-api</module>
+		<module>HXJD-db-mysql</module>
+		<module>HXJD-im</module>
+		<module>HXJD-message</module>
+		<module>HXJD-model</module>
+		<module>HXJD-service</module>
+		<module>HXJD-utils</module>
+		<module>HXJD-web</module>
+    <module>HXJD-admin</module>
+  </modules>
+	
+	<!-- 指定maven仓库 -->
+	<repositories><!-- 发现依赖和扩展的远程资源库 -->
+		<!-- maven自己官方仓库 -->
+		<repository>
+			<id>maven</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<properties>
+		<jdk.version>1.7</jdk.version>
+		<servlet.api.version>3.0.1</servlet.api.version>
+		<junit.version>4.11</junit.version>
+		<mysql.version>5.1.21</mysql.version>
+		<jfinal.version>3.1</jfinal.version>
+		<jfinal.weixin.version>1.7</jfinal.weixin.version>
+		<jfinal-quartz.version>0.1</jfinal-quartz.version>
+
+		<druid.version>1.0.22</druid.version>
+		<ehcache.version>2.10.2.2.21</ehcache.version>
+		<fastjson.version>1.2.12</fastjson.version>
+		<freemarker.version>2.3.23</freemarker.version>
+		<javax.mail.version>1.5.5</javax.mail.version>
+		<jsoup.version>1.9.2</jsoup.version>
+		<slf4j-api.version>1.7.21</slf4j-api.version>
+		<slf4j-log4j12.version>1.7.21</slf4j-log4j12.version>
+		<log4j.version>1.2.17</log4j.version>
+		<quartz-scheduler.version>2.2.3</quartz-scheduler.version>
+		<netty.version>4.1.10.Final</netty.version>
+		<joda-time.version>2.9.3</joda-time.version>
+
+		<!-- Commons Lib -->
+		<commons-lang.version>2.6</commons-lang.version>
+		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-digester3.version>3.2</commons-digester3.version>
+		<commons-io.version>2.4</commons-io.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<commons-httpclient.version>3.1</commons-httpclient.version>
+		<commons-exec.version>1.3</commons-exec.version>
+		<commons-pool2.version>2.4.2</commons-pool2.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
+		<commons-beanutils.version>1.9.2</commons-beanutils.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<commons-validator.version>1.5.1</commons-validator.version>
+		<commons-digester.version>2.1</commons-digester.version>
+		<commons-fileupload.version>1.3.1</commons-fileupload.version>
+
+		<gson.version>2.2.4</gson.version>
+		<json-lib.version>2.4</json-lib.version>
+		<lombok.version>1.16.8</lombok.version>
+		<jodd.version>3.7.1</jodd.version>
+		<guava.version>19.0</guava.version>
+		
+		<tio-core.version>1.6.9.v20170408-RELEASE</tio-core.version>
+		<poi-version>3.14</poi-version>
+		<JFinal-assets-version>1.2.0</JFinal-assets-version>
+		<hutool-all-version>3.2.0</hutool-all-version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j-log4j12.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jfinal</groupId>
+				<artifactId>jfinal</artifactId>
+				<version>${jfinal.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jfinal</groupId>
+				<artifactId>jfinal-weixin</artifactId>
+				<version>${jfinal.weixin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>javax.mail-api</artifactId>
+				<version>${javax.mail.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.mail</groupId>
+				<artifactId>javax.mail</artifactId>
+				<version>${javax.mail.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>${ehcache.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz-scheduler.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cn.codeforfun</groupId>
+				<artifactId>jfinal-quartz</artifactId>
+				<version>${jfinal-quartz.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-all</artifactId>
+				<version>${netty.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-digester3</artifactId>
+				<version>${commons-digester3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>${commons-httpclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-exec</artifactId>
+				<version>${commons-exec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${commons-collections.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${commons-validator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-digester</groupId>
+				<artifactId>commons-digester</artifactId>
+				<version>${commons-digester.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>commons-fileupload</groupId>
+			    <artifactId>commons-fileupload</artifactId>
+			    <version>${commons-fileupload.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>${json-lib.version}</version>
+				<classifier>jdk15</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jodd</groupId>
+				<artifactId>jodd-mail</artifactId>
+				<version>${jodd.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.t-io</groupId>
+			    <artifactId>tio-core</artifactId>
+			    <version>${tio-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi-version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>net.dreamlu</groupId>
+			    <artifactId>JFinal-assets</artifactId>
+			    <version>${JFinal-assets-version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.xiaoleilu</groupId>
+			    <artifactId>hutool-all</artifactId>
+			    <version>${hutool-all-version}</version>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>${jdk.version}</source>
+						<target>${jdk.version}</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

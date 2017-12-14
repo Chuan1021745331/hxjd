@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8">
+<head>
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="${CPATH}/layui/css/layui.css">
+	<link rel="stylesheet" href="${CPATH}/ol3/css/font-awesome.css">
+	<link rel="stylesheet" href="${CPATH}/ol3/ol.css" type="text/css">
+	<link rel="stylesheet" href="${CPATH}/ol3/base.css" type="text/css">
+	
+	
+	<title>导调服务端 --v1.0</title>
+	<script type="text/javascript" src="${CPATH}/vendors/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/vendors/jquery/dist/jquery.form.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/ol3/ol.js"></script>
+	<script type="text/javascript">
+		ctx='${CPATH}';
+		cty='127.0.0.1:8088/${BPATH}';
+	</script>
+	<style>
+	
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<div id="contextmenu_container" class="contextmenu">
+		<div>功能菜单</div>
+	    <ul>
+	        <li><a href="javascript:;" onclick="openAddPelWindow();">添加图元</a></li>
+	        <li><a href="javascript:;" onclick="openSendMessageWindow();">发送指令</a></li>
+	    </ul>
+	</div>
+	<div id="header">
+		<p id="logoandtitle" style="display: block;float: left;">天文时间：<span id="currentTime">2016-12-12 12:12:12</span></p>
+		<div style="
+		color: maroon;
+		/* float: left; */
+		display: block;
+		font-size: 20px;
+		font-weight: 900;
+		padding-left: %;
+		padding-right: 20px;
+		line-height: 35px;
+		background-position: left center;
+		background-repeat: no-repeat;
+		position: fixed;
+		left: 0px;
+		right: 0px;
+		top: 0px;
+		text-align: center;
+		">
+			<#if drill??>
+				${drill.name} ${drill.time}
+			<#else>
+				暂无训练进行
+			</#if>
+		</div> 
+		<div style="float: right;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: 微软雅黑;
+    font-size: 12px;
+    /* font-weight: bold; */
+    color: rgb(238, 238, 238);
+    height: 100%;
+    line-height: 35px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin: 0px 0px 0px 10px;">图元数：【<b id="pNum"></b> 】个 | 设备数：【<b id="mNum"></b>】 台| 当前在线设备：【<b id="oNum"> </b>】 台</div>
+	</div>
+
+	<div class="bottomPointing">
+		<div>
+			<span>当前级别:</span><span id="mapZoom">16</span>
+		</div>
+		<div id="mouse-position" class="mouse-position-wrapper">
+		    <div class="custom-mouse-position"></div>
+		</div>
+		<div style="float: right;padding-right: 10px;">
+			<span>华夏九鼎</span>
+		</div>
+	</div>
+	<!-- 详细设备 -->
+	<!-- <div class="onlineMediator" style="color: #fff;">在线</div>> -->
+		<ul id="onlineMediator" class="onlineMediator" style="display:none">
+			<!-- <li><b>测试调理员-----------测试终端 </b></li> -->
+			<!-- <li> <a href="javacript:void(0);" onclick="meditorFocus(1,2,3);"><b>测试-----------测试</b></a> </li> -->
+		</ul>	
+	 
+	<div class="redTitle" style="color: #fff;">红方	
+	</div>
+		<ul class="leftMessage">
+		</ul>
+	<div class="bulTitle" style="color: #fff;">蓝方</div>
+	<ul class="rightMessage" ">
+	</ul>
+	<div id="container">
+	    <div class="layui-layer-title" style="cursor: move;">添加图元</div>
+	    <div class="layui-layer-content">
+	    	<div class="layui-container" style="width: 300px;">  
+	  			<form class="layui-form" id="pelForm" action="">
+	  				<div class="layui-form-item">
+					    <label class="layui-form-label">标识符</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="oid" required  lay-verify="required" placeholder="请输入标识符" autocomplete="off" class="layui-input">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">名称</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="pelname" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">图元组</label>
+					    <div class="layui-input-block">
+					    	  <select  name="pelGroup" id="multiselect" lay-verify="" lay-search multiple="multiple" class="form-control col-md-7 col-xs-12">
+					    	  <#list pelGroupList as bean>
+					    	  	<option value="${bean.id!}" data-position="${bean.id!}">${bean.plegroupname!}</option>
+					    	  </#list>
+					    	  </select>  
+					    </div>
+					</div>
+ 					
+					<div class="layui-form-item">
+					    <label class="layui-form-label">阵营</label>
+					    <div class="layui-input-block">
+				      		<input type="radio" name="camp" lay-filter="camp" value="0" title="红方" required  lay-verify="required" autocomplete="off" class="layui-input">
+				      		<input type="radio" name="camp" lay-filter="camp" value="1" title="蓝方" required  lay-verify="required" autocomplete="off" class="layui-input">
+					    </div>
+					</div>
+					<div class="layui-form-item" lay-filter="pelShape">
+					    <label class="layui-form-label">图标</label>
+					    <div id="shape"  class="layui-input-block">
+					    	<!-- <input type="text" class="inputNone" placeholder="请选择阵营" readonly="readonly"> -->
+						</div>
+					</div> 
+					<div class="layui-form-item">
+					    <label class="layui-form-label">经度</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="x" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" id="addX">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <label class="layui-form-label">纬度</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="y" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" id="addY">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					    </div>
+					</div>
+				</form>
+			</div>
+		</div>
+	    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1"  href="javascript:;" onclick="closecontainer();"></a></span>
+    </div>
+    
+    	<div id="InsContainer">
+	    <div class="layui-layer-title" style="cursor: move;">发送指令</div>
+	    <div class="layui-layer-content">
+	    	<div class="layui-container" style="width: 300px;">  
+	  			<form id="insForm" class="layui-form" action="${BPATH}/webChat" multiple="multipart/form-data" method="post">
+	  				<div class="layui-form-item">
+					    <label class="layui-form-label">指令类型</label>
+					    <div class="layui-input-block">
+				      		<input type="radio" name="InsType" lay-filter="InsType" value="0" title="文字" >
+				      		<input type="radio" name="InsType" lay-filter="InsType" value="1" title="文件" >
+					    </div>
+					</div>
+	  				
+	  				<div id="messIns" class="layui-form-item" style="display:none">
+					    <label class="layui-form-label">指令</label>
+					    <div class="layui-input-block">
+					      <textarea style="width: 250px;height: 80px" name="message" id="messCom" required lay-verify="required" placeholder="请输入指令" class="layui-textarea"></textarea>
+					     
+					    </div>
+					</div>
+					
+					<div id="fileIns" class="layui-form-item" style="display:none">
+					    <label class="layui-form-label">文件</label>
+					    <div class="layui-input-block">
+					      <input type="file" name="file" id="fileCom" accept="image/gif,image/jpeg,audio/mpeg,audio/mp4,audio/ac3,video/mp4,audio/ogg,image/tiff,text/plain "  autocomplete="off" class="layui-input">
+					    </div>
+					</div>
+					
+					<div class="layui-form-item">
+					    <label class="layui-form-label">阵营</label>
+					    <div class="layui-input-block">
+				      		<input type="radio" name="camp" value="0" title="红方">
+				      		<input type="radio" name="camp" value="1" title="蓝方">
+				      		<input type="radio" name="camp" value="2" title="全部">
+					    </div>
+					</div>
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button type="button" onclick="sendMessage();" class="layui-btn">发送</button>
+					      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					    </div>
+					</div>
+				</form>
+			</div>
+		</div>
+	    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1"  href="javascript:;" onclick="closeInsContainer();"></a></span>
+    </div>
+    
+    <script src="${CPATH}/layui/layui.js"></script>
+	<script src="${CPATH}/ol3/base.js"></script>
+<!-- 	<script src="${CPATH}/ol3/ol.js"></script> -->
+	
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+	
+	<script type="text/javascript">
+		layui.use('form', function(){
+		  var form = layui.form;
+		  
+		  //监听提交
+		  form.on('submit(formDemo)', function(data){
+			  console.log("formDemo-Submit");
+			  var formData = data.field;
+			  if(formData.camp == null){
+				  layer.msg("请选择阵营！！");
+				  return false;
+			  }
+			  
+			  
+			  $.ajax({
+				url : "${BPATH}/addPel",
+				type : 'post',
+				dataType : 'json',
+				data:{"data":JSON.stringify(data.field)},
+				success : function(data) {
+					if(data==1 || data=='1'){
+						layer.msg("无法添加！！当前无进行中的训练！！");
+					} else{
+						layer.msg("新增成功！");
+						closecontainer();
+					}
+					
+					
+				},
+				error : function() {
+ 					layer.msg("新增失败，请稍后重试！");
+ 				}
+			});
+		    return false;
+		  });
+		  
+		  form.on('radio(camp)', function(data){
+				//alert("radio-change");
+				var camp = data.value;
+				//alert("camp: " + camp);
+				//console.log(data.elem); //得到radio原始DOM对象
+				//console.log(data.value); //被点击的radio的value值
+				$("#shape").empty();
+				if(camp == "1"){//蓝方
+					$("#shape").append("<input type='radio' name='shape' value='1' title=' '><img src='${CPATH}/basic/ele/jt/b-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='2' title=' '><img src='${CPATH}/basic/ele/jx/b-b.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='3' title=' '><img src='${CPATH}/basic/ele/lx/b-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='4' title=' '><img src='${CPATH}/basic/ele/qz/b.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='5' title=' '><img src='${CPATH}/basic/ele/sj/b-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='6' title=' '><img src='${CPATH}/basic/ele/ty/b-b.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='7' title=' '><img src='${CPATH}/basic/ele/yx/b-b.png' align ='middle' style='width: 20px;height: 20px'>");
+					form.render();		
+				} else {
+					$("#shape").append("<input type='radio' name='shape' value='1' title=' '><img src='${CPATH}/basic/ele/jt/r-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='2' title=' '><img src='${CPATH}/basic/ele/jx/r-b.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='3' title=' '><img src='${CPATH}/basic/ele/lx/r-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='4' title=' '><img src='${CPATH}/basic/ele/qz/r.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='5' title=' '><img src='${CPATH}/basic/ele/sj/r-b.png' align ='middle' style='width: 20px;height: 20px'><input type='radio' name='shape' value='6' title=' '><img src='${CPATH}/basic/ele/ty/r-b.png' align ='middle' style='width: 20px;height: 20px'>\r\n<input type='radio' name='shape' value='7' title=' '><img src='${CPATH}/basic/ele/yx/r-b.png' align ='middle' style='width: 20px;height: 20px'>");
+					form.render();
+				}
+				});  
+		  
+		  form.on('radio(InsType)', function(data){
+				//alert("radio-change");
+				//alert("camp: " + camp);
+				//console.log(data.elem); //得到radio原始DOM对象
+				//console.log(data.value); //被点击的radio的value值
+				//$("#shape").empty();
+				 $("#InsContainer").css("height","375px");
+				
+				var camp = data.value;
+				if(camp == "1"){//文件
+					$("#messCom").val("");
+					$("#messIns").removeAttr("style");
+					$("#messIns").attr("style","display:none");
+					$("#fileIns").removeAttr("style");				
+				} else {//文字
+					$("#fileCom").val("");
+					$("#fileIns").removeAttr("style");
+					$("#fileIns").attr("style","display:none");
+					$("#messIns").removeAttr("style");
+				}
+			}); 	  
+		});
+		
+		
+		
+		
+		</script>
+		<script type="text/javascript">
+		function openMediaWindow(data){
+			//alert(encodeURI(encodeURI(data)));
+			var width = document.body.clientWidth;
+			var height = document.body.clientHeight;
+			console.log('${BPATH}'+data);
+			layui.use('layer', function(){
+				  var layer = layui.layer;
+
+				  layer.open({
+					  type: 2, //2,3
+					  area: [width*0.78+'px',height*0.74+'px'],
+					  //maxWidth:"1500",
+					  //maxHeight:"800", 
+					  anim: 4, //1
+					  maxmin: true,
+					  offset: [height*0.10,width*0.11],
+					  skin:'layui-layer-molv',
+					  time:0,
+					  fixed:false,
+					  //content:  '<div style="margin:0px auto; text-align:center; "><img src="${BPATH}'+data+'"></div>',
+					  content:'${BPATH}'+data,
+					});
+				}); 
+			
+		}
+		
+		
+		function sendMessage(){
+			//var data = $("#insForm").serializeArray();
+			//console.log(JSON.stringify(data));
+			//console.log($("#messCom").val());
+			//console.log($("#fileCom").val());
+			if($("input[name='InsType']:checked").val()==null || $("input[name='InsType']:checked").val()== undefined){
+ 				layer.msg("请选择指令类型！！");
+ 				return false;
+			} 
+			
+			if(($("#messCom").val() == null || $("#messCom").val() == '' || $("#messCom").val() == undefined) && ($("#fileCom").val() == null || $("#fileCom").val() == '' || $("#fileCom").val() == undefined)){
+				layer.msg("请填写指令！！");
+				return false;
+			}
+			
+			//console.log($("input[name='camp']:checked").val());
+ 			if($("input[name='camp']:checked").val()==null || $("input[name='camp']:checked").val()== undefined){
+ 				layer.msg("请选择阵营！！");
+ 				return false;
+			} 
+			$("#insForm").ajaxSubmit({
+ 				type : "post",
+ 				dataType : "json", 
+ 				success : function(data) {
+ 					//alert("yes");
+ 					layer.msg("发送成功！");
+ 					closeInsContainer();
+ 				},
+ 				error : function() {
+ 					layer.msg("发送失败，请稍后重试！");
+ 				}
+ 			});
+		} 
+
+		
+		
+		/* 地图初始化  */
+		init(${coordsX!},${coordsY!},16,5,19);
+// 		/* 标注点  */
+		$.ajax({
+			url : "${BPATH}/getMapAll",
+			type : 'get',
+			dataType : 'json',
+			success : function(date) {
+				$.each(date.pel,function(n,value) {
+					var x = parseFloat(value.x);
+					var y = parseFloat(value.y);
+					if(x!=0.0 && y!=0.0){
+						createMarker(value.id,x,y,1,["name:"+value.pelname,"x:"+x,"y:"+y,"att:"+value.oid,"camp:"+value.camp,"shape:"+value.shape,"type:"+value.type]);
+					}
+				});
+				$.each(date.mak,function(n,value) {
+					var x = parseFloat(value.x);
+					var y = parseFloat(value.y);
+// 					console.log("M:"+value.name);
+					if(x!=0.0 && y!=0.0){
+						createMarker(value.id,x,y,3,["name:"+value.code,"x:"+x,"y:"+y,"att:"+value.remark,"camp:"+value.camp]);
+					}
+				});
+				$.each(date.onlineMedList,function(n,value) {
+					var x = parseFloat(value.x);
+					var y = parseFloat(value.y);
+// 					console.log("J:"+value.mediator_name);
+					if(x!=0.0 && y!=0.0){
+						createMarker(value.id,x,y,2,["name:"+value.mediator_name,"x:"+x,"y:"+y,"att:"+value.mediator_name,"camp:"+value.camp]);
+					}
+				});
+			}
+		});
+		
+    	$.ajax({
+			url : "${BPATH}/findRaadMessage",
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				var redMsg = data.redHis;
+				var blueMsg = data.blueHis;
+				showPageMessage(redMsg, blueMsg);
+				$(".leftMessage").scrollTop($('.leftMessage')[0].scrollHeight);
+				$(".rightMessage").scrollTop($('.leftMessage')[0].scrollHeight);
+			}
+    	});
+		
+		
+ 		setInterval(showNewMessages, 1000); //循环执行！！
+	    function showNewMessages(){
+	    	$("#currentTime").text(new Date().toLocaleString());
+	    	$.ajax({
+				url : "${BPATH}/findChange",
+				type : 'get',
+				dataType : 'json',
+				success : function(date) {
+					$("#pNum").text(date.pNum);
+					$("#mNum").text(date.mNum);
+					$("#oNum").html('<a href="javacript:void(0);" onclick="getOnlineMediator();">'+date.oNum+'</a>');
+					//$("#oNum").text(date.oNum);
+					$.each(date.pel,function(n,value) {
+						//console.log(newMap);
+						var newMap = value;
+						var x = parseFloat(newMap.x);
+						var y = parseFloat(newMap.y);
+						//console.log(newMap.pelname);
+						var oldfeature = getFeatureByTagid(newMap.id);
+						if(oldfeature != null && oldfeature != undefined){
+							marker_source.removeFeature(oldfeature);
+							createMarker(newMap.id,x,y,1,["name:"+newMap.pelname,"x:"+x,"y:"+y,"att:"+newMap.oid,"camp:"+newMap.camp,"shape:"+newMap.shape,"type:"+value.type]);
+						}else{
+							createMarker(newMap.id,x,y,1,["name:"+newMap.pelname,"x:"+x,"y:"+y,"att:"+newMap.oid,"camp:"+newMap.camp,"shape:"+newMap.shape,"type:"+value.type]);
+						}
+					});
+					$.each(date.onlineMedList,function(n,value) {
+						var newMap = value;
+						
+						var x = parseFloat(newMap.x);
+						var y = parseFloat(newMap.y);
+						var oldfeature = getFeatureByTagid(newMap.id);
+						if(oldfeature != null && oldfeature != undefined){
+							marker_source.removeFeature(oldfeature);
+							createMarker(value.id,x,y,2,["name:"+value.mediator_name,"x:"+x,"y:"+y,"att:"+value.mediator_name,"camp:"+value.camp]);
+						}else{
+							createMarker(value.id,x,y,2,["name:"+value.mediator_name,"x:"+x,"y:"+y,"att:"+value.mediator_name,"camp:"+value.camp]);
+						}
+					});
+				}
+	    	});
+		}
+ 	    setInterval(showMessages, 1000); //循环执行！！
+	    function showMessages(){
+	    	$.ajax({
+				url : "${BPATH}/findMessage",
+				type : 'get',
+				dataType : 'json',
+				success : function(data) {
+					if(data != null){
+						//var map = eval('(' + data + ')');
+						var redMsg = data.red;
+						var blueMsg = data.blue;
+						showPageMessage(redMsg, blueMsg);
+					}
+					
+					
+				}
+	    	});
+		} 
+	    
+ 	    
+ 	    function getOnlineMediator(){
+ 	    	var style =  $("#onlineMediator").attr("style");
+ 	    	
+ 	    	if(style != null && style != undefined && undefined!=""){//隐藏
+ 	    		$.ajax({
+ 	 				url : "${BPATH}/getOnlineMediator",
+ 	 				type : 'get',
+ 	 				dataType : 'json',
+ 	 				success : function(data) {
+ 	 					$("#onlineMediator").removeAttr("style");
+ 	 					console.log(data);
+ 						//$("#onlineMediator").attr("style","display:none");
+ 	 					$.each(data,function(n,value) {
+ 							var m = value.mediator;
+ 							var t = value.terminal;
+ 							$("#onlineMediator").append('<li> <a href="javacript:void(0);" onclick="meditorFocus('+m.id+','+m.x+','+m.y+');"><b>'+m.mediator_name+'-----------'+t.terminal_name+'</b></a> </li>');
+ 							//&apos;'+m.id+'&apos;
+ 						});	 					
+ 	 				}
+ 	 	    	});
+ 	    	} else {
+ 	    		$("#onlineMediator").empty();
+ 	    		$("#onlineMediator").attr("style","display:none");	    		
+ 	    	} 	
+ 	    }
+
+ 	    
+ 	    
+	    function showPageMessage(redMsg, blueMsg){
+	    	if(redMsg!=""){
+		    	for(var i =0; i < redMsg.length; i++ ){		
+		    		//console.log('<object data="${BPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+		    		if(redMsg[i].msgType==1){
+						//onclick="openMediaWindow(${BPATH}'+redMsg[i].message+')"
+						//$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="${BPATH}'+redMsg[i].message+'" target="_blank">'+ '<img src="${CPATH}/basic/img/pic.png"></a>' + '</li>');
+						var message = redMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/pic.png"></a>' + '</li>');
+					} else if(redMsg[i].msgType==2){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						//$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="${BPATH}'+redMsg[i].message+'" target="_blank">'+ '<img src="${CPATH}/basic/img/video.png"></a>' + '</li>');
+						var message = redMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/video.png"></a>' + '</li>');
+					} else if(redMsg[i].msgType==3){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						var message = redMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/voice.png"></a>' + '</li>');
+						
+					}else if(redMsg[i].msgType==4){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + '<a href="${BPATH}'+redMsg[i].message+'" target="_blank">'+ '<img src="${CPATH}/basic/img/excel.png"></a>' + '</li>');
+						
+					} else {
+						$(".leftMessage").append('<li>'+redMsg[i].sendName+ ': ' + redMsg[i].message + '</li>');
+					}
+		    	}
+		    	$(".leftMessage").scrollTop($('.leftMessage')[0].scrollHeight);
+	    	}	
+	    	if(blueMsg!=""){
+		    	for(var i =0; i < blueMsg.length; i++ ){						
+					//console.log(blueMsg[i].msgType);
+		    		
+		    		if(blueMsg[i].msgType==1){
+						//console.log('<object data="${CPATH}"'+blueMsg[i].message+ 'height="10" width="10"></object>');
+						var message = blueMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".rightMessage").append('<li>'+blueMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/pic.png"></a>' + '</li>');
+						
+					} else if(blueMsg[i].msgType==2){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						var message = blueMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".rightMessage").append('<li>'+blueMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/video.png"></a>' + '</li>');
+						
+					} else if(blueMsg[i].msgType==3){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						var message = blueMsg[i].message;
+						message = message.replace(/\\/g,"/");
+						$(".rightMessage").append('<li>'+blueMsg[i].sendName+ ': ' + '<a href="javacript:void(0);" onclick="openMediaWindow(&apos;'+message+'&apos;);">'+ '<img src="${CPATH}/basic/img/voice.png"></a>' + '</li>');
+						
+					}else if(blueMsg[i].msgType==4){
+						//console.log('<object data="${CPATH}"'+redMsg[i].message+ 'height="10" width="10"></object>');
+						$(".rightMessage").append('<li>'+blueMsg[i].sendName+ ': ' + '<a href="${BPATH}'+blueMsg[i].message+'" target="_blank">'+ '<img src="${CPATH}/basic/img/excel.png"></a>' + '</li>');
+						
+					} else {
+						$(".rightMessage").append('<li>'+blueMsg[i].sendName+ ': ' + blueMsg[i].message + '</li>');
+					}
+		    	}
+		    	$(".rightMessage").scrollTop($('.leftMessage')[0].scrollHeight);
+	    	}
+	    }
+		
+
+	    
+	    
+	</script>
+</body>
+</html>

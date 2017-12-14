@@ -1,0 +1,134 @@
+<style>
+input[type=checkbox], input[type=radio]{margin: 0px 2px;}
+</style>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				角色详情
+			</h4>
+		</div>
+		<form id="form" action="${BPATH}/admin/saveNewPassword" class="form-horizontal form-label-left input_mask">
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel">
+							<div class="x_content">
+								<br>
+								<div class="item divider-dashed"></div>
+								<h4>基础信息 </h4>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">角色名</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" name="jRole.name" value="${role.name}" readonly="readonly">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">角色描述</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<textarea class="resizable_textarea form-control inputNone" rows="6" name="jRole.describe" readonly="readonly">${role.describe}</textarea>
+									</div>
+								</div>
+								<div class="item divider-dashed"></div>
+								<h4>权限信息 </h4>
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<ul id="treeDemo" class="ztree"></ul>
+									</div>
+									<input type="hidden" class="form-control col-md-7 col-xs-12" name="roleMenus" id="roleMenus">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+<!-- 			    <button type="submit" class="btn btn-primary">提交更改</button> -->
+			</div>
+		</form>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script>
+$(function() {
+	ajaxModelForm("form");
+	
+	var zTree,treeObj,
+	IDMark_Switch = "_switch",
+	IDMark_Icon = "_ico",
+	IDMark_Span = "_span",
+	IDMark_Input = "_input",
+	IDMark_Check = "_check",
+	IDMark_Edit = "_edit",
+	IDMark_Remove = "_remove",
+	IDMark_Ul = "_ul",
+	IDMark_A = "_a";
+	// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+	var setting = {
+	    isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
+	    treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
+	    showLine : true,                  //是否显示节点间的连线  
+	    check: {
+			enable: true,
+			chkDisabledInherit: true
+		},
+	    view: {
+			selectedMulti: false,
+			addDiyDom: addDiyDom
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",  
+	            pIdKey: "pId"
+			}
+		}
+	};
+	function addDiyDom(treeId, treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if(treeNode.children==false){
+			$.ajax({
+				url : bpath + "/admin/role/getCheckButton?mid="+treeNode.id+"&rid="+${role.id},
+				type : 'get',
+				dataType : 'json',
+				success : function(date) {
+					var editStr ="";
+					$.each(date,function(n,value) {
+						if(value.tf){
+							editStr+="<input type='checkbox' disabled='true' checked='checked' name='checkbox_" +treeNode.id+ "' value='"+value.code+"'><span style='color:#169F85;'>"+value.name+"</span>&nbsp;";
+						}else{
+							editStr+="<input type='checkbox' disabled='true' name='checkbox_" +treeNode.id+ "' value='"+value.code+"'>"+value.name+"&nbsp;";
+						}
+					});
+					aObj.after(editStr);
+					var btn = $("#diyBtn_"+treeNode.id);
+					if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
+				}
+			});
+		}
+	}
+
+	$.ajax({
+		url : bpath + "/admin/role/tree?id="+${role.id},
+		type : 'get',
+		dataType : 'json',
+		success : function(date) {
+			zTree = $.fn.zTree.init($("#treeDemo"), setting, date.tree);
+			zTree.expandAll(true);
+			treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var node = treeObj.getNodeByParam("id", "0");
+			treeObj.checkNode(node);
+			treeObj.setChkDisabled(node, true);
+			$.each( date.tree_, function(index, content){
+				var node = treeObj.getNodeByParam("id", content.menuId);
+				treeObj.checkNode(node);
+				treeObj.setChkDisabled(node, true);
+			});
+		}
+	});
+	
+});
+</script>

@@ -1,0 +1,166 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<script src="${CPATH}/plus/map/ol.js"></script>
+<script src="${CPATH}/plus/map/base.js"></script>
+<link href="${CPATH}/plus/map/ol.css" rel="stylesheet" type="text/css">
+<link href="${CPATH}/plus/map/base.css" rel="stylesheet" type="text/css">
+
+<div class="menuPage">
+		<form id="form" action=" class="layui-form">
+			<div class="layui-sidev" id="leftMenuPage">
+			<div class="layui-form-item">
+				<label class="layui-form-label">唯一标示符</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.oid!}' name="jPel.oid">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">代字</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.code!}' name="jPel.code">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">名称</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.pelname!}' name="jPel.pelname">
+				</div>
+				</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">阵营</label>
+				<div class="layui-input-block">
+					<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+						<label  class="layui-btn <#if pel.camp??> <#if pel.camp=='1'>active</#if> <#else> active </#if>">
+							<#if pel.camp??> <#if pel.camp=='0'> 红方 <#else> 蓝方</#if ><#else> checked="checked" </#if>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">形状</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.shape!}' name="jPel.location">
+					</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">方位</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.location!}' name="jPel.location">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">经度</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.x!}' name="jPel.x">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">维度</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input inputNone" readonly="readonly" value='${pel.y!}' name="jPel.y">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-block">
+					<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+						<label  class="layui-btn <#if pel.state??> <#if pel.state==1>active</#if> <#else> active </#if>">
+							<#if pel.state??> <#if pel.state==3> 开启 <#else> 关闭</#if ><#else> checked="checked" </#if>
+						</label>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="layui-body">				
+				<!-- <hr>  style="height: 200px;"-->
+				<div id="mapPel"  ></div>
+			</div>
+		</form>
+</div>
+
+
+
+<script>
+    setTimeout(function () {
+        if("${pel.x!}"==""||"${pel.y!}"==""){
+            initNone()
+        } else{
+            init()
+            createMarker("${pel.oid!}", parseFloat(${pel.x!}), parseFloat(${pel.y!}));
+            addMarkerS();
+        }
+
+    },500)
+
+    var map, fs=new Array() ,vL;
+    //空地图
+    function initNone() {
+        map = new ol.Map({
+            target: 'mapPel',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM(),
+
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.transform([37.41, 8.82], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4
+            }),
+            controls: ol.control.defaults().extend(
+                [new ol.control.ScaleLine()]),
+            logo: false
+        });
+    }
+    //有图元的地图
+    function init() {
+        map = new ol.Map({
+            target: 'mapPel',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM(),
+
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.transform([parseFloat(${pel.x!}), parseFloat(${pel.y!})], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4
+            }),
+            controls: ol.control.defaults().extend(
+                [new ol.control.ScaleLine()]),
+            logo: false
+        });
+    }
+    //获取图片
+    var styles = [
+        new ol.style.Style({
+            image: new ol.style.Icon({
+                src: cpath + "/images/dot.png"
+            })
+        })
+    ];
+    function createMarker(id,x,y) {
+        var marker = new ol.Feature({
+            geometry : new ol.geom.Point(ol.proj.fromLonLat([x, y]))
+        });
+        marker.setStyle(styles[0]);
+        marker.setId(id);
+        marker.set("x",x);
+        marker.set("y",y);
+        fs.push(marker);
+
+    }
+    //新增标注 多次创建，只需调用一次该方法即可添加marker
+    function addMarkerS() {
+        vL = new ol.layer.Vector({
+            source : vectorSource = new ol.source.Vector({
+                features : fs
+            })
+        });
+        map.addLayer(vL);
+    }
+
+</script>
+</@layout>

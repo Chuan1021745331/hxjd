@@ -1,0 +1,40 @@
+<!-- top tiles -->
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					参数<small>列表</small><div id="returnmessage"></div>   
+				</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<table id="datatable" class="table table-striped jambo_table bulk_action">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>角色名</th>
+							<th>角色描述</th>
+							<th style="width: 180px;">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		tableData(
+			bpath+'/admin/role/roleData',		//数据连接
+			[{ "data": "id" },
+			 { "data": "name" },
+			 { "data": "describe"}],	//列表
+			false,
+			'${topButton}',
+			'${tableButton}',
+			[false,false,false],
+			true						//状态保存
+		);
+	} );
+</script>

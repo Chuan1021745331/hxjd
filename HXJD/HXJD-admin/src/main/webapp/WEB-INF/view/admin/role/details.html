@@ -1,0 +1,127 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<style>
+input[type=checkbox], input[type=radio]{margin: 0px 2px;}
+</style>
+<link href="${CPATH}/plus/zTree/css/metroStyle/metroStyle.min.css" rel="stylesheet" type="text/css">
+
+<div class="menuPage">
+	<div class="layui-body">
+		权限信息
+		<hr>
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+	<div class="layui-sidev" id="leftMenuPage">
+		基础信息
+		<hr>
+		<div class="layui-elem-quote tableTool">
+			
+			<form class="layui-form" action="">
+				<div class="layui-form-item" style="margin-left: -17%">
+    				<label class="layui-form-label">角色名</label>
+    				<div class="layui-input-block">
+      					<input type="text" name="title" value="${role.name!!}" autocomplete="off" class="layui-input" disabled>
+    				</div>
+  				</div>
+				<div class="layui-form-item layui-form-text" style="margin-left: -17%">
+    				<label class="layui-form-label">角色描述</label>
+    				<div class="layui-input-block">
+      					<textarea name="desc" class="layui-textarea" disabled>${role.describe!!}</textarea>
+    				</div>
+  				</div>
+			</form>
+			
+		</div>
+		<table id="menuData" lay-filter="menuData"></table>
+	</div>
+</div>
+
+
+
+<!-- <script type="text/javascript" src="/HHT-admin/common/plus/jquery-1.12.4.min.js"></script> -->
+<!-- ztree -->
+<script src="${CPATH}/plus/zTree/js/jquery.ztree.all.min.js"></script>
+<!-- Bootstrap -->
+<script src="${CPATH}/plus/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+$(function() {
+	//ajaxModelForm("form");
+	
+	var zTree,treeObj,
+	IDMark_Switch = "_switch",
+	IDMark_Icon = "_ico",
+	IDMark_Span = "_span",
+	IDMark_Input = "_input",
+	IDMark_Check = "_check",
+	IDMark_Edit = "_edit",
+	IDMark_Remove = "_remove",
+	IDMark_Ul = "_ul",
+	IDMark_A = "_a";
+	// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+	var setting = {
+	    isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
+	    treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
+	    showLine : true,                  //是否显示节点间的连线  
+	    check: {
+			enable: true,
+			chkDisabledInherit: true
+		},
+	    view: {
+			selectedMulti: false,
+			addDiyDom: addDiyDom
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",  
+	            pIdKey: "pId"
+			}
+		}
+	};
+	function addDiyDom(treeId, treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if(treeNode.children==false){
+			$.ajax({
+				url : bpath + "/admin/role/getCheckButton?mid="+treeNode.id+"&rid="+${role.id},
+				type : 'get',
+				dataType : 'json',
+				success : function(date) {
+					var editStr ="";
+					$.each(date,function(n,value) {
+						if(value.tf){
+							editStr+="<input type='checkbox' disabled='true' checked='checked' name='checkbox_" +treeNode.id+ "' value='"+value.code+"'><span style='color:#169F85;'>"+value.name+"</span>&nbsp;";
+						}else{
+							editStr+="<input type='checkbox' disabled='true' name='checkbox_" +treeNode.id+ "' value='"+value.code+"'>"+value.name+"&nbsp;";
+						}
+					});
+					aObj.after(editStr);
+					var btn = $("#diyBtn_"+treeNode.id);
+					if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
+				}
+			});
+		}
+	}
+
+	$.ajax({
+		url : bpath + "/admin/role/tree?id="+${role.id},
+		type : 'get',
+		dataType : 'json',
+		success : function(date) {
+			
+			zTree = $.fn.zTree.init($("#treeDemo"), setting, date.tree);
+			zTree.expandAll(true);
+			treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var node = treeObj.getNodeByParam("id", "0");
+			treeObj.checkNode(node);
+			treeObj.setChkDisabled(node, true);
+			$.each( date.tree_, function(index, content){
+				var node = treeObj.getNodeByParam("id", content.menuId);
+				treeObj.checkNode(node);
+				treeObj.setChkDisabled(node, true);
+			});
+		}
+	});
+	
+});
+</script>
+</@layout>

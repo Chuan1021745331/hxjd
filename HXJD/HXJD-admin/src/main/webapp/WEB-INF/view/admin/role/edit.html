@@ -1,0 +1,168 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<style>
+input[type=checkbox], input[type=radio]{margin: 0px 2px;}
+input[type=checkbox], input[type=radio]{margin: 0px 2px;}
+.layui-form input[type=checkbox], .layui-form input[type=radio], .layui-form select{display: inline-block;}
+</style>
+<link href="${CPATH}/plus/zTree/css/metroStyle/metroStyle.min.css" rel="stylesheet" type="text/css">
+
+<div class="menuPage">
+	<form  class="layui-form" id="myForm" action="${BPATH}/admin/role/editSave" method="post">
+		<input type="hidden" value="${role.id!}" name="jRole.id">			
+				<div class="layui-sidev" id="leftMenuPage">
+					基础信息
+					<hr>
+					<div class="layui-elem-quote tableTool">
+						<div class="layui-form-item" style="margin-left: -17%">
+						<label class="layui-form-label">角色名</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" required name="jRole.name" value="${role.name!}">
+							</div>
+						</div>
+						<div class="layui-form-item layui-form-text" style="margin-left: -17%">
+							<label class="layui-form-label">角色描述</label>
+								<div class="layui-input-block">
+									<textarea class="layui-textarea" rows="6" name="jRole.describe">${role.describe!}</textarea>
+								</div>
+						</div>
+						<div class="layui-form-item" align="center">
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    		<button class="layui-btn" lay-submit lay-filter="formDemo">提交更改</button>
+				    	</div>
+			    	</div>
+				</div>
+				
+				<div class="layui-body">
+					<h4>权限信息 </h4>	
+					<hr>							
+					<ul id="treeDemo" class="ztree" lay-ignore></ul>
+					<input type="hidden" class="form-control col-md-7 col-xs-12" name="roleMenus" id="roleMenus">
+				</div>
+		</form>
+</div><!-- /.modal -->
+<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+<!-- ztree -->
+<script src="${CPATH}/plus/zTree/js/jquery.ztree.all.min.js"></script>
+<!-- Bootstrap -->
+<script src="${CPATH}/plus/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+$(function() {
+	//ajaxModelForm("form");
+	
+	var zTree;
+	IDMark_Switch = "_switch",
+	IDMark_Icon = "_ico",
+	IDMark_Span = "_span",
+	IDMark_Input = "_input",
+	IDMark_Check = "_check",
+	IDMark_Edit = "_edit",
+	IDMark_Remove = "_remove",
+	IDMark_Ul = "_ul",
+	IDMark_A = "_a";
+	// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+	
+	
+	var setting = {
+	    isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
+	    treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
+	    showLine : true,                  //是否显示节点间的连线  
+	    check: {
+			enable: true
+		},
+	    view: {
+			selectedMulti: false,
+			addDiyDom: addDiyDom
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",  
+	            pIdKey: "pId"
+			}
+		},
+		callback: {
+			onCheck: onCheck
+		}
+	};
+	var clearFlag = false;
+	function onCheck(e, treeId, treeNode) {
+		
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		var nodes = treeObj.getCheckedNodes(true);
+		var str="";
+		for (var i=0, l=nodes.length; i<l; i++) {
+			if(nodes[i].id!=0){
+				str+=nodes[i].id+",";
+			}
+		}
+		if(str.length>1){
+			str=str.substring(0,str.length-1);
+		}
+		$("#roleMenus").val(str);
+	}
+	
+	
+	
+	
+	function addDiyDom(treeId, treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if(treeNode.children==false){
+			$.ajax({
+				url : bpath + "/admin/role/getCheckButton?mid="+treeNode.id+"&rid="+${role.id},
+				type : 'get',
+				dataType : 'json',
+				success : function(date) {
+					var editStr ="";
+					$.each(date,function(n,value) {
+						console.log(value.tf);
+						if(value.tf){
+							editStr+="<input lay-ignore type='checkbox' checked='checked' name='checkbox_" +treeNode.id+ "' value='"+value.code+"'><span style='color:#169F85;'>"+value.name+"</span>&nbsp;";
+						}else{
+							editStr+="<input lay-ignore type='checkbox'  name='checkbox_" +treeNode.id+ "' value='"+value.code+"'>"+value.name+"&nbsp;";
+						}
+					});
+					aObj.after(editStr);
+					var btn = $("#diyBtn_"+treeNode.id);
+					if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
+				}
+			});
+		}
+	}
+	
+	
+	
+
+	$.ajax({
+		url : bpath + "/admin/role/tree?id="+${role.id},
+		type : 'get',
+		dataType : 'json',
+		success : function(date) {
+			zTree = $.fn.zTree.init($("#treeDemo"), setting, date.tree);
+			zTree.expandAll(true);
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var treeId="";
+			var node = treeObj.getNodeByParam("id", "0");
+			treeObj.checkNode(node);
+			$.each( date.tree_, function(index, content){
+				treeId+=content.menuId+",";
+				var node = treeObj.getNodeByParam("id", content.menuId);
+				treeObj.checkNode(node);
+			});
+			if(treeId.length>1){
+				treeId=treeId.substring(0,treeId.length-1);
+			}
+			$("#roleMenus").val(treeId);
+		}
+	});
+	
+});
+</script>
+<script>
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		common.formAjaxSubmit('formDemo','myForm',bpath+'/admin/role/editSave');
+	});
+</script>
+</@layout>

@@ -1,0 +1,19 @@
+<#include "../../_include/_layout.inc.tag"/>
+<@layout active_id="dashboard">
+
+<button class="layui-btn layui-btn-small" onclick="a();"><i class="layui-icon">&#xe654;</i><cite>新增</button>
+<script>
+function a(){
+	layui.use( ['table','common'], function(){
+		var $ = layui.$,
+		table = layui.table,
+		common = layui.common;
+  		parent.MSG(1, "dddddd");
+		table.reload('menuData',{
+			
+		});
+	});
+}
+
+</script>
+</@layout>

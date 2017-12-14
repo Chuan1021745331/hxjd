@@ -1,0 +1,10 @@
+<script type="text/html" id="campTemp">
+  {{#  if(d.camp == 0){ }}
+    <img src="${CPATH}/images/r.png" style="width:20px;height:20px;" />
+  {{#  } else { }}
+    <img src="${CPATH}/images/b.png" style="width:20px;height:20px;" />
+  {{#  } }}
+</script>
+<script type="text/html" id="loTemp">
+    <img src="${CPATH}/images/jt.png" style="width:20px;height:20px;transform:rotate({{d.location}}deg);" />
+</script>

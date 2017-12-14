@@ -1,0 +1,190 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				参数修改
+			</h4>
+		</div>
+		<form id="form" action="${BPATH}/admin/option/editSave" class="form-horizontal form-label-left input_mask">
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel">
+							<div class="x_content">
+								<br>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">编号</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" value='${option.id!}' readonly="readonly" name="jOption.id">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">参数名</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" value='${option.option_name!}' name="jOption.option_name">
+									</div>
+								</div>
+								<!--<div class="form-group">-->
+								<!--<label class="control-label col-md-3 col-sm-3 col-xs-12">关键字</label>-->
+								<!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+								<!--<input type="text" class="form-control col-md-7 col-xs-12" value='${option.option_key!}' name="jOption.option_key">-->
+								<!--</div>-->
+								<!--</div>-->
+
+								<#if option.option_key=="map_center">
+									<div class="form-group" hidden>
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">关键字</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" class="form-control col-md-7 col-xs-12" value='${option.option_key!}' name="jOption.option_key">
+										</div>
+									</div>
+									<#else>
+										<div class="form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12">关键字</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<input type="text" class="form-control col-md-7 col-xs-12" value='${option.option_key!}' name="jOption.option_key">
+											</div>
+										</div>
+								</#if>
+
+
+								<#if option.option_key=="map_center">
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">经度</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" id="Latitude" class="form-control col-md-7 col-xs-12" value='${optionX!}' name="optionX">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">纬度</label>
+										<div class="col-md-9 col-sm-9 col-xs-12">
+											<input type="text" id="Longtude" class="form-control col-md-7 col-xs-12" value='${optionY!}' name="optionY">
+										</div>
+									</div>
+									<#else>
+										<div class="form-group">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12">参数值</label>
+											<div class="col-md-9 col-sm-9 col-xs-12">
+												<input type="text"  class="form-control col-md-7 col-xs-12" value='${option.option_value}' name="jOption.option_value">
+											</div>
+										</div>
+
+								</#if>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">参数说明</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<textarea class="resizable_textarea form-control" rows="6" name="jOption.remark">${option.remark!}</textarea>
+									</div>
+								</div>
+								<#if option.option_key=="map_center">
+									<div class="form-group">
+										<div id="mapCenter" class="col-md-12 col-sm-12 col-xs-12" style="height: 200px;"></div>
+									</div>
+								</#if>
+							</div>
+							<br />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-success">提交更改</button>
+			</div>
+
+		</form>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script>
+
+    $(function() {
+        ajaxModelForm("form");
+
+    });
+
+    <#if option.option_key=="map_center">
+    setTimeout(function () {
+        init("${option.id!}");
+        createMarker("${option.id!}", parseFloat(${optionX}), parseFloat(${optionY}));
+        addMarkerS();
+
+
+    },500);
+
+    var map, fs=new Array() ,vL;
+    function init(markerId) {
+        map = new ol.Map({
+            target: 'mapCenter',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM(),
+
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.transform([parseFloat(${optionX}), parseFloat(${optionY})], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4
+            }),
+            controls : ol.control.defaults().extend(
+                [ new ol.control.ScaleLine() ]),
+            logo : false
+        });
+//     	坐标拾取
+        map.on('click', function(e) {
+            delMarker(markerId);
+            var coord = e.coordinate;
+            var degrees = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+            var hdms = ol.coordinate.toStringXY(degrees, 4);
+            var h = hdms.split(",");
+            console.log(h);
+            $("#Latitude").val(h[0]);
+            $("#Longtude").val(h[1]);
+            createMarker(markerId, parseFloat(h[0]), parseFloat(h[1]));
+            addMarkerS()
+        });
+    }
+    //获取图片
+    var styles = [
+        new ol.style.Style({
+            image: new ol.style.Icon({
+                src: cpath + "/img/dot.png"
+            })
+        })
+    ];
+    function createMarker(id,x,y) {
+        var marker = new ol.Feature({
+            geometry : new ol.geom.Point(ol.proj.fromLonLat([x, y]))
+        });
+        marker.setStyle(styles[0]);
+        marker.setId(id);
+        marker.set("x",x);
+        marker.set("y",y);
+        fs.push(marker);
+
+    }
+    //新增标注
+    function addMarkerS() {
+        vL = new ol.layer.Vector({
+            source : vectorSource = new ol.source.Vector({
+                features : fs
+            })
+        });
+        map.addLayer(vL);
+    }
+
+	/* 删除标注 */
+    function delMarker(id) {
+        console.log(vL);
+        for(var i=0;i<fs.length;i++){
+            vL.getSource().removeFeature(fs[i]);
+
+        }
+        map.removeLayer(vL);
+        fs=new Array();
+    }
+    </#if>
+
+</script>

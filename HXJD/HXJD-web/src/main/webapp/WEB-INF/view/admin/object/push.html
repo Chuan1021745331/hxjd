@@ -1,0 +1,142 @@
+<link rel="stylesheet" href="${CPATH}/vendors/mult/lib/google-code-prettify/prettify.css" />
+<link rel="stylesheet" href="${CPATH}/vendors/mult/css/bootstrap-multiselect.css" />
+<style>
+.multiselect{
+	width: 100%;
+    height: 34px;
+    min-width: 300px;
+}
+.multiselect-container{
+margin-top: 5px;
+min-width: 300px;
+}
+.multiselect-container li a label input{
+	width: 13px;
+}
+.multiselect-container li a:hover{
+	height: 26px;
+}
+.multiselect-container li{
+	height: 26px;
+}
+.multiselect-container .multiselect-filter{
+	height: 40px;
+}
+.multiselect-container li .input-group .input-group-btn button{
+	width: 50px;
+    height: 34px;
+}
+</style>
+<div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				推送
+			</h4>
+		</div>
+		<form id="form" action="${BPATH}/admin/objects/pushSave" class="form-horizontal form-label-left input_mask">
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel" style="height: 500px">
+							<div class="x_content" style="height: 300px">
+								<br>
+								<h4>推送选择</h4>
+
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">阵营</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+											<label class="btn btn-success active">
+												<input type="radio" name="camp" value="3" checked="checked"> 全部
+											</label>
+											<label class="btn btn-success ">
+												<input type="radio" name="camp" value="0" > 红方
+											</label>
+											<label class="btn btn-success ">
+												<input type="radio" name="camp" value="1" > 蓝方
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">训练代号</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<select name="drillname" id="selectDrill" class="form-control col-md-7 col-xs-12" style="width: 300px">
+											<!--<option>暂不选择</option>-->
+											<#if jDrillcodes??>
+												<#list jDrillcodes as bean>
+													<option value="${bean.name!}" data-position="${bean.name!}">${bean.name!}</option>
+												</#list>
+											</#if>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">阶段</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<#if jkpis??>
+											<#list jkpis as bean>
+												<div class="radio">
+													<label>
+														<input type="radio" value="${bean.id!}" class="flat" checked name="stageId"> ${bean.name!}
+													</label>
+												</div>
+											</#list>
+										</#if>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			    <button type="submit" class="btn btn-success">提交</button>
+			</div>
+		</form>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/prettify.min.js"></script>
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/bootstrap-multiselect.js"></script>
+<script>
+	$(function() {
+        if ($("input.flat")[0]) {
+            $(document).ready(function () {
+                $('input.flat').iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                });
+            });
+        }
+		ajaxModelForm("form");
+		$('#selectMe').multiselect({
+			maxHeight: 400,
+			minHeight:160,
+            enableClickableOptGroups: true,
+            single: true,
+            enableCollapsibleOptGroups: true,
+            enableFiltering: true,
+            nonSelectedText: '暂无图元',//没有值的时候button显示值
+            buttonWidth: '220px',//button宽度
+            numberDisplayed: 3,
+            filterPlaceholder: '搜索',
+            optionClass: function(element) {  
+                var value = $(element).val();
+                if (value%2 == 0) {  
+                    return 'even';  
+                }  
+                else {  
+                    return 'odd';  
+                }  
+            }
+        });
+	});
+</script>

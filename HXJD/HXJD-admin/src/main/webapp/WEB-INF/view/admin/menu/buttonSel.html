@@ -1,0 +1,78 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属菜单</label>
+		<div class="layui-input-inline">
+			<input type="text" required lay-verify="required"
+				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+				value="<#if menu??>${menu.name!}</#if>"
+				id="menuSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">功能名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.name" required lay-verify="required"
+				placeholder="请输入功能名称" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.name!}</#if>" disabled>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">标题</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.title" required lay-verify="required"
+				placeholder="请输入标题" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.title!}</#if>" disabled>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">标识符</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.code" required lay-verify="required"
+				placeholder="请输入标识符" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.code!}</#if>" disabled>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">功能链接</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.url" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.url!}</#if>" disabled>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">图标</label>
+		<div class="layui-input-inline">
+			<i class="icon iconfont ${button.icon!}" style="font-size: 25px;"></i>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">排序</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jButton.sort" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if button??>${button.sort!}</#if>" disabled>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">样式</label>
+		<div class="layui-input-inline">
+			<textarea name="jButton.css" lay-verify="required" placeholder="请输入" class="layui-textarea">${button.css!}</textarea>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">扩展</label>
+		<div class="layui-input-inline">
+			<input type="checkbox" name="jButton.isModal" value="1" lay-skin="switch" lay-text="新页|提示" <#if button.isModal>checked</#if> disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="jButton.isRight" value="1" lay-skin="switch" lay-text="有参|无参" <#if button.isRight>checked</#if> disabled>
+		</div>
+	</div>
+</form>
+
+<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+
+</@layout>

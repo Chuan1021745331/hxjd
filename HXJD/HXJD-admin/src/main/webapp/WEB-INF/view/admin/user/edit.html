@@ -1,0 +1,183 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<script src="${CPATH}/plus/jquery.form.min.js"></script>
+
+<form class="layui-form" id="myForm" action="${BPATH}/admin/user/editSave" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="jUser.id" value="<#if user??>${user.id}</#if>">
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
+			<div class="layui-input-inline">
+				<img src="${BPATH}/<#if (user.avatar)??>${user.avatar!}<#else>attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
+				<!--存放图片路径,提交页面时传给后台的值-->
+				<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${_user.avatar!}'/>
+				<input type="file" class="upload" name="file" id="upfile" style="position: absolute; filter: alpha(opacity = 0);opacity: 0;width: 30px;"/>
+			</div>
+  	</div>
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">用户名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.username" required lay-verify="required"
+				autocomplete="off" class="layui-input"
+				value="<#if user??>${user.username!}</#if>">
+		</div>
+	</div>
+		<div class="layui-form-item">
+		<label class="layui-form-label">昵称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.nickname" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.nickname!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">真实姓名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.relname" required lay-verify="required"
+				 autocomplete="off" class="layui-input"
+				value="<#if user??>${user.relname!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">性别</label>		
+		<div class="layui-input-inline" >	
+			<input type="radio" name="jUser.gender" value="1" required lay-verify="required" <#if user.gender??><#if user.gender == "1">checked="checked"</#if></#if> title="男"> 
+			<input type="radio" name="jUser.gender" value="0" required lay-verify="required" <#if user.gender??><#if user.gender == "0">checked="checked"</#if></#if> title="女"> 
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+    	<label class="layui-form-label">角色选择</label>
+    	<div class="layui-input-inline">
+      		
+      		<#if user.role??>
+				<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
+					<#else>
+						<select name="role"  class="">
+							<option value="0" data-position="0">未选择</option>
+								<#if roles??>
+									<#list roles as bean>
+										<option value="${bean.id!}" data-position="${bean.id!}" <#if role??> <#if role.id==bean.id>selected="selected"</#if></#if>>${bean.name!}</option>
+									</#list>
+								</#if>
+						</select>
+			</#if>
+    	</div>
+    </div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">电子邮箱</label>
+		<div class="layui-input-inline">
+			<input type="email" name="jUser.email" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.email!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">联系电话</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.mobile" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.mobile!}</#if>">
+		</div>
+	</div>
+	
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" id="doSubmit" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+<script>
+function F_Open_dialog() { 
+    document.getElementById("upfile").click(); 
+}
+/**  
+* 预览图片  
+* @param obj  
+* @returns {Boolean}  
+*/  
+$(':file').change(function(){
+ 
+   var newPreview = document.getElementById("imgsrc");   
+   var imgPath = getPath(this);
+   if( !this.value.match( /.jpg|.gif|.png|.bmp/i ) ){  
+       alert("图片格式错误！");
+       return false;
+   }  
+     
+   newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";      
+   newPreview.src = imgPath;
+});   
+/**  
+* 得到图片绝对路径  
+* @param obj  
+* @returns  
+*/  
+function getPath(obj) { 
+	if(obj) { 
+     	if (window.navigator.userAgent.indexOf("MSIE")>=1) { 
+       	obj.select(); 
+       	return document.selection.createRange().text; 
+     	} else if(window.navigator.userAgent.indexOf("Firefox")>=1) { 
+       	if(obj.files) { 
+         		return obj.files.item(0).getAsDataURL(); 
+       	} 
+       	return obj.value; 
+     	}else if( navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ) {
+           var f = obj.files[0]
+           var src = window.URL.createObjectURL(f);  
+           return src;
+     	}
+     	return obj.value; 
+	} 
+} 
+</script>
+<script>
+		$("#doSubmit").click(function(){
+			$("#myForm").ajaxSubmit({
+ 				type : "post",
+ 				dataType : "json", 
+ 				success : function(json) {
+ 					if(json.errorCode==0){
+							top.parent.MSG(4,  json.message);
+							if(typeof(parent.t) != "undefined"){
+								parent.t.reload({
+	   			   	     			page: {
+	   			   	     		        curr: page //重新从第 1 页开始
+	   			   	     		    },
+	   			   	     			where: { //设定异步数据接口的额外参数，任意设
+	   			   	     				menuId: where
+	   			   	     			}
+	   		   	        		})
+							}
+							if(parent.treeNode_ != null){
+								if(parent.treeType==1){
+									parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+								}else if(parent.treeType==2){
+									var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+									node.name=json.data.name;
+									parent.zTree.updateNode(node);
+								}
+								
+								parent.treeNode_ =null;
+								parent.treeType = 0;
+							}
+							
+	   						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	   		   				parent.layer.close(index); //再执行关闭
+						}else{
+							top.parent.MSG(3,  json.message);
+						}
+ 				},
+ 				error : function(res) {
+ 					top.parent.MSG(3, "数据提交异常");
+ 				}
+ 			});
+			return false;
+		})
+
+</script>
+</@layout>

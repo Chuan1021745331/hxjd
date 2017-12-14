@@ -1,0 +1,436 @@
+<link rel="stylesheet" href="${CPATH}/vendors/mult/lib/google-code-prettify/prettify.css"/>
+<link rel="stylesheet" href="${CPATH}/vendors/mult/css/bootstrap-multiselect.css"/>
+<style>
+    .multiselect {
+        width: 100%;
+        height: 34px;
+        min-width: 300px;
+    }
+
+    .multiselect-container {
+        margin-top: 5px;
+        min-width: 300px;
+    }
+
+    .multiselect-container li a label input {
+        width: 13px;
+    }
+
+    .multiselect-container li a:hover {
+        height: 26px;
+    }
+
+    .multiselect-container li {
+        height: 26px;
+    }
+
+    .multiselect-container .multiselect-filter {
+        height: 40px;
+    }
+
+    .multiselect-container li .input-group .input-group-btn button {
+        width: 50px;
+        height: 34px;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title" id="defModalLabel">
+                修改调理员信息
+            </h4>
+        </div>
+        <form id="form" action="${BPATH}/admin/mediator/editSave" class="form-horizontal form-label-left input_mask">
+            <div class="modal-body">
+                <div id="contRow" class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <br>
+
+                                <h4>终端 </h4>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">设备选择</label>
+                                    <div id="testDiv" class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="terminalId" id="multiselect_T"
+                                                class="form-control col-md-7 col-xs-12">
+                                            <option id="relieveOption"
+                                                    value="<#if terminal??>${terminal.id!}<#else>0</#if>"
+                                                    data-position="<#if terminal??>${terminal.id!}<#else>0</#if>">
+                                                <#if terminal??>${terminal.terminal_name!}
+                                                    <#else>未选择
+                                                </#if>
+                                            </option>
+                                            <#if jTerminals??>
+                                                <#list jTerminals as jt>
+                                                    <option value="${jt.id!}" data-position="${jt.id!}">
+                                                        <#if jt.terminal_stauts=="1">关闭
+                                                            <#else>开机
+                                                        </#if>
+                                                        - - - - - - -${jt.terminal_name!}
+                                                    </option>
+                                                </#list>
+                                            </#if>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="item divider-dashed"></div>
+
+                                <h4>席位</h4>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">席位选择</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="seatId" id="multiselect" class="form-control col-md-7 col-xs-12">
+                                            <option value="0" data-position="0">未选择</option>
+                                            <#if seats??>
+                                                <#list seats as bean>   
+                                                
+                                                   <option <#if existSeat??>
+                                                   				<#list existSeat as beans> 
+                                                   					<#if bean.id == beans.id> 
+                                                   						selected="selected" 
+                                                   					</#if>
+                                                   				</#list> 
+                                                   			</#if>
+                                                   				value="${bean.id!}" data-position="${bean.id!}">${bean.seatname!}</option>
+                                                
+                                                
+                                                </#list>
+                                            </#if>
+                                        </select>
+                                        
+                                       <!--  <#if pelgroups??>
+												<#list pelgroups as bean>
+													<option 
+														<#if pelgroupPelId??>
+															<#list pelgroupPelId as beans>
+																<#if bean.id == beans.id>
+																	selected="selected"
+																</#if>
+															</#list>
+														</#if>
+															value="${bean.id!}" data-position="${bean.id!}">${bean.plegroupname!}</option>
+												</#list>
+											</#if> -->
+                                        
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="item divider-dashed"></div>
+
+                                <h4>群组</h4>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">群组选择</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="groupId" id="multiselect_g" multiple="multiple" class="form-control col-md-7 col-xs-12">
+                                            <!--<option value="0" data-position="0">暂不选择</option>-->
+                                            <#if groups??>
+                                                <#list groups as bean>
+                                                    <option value="${bean.id!}" data-position="${bean.id!}" selected="selected">${bean.groupName!}</option>
+                                                </#list>
+                                            </#if>
+                                            <#if groupsN??>
+                                                <#list groupsN as bean>
+                                                    <option value="${bean.id!}" data-position="${bean.id!}" selected="selected">${bean.groupName!}</option>
+                                                </#list>
+                                            </#if>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="item divider-dashed"></div>
+
+                                <h4>基本信息 </h4>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">调理员名称</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="hidden" value="${mediator.id!}" name="jMediator.id">
+                                        <input type="text" class="form-control col-md-7 col-xs-12"
+                                               value='${mediator.mediator_name!}' name="jMediator.mediator_name">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">阵营</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="btn-group" data-toggle="buttons" style="height: 34px;">
+                                            <label class="btn btn-success <#if mediator.camp??> <#if mediator.camp=='1'>active</#if> <#else> active </#if>">
+                                                <input type="radio" name="jMediator.camp" value="1"
+                                                <#if mediator.camp??>
+                                                    <#if mediator.camp=='1'>checked="checked"</#if>
+                                                    <#else> checked="checked"
+                                                </#if>
+                                                > 蓝方
+                                            </label>
+                                            <label class="btn btn-success <#if mediator.camp??> <#if mediator.camp=='0'>active</#if></#if>">
+                                                <input type="radio" name="jMediator.camp" value="0"
+                                                <#if mediator.camp??>
+                                                    <#if mediator.camp=='0'>checked="checked"</#if>
+                                                </#if>
+                                                > 红方
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">调理员状态</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="btn-group" data-toggle="buttons" style="height: 34px;">
+                                            <label class="btn btn-success  <#if mediator.mediator_stauts=='0'>active</#if>">
+                                                <input type="radio" name="jMediator.mediator_stauts" value="0"  <#if mediator.mediator_stauts=='0'>
+                                                																	 checked="checked"
+                                                																</#if>>开启
+                                            </label>
+                                            <label class="btn btn-success <#if mediator.mediator_stauts=='1'>active</#if>">
+                                                <input type="radio" name="jMediator.mediator_stauts" value="1" <#if mediator.mediator_stauts=='1'>
+                                                																	 checked="checked"
+                                                																</#if>>关闭
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">等级</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="jMediator.mediator_grade" id="multiselect_no"
+                                                class="form-control col-md-7 col-xs-12">
+                                            <option value="0" <#if mediator.mediator_grade=='0'>selected = "selected"</#if> data-position="0">未选择</option>
+                                            <option value="1" <#if mediator.mediator_grade=='1'>selected = "selected"</#if> data-position="1">1</option>
+                                            <option value="2" <#if mediator.mediator_grade=='2'>selected = "selected"</#if> data-position="2">2</option>
+                                            <option value="3" <#if mediator.mediator_grade=='3'>selected = "selected"</#if> data-position="3">3</option>
+                                            <option value="4" <#if mediator.mediator_grade=='4'>selected = "selected"</#if> data-position="4">4</option>
+                                            <option value="5" <#if mediator.mediator_grade=='5'>selected = "selected"</#if> data-position="5">5</option>
+                                            <!--<#if grades??>-->
+                                            <!--<#list roles as bean>-->
+                                            <!--<option value="${bean.id!}" data-position="${bean.id!}">${bean.name!}</option>-->
+                                            <!--</#list>-->
+                                            <!--</#if>-->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="mapMediator" class="col-md-12 col-sm-12 col-xs-12" style="height: 200px;"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <#if terminal??>
+                    <button id="relieveButton" type="button" class="btn btn-danger">解绑
+                    </button>
+                </#if>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-success">提交更改</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/prettify.min.js"></script>
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/bootstrap-multiselect.js"></script>
+<script>
+    setTimeout(function () {
+         if("${mediator.x!}"==""||"${mediator.y!}"==""){
+             initNone()
+         } else{
+             init()
+             createMarker("${mediator.id!}", parseFloat(${mediator.x!}), parseFloat(${mediator.y!}));
+             addMarkerS();
+         }
+    },500)
+    var map, fs=new Array() ,vL;
+
+    //空地图
+    function initNone() {
+        map = new ol.Map({
+            target: 'mapMediator',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM(),
+
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.transform([37.41, 8.82], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4
+            }),
+            controls: ol.control.defaults().extend(
+                [new ol.control.ScaleLine()]),
+            logo: false
+        });
+    }
+    //有图元点地图
+    function init() {
+        map = new ol.Map({
+            target: 'mapMediator',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM(),
+
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.transform([parseFloat(${mediator.x!}), parseFloat(${mediator.y!})], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 4
+            }),
+            controls: ol.control.defaults().extend(
+                [new ol.control.ScaleLine()]),
+            logo: false
+        });
+    }
+    //获取图片
+    var styles = [
+        new ol.style.Style({
+            image: new ol.style.Icon({
+                src: cpath + "/img/dot.png"
+            })
+        })
+    ];
+
+    function createMarker(id,x,y) {
+        var marker = new ol.Feature({
+            geometry : new ol.geom.Point(ol.proj.fromLonLat([x, y]))
+        });
+        marker.setStyle(styles[0]);
+        marker.setId(id);
+        marker.set("x",x);
+        marker.set("y",y);
+        fs.push(marker);
+
+    }
+    //新增标注 多次创建，只需调用一次该方法即可添加marker
+    function addMarkerS() {
+        vL = new ol.layer.Vector({
+            source : vectorSource = new ol.source.Vector({
+                features : fs
+            })
+        });
+        map.addLayer(vL);
+    }
+    //------------------------------------------------------------------------------------//
+    $(function () {
+        selectStyle();
+        //解绑
+        $('#relieveButton').click(function () {
+            var url = "${BPATH}/admin/mediator/relieve?mediatorId=0&terminalId=0";
+            <#if terminal ??>
+            url = "${BPATH}/admin/mediator/relieve?mediatorId=${mediator.id!}&terminalId=${terminal.id!}";
+            </#if>
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.errorCode == 0) {
+                        PN("secuss", '解绑成功！', data.message);
+                        $('#testDiv').empty();
+                        var option = '';
+                        jQuery.each(data.data, function (i, item) {
+//
+                            var terminalId = item.id;
+                            var terminalName = item.terminal_name;
+                            var tag = "开机- - - - - - - - " + terminalName;
+                            //pnaduan
+                            if (item == 1) {
+                                tag = "关闭- - - - - - - - " + terminalName;
+                            }
+                            option += '<option value="' + item.id + '" data-position="' + item.id + '">' + tag + '</option>';
+                        });
+                        var html = '<select name="terminalId" id="multiselect_T" class="form-control col-md-7 col-xs-12"> ' +
+                            '<option id="relieveOption" value="0" data-position="0">未选择 </option>' + option + ' </select>';
+
+                        $('#testDiv').html(html);
+                        $('#relieveButton').hide();
+                        selectStyle();
+                    } else {
+                        PN("error", '解绑失败!', data.message);
+                    }
+                }
+            });
+        })
+        ajaxModelForm("form");
+        function selectStyle() {
+            $('#multiselect_T').multiselect({
+                maxHeight: 400,
+                minHeight: 160,
+                enableClickableOptGroups: true,
+                single: true,
+                enableCollapsibleOptGroups: true,
+                enableFiltering: true,
+                nonSelectedText: '暂无图元',//没有值的时候button显示值
+                buttonWidth: '220px',//button宽度
+                numberDisplayed: 3,
+                filterPlaceholder: '搜索',
+                optionClass: function (element) {
+                    var value = $(element).val();
+
+                    if (value % 2 == 0) {
+                        return 'even';
+                    }
+                    else {
+                        return 'odd';
+                    }
+                }
+            });
+
+            $('#multiselect').multiselect({
+                maxHeight: 400,
+                minHeight: 160,
+                enableClickableOptGroups: true,
+                single: true,
+                enableCollapsibleOptGroups: true,
+                enableFiltering: true,
+                nonSelectedText: '暂无图元',//没有值的时候button显示值
+                buttonWidth: '220px',//button宽度
+                numberDisplayed: 3,
+                filterPlaceholder: '搜索',
+                optionClass: function (element) {
+                    var value = $(element).val();
+
+                    if (value % 2 == 0) {
+                        return 'even';
+                    }
+                    else {
+                        return 'odd';
+                    }
+                }
+            });
+            $('#multiselect_g').multiselect({
+                maxHeight: 400,
+                minHeight:160,
+                enableClickableOptGroups: true,
+                single: true,
+                enableCollapsibleOptGroups: true,
+                enableFiltering: true,
+                nonSelectedText: '暂无数据',//没有值的时候button显示值
+                buttonWidth: '220px',//button宽度
+                numberDisplayed: 3,
+                filterPlaceholder: '搜索',
+                optionClass: function(element) {
+                    var value = $(element).val();
+
+                    if (value%2 == 0) {
+                        return 'even';
+                    }
+                    else {
+                        return 'odd';
+                    }
+                }
+            });
+        }
+
+
+    });
+
+
+</script>

@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="${CPATH}/vendors/mult/lib/google-code-prettify/prettify.css" />
+<link rel="stylesheet" href="${CPATH}/vendors/mult/css/bootstrap-multiselect.css" />
+<style>
+.multiselect{
+	width: 100%;
+    height: 34px;
+    min-width: 300px;
+}
+.multiselect-container{
+margin-top: 5px;
+min-width: 300px;
+}
+.multiselect-container li a label input{
+	width: 13px;
+}
+.multiselect-container li a:hover{
+	height: 26px;
+}
+.multiselect-container li{
+	height: 26px;
+}
+.multiselect-container .multiselect-filter{
+	height: 40px;
+}
+.multiselect-container li .input-group .input-group-btn button{
+	width: 50px;
+    height: 34px;
+}
+</style>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				修改用户 
+			</h4>
+		</div>
+		<form id="form" action="${BPATH}/admin/user/editSave" class="form-horizontal form-label-left input_mask">
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel">
+							<div class="x_content">
+								<br>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12" style="line-height: 70px;">用户头像</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<img src="${BPATH}/<#if (user.avatar)??>${user.avatar!}<#else>attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
+									</div>
+								</div>
+								<div class="item divider-dashed"></div>
+								<h4>基础信息 </h4>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">编号</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" value="${user.id!}" readonly = "readonly" name="jUser.id">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">用户名</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" value="${user.username!}" readonly = "readonly" name="jUser.username">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">昵称</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" value="${user.nickname!}" name="jUser.nickname">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">真实姓名</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" value="${user.relname!}" name="jUser.relname">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">性别</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+											<label class="btn btn-success <#if user.gender??> <#if user.gender=='1'>active</#if> <#else> active </#if>">
+												<input type="radio" name="jUser.gender" value="1" <#if user.gender??> <#if user.gender=='1'>checked="checked"</#if> <#else> checked="checked" </#if>> 男
+											</label>
+											<label class="btn btn-success <#if user.gender??> <#if user.gender=='0'>active</#if></#if>">
+												<input type="radio" name="jUser.gender" value="0" <#if user.gender??> <#if user.gender=='0'>checked="checked"</#if></#if>> 女
+											</label>
+										</div>	
+									</div>
+								</div>
+								<div class="item divider-dashed"></div>
+								<h4>权限信息 </h4>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">角色选择</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<#if user.role??>
+											<input type="text" class="form-control col-md-7 col-xs-12 inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
+											<#else>
+											<select name="role" id="multiselect" class="form-control col-md-7 col-xs-12">
+												<option value="0" data-position="0">未选择</option>
+												<#if roles??>
+													<#list roles as bean>
+														<option value="${bean.id!}" data-position="${bean.id!}" <#if role??> <#if role.id==bean.id>selected="selected"</#if></#if>>${bean.name!}</option>
+													</#list>
+												</#if>
+											</select>
+										</#if>
+										
+									</div>
+								</div>	
+								
+								<div class="item divider-dashed"></div>
+								<h4>拓展信息 </h4>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">邮箱</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" value="${user.email!}"  name="jUser.email">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">电话</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" value="${user.mobile!}"  name="jUser.mobile">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">创建时间</label>
+									<div class="col-md-9 col-sm-9 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" value="${user.created!}" name="jUser.created">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			    <button type="submit" class="btn btn-success">提交更改</button>
+			</div>
+		</form>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/prettify.min.js"></script>
+<script type="text/javascript" src="${CPATH}/vendors/mult/js/bootstrap-multiselect.js"></script>
+<script>
+	$(function() {
+		ajaxModelForm("form");
+		$('#multiselect').multiselect({
+			maxHeight: 400,
+			minHeight:160,
+            enableClickableOptGroups: true,
+            single: true,
+            enableCollapsibleOptGroups: true,
+            enableFiltering: true,
+            nonSelectedText: '暂无图元',//没有值的时候button显示值
+            buttonWidth: '220px',//button宽度
+            numberDisplayed: 3,
+            filterPlaceholder: '搜索',
+            optionClass: function(element) {  
+                var value = $(element).val();  
+       
+                if (value%2 == 0) {  
+                    return 'even';  
+                }  
+                else {  
+                    return 'odd';  
+                }  
+            }
+        });
+	});
+</script>

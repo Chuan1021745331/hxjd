@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+
+    <!-- Bootstrap -->
+    <link href="${CPATH}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="${CPATH}/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="${CPATH}/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="${CPATH}/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="${CPATH}/vendors/build/css/custom.css" rel="stylesheet">
+    <style type="text/css">
+	    ::-webkit-input-placeholder { /* WebKit browsers */  
+    color:    #A9A9A9;  
+}  
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  
+   color:    #A9A9A9;  
+   opacity:  1;  
+}  
+::-moz-placeholder { /* Mozilla Firefox 19+ */  
+   color:    #A9A9A9;  
+   opacity:  1;  
+}  
+:-ms-input-placeholder { /* Internet Explorer 10+ */  
+   color:    #A9A9A9;  
+}  
+    </style>
+  </head>
+
+  <body class="login" style="background:url(${CPATH}/img/bg.jpg)no-repeat;">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form" style="background: #378821;padding: 45px 30px;border-radius: 4px;box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
+          <section class="login_content">
+            <form  action="${BPATH}/admin/login" method="post" id="loginform" style="color: #fff;">
+              <h1>指挥导调系统</h1>
+              <div>
+                <input type="text" name="username" class="form-control" placeholder="用户名" required="" style="width: 100%;position: relative;z-index: 3;height: 35px;background: none;border: none;padding: 5px 12px;-webkit-transition: 0.3s;transition: 0.3s;border-bottom: 1px solid #fff;box-shadow: none;border-radius: 0;color: #fff;"/>
+              </div>
+              <div>
+                <input type="password" name="password" class="form-control" placeholder="密码" required="" style="width: 100%;position: relative;z-index: 3;height: 35px;background: none;border: none;padding: 5px 12px;-webkit-transition: 0.3s;transition: 0.3s;border-bottom: 1px solid #fff;box-shadow: none;border-radius: 0;color: #fff;"/>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-default submit" style="width: 120px;border: 1px solid #777;">登录</button>
+              </div>
+			  <p class="change_link" style="color: #fff;height: 19px;margin: 10px 0px 0px 0px;"> </p>
+			  
+              <div class="clearfix"></div>
+
+              <div class="separator">
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1>华夏九鼎</h1>
+                  <p>©2017 All Rights Reserved.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script src="${CPATH}/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="${CPATH}/vendors/jquery/dist/jquery.form.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="${CPATH}/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="${CPATH}/pace/js/pace.min.js"></script>
+    <script>
+		$(function() {
+			$(document).ajaxStart(function() {
+				Pace.restart();
+			});
+
+			$("#loginform").submit(function() {
+				$(this).ajaxSubmit({
+					type : "post", 
+					dataType : "json", 
+					success : function(data) { 
+						if(data.errorCode == 0){
+							console.log("1111");
+							window.location.href="${BPATH}/admin/index";
+						}else{
+							$(".change_link").html("*"+data.message)
+						}
+					},
+					error : function() {
+						alert("信息提交错误");
+					}
+				});
+				return false; //不刷新页面  
+			});
+		});
+	</script>
+  </body>
+</html>

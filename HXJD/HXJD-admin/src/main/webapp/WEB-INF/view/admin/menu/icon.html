@@ -1,0 +1,1176 @@
+<#include "../../_include/_layout.inc.tag"/>
+<@layout active_id="dashboard">
+<style>
+*{margin: 0;padding: 0;list-style: none;}
+/*
+KISSY CSS Reset
+理念：1. reset 的目的不是清除浏览器的默认样式，这仅是部分工作。清除和重置是紧密不可分的。
+2. reset 的目的不是让默认样式在所有浏览器下一致，而是减少默认样式有可能带来的问题。
+3. reset 期望提供一套普适通用的基础样式。但没有银弹，推荐根据具体需求，裁剪和修改后再使用。
+特色：1. 适应中文；2. 基于最新主流浏览器。
+维护：玉伯<lifesinger@gmail.com>, 正淳<ragecarrier@gmail.com>
+ */
+
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+  margin: 0;
+  padding: 0;
+}
+
+/** 设置默认字体 **/
+body,
+button, input, select, textarea /* for ie */ {
+  font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+
+/** 重置文本格式元素 **/
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/** 重置表单元素 **/
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* 清除浮动 */
+.ks-clear:after, .clear:after {
+  content: '\20';
+  display: block;
+  height: 0;
+  clear: both;
+}
+.ks-clear, .clear {
+  *zoom: 1;
+}
+
+.main {
+  padding: 30px 100px;
+width: 960px;
+margin: 0 auto;
+}
+.main h1{font-size:36px; color:#333; text-align:left;margin-bottom:30px; border-bottom: 1px solid #eee;}
+
+.helps{margin-top:40px;}
+.helps pre{
+  padding:20px;
+  margin:10px 0;
+  border:solid 1px #e7e1cd;
+  background-color: #fffdef;
+  overflow: auto;
+}
+
+.icon_lists{
+  width: 100% !important;
+
+}
+
+.icon_lists li{
+  float:left;
+  width: 100px;
+  height:120px;
+  text-align: center;
+  list-style: none !important;
+}
+.icon_lists .icon{
+  font-size: 42px;
+  line-height: 60px;
+  margin: 10px 0;
+  color:#333;
+  -webkit-transition: font-size 0.25s ease-out 0s;
+  -moz-transition: font-size 0.25s ease-out 0s;
+  transition: font-size 0.25s ease-out 0s;
+
+}
+.icon_lists .icon:hover{
+  font-size: 50px;
+}
+
+
+
+.markdown {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.highlight {
+  line-height: 1.5;
+}
+
+.markdown img {
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+.markdown h1 {
+  color: #404040;
+  font-weight: 500;
+  line-height: 40px;
+  margin-bottom: 24px;
+}
+
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  color: #404040;
+  margin: 1.6em 0 0.6em 0;
+  font-weight: 500;
+  clear: both;
+}
+
+.markdown h1 {
+  font-size: 28px;
+}
+
+.markdown h2 {
+  font-size: 22px;
+}
+
+.markdown h3 {
+  font-size: 16px;
+}
+
+.markdown h4 {
+  font-size: 14px;
+}
+
+.markdown h5 {
+  font-size: 12px;
+}
+
+.markdown h6 {
+  font-size: 12px;
+}
+
+.markdown hr {
+  height: 1px;
+  border: 0;
+  background: #e9e9e9;
+  margin: 16px 0;
+  clear: both;
+}
+
+.markdown p,
+.markdown pre {
+  margin: 1em 0;
+}
+
+.markdown > p,
+.markdown > blockquote,
+.markdown > .highlight,
+.markdown > ol,
+.markdown > ul {
+  width: 80%;
+}
+
+.markdown ul > li {
+  list-style: circle;
+}
+
+.markdown > ul li,
+.markdown blockquote ul > li {
+  margin-left: 20px;
+  padding-left: 4px;
+}
+
+.markdown > ul li p,
+.markdown > ol li p {
+  margin: 0.6em 0;
+}
+
+.markdown ol > li {
+  list-style: decimal;
+}
+
+.markdown > ol li,
+.markdown blockquote ol > li {
+  margin-left: 20px;
+  padding-left: 4px;
+}
+
+.markdown code {
+  margin: 0 3px;
+  padding: 0 5px;
+  background: #eee;
+  border-radius: 3px;
+}
+
+.markdown pre {
+  border-radius: 6px;
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+.markdown pre code {
+  border: none;
+  background: #f7f7f7;
+  margin: 0;
+}
+
+.markdown strong,
+.markdown b {
+  font-weight: 600;
+}
+
+.markdown > table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  empty-cells: show;
+  border: 1px solid #e9e9e9;
+  width: 95%;
+  margin-bottom: 24px;
+}
+
+.markdown > table th {
+  white-space: nowrap;
+  color: #333;
+  font-weight: 600;
+
+}
+
+.markdown > table th,
+.markdown > table td {
+  border: 1px solid #e9e9e9;
+  padding: 8px 16px;
+  text-align: left;
+}
+
+.markdown > table th {
+  background: #F7F7F7;
+}
+
+.markdown blockquote {
+  font-size: 90%;
+  color: #999;
+  border-left: 4px solid #e9e9e9;
+  padding-left: 0.8em;
+  margin: 1em 0;
+  font-style: italic;
+}
+
+.markdown blockquote p {
+  margin: 0;
+}
+
+.markdown .anchor {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-left: 8px;
+}
+
+.markdown .waiting {
+  color: #ccc;
+}
+
+.markdown h1:hover .anchor,
+.markdown h2:hover .anchor,
+.markdown h3:hover .anchor,
+.markdown h4:hover .anchor,
+.markdown h5:hover .anchor,
+.markdown h6:hover .anchor {
+  opacity: 1;
+  display: inline-block;
+}
+
+.markdown > br,
+.markdown > p > br {
+  clear: both;
+}
+
+
+.hljs {
+  display: block;
+  background: white;
+  padding: 0.5em;
+  color: #333333;
+  overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-meta {
+  color: #969896;
+}
+
+.hljs-string,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-strong,
+.hljs-emphasis,
+.hljs-quote {
+  color: #df5000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: #a71d5d;
+}
+
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+  color: #0086b3;
+}
+
+.hljs-section,
+.hljs-name {
+  color: #63a35c;
+}
+
+.hljs-tag {
+  color: #333333;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #795da3;
+}
+
+.hljs-addition {
+  color: #55a532;
+  background-color: #eaffea;
+}
+
+.hljs-deletion {
+  color: #bd2c00;
+  background-color: #ffecec;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+pre{
+  background: #fff;
+}
+</style>
+<ul class="icon_lists clear" style="height: 500px;overflow: auto;">
+	<li>
+	<i class="icon iconfont icon-commentfill"></i>
+	    <div class="name">comment_fill</div>
+	    <div class="fontclass">.icon-commentfill</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-comment"></i>
+	    <div class="name">comment</div>
+	    <div class="fontclass">.icon-comment</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-ticket"></i>
+	    <div class="name">ticket</div>
+	    <div class="fontclass">.icon-ticket</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-form"></i>
+	    <div class="name">form</div>
+	    <div class="fontclass">.icon-form</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-pic"></i>
+	    <div class="name">pic</div>
+	    <div class="fontclass">.icon-pic</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-vip"></i>
+	    <div class="name">vip</div>
+	    <div class="fontclass">.icon-vip</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-activity"></i>
+	    <div class="name">activity</div>
+	    <div class="fontclass">.icon-activity</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-explore"></i>
+	    <div class="name">explore</div>
+	    <div class="fontclass">.icon-explore</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-ttpodicon"></i>
+	    <div class="name">定时</div>
+	    <div class="fontclass">.icon-ttpodicon</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-selectionfill"></i>
+	    <div class="name">selection_fill</div>
+	    <div class="fontclass">.icon-selectionfill</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shouji"></i>
+	    <div class="name">手机</div>
+	    <div class="fontclass">.icon-shouji</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-jieguo"></i>
+	    <div class="name">结果</div>
+	    <div class="fontclass">.icon-jieguo</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-icwindowzoom48px"></i>
+	    <div class="name">全屏</div>
+	    <div class="fontclass">.icon-icwindowzoom48px</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-weibiaoti6"></i>
+	    <div class="name">左右键</div>
+	    <div class="fontclass">.icon-weibiaoti6</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-chaxun"></i>
+	    <div class="name">查询</div>
+	    <div class="fontclass">.icon-chaxun</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-ditu"></i>
+	    <div class="name">地图</div>
+	    <div class="fontclass">.icon-ditu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tuichu"></i>
+	    <div class="name">退出</div>
+	    <div class="fontclass">.icon-tuichu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shuaxin"></i>
+	    <div class="name">刷新</div>
+	    <div class="fontclass">.icon-shuaxin</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yuantu"></i>
+	    <div class="name">元图</div>
+	    <div class="fontclass">.icon-yuantu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-adsearch2"></i>
+	    <div class="name">高级查询2</div>
+	    <div class="fontclass">.icon-adsearch2</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhusu"></i>
+	    <div class="name">住宿</div>
+	    <div class="fontclass">.icon-zhusu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-daohang"></i>
+	    <div class="name">导航</div>
+	    <div class="fontclass">.icon-daohang</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-duoyuyan"></i>
+	    <div class="name">多语言</div>
+	    <div class="fontclass">.icon-duoyuyan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-feiji"></i>
+	    <div class="name">飞机</div>
+	    <div class="fontclass">.icon-feiji</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-gongjiaoche"></i>
+	    <div class="name">公交车</div>
+	    <div class="fontclass">.icon-gongjiaoche</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-huoche"></i>
+	    <div class="name">火车</div>
+	    <div class="fontclass">.icon-huoche</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-jincou"></i>
+	    <div class="name">紧凑</div>
+	    <div class="fontclass">.icon-jincou</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-renwen"></i>
+	    <div class="name">人文</div>
+	    <div class="fontclass">.icon-renwen</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shizhong"></i>
+	    <div class="name">适中</div>
+	    <div class="fontclass">.icon-shizhong</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhongzhuan"></i>
+	    <div class="name">中转</div>
+	    <div class="fontclass">.icon-zhongzhuan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-baoxue"></i>
+	    <div class="name">暴雪</div>
+	    <div class="fontclass">.icon-baoxue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-baoyu"></i>
+	    <div class="name">暴雨</div>
+	    <div class="fontclass">.icon-baoyu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-duoyun"></i>
+	    <div class="name">多云</div>
+	    <div class="fontclass">.icon-duoyun</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-leidian"></i>
+	    <div class="name">雷电</div>
+	    <div class="fontclass">.icon-leidian</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-qing"></i>
+	    <div class="name">晴</div>
+	    <div class="fontclass">.icon-qing</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xiaoxue"></i>
+	    <div class="name">小雪</div>
+	    <div class="fontclass">.icon-xiaoxue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xiaoyu"></i>
+	    <div class="name">小雨</div>
+	    <div class="fontclass">.icon-xiaoyu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yin"></i>
+	    <div class="name">阴</div>
+	    <div class="fontclass">.icon-yin</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhenxue"></i>
+	    <div class="name">阵雪</div>
+	    <div class="fontclass">.icon-zhenxue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhenyu"></i>
+	    <div class="name">阵雨</div>
+	    <div class="fontclass">.icon-zhenyu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhongxue"></i>
+	    <div class="name">中雪</div>
+	    <div class="fontclass">.icon-zhongxue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhongyu"></i>
+	    <div class="name">中雨</div>
+	    <div class="fontclass">.icon-zhongyu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-chaxun1"></i>
+	    <div class="name">查询</div>
+	    <div class="fontclass">.icon-chaxun1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-bingbao"></i>
+	    <div class="name">冰雹</div>
+	    <div class="fontclass">.icon-bingbao</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-feng"></i>
+	    <div class="name">风</div>
+	    <div class="fontclass">.icon-feng</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-mai"></i>
+	    <div class="name">霾</div>
+	    <div class="fontclass">.icon-mai</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-wu"></i>
+	    <div class="name">雾</div>
+	    <div class="fontclass">.icon-wu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yuxue"></i>
+	    <div class="name">雨雪</div>
+	    <div class="fontclass">.icon-yuxue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-you"></i>
+	    <div class="name">右</div>
+	    <div class="fontclass">.icon-you</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-quanping"></i>
+	    <div class="name">全屏</div>
+	    <div class="fontclass">.icon-quanping</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-wangluo"></i>
+	    <div class="name">网络</div>
+	    <div class="fontclass">.icon-wangluo</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yunyingguanli"></i>
+	    <div class="name">运营管理</div>
+	    <div class="fontclass">.icon-yunyingguanli</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-jiankong"></i>
+	    <div class="name">监控</div>
+	    <div class="fontclass">.icon-jiankong</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-dashuju"></i>
+	    <div class="name">大数据</div>
+	    <div class="fontclass">.icon-dashuju</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shuju"></i>
+	    <div class="name">数据库</div>
+	    <div class="fontclass">.icon-shuju</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-chuangxin"></i>
+	    <div class="name">创新</div>
+	    <div class="fontclass">.icon-chuangxin</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-GOC"></i>
+	    <div class="name">GOC</div>
+	    <div class="fontclass">.icon-GOC</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yunweiguanli"></i>
+	    <div class="name">运维管理</div>
+	    <div class="fontclass">.icon-yunweiguanli</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yanfaxietong"></i>
+	    <div class="name">研发协同</div>
+	    <div class="fontclass">.icon-yanfaxietong</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zuowei"></i>
+	    <div class="name">座位</div>
+	    <div class="fontclass">.icon-zuowei</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shaixuan"></i>
+	    <div class="name">筛选</div>
+	    <div class="fontclass">.icon-shaixuan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yingyongzhongxin"></i>
+	    <div class="name">应用中心</div>
+	    <div class="fontclass">.icon-yingyongzhongxin</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yingpan"></i>
+	    <div class="name">硬盘</div>
+	    <div class="fontclass">.icon-yingpan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-neicun"></i>
+	    <div class="name">内存</div>
+	    <div class="fontclass">.icon-neicun</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-wangluojiekou"></i>
+	    <div class="name">网络接口</div>
+	    <div class="fontclass">.icon-wangluojiekou</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xitongyunzhuanqingkuang"></i>
+	    <div class="name">系统运转情况</div>
+	    <div class="fontclass">.icon-xitongyunzhuanqingkuang</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-VPN"></i>
+	    <div class="name">VPN</div>
+	    <div class="fontclass">.icon-VPN</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shujuku"></i>
+	    <div class="name">数据库</div>
+	    <div class="fontclass">.icon-shujuku</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-USB"></i>
+	    <div class="name">USB</div>
+	    <div class="fontclass">.icon-USB</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xitongzhuangtai"></i>
+	    <div class="name">系统状态</div>
+	    <div class="fontclass">.icon-xitongzhuangtai</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-mysql-01"></i>
+	    <div class="name">mysql-01</div>
+	    <div class="fontclass">.icon-mysql-01</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-SQLshenhe"></i>
+	    <div class="name">SQL审核</div>
+	    <div class="fontclass">.icon-SQLshenhe</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shouji1"></i>
+	    <div class="name">手机</div>
+	    <div class="fontclass">.icon-shouji1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tubiaozhizuomoban-"></i>
+	    <div class="name">参数设置</div>
+	    <div class="fontclass">.icon-tubiaozhizuomoban-</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-quanping1"></i>
+	    <div class="name">全屏</div>
+	    <div class="fontclass">.icon-quanping1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-back"></i>
+	    <div class="name">左</div>
+	    <div class="fontclass">.icon-back</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xunlian"></i>
+	    <div class="name">训练</div>
+	    <div class="fontclass">.icon-xunlian</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yibiaopan"></i>
+	    <div class="name">控制台</div>
+	    <div class="fontclass">.icon-yibiaopan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-dingshi"></i>
+	    <div class="name">定时</div>
+	    <div class="fontclass">.icon-dingshi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-renyuan"></i>
+	    <div class="name">人员</div>
+	    <div class="fontclass">.icon-renyuan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-chaxun2"></i>
+	    <div class="name">查询</div>
+	    <div class="fontclass">.icon-chaxun2</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xitongshezhi"></i>
+	    <div class="name">系统设置</div>
+	    <div class="fontclass">.icon-xitongshezhi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-right"></i>
+	    <div class="name">左右键</div>
+	    <div class="fontclass">.icon-right</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zuowei1"></i>
+	    <div class="name">座位</div>
+	    <div class="fontclass">.icon-zuowei1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yonghuguanli"></i>
+	    <div class="name">用户管理</div>
+	    <div class="fontclass">.icon-yonghuguanli</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xinzeng"></i>
+	    <div class="name">新增</div>
+	    <div class="fontclass">.icon-xinzeng</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-caidanguanli"></i>
+	    <div class="name">菜单管理</div>
+	    <div class="fontclass">.icon-caidanguanli</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-jiaoseguanli"></i>
+	    <div class="name">角色管理</div>
+	    <div class="fontclass">.icon-jiaoseguanli</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-qunzu"></i>
+	    <div class="name">群组</div>
+	    <div class="fontclass">.icon-qunzu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-bianji"></i>
+	    <div class="name">编辑</div>
+	    <div class="fontclass">.icon-bianji</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-object_manage"></i>
+	    <div class="name">对象管理</div>
+	    <div class="fontclass">.icon-object_manage</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xiangqing"></i>
+	    <div class="name">详情</div>
+	    <div class="fontclass">.icon-xiangqing</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shanchu"></i>
+	    <div class="name">删 除</div>
+	    <div class="fontclass">.icon-shanchu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-pingfen"></i>
+	    <div class="name">评分</div>
+	    <div class="fontclass">.icon-pingfen</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-shenfenzheng"></i>
+	    <div class="name">身份证</div>
+	    <div class="fontclass">.icon-shenfenzheng</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-fenlei"></i>
+	    <div class="name">分类</div>
+	    <div class="fontclass">.icon-fenlei</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xiaoxi"></i>
+	    <div class="name">消息</div>
+	    <div class="fontclass">.icon-xiaoxi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-faxian"></i>
+	    <div class="name">发现</div>
+	    <div class="fontclass">.icon-faxian</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-sousuo"></i>
+	    <div class="name">搜索</div>
+	    <div class="fontclass">.icon-sousuo</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-liulan"></i>
+	    <div class="name">浏览</div>
+	    <div class="fontclass">.icon-liulan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zhiding"></i>
+	    <div class="name">置顶</div>
+	    <div class="fontclass">.icon-zhiding</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xuanzhong"></i>
+	    <div class="name">选中</div>
+	    <div class="fontclass">.icon-xuanzhong</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tabguanbi"></i>
+	    <div class="name">tab角标</div>
+	    <div class="fontclass">.icon-tabguanbi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-kexuanzuobiankuang"></i>
+	    <div class="name">座位边框</div>
+	    <div class="fontclass">.icon-kexuanzuobiankuang</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-qunzu1"></i>
+	    <div class="name">群组</div>
+	    <div class="fontclass">.icon-qunzu1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-suoping"></i>
+	    <div class="name">锁屏</div>
+	    <div class="fontclass">.icon-suoping</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-fanhuijiuban"></i>
+	    <div class="name">返回旧版</div>
+	    <div class="fontclass">.icon-fanhuijiuban</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-gengduo"></i>
+	    <div class="name">更多</div>
+	    <div class="fontclass">.icon-gengduo</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-ermai"></i>
+	    <div class="name">耳麦</div>
+	    <div class="fontclass">.icon-ermai</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-gantanhao"></i>
+	    <div class="name">感叹号</div>
+	    <div class="fontclass">.icon-gantanhao</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-dianyuan"></i>
+	    <div class="name">电源</div>
+	    <div class="fontclass">.icon-dianyuan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-chuanshu"></i>
+	    <div class="name">传输</div>
+	    <div class="fontclass">.icon-chuanshu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-liebiaozhankai"></i>
+	    <div class="name">列表展开</div>
+	    <div class="fontclass">.icon-liebiaozhankai</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-liebiaoshouqi"></i>
+	    <div class="name">列表收起</div>
+	    <div class="fontclass">.icon-liebiaoshouqi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-kaifa"></i>
+	    <div class="name">开发</div>
+	    <div class="fontclass">.icon-kaifa</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-huigun"></i>
+	    <div class="name">回滚</div>
+	    <div class="fontclass">.icon-huigun</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-qizi"></i>
+	    <div class="name">旗子</div>
+	    <div class="fontclass">.icon-qizi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tishi"></i>
+	    <div class="name">提示1</div>
+	    <div class="fontclass">.icon-tishi</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tishi1"></i>
+	    <div class="name">提示2</div>
+	    <div class="fontclass">.icon-tishi1</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-miyue"></i>
+	    <div class="name">密钥</div>
+	    <div class="fontclass">.icon-miyue</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-wenhao"></i>
+	    <div class="name">问号</div>
+	    <div class="fontclass">.icon-wenhao</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-xinshouyindao"></i>
+	    <div class="name">新手引导</div>
+	    <div class="fontclass">.icon-xinshouyindao</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yunxiazai"></i>
+	    <div class="name">云下载</div>
+	    <div class="fontclass">.icon-yunxiazai</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-zixun"></i>
+	    <div class="name">资讯</div>
+	    <div class="fontclass">.icon-zixun</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-yunshangchuan"></i>
+	    <div class="name">云上传</div>
+	    <div class="fontclass">.icon-yunshangchuan</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tuding"></i>
+	    <div class="name">图钉</div>
+	    <div class="fontclass">.icon-tuding</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-dui"></i>
+	    <div class="name">对</div>
+	    <div class="fontclass">.icon-dui</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-dingceng"></i>
+	    <div class="name">顶层</div>
+	    <div class="fontclass">.icon-dingceng</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-cuo"></i>
+	    <div class="name">错</div>
+	    <div class="fontclass">.icon-cuo</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-diceng"></i>
+	    <div class="name">底层</div>
+	    <div class="fontclass">.icon-diceng</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-guanxitu"></i>
+	    <div class="name">关系图</div>
+	    <div class="fontclass">.icon-guanxitu</div>
+	</li>
+	
+	<li>
+	<i class="icon iconfont icon-tuceng"></i>
+	    <div class="name">图层</div>
+	    <div class="fontclass">.icon-tuceng</div>
+	</li>
+</ul>
+<input id='iconVal' type='text'>
+<script>
+	$("i").each(function(i){
+		$(this).bind("click",{MenuIndex:i},function(event){
+			$("li").removeAttr("style");
+			$(this).parent().attr("style","background-color: #f2f2f2;");
+			var h = $(this).attr("class");
+			if(h!=undefined){
+				$('#iconVal').attr("value", h.split(" ")[2]+"");
+			}
+		})
+	});
+</script>
+</@layout>

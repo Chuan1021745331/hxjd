@@ -1,0 +1,165 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				&times;
+			</button>
+			<h4 class="modal-title" id="defModalLabel">
+				个人资料
+			</h4>
+		</div>
+		<form id="form" action="${BPATH}/admin/aboutme/edit"  class="form-horizontal form-label-left input_mask" enctype="multipart/form-data" >
+			<div class="modal-body">
+				<div id="contRow" class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_panel">
+							<div class="x_content">
+								<input type="hidden" value="${_user.id!}" name="id"/>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12" style="line-height: 70px;">用户头像</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<!--用于预览图片-->
+										<img src="${BPATH}/<#if (_user.avatar)??>${_user.avatar!}<#else>attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
+										<!--存放图片路径,提交页面时传给后台的值-->
+										<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${_user.avatar!}'/>
+										<input type="file" class="upload" name="file" id="upfile" style="position: absolute; filter: alpha(opacity = 0);opacity: 0;width: 30px;"/>
+									</div>
+								</div>
+								<div class="item divider-dashed"></div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">用户账号</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12 inputNone" placeholder="用户账号" value="${_user.username!}" readonly = "readonly">
+									</div>
+								</div>
+									
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">用户昵称</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" name="jUser.nickname" placeholder="用户昵称" value="${_user.nickname!}" data-validate-length-range="6" required="required">
+									</div>
+								</div>
+									
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">真实姓名</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" name="jUser.relname" placeholder="真实姓名" value="${_user.relname!}">
+									</div>
+								</div>
+									
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">性别</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="btn-group" data-toggle="buttons" style="height: 34px;">
+											<label class="btn btn-primary <#if _user.gender??> <#if _user.gender=='1'>active</#if> <#else> active </#if>">
+												<input type="radio" name="jUser.gender" value="1" <#if _user.gender??> <#if _user.gender=='1'>checked="checked"</#if> <#else> checked="checked" </#if>> 男
+											</label>
+											<label class="btn btn-primary <#if _user.gender??> <#if _user.gender=='0'>active</#if></#if>">
+												<input type="radio" name="jUser.gender" value="0" <#if _user.gender??> <#if _user.gender=='0'>checked="checked"</#if></#if>> 女
+											</label>
+										</div>	
+									</div>
+								</div>
+									
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">电子邮箱</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="email" id="email" class="form-control col-md-7 col-xs-12" name="jUser.email" placeholder="电子邮箱" value="${_user.email!}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">手机电话</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="text" class="form-control col-md-7 col-xs-12" name="jUser.mobile" placeholder="手机电话" value="${_user.mobile!}">
+									</div>
+								</div>
+								<div class="ln_solid"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			    <button type="submit" class="btn btn-success">提交更改</button>
+			</div>
+		</form>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal -->
+<script>
+$("#form").submit(function() {
+	$(this).ajaxSubmit({
+		type : "post", 
+		dataType : "json", 
+		success : function(data) { 
+			if(data.errorCode == 0){
+				new PNotify({
+                    title: '提交成功！',
+                    text: '菜单更改为['+data.message+']',
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
+			}else{
+				new PNotify({
+                    title: 'Oh No!',
+                    text: data.message,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+			}
+		},
+		error : function() {
+			new PNotify({
+                title: 'Oh No!',
+                text: data.message,
+                type: 'error',
+                styling: 'bootstrap3'
+            });
+		}
+	});
+	return false; //不刷新页面  
+});
+function F_Open_dialog() { 
+     document.getElementById("upfile").click(); 
+}
+/**  
+ * 预览图片  
+ * @param obj  
+ * @returns {Boolean}  
+ */  
+ $(':file').change(function(){
+  
+    var newPreview = document.getElementById("imgsrc");   
+    var imgPath = getPath(this);
+    if( !this.value.match( /.jpg|.gif|.png|.bmp/i ) ){  
+        alert("图片格式错误！");
+        return false;
+    }  
+      
+    newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";      
+    newPreview.src = imgPath;
+ });   
+/**  
+ * 得到图片绝对路径  
+ * @param obj  
+ * @returns  
+ */  
+function getPath(obj) { 
+	if(obj) { 
+      	if (window.navigator.userAgent.indexOf("MSIE")>=1) { 
+        	obj.select(); 
+        	return document.selection.createRange().text; 
+      	} else if(window.navigator.userAgent.indexOf("Firefox")>=1) { 
+        	if(obj.files) { 
+          		return obj.files.item(0).getAsDataURL(); 
+        	} 
+        	return obj.value; 
+      	}else if( navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ) {
+            var f = obj.files[0]
+            var src = window.URL.createObjectURL(f);  
+            return src;
+      	}
+      	return obj.value; 
+	} 
+} 
+</script>
