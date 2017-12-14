@@ -1,7 +1,5 @@
 package com.base.service.app;
 
-import com.base.model.JMsg;
-import com.base.model.JOffuser;
 import com.base.service.JBaseQuery;
 
 import java.util.List;
@@ -21,46 +19,46 @@ import java.util.List;
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
 public class MsgQuery extends JBaseQuery {
-    protected static final JMsg DAO=new JMsg();
-    private static final MsgQuery QUERY=new MsgQuery();
-    public static MsgQuery me() {
-        return QUERY;
-    }
-    public JMsg findById(final Integer terminalId) {
-        return DAO.findById(terminalId);
-    }
-    public int delById(String id){
-        return DAO.doDelete("id = ?",id);
-    }
-    public List<JMsg> selectAll(){
-        return DAO.find("select * from j_msg");
-    }
-    public int delPushMsgByIds(String[] msgIds){
-        StringBuilder sqlBuilder = new StringBuilder("id in (");
-        for(int i = 0; i< msgIds.length; i++){
-        	if(i == 0){
-        		sqlBuilder.append(msgIds[i]);
-        	}else{
-        		sqlBuilder.append(","+msgIds[i]);
-        	}
-        	
-        }
-        sqlBuilder.append(")");
-        return DAO.doDelete(sqlBuilder.toString());
-    }
-    
-    /**
-     * 
-     * findByMsgType(这里用一句话描述这个方法的作用)  
-     * (根据消息类型查询消息)     
-     *void  
-     * @exception   
-     * @since  1.0.0
-     */
-    public List<JMsg> findByMsgType(String type){
-    	return DAO.find("select * from j_msg WHERE msgType = " +"'"+ type + "'");
-    	//return null;
-    }
+//    protected static final JMsg DAO=new JMsg();
+//    private static final MsgQuery QUERY=new MsgQuery();
+//    public static MsgQuery me() {
+//        return QUERY;
+//    }
+//    public JMsg findById(final Integer terminalId) {
+//        return DAO.findById(terminalId);
+//    }
+//    public int delById(String id){
+//        return DAO.doDelete("id = ?",id);
+//    }
+//    public List<JMsg> selectAll(){
+//        return DAO.find("select * from j_msg");
+//    }
+//    public int delPushMsgByIds(String[] msgIds){
+//        StringBuilder sqlBuilder = new StringBuilder("id in (");
+//        for(int i = 0; i< msgIds.length; i++){
+//        	if(i == 0){
+//        		sqlBuilder.append(msgIds[i]);
+//        	}else{
+//        		sqlBuilder.append(","+msgIds[i]);
+//        	}
+//        	
+//        }
+//        sqlBuilder.append(")");
+//        return DAO.doDelete(sqlBuilder.toString());
+//    }
+//    
+//    /**
+//     * 
+//     * findByMsgType(这里用一句话描述这个方法的作用)  
+//     * (根据消息类型查询消息)     
+//     *void  
+//     * @exception   
+//     * @since  1.0.0
+//     */
+//    public List<JMsg> findByMsgType(String type){
+//    	return DAO.find("select * from j_msg WHERE msgType = " +"'"+ type + "'");
+//    	//return null;
+//    }
     
 }
 

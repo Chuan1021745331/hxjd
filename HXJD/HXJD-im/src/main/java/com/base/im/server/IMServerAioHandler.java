@@ -6,17 +6,7 @@ import com.base.constants.RequestCodeConstants;
 import com.base.im.IMcacheMap;
 import com.base.im.common.IMAbsAioHandler;
 import com.base.im.common.IMPacket;
-import com.base.model.JGroup;
-import com.base.model.JMediator;
-import com.base.model.JMsg;
-import com.base.model.JObject;
-import com.base.model.JOffuser;
-import com.base.model.JTerminal;
 import com.base.model.dto.*;
-import com.base.service.GroupQuery;
-import com.base.service.MediatorQuery;
-import com.base.service.OffUserQuery;
-import com.base.service.TerminalQuery;
 import com.base.service.app.AppHandle.AppBean.DevInformationBean;
 import com.base.service.app.AppHandle.AppBean.DevPelBeanDto;
 import com.base.service.app.AppHandle.AppBean.MessageBean;
@@ -255,30 +245,13 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 			// 绑定长连接
 			Aio.bindUser(channelContext, isInitialize.toString());
 
-			JMediator mediator = MediatorQuery.me().findById(isInitialize);
-			JTerminal terminal = TerminalQuery.me().getByMediator(isInitialize);
 
 			if (null != requestDto.getData()) {
 				Map<String, Object> data = JSON.parseObject(JSON.toJSONString(requestDto.getData()));
 
-				if (data.get("axesX") != null && !"0".equals(data.get("axesX"))) {
-					mediator.setX(data.get("axesX").toString());
-				}
-				if (data.get("axesY") != null && !"0".equals(data.get("axesY"))) {
-					mediator.setY(data.get("axesY").toString());
-				}
-				if (data.get("batter") != null && !"0".equals(data.get("batter"))) {
-					terminal.setTerminalPower(data.get("batter").toString());
-				}
-				mediator.update();
-				terminal.update();
 			}
 
 			// 绑定群组(GroupID) //调理员Id
-			List<JGroup> groupList = GroupQuery.me().GainGroupByMediatorId(isInitialize);
-			for (JGroup jGroup : groupList) {
-				Aio.bindGroup(channelContext, jGroup.getId().toString());
-			}
 
 			// 将数据装到缓存cacheMap
 			IMcacheMap.cacheMap.put(requestDto.getSdMac(), channelContext);
@@ -308,29 +281,7 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 				unTerminalList = new ArrayList<Map<String, String>>();
 			}
 
-			JTerminal terminal = TerminalQuery.me().initializeTerminal(requestDto.getSdMac());
-			JTerminal terminal_ = TerminalQuery.me().getTerminalByTernum(requestDto.getDevMac());
 			// -------------------------
-			if (terminal == null && terminal_ == null) {// 没注册
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("sdMac", requestDto.getSdMac());
-				map.put("devMac", requestDto.getDevMac());
-				if (unTerminalList != null && unTerminalList.size() > 0) {// 以前有的就不加，避免重复
-					boolean flag = true;
-					for (Map<String, String> map_ : unTerminalList) {
-						if (map_.get("sdMac").equals(map.get("sdMac"))
-								&& map_.get("devMac").equals(map.get("devMac"))) {
-							flag = false;
-							break;
-						}
-					}
-					if (flag) {
-						unTerminalList.add(map);
-					}
-				} else {
-					unTerminalList.add(map);
-				}
-			}
 
 			IMcacheMap.cacheMap.remove("unTerminalList");
 			IMcacheMap.cacheMap.put("unTerminalList", unTerminalList);
@@ -366,105 +317,8 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 		// 推送标志点 1：初始化推送，2；标志点信息更改推送
 
 		// 获取当前连线的离线消息
-		List<JOffuser> offusers = OffUserQuery.me().GainOffUserByMedatorId(mediator);
 		List<MessageBean> messageBeans = null;
 		// 判断当前连线是否有离线消息
-		if (offusers != null) {
-			for (JOffuser offuser : offusers) {
-				List<String> imgIdList = new ArrayList<>();
-
-				String[] imgIds = offuser.getMsgId().split("\\|");
-				int msgCount = 0;
-
-				// ResponseDto
-				ResponseDto responseDto = new ResponseDto();
-				responseDto.setHandle(2);
-				// 此处code要改变
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
-				responseDto.setTime(df.format(new Date()));
-				responseDto.setResponseStatus(1);
-				// 109
-				if (Integer
-						.parseInt(offuser.getOffType() == null ? "0" : offuser.getOffType()) == OffMsgType.SCORE_TYPE) {
-					// 推送离线评分
-					responseDto.setCode(OffMsgType.SCORE_TYPE);
-					List<ScoreBean> scoreBeans = new ArrayList<ScoreBean>();
-					responseDto.setResponseStatus(1);
-					for (String imgId : imgIds) {
-						// msgIdList.add(imgId);
-
-						msgCount++;
-						JMsg msg = MsgQuery.me().findById(Integer.parseInt(imgId));
-
-						if (!(msg.getMsgType().equalsIgnoreCase("C-0") || msg.getMsgType().equalsIgnoreCase("C-1"))) {
-							imgIdList.add(imgId);
-						}
-
-						ScoreBean scoreBean = new ScoreBean();
-
-						scoreBean.setMsgType(msg.getMsgType());
-						scoreBean.setMsg(msg.getMessage());
-						scoreBean.setSendTime(msg.getSendTime());
-						scoreBeans.add(scoreBean);
-					}
-					System.out.println("msgIdList: " + JSON.toJSONString(scoreBeans));
-					responseDto.setData(scoreBeans);
-
-				} else {
-					// 推送离线消息
-					responseDto.setCode(13);
-					messageBeans = new ArrayList<>();
-					for (String imgId : imgIds) {
-						msgCount++;
-						JMsg msg = MsgQuery.me().findById(Integer.parseInt(imgId));
-
-						// 消息
-						if (!(msg.getMsgType().equalsIgnoreCase("C-0") || msg.getMsgType().equalsIgnoreCase("C-1"))) {
-							imgIdList.add(imgId);
-						}
-
-						MessageBean messageBean = new MessageBean();
-						messageBean.setSendName(msg.getSendName());
-						messageBean.setMsg(msg.getMessage());
-						messageBean.setSender(msg.getSenderId() + "");
-						messageBean.setSendTime(msg.getSendTime());
-						messageBean.setGroupId(offuser.getGroupId());
-						messageBean.setMsgType(msg.getMsgType());
-
-						messageBeans.add(messageBean);
-
-					}
-					responseDto.setData(messageBeans);
-				}
-				String respo = JSON.toJSONString(responseDto);
-				IMPacket resppacket = new IMPacket();
-
-				// 压缩数据
-				byte[] doZipMsg = new byte[0];
-				try {
-					doZipMsg = GZipUtil.doZip(respo);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				resppacket.setBody(doZipMsg);
-				System.out.println("resppacket: " + respo);
-				Aio.send(channelContext, resppacket);
-				delPush(imgIdList, offuser);// 删除离线信息
-			}
-		}
-	}
-
-	protected void delPush(List<String> pushMsgs, JOffuser offuser) {
-		if (Integer.parseInt((offuser.getOffType() == null ? "0" : offuser.getOffType())) == OffMsgType.SCORE_TYPE) {
-			for (String msgId : pushMsgs) {
-
-				MsgQuery.me().delById(msgId);
-			}
-			OffUserQuery.me().delByMedid(offuser.getMediatorId() + "");
-		} else {
-			OffUserQuery.me().delByMediatorIdandGroupId(offuser.getMediatorId(), offuser.getGroupId());
-		}
-
 	}
 
 }

@@ -1,10 +1,6 @@
 package com.base.service.app.AppInterface;
 
-import com.base.model.JMediatorterminal;
-import com.base.model.JTerminal;
 import com.base.model.dto.RequestDto;
-import com.base.service.MediatorTerminalQuery;
-import com.base.service.TerminalQuery;
 import com.base.utils.ClassScaner;
 import com.base.utils.StringUtils;
 import java.lang.reflect.InvocationTargetException;
@@ -22,14 +18,6 @@ public class AppService {
      */
     public static int initializeTerminal(String sd) {
         int mediatorId=0;
-        if (StringUtils.isNotBlank(sd)) {
-            JTerminal terminal = TerminalQuery.me().initializeTerminal(sd);
-            if (terminal != null) {
-                JMediatorterminal  mediatorterminal= MediatorTerminalQuery.me().findByTerminalId(terminal.getId());
-                mediatorId=mediatorterminal.getMediatorId();
-                return mediatorId;
-            }
-        }
         return mediatorId;
     }
     private static List<Class<BaseHandleImpl>> BaseHandleImplClassList = ClassScaner.scanSubClass(BaseHandleImpl.class);

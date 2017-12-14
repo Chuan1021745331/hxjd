@@ -4,26 +4,20 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.ButtonQuery;
 import com.base.service.MenuQuery;
-import com.base.service.PelQuery;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.ehcache.CacheKit;
 
-import java.awt.Button;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
-import com.base.interceptor.ButtonInterceptor;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JButton;
 import com.base.model.JMenu;
-import com.base.model.JPel;
 import com.base.model.dto.MenuSimpDto;
 
 /**

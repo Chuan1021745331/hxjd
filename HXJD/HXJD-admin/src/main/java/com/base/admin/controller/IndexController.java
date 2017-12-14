@@ -2,13 +2,7 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.GroupQuery;
-import com.base.service.MediatorQuery;
 import com.base.service.MenuQuery;
-import com.base.service.PelGroupQuery;
-import com.base.service.PelQuery;
-import com.base.service.SeatQuery;
-import com.base.service.TerminalQuery;
 import com.base.service.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
@@ -69,12 +63,12 @@ public class IndexController extends BaseController {
 	}
 	
 	public void main() {
-		Long pel = PelQuery.me().findConunt();
-		Long pelG = PelGroupQuery.me().findConunt(null);
-		Long ter = TerminalQuery.me().findConunt(null);
-		Long med = MediatorQuery.me().findConunt(null);
-		Long sea = SeatQuery.me().findConunt(null);
-		Long gro = GroupQuery.me().findConunt(null);
+		Long pel = 0L;
+		Long pelG = 0L;
+		Long ter = 0L;
+		Long med = 0L;
+		Long sea = 0L;
+		Long gro = 0L;
 		int cpu = Runtime.getRuntime().availableProcessors();
 		long totalMemory = Runtime.getRuntime().totalMemory();		//虚拟机内存总量
 		long freeMemory = Runtime.getRuntime().freeMemory();		//虚拟机空闲内存量

@@ -1,8 +1,5 @@
 package com.base.service.app.AppHandle.AppBean;
 
-import com.base.im.client.TestBean;
-import com.base.model.JMediator;
-
 import java.io.Serializable;
 import java.util.List;
 

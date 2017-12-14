@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
 import com.base.model.JButton;
-import com.base.model.JPel;
 import com.jfinal.plugin.activerecord.Db;
 
 public class ButtonQuery {

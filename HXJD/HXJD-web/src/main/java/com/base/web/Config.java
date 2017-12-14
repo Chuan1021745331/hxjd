@@ -3,7 +3,6 @@ package com.base.web;
 import com.base.core.JBase;
 import com.base.core.JBaseConfig;
 import com.base.core.db.DbDialectFactory;
-import com.base.im.client.IMClientStarter2;
 import com.base.im.server.IMServerStarter;
 import com.base.utils.StringUtils;
 import com.jfinal.config.Plugins;
@@ -53,13 +52,6 @@ public class Config extends JBaseConfig {
 			log.info("IM服务加载成功。。。");
 		} catch (Exception e) {
 			log.debug("IM服务加载失败。。。");
-		}
-		log.info("连接C平台。。。");
-		try {
-			plugins.add(new IMClientStarter2());
-			log.info("C平台连接成功。。。");
-		} catch (Exception e) {
-			log.debug("C平台连接失败。。。");
 		}
 	}
 

@@ -1,10 +1,8 @@
 package com.base.interceptor;
 
-import com.base.model.JDrillcode;
 import com.base.model.JMenu;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
-import com.base.service.DrillcodeQuery;
 import com.base.service.MenuQuery;
 
 import java.util.List;
@@ -47,8 +45,6 @@ public class AdminInterceptor implements Interceptor {
 				}
 			}
 			
-			JDrillcode drill = DrillcodeQuery.me().getActiveDrill();
-			controller.setAttr(UserConstants.CURRENT_DRILL, drill);
 			
 			controller.setAttr(UserConstants.ATT_USER, user);
 			controller.setAttr(UserConstants.ATT_MENUS, m);
