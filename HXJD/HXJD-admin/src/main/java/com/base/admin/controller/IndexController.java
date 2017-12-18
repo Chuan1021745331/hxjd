@@ -184,7 +184,17 @@ public class IndexController extends BaseController {
 			renderAjaxResultForError(MessageConstants.PASS_ERROR);
 		}
 	}
-
+	
+	@Clear(AdminInterceptor.class)
+	public void checkUserCookie(){
+		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
+		if (null != userId && !"".equals(userId)){
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
+	}
+	
 	@Clear(AdminInterceptor.class)
 	public void logout() {
 		CookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);

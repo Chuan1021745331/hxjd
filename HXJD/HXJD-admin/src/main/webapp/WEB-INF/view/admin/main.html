@@ -165,27 +165,35 @@ layui.use(['jquery', 'common', 'layer', 'element'], function() {
 	common.larryCmsLoadJq(cpath+'/plus/echarts.min.js', function() {
 		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('echart_gauge'));
-
-        // 指定图表的配置项和数据
+        var date= ['0'];
+        var data1 = [0];
         var option = {
-        	    tooltip : {
-        	        formatter: "{a} <br/>{b} : {c}%"
-        	    },
-        	    toolbox: {
-        	        feature: {
-        	            restore: {},
-        	            saveAsImage: {}
-        	        }
-        	    },
-        	    series: [
+        	    xAxis : [
         	        {
-        	            name: '使用率',
-        	            type: 'gauge',
-        	            detail: {formatter:'{value}%'},
-        	            data: [{value: 0, name: '使用率'}]
+        	            type : 'category',
+        	            boundaryGap : false,
+        	            data : date
+        	        }
+        	    ],
+        	    yAxis : [
+        	        {
+        	            type : 'value',
+        	            max : 100
+        	        }
+        	    ],
+        	    series : [
+        	        {
+        	            name:'虚拟机内存',
+        	            type:'line',
+        	            stack: '使用率',
+        	            smooth:true,
+        	            symbol: 'none',
+        	            areaStyle: {normal: {}},
+        	            data: data1
         	        }
         	    ]
-        	};
+		};
+        myChart.setOption(option,true);
         setInterval(sendMessage, 1000); //循环执行！！
        	function sendMessage(){
            	//直接用dwr.xml中暴露出来的类来调用，第一个是方法test的传入参数，最后一个是回调的方法  
@@ -198,8 +206,28 @@ layui.use(['jquery', 'common', 'layer', 'element'], function() {
     		$("#totalMemory").html(obj.t);
     		$("#freeMemory").html(obj.f);
        		$("#compare").html(obj.c);
-       		option.series[0].data[0].value = Number(obj.c);
-        	myChart.setOption(option, true);
+       		var myDate = new Date();
+       		var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+       		var s=myDate.getSeconds();
+       		if(date.length==10){
+           		date.shift();
+           		data1.shift();
+           	}
+       		date.push(p(m)+":"+p(s));
+       		data1.push(Number(obj.c));
+       		
+        	myChart.setOption({
+        		xAxis: {
+                    data: date
+                },
+                series: [{
+                    name:'使用率',
+                    data: data1
+                }]
+            });
+       	}
+       	function p(s) {
+       	    return s < 10 ? '0' + s: s;
        	}
 	});
 });

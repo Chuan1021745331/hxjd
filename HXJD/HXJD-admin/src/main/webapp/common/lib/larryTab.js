@@ -162,7 +162,36 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
         
     // 3、事件初始化
     $('#larry_tab').on("click", "#larry_tab_title li", function() {
-      that.changeTab($(this).attr("lay-id"));
+    	
+    	var id= $(this).attr("lay-id");
+    	that.changeTab(id);
+    	console.log(id);
+    	/** tab栏与菜单栏联动---开始 **/
+    	if(id==0){
+    		 $("#larry_top_menu").children("li:eq(0)").click();
+    	}else{
+    		var nowIframe = $("iframe[data-id='"+id+"']");
+            var nowTabDataGroup = nowIframe.attr("data-group");
+            var nowTabsrc = nowIframe.attr("src");
+            nowTabDataGroup = typeof(nowTabDataGroup) == "undefined"?0:nowTabDataGroup;
+            $("#larry_top_menu > li").removeClass("layui-this");
+            $("#larry_top_menu>li").each(function(){
+            	if($(this).find("a").attr("data-group")==nowTabDataGroup){
+            		$(this).click();
+            	}
+            });
+            $("#larry_left_menu dd").removeClass("layui-this");
+            $("#larry_left_menu li").removeClass("layui-nav-itemed");
+            
+            $('#larry_left_menu a').each(function(){
+	            　　		if($(this).attr("data-url")==nowTabsrc){
+	            　　			$(this).parent().parent().parent().addClass('layui-nav-itemed');
+	            　　			$(this).parent().addClass('layui-this');
+	            　　		}
+	            　　	});
+    	}
+        
+        /** tab栏与菜单栏联动---介绍 **/
     });
     $('#larry_tab').on("click", "#larry_tab_title li i.layui-tab-close", function() {
       if (that.config.closed) {
@@ -403,6 +432,23 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
    * @return      {[type]}                      [description]
    */
   LarryTab.prototype.tabAdd = function(data) {
+	  
+	  /** 登录有效期验证---开始 **/
+	  $.ajax({
+		  url:bpath+'/admin/checkUserCookie',
+		  type:"POST",
+		  dataType:"json",
+		  success:function(json){
+			  if(json.errorCode==1){
+				  top.location=bpath+'/admin/login';
+				  return;
+			  }else{
+				  
+			  }
+		  }
+	  });
+	  /** 登录有效期验证---开始 **/
+	  
     var that = this;
     var _config = that.config;
     var tabIndex = that.exists(data.title);
@@ -605,6 +651,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
         }
       });
     }
+    
     element.tabChange(that.config.tabFilter, id).init();
   };
   /**
@@ -627,7 +674,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     if (!$tabNav[0]) return;
     $(window).on('resize', function() {
       // 在窗口改变后重新获取外层固定宽度
-      var larryTabTitW = parseInt(ELEM.titleBox.parent('#larry_tab').width() - 270);
+      var larryTabTitW = parseInt(ELEM.titleBox.parent('#larry_tab').width() - 230);
       var currentTab_w = parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
 
       if (all_tab_width > larryTabTitW) {
@@ -1033,7 +1080,6 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
   }
   // 测试方法
   LarryTab.prototype.test = function(callback,msg){
-        console.log(msg);
         callback();
   };
 //测试方法

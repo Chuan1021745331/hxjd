@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import com.base.service.JobQuery;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
