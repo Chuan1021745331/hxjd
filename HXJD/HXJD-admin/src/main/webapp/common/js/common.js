@@ -17,6 +17,22 @@ layui.use(['jquery','layer','element','common','larryMenu','form'],function(){
     		return  '<div><input type="checkbox" name="zzz" lay-skin="switch" lay-text="男|女" disabled checked><div>';
     	}
     }
+    
+    layui.laytpl.terminalPowerTpl = function (data){
+    	if(null != data){
+    		return  '<div><span>'+data+'</span></div>';
+    	}else{
+    		return  '<div><span style="color: #c9302c">终端暂未初始化</span><div>';
+    	}
+    }
+    layui.laytpl.stateTpl = function (data){
+    	if("0"==data){
+    		return  '<div><span style="color:green;">开启</span><div>';
+    	}else{
+    		return  '<div><span style="color:red;">关闭</span><div>';
+    	}
+    }
+    
     // 右键菜单控制
     var larrycmsMenuData = [
 		[{

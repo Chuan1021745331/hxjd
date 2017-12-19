@@ -19,8 +19,8 @@
 		<module>HXJD-service</module>
 		<module>HXJD-utils</module>
 		<module>HXJD-web</module>
-    <module>HXJD-admin</module>
-  </modules>
+    	<module>HXJD-admin</module>
+	</modules>
 	
 	<!-- 指定maven仓库 -->
 	<repositories><!-- 发现依赖和扩展的远程资源库 -->
