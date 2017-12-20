@@ -1,25 +1,25 @@
-layui.use(['jquery','common','layer','form','larryMenu'],function(){
+layui.use(['jquery','common','layer','form','zeroMenu'],function(){
     var $ = layui.$,
         layer = layui.layer,
         form = layui.form,
         common = layui.common;
     // 页面上下文菜单
-    var larryMenu = layui.larryMenu();
+    var zeroMenu = layui.zeroMenu();
 
     
-    var mar_top = ($(document).height()-$('#larry_login').height())/2.5;
-    $('#larry_login').css({'margin-top':mar_top});
-    common.larryCmsSuccess('用户名：larry 密码：larry 无须输入验证码，输入正确后直接登录后台!','larryMS后台帐号登录提示',20);
+    var mar_top = ($(document).height()-$('#zero_login').height())/2.5;
+    $('#zero_login').css({'margin-top':mar_top});
+    common.zeroCmsSuccess('用户名：zero 密码：zero 无须输入验证码，输入正确后直接登录后台!','zeroMS后台帐号登录提示',20);
     var placeholder = '';
-    $("#larry_form input[type='text'],#larry_form input[type='password']").on('focus',function(){
+    $("#zero_form input[type='text'],#zero_form input[type='password']").on('focus',function(){
           placeholder = $(this).attr('placeholder');
           $(this).attr('placeholder','');
     });
-    $("#larry_form input[type='text'],#larry_form input[type='password']").on('blur',function(){
+    $("#zero_form input[type='text'],#zero_form input[type='password']").on('blur',function(){
           $(this).attr('placeholder',placeholder);
     });
     
-    common.larryCmsLoadJq('../common/js/jquery.supersized.min.js', function() {
+    common.zeroCmsLoadJq('../common/js/jquery.supersized.min.js', function() {
         $.supersized({
             // 功能
             slide_interval: 3000,
@@ -47,14 +47,14 @@ layui.use(['jquery','common','layer','form','larryMenu'],function(){
     });
 
     form.on('submit(submit)',function(data){
-        if(data.field.user_name == 'larry' && data.field.password == 'larry'){
+        if(data.field.user_name == 'zero' && data.field.password == 'zero'){
             layer.msg('登录成功',{icon:1,time:1000});
             setTimeout(function(){
                 window.location.href = '/backstage/index.html';
             },1000);
            
         }else{
-            layer.tips('用户名:larry 密码：larry 无需输入验证码', $('#password'), {
+            layer.tips('用户名:zero 密码：zero 无需输入验证码', $('#password'), {
                tips: [3, '#FF5722']
             });
         }
@@ -62,7 +62,7 @@ layui.use(['jquery','common','layer','form','larryMenu'],function(){
     });
 
     // 右键菜单控制
-    var larrycmsMenuData = [
+    var zerocmsMenuData = [
         [{
             text: "刷新页面",
             func: function() {
@@ -71,22 +71,22 @@ layui.use(['jquery','common','layer','form','larryMenu'],function(){
         }, {
             text: "检查元素(F12)",
             func: function() {
-                common.larryCmsError('抱歉！暂不支持此功能，可加入LarryCMS交流群下载源码',common.larryCore.tit);
+                common.zeroCmsError('抱歉！暂不支持此功能，可加入zeroCMS交流群下载源码',common.zeroCore.tit);
             }
         }],
         [{
-            text: "访问larryCMS官网",
+            text: "访问zeroCMS官网",
             func: function() {
-                window.open('http://www.larrycms.com');
+                window.open('http://www.zerocms.com');
             }
         },{
-            text: "给larryMS点个赞",
+            text: "给zeroMS点个赞",
             func: function() {
                 window.open('http://fly.layui.com/case/u/109200');
             }
         }]
     ];
-    larryMenu.ContentMenu(larrycmsMenuData,{
+    zeroMenu.ContentMenu(zerocmsMenuData,{
          name: "html" 
     },$('html'));
 });

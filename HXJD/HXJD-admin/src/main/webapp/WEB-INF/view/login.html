@@ -78,7 +78,6 @@
 					dataType : "json", 
 					success : function(data) { 
 						if(data.errorCode == 0){
-							console.log("1111");
 							window.location.href="${BPATH}/admin/index";
 						}else{
 							$(".change_link").html("*"+data.message)

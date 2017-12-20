@@ -162,7 +162,7 @@ layui.use(['jquery', 'common', 'layer', 'element'], function() {
 		common = layui.common,
 		element = layui.element;
 
-	common.larryCmsLoadJq(cpath+'/plus/echarts.min.js', function() {
+	common.zeroCmsLoadJq(cpath+'/plus/echarts.min.js', function() {
 		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('echart_gauge'));
         var date= ['0'];

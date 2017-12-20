@@ -1,96 +1,96 @@
 
 /*延迟执行*/
-.larry-delay1{
+.zero-delay1{
 	animation-delay :0.1s;
 }
-.larry-delay2{
+.zero-delay2{
 	animation-delay :0.2s;
 }
-.larry-delay3{
+.zero-delay3{
 	animation-delay :0.3s;
 }
-.larry-delay4{
+.zero-delay4{
 	animation-delay :0.4s;
 }
-.larry-delay5{
+.zero-delay5{
 	animation-delay :0.5s;
 }
-.larry-delay6{
+.zero-delay6{
 	animation-delay :0.6s;
 }
-.larry-delay7{
+.zero-delay7{
 	animation-delay :0.7s;
 }
-.larry-delay8{
+.zero-delay8{
 	animation-delay :0.8s;
 }
-.larry-delay9{
+.zero-delay9{
 	animation-delay :0.9s;
 }
-.larry-delay10{
+.zero-delay10{
 	animation-delay :1s;
 }
 /*执行时长*/
-.larry-duration1 {
+.zero-duration1 {
 	animation-duration: 1s;
 	-webkit-animation-duration: 1s;
 }
-.larry-duration2 {
+.zero-duration2 {
 	animation-duration: 2s;
 	-webkit-animation-duration: 2s;
 }
-.larry-duration3 {
+.zero-duration3 {
 	animation-duration: 3s;
 	-webkit-animation-duration: 3s;
 }
-.larry-duration4 {
+.zero-duration4 {
 	animation-duration: 4s;
 	-webkit-animation-duration: 4s;
 }
-.larry-duration5 {
+.zero-duration5 {
 	animation-duration: 5s;
 	-webkit-animation-duration: 5s;
 }
-.larry-duration-n {
+.zero-duration-n {
 	animation-duration: infinite;
 	-webkit-animation-duration: infinite;
 }
 /*速度曲线*/
-.larry-linear{
+.zero-linear{
    animation-timing-function:linear;
    -webkit-animation-timing-function:linear;
 }
-.larry-ease{
+.zero-ease{
    animation-timing-function:ease;
    -webkit-animation-timing-function:ease;
 }
-.larry-ease-in{
+.zero-ease-in{
    animation-timing-function:ease-in;
    -webkit-animation-timing-function:ease-in;
 }
-.larry-ease-out{
+.zero-ease-out{
    animation-timing-function:ease-out;
    -webkit-animation-timing-function:ease-out;
 }
-.larry-ease-in-out{
+.zero-ease-in-out{
    animation-timing-function:ease-in-out;
    -webkit-animation-timing-function:ease-in-out;
 }
 /*===============================*/
-.LarryUp {
-	-webkit-animation: LarryUp .8s .2s ease both
+.zeroUp {
+	-webkit-animation: zeroUp .8s .2s ease both
 }
-.LarryRight {
-	-webkit-animation: LarryRight .8s .2s ease both
+.zeroRight {
+	-webkit-animation: zeroRight .8s .2s ease both
 }
-.LarryDown {
-	-webkit-animation-name: LarryDown;
-	animation-name: LarryDown
+.zeroDown {
+	-webkit-animation-name: zeroDown;
+	animation-name: zeroDown
 }
-.LarryLeft {
-	-webkit-animation: LarryLeft .8s .2s ease both
+.zeroLeft {
+	-webkit-animation: zeroLeft .8s .2s ease both
 }
-@-webkit-keyframes LarryUp {
+@-webkit-keyframes zeroUp {
 	0%, 60%, 75%, 90%, to {
 		-webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);
 		animation-timing-function: cubic-bezier(.215, .61, .355, 1)
@@ -118,7 +118,7 @@
 		transform: translateZ(0)
 	}
 }
-@-moz-keyframes LarryUp {
+@-moz-keyframes zeroUp {
 	0%, 60%, 75%, 90%, to {
 		-webkit-animation-timing-function: cubic-bezier(.215, .61, .355, 1);
 		animation-timing-function: cubic-bezier(.215, .61, .355, 1)
@@ -146,7 +146,7 @@
 		transform: translateZ(0)
 	}
 }
-@-webkit-keyframes LarryRight {
+@-webkit-keyframes zeroRight {
 	0% {
 		opacity: 0;
 		-webkit-transform: translateX(2000px)
@@ -162,7 +162,7 @@
 		-webkit-transform: translateX(0)
 	}
 }
-@-moz-keyframes LarryRight {
+@-moz-keyframes zeroRight {
 	0% {
 		opacity: 0;
 		-moz-transform: translateX(2000px)
@@ -178,7 +178,7 @@
 		-moz-transform: translateX(0)
 	}
 }
-@-webkit-keyframes LarryDown {
+@-webkit-keyframes zeroDown {
 	20% {
 		-webkit-transform: translate3d(0, 10px, 0);
 		transform: translate3d(0, 10px, 0)
@@ -194,7 +194,7 @@
 		transform: translate3d(0, 50px, 0)
 	}
 }
-@-moz-keyframes LarryDown {
+@-moz-keyframes zeroDown {
 	20% {
 		-webkit-transform: translate3d(0, 10px, 0);
 		transform: translate3d(0, 10px, 0)
@@ -210,7 +210,7 @@
 		transform: translate3d(0, 50px, 0)
 	}
 }
-@-webkit-keyframes LarryLeft {
+@-webkit-keyframes zeroLeft {
 	0% {
 		opacity: 0;
 		-webkit-transform: translateX(-2000px)
@@ -226,7 +226,7 @@
 		-webkit-transform: translateX(0)
 	}
 }
-@-moz-keyframes LarryLeft {
+@-moz-keyframes zeroLeft {
 	0% {
 		opacity: 0;
 		-moz-transform: translateX(-2000px)

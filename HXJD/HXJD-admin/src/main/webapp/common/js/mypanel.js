@@ -6,7 +6,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function() {
 
 
 	var uploadInst = upload.render({
-		elem: '#larry_photo' //绑定元素
+		elem: '#zero_photo' //绑定元素
 			,
 		url: '/upload/' //上传接口
 			,

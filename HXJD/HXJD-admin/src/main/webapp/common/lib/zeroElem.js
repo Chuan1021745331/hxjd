@@ -3,7 +3,7 @@
  @Name：layui.element 常用元素操作
  @Author：贤心
  @License：MIT
- 针对tabAuto作了简单修改 为了不影响elemet正常使用取别名larryElem以示区别  
+ 针对tabAuto作了简单修改 为了不影响elemet正常使用取别名zeroElem以示区别  
  */
  
 layui.define('jquery', function(exports){
@@ -13,7 +13,7 @@ layui.define('jquery', function(exports){
   ,hint = layui.hint()
   ,device = layui.device()
   
-  ,MOD_NAME = 'larryElem', THIS = 'layui-this', SHOW = 'layui-show'
+  ,MOD_NAME = 'zeroElem', THIS = 'layui-this', SHOW = 'layui-show'
   
   ,Element = function(){
     this.config = {};
@@ -334,12 +334,12 @@ layui.define('jquery', function(exports){
     });
   };
 
-  var larryElem = new Element(), dom = $(document);
-  larryElem.init();
+  var zeroElem = new Element(), dom = $(document);
+  zeroElem.init();
   
   var TITLE = '.layui-tab-title li';
   dom.on('click', TITLE, call.tabClick); //Tab切换
   
-  exports(MOD_NAME, larryElem);
+  exports(MOD_NAME, zeroElem);
 });
 

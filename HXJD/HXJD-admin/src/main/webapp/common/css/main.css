@@ -26,7 +26,7 @@ html,body{
 ::-webkit-scrollbar-corner {  
   background: transparent;  
 }  
-.larry-wrapper{
+.zero-wrapper{
 	padding-top: 22px;
 }
 #infoSwitch{
@@ -60,20 +60,20 @@ html,body{
 .head-con i.close:hover{
 	color: #FF5722;
 }
-.larry-col{
+.zero-col{
 	text-align: center;
 }
 .layui-row .layui-elem-quote{
 	margin-bottom: 0px;
 }
 /*快捷方式*/
-.larry-shortcut section.panel{
+.zero-shortcut section.panel{
    height: 85px;
    background: #FFFFFF;
    -webkit-border-radius:4px;
 	border-radius: 4px;
 }
-.larry-shortcut section.panel .larry-ico{
+.zero-shortcut section.panel .zero-ico{
 	height: 83px;
 	width: 38%;
 	-webkit-border-radius:4px 0px 0px 4px;
@@ -85,11 +85,11 @@ html,body{
 	left: 1px;
 	color: #ffffff;
 }
-.larry-shortcut section.panel .larry-ico i{
+.zero-shortcut section.panel .zero-ico i{
 	display: inline-block;
 	font-size: 3em;
 }
-.larry-shortcut section.panel .right-value{
+.zero-shortcut section.panel .right-value{
 	width: 61%;
 	height: 75px;
 	text-align: center;
@@ -109,7 +109,7 @@ html,body{
 	color:#696969;
 	font-family: Arial,Helvetica,sans-serif;
 }
-.larry-shortcut section.panel:hover .right-value h3,.larry-shortcut section.panel:hover .right-value p,.larry-shortcut section.panel:hover .right-value h3.no-count{
+.zero-shortcut section.panel:hover .right-value h3,.zero-shortcut section.panel:hover .right-value p,.zero-shortcut section.panel:hover .right-value h3.no-count{
 	color:#333333;
 }
 .right-value h3{
@@ -150,19 +150,19 @@ html,body{
 	padding-left: 10px;
 	color: #FF5722;
 }
-.tips-con .larry-p{
+.tips-con .zero-p{
 	margin-top: 3px;
 	margin-bottom: 5px;
 	line-height: 25px;
 }
-.tips-con .larry-p1{
+.tips-con .zero-p1{
 	margin-bottom: 0px;
 }
 
 
 
 
-.layui-text a.larry-btn-a{
+.layui-text a.zero-btn-a{
 	color: #ffffff;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -175,52 +175,52 @@ html,body{
 	padding-left: 15px;
 }
 
-.larry-seo-stats{
+.zero-seo-stats{
   display: block;
   height: 360px;
 }
 
-.larry-table {
+.zero-table {
 	margin: 0px;
 }
-.larry-table td{
+.zero-table td{
     border: 1px solid #E2E2E2;
 }
-.larry-table-info td {
+.zero-table-info td {
   color: #696969;
   font-size: 12px;
   line-height: 25px;
 }
-.larry-table-info td span.info{
+.zero-table-info td span.info{
   font-size: 12px;
   font-weight: normal;
 }
-.larry-table-info td a.tit span{
+.zero-table-info td a.tit span{
   color: #333333;
   font-size: 14px;
 }
-.larry-table-info td span.info a{
+.zero-table-info td span.info a{
   color: #696969;
   margin-right: 5px;
 }
-.larry-table-info td span.iframe{
+.zero-table-info td span.iframe{
   color: #FF5722;
 }
-.larry-table-info td span.tit{
+.zero-table-info td span.tit{
   font-size: 14px;
 }
-.larry-table-info td a.layui-btn{
+.zero-table-info td a.layui-btn{
   color: #ffffff;
   letter-spacing: 1px;
   font-size: 14px;
 }
-.larry-table-info td a.official:hover{
+.zero-table-info td a.official:hover{
   color: #1E9FFF;
 }
-.larry-table-info td a{
+.zero-table-info td a{
   color: #01AAED;
 }
-.larry-table-info td span.tit{
+.zero-table-info td span.tit{
     color: #999999;
     font-weight: bold;
 }

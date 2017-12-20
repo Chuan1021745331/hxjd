@@ -1,9 +1,9 @@
 @charset "utf-8";
 /**
- * @Author: Larry  2017-04-16 17:20:56
+ * @Author: zero  2017-04-16 17:20:56
  *+----------------------------------------------------------------------
- *| LarryCMS [ LarryCMS网站内容管理系统 ]
- *| Copyright (c) 2016-2017 http://www.larrycms.com All rights reserved.
+ *| zeroCMS [ zeroCMS网站内容管理系统 ]
+ *| Copyright (c) 2016-2017 http://www.zerocms.com All rights reserved.
  *| Version 1.09
  *| <313492783@qq.com>
  *+----------------------------------------------------------------------
@@ -100,7 +100,7 @@ i{
 .fz60{font-size:60px;}
 .fz72{font-size:72px;}
 .blod{font-weight:bold;}
-.larry-flex{
+.zero-flex{
 	display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
     display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
     display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
@@ -118,68 +118,68 @@ i{
 
 
 
-/* larryCmsMessage css */
-.larrycms-message{width:100%;height:auto;border:none;padding:0px;margin:0px;background:#5EB95E;overflow:hidden;border-radius:3px;border:none}
-.larrycms-message::after{display:none!important}
-.larrycms-message .message-con{padding:20px;height:auto}
-.larrycms-message .message-con i.larry-icon{display:block;vertical-align:middle;float:left;width:50px;height:100%;line-height:100%;font-size:45px;color:#ffffff}
-.larry-message-error{background:#FF5722}
-.larry-message-tips{background:#F7B824}
-.larrycms-message .message-con .resultmsg{display:inline-block;vertical-align:middle;height:auto;color:#ffffff;font-size:24px;font-family:"Microsoft YaHei";margin-left:20px;line-height:45px;float:left}
+/* zeroCmsMessage css */
+.zerocms-message{width:100%;height:auto;border:none;padding:0px;margin:0px;background:#5EB95E;overflow:hidden;border-radius:3px;border:none}
+.zerocms-message::after{display:none!important}
+.zerocms-message .message-con{padding:20px;height:auto}
+.zerocms-message .message-con i.zero-icon{display:block;vertical-align:middle;float:left;width:50px;height:100%;line-height:100%;font-size:45px;color:#ffffff}
+.zero-message-error{background:#FF5722}
+.zero-message-tips{background:#F7B824}
+.zerocms-message .message-con .resultmsg{display:inline-block;vertical-align:middle;height:auto;color:#ffffff;font-size:24px;font-family:"Microsoft YaHei";margin-left:20px;line-height:45px;float:left}
 .addWidth .message-con .resultmsg{width:calc(100% - 90px);width:-moz-calc(100%-90px);width:-webkit-calc(100%-90px)}
-.larry-message-tips .message-con .resultmsg{font-size:20px}
+.zero-message-tips .message-con .resultmsg{font-size:20px}
 
 
-/*Larry-debug调试控制台css*/
-/*skin:larry-debug*/
-body .larry-debug .layui-layer-title{background:#FF5722;color:#fff;border:none;}
-body .larry-debug .layui-layer-btn{border-top:1px solid #E9E7E7}
-body .larry-debug .layui-layer-btn a{background:#009f95;}
-body .larry-debug .layui-layer-btn .layui-layer-btn1{background:#009f95;color:#ffffff;}
-body .larry-debug .layui-layer-close1{color:#ffffff;}
-body .larry-debug .layui-layer-setwin{top:8px;right:10px;}
-body .larry-debug .layui-layer-close{background:none;}
-body .larry-debug .layui-layer-close:before{font-size:20px;color:#ffffff;content:'x';font-family:"Microsoft YaHei";line-height:20px;}
-body .larry-debug pre{border-left:6px solid #FF5722;}
-/*skin:larry-green*/
-body .larry-green .layui-layer-title{background:#009E96;color:#fff;border:none;}
-body .larry-green .layui-layer-btn{border-top:1px solid #E9E7E7}
-body .larry-green .layui-layer-btn a{background:#009f95;}
-body .larry-green .layui-layer-btn .layui-layer-btn1{background:#009f95;color:#ffffff;}
-body .larry-green .layui-layer-close1{color:#ffffff;}
-body .larry-green .layui-layer-setwin{top:8px;right:10px;}
-body .larry-green .layui-layer-close{background:none;}
-body .larry-green .layui-layer-close:before{font-size:20px;color:#ffffff;content:'x';font-family:"Microsoft YaHei";line-height:20px;}
-body .larry-green .layui-layer-close:hover:before{color:#eeeeee; }
-body .larry-green pre{border-left:6px solid #009E96;}
+/*zero-debug调试控制台css*/
+/*skin:zero-debug*/
+body .zero-debug .layui-layer-title{background:#FF5722;color:#fff;border:none;}
+body .zero-debug .layui-layer-btn{border-top:1px solid #E9E7E7}
+body .zero-debug .layui-layer-btn a{background:#009f95;}
+body .zero-debug .layui-layer-btn .layui-layer-btn1{background:#009f95;color:#ffffff;}
+body .zero-debug .layui-layer-close1{color:#ffffff;}
+body .zero-debug .layui-layer-setwin{top:8px;right:10px;}
+body .zero-debug .layui-layer-close{background:none;}
+body .zero-debug .layui-layer-close:before{font-size:20px;color:#ffffff;content:'x';font-family:"Microsoft YaHei";line-height:20px;}
+body .zero-debug pre{border-left:6px solid #FF5722;}
+/*skin:zero-green*/
+body .zero-green .layui-layer-title{background:#009E96;color:#fff;border:none;}
+body .zero-green .layui-layer-btn{border-top:1px solid #E9E7E7}
+body .zero-green .layui-layer-btn a{background:#009f95;}
+body .zero-green .layui-layer-btn .layui-layer-btn1{background:#009f95;color:#ffffff;}
+body .zero-green .layui-layer-close1{color:#ffffff;}
+body .zero-green .layui-layer-setwin{top:8px;right:10px;}
+body .zero-green .layui-layer-close{background:none;}
+body .zero-green .layui-layer-close:before{font-size:20px;color:#ffffff;content:'x';font-family:"Microsoft YaHei";line-height:20px;}
+body .zero-green .layui-layer-close:hover:before{color:#eeeeee; }
+body .zero-green pre{border-left:6px solid #009E96;}
 
 
-.larry_menu_box{display:none; width:210px; position:absolute; z-index:201708311988;}
-.larry_menu_body{padding:1px;padding-top: 5px; padding-bottom: 5px;border:1px solid #B8CBCB; background-color:#fff; -moz-box-shadow:2px 2px 5px #666; -webkit-box-shadow:2px 2px 5px #666; box-shadow:2px 2px 5px #666;}
-.larry_menu_ul{margin:0; padding:0; list-style-type:none;}
-.larry_menu_li{position:relative;height: 40px;}
-.larry_menu_a{display:block; height:40px; line-height:40px; padding:0 5px 0 25px; color:#000; font-size:14px; text-decoration:none; overflow:hidden;}
-.larry_menu_a:hover, .larry_menu_a_hover{background-color:#01AAED; color:#fff; text-decoration:none;}
-.larry_menu_li_separate{line-height:0; margin:3px; border-bottom:1px solid #B8CBCB; font-size:0;}
-.larry_menu_triangle{width:0; height:0; border:5px dashed transparent; border-left:5px solid #666; overflow:hidden; position:absolute; top:14px; right:5px;}
-.larry_menu_a:hover .larry_menu_triangle, .larry_menu_a_hover .larry_menu_triangle{border-left-color:#fff;}
-.larry_menu_li_hover .larry_menu_box{top:-1px; left:205px;}
+.zero_menu_box{display:none; width:210px; position:absolute; z-index:201708311988;}
+.zero_menu_body{padding:1px;padding-top: 5px; padding-bottom: 5px;border:1px solid #B8CBCB; background-color:#fff; -moz-box-shadow:2px 2px 5px #666; -webkit-box-shadow:2px 2px 5px #666; box-shadow:2px 2px 5px #666;}
+.zero_menu_ul{margin:0; padding:0; list-style-type:none;}
+.zero_menu_li{position:relative;height: 40px;}
+.zero_menu_a{display:block; height:40px; line-height:40px; padding:0 5px 0 25px; color:#000; font-size:14px; text-decoration:none; overflow:hidden;}
+.zero_menu_a:hover, .zero_menu_a_hover{background-color:#01AAED; color:#fff; text-decoration:none;}
+.zero_menu_li_separate{line-height:0; margin:3px; border-bottom:1px solid #B8CBCB; font-size:0;}
+.zero_menu_triangle{width:0; height:0; border:5px dashed transparent; border-left:5px solid #666; overflow:hidden; position:absolute; top:14px; right:5px;}
+.zero_menu_a:hover .zero_menu_triangle, .zero_menu_a_hover .zero_menu_triangle{border-left-color:#fff;}
+.zero_menu_li_hover .zero_menu_box{top:-1px; left:205px;}
 /*主题设置界面*/
 #layui-layer-shade1 .layui-layer-page { overflow: hidden; }
 .layui-layer-content { overflow: hidden; }
-.larry-theme-form { width: 100%; height: 335px; padding-top: 30px; display: block; position: relative; background: #f2f2f2; overflow: hidden; }
-.larry-theme-form h3 { display: block; width: 460px; height: 30px; margin: 0 auto; line-height: 30px; text-align: center; font-size: 22px; color: #333333; }
-.larry-theme-con { display: block; width: 100%; height: auto; margin-top: 25px; }
-.larry-theme-form .fullscreen .layui-form-switch { width: 40px; }
-.larry-theme-form .layui-form-item { display: block; width: 100%; margin-bottom: 13px; }
-.larry-theme-form .layui-form-item label { position: static; display: inline-block; vertical-align: top; width: 100px; font-size: 14px; margin-left: 10px; text-align: right; }
-.larry-theme-form .layui-form-item .layui-input-block { position: static; display: inline-block; vertical-align: top; width: 230px; margin-left: 10px !important; }
-.larry-theme-form .tabSession .layui-input-block { width: 60px; }
-.larry-theme-form .autoRefresh .layui-input-block { width: 60px; }
-.larry-theme-form .layui-form-item span { display: inline-block; vertical-align: top; line-height: 30px; margin-top: 5px; font-size: 12px; color: #666666; }
-.larry-theme-form .layui-form-switch em { left: 28px; }
-.larry-theme-form .layui-form-switch i { left: 8px; }
-.larry-theme-form .layui-form-onswitch em { left: 8px; }
-.larry-theme-form .layui-form-onswitch i { left: 28px; }
-.larry-theme-form .submit-form { margin-top: 20px; }
-.larry-theme-form .submit-form button.larry-button { display: inline-block; vertical-align: top; text-align: center; margin-left: 70px; margin-right: 55px; }
+.zero-theme-form { width: 100%; height: 335px; padding-top: 30px; display: block; position: relative; background: #f2f2f2; overflow: hidden; }
+.zero-theme-form h3 { display: block; width: 460px; height: 30px; margin: 0 auto; line-height: 30px; text-align: center; font-size: 22px; color: #333333; }
+.zero-theme-con { display: block; width: 100%; height: auto; margin-top: 25px; }
+.zero-theme-form .fullscreen .layui-form-switch { width: 40px; }
+.zero-theme-form .layui-form-item { display: block; width: 100%; margin-bottom: 13px; }
+.zero-theme-form .layui-form-item label { position: static; display: inline-block; vertical-align: top; width: 100px; font-size: 14px; margin-left: 10px; text-align: right; }
+.zero-theme-form .layui-form-item .layui-input-block { position: static; display: inline-block; vertical-align: top; width: 230px; margin-left: 10px !important; }
+.zero-theme-form .tabSession .layui-input-block { width: 60px; }
+.zero-theme-form .autoRefresh .layui-input-block { width: 60px; }
+.zero-theme-form .layui-form-item span { display: inline-block; vertical-align: top; line-height: 30px; margin-top: 5px; font-size: 12px; color: #666666; }
+.zero-theme-form .layui-form-switch em { left: 28px; }
+.zero-theme-form .layui-form-switch i { left: 8px; }
+.zero-theme-form .layui-form-onswitch em { left: 8px; }
+.zero-theme-form .layui-form-onswitch i { left: 28px; }
+.zero-theme-form .submit-form { margin-top: 20px; }
+.zero-theme-form .submit-form button.zero-button { display: inline-block; vertical-align: top; text-align: center; margin-left: 70px; margin-right: 55px; }

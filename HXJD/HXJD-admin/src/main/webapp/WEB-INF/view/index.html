@@ -5,7 +5,7 @@
 	<title>${sys_title} </title>
 	<meta name="keywords" content="${sys_title} " />
     <meta name="description" content="${sys_title} " />
-	<meta name="Author" content="larry" />
+	<meta name="Author" content="zero" />
 	<meta name="renderer" content="webkit">	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -29,25 +29,25 @@
 	</script>
 </head>
 <body>
-<div class="layui-layout layui-layout-admin larrycms-admin" id="larry_admin_out">
+<div class="layui-layout layui-layout-admin zerocms-admin" id="zero_admin_out">
 	<!-- 顶部导航 -->
-	<div class="layui-header larrycms-header">
-        <div class="layui-logo larrycms-logo">
+	<div class="layui-header zerocms-header">
+        <div class="layui-logo zerocms-logo">
             <!-- <img src="../common/images/logo.png"> -->
             ${admin_top_title}
         </div>
         <!-- 右侧 -->
-        <div class="larrycms-top pos-a">
-        	<div class="menu-switch pos-a" id="menuSwitch"><i class="larry-icon pos-a fz20">&#xe6cc;</i></div>
-            <div class="menu-mobile pos-a" id="larryMobile"><i class="larry-icon pos-a fz20">&#xe6d6;</i></div>
+        <div class="zerocms-top pos-a">
+        	<div class="menu-switch pos-a" id="menuSwitch"><i class="zero-icon pos-a fz20">&#xe6cc;</i></div>
+            <div class="menu-mobile pos-a" id="zeroMobile"><i class="zero-icon pos-a fz20">&#xe6d6;</i></div>
             <!-- 顶级菜单 -->
-            <div class="inline-block larrycms-top-menu pos-a">
-                <ul class="layui-nav clearfix" id="larry_top_menu" lay-filter="TopMenu">
+            <div class="inline-block zerocms-top-menu pos-a">
+                <ul class="layui-nav clearfix" id="zero_top_menu" lay-filter="TopMenu">
                       <!-- 此次动态生成 -->
                 </ul>
             </div>
             <!-- 右侧常用菜单 -->
-            <div class="inline-block larrycms-offten-menu pos-a">
+            <div class="inline-block zerocms-offten-menu pos-a">
                 <ul class="layui-nav clearfix">
                     <li class="layui-nav-item">
                         <a id="FullScreen" class="onFullScreen"><i class="icon iconfont icon-quanping1"></i>全屏</a>
@@ -63,7 +63,7 @@
         </div>
 	</div>
 	<!-- 左侧区域 -->
-    <div class="layui-side pos-a larrycms-left layui-bg-black" id="larry_left">
+    <div class="layui-side pos-a zerocms-left layui-bg-black" id="zero_left">
         <div class="layui-side-scroll">
             <!-- 管理员信息      -->
             <div class="user-info">
@@ -74,20 +74,20 @@
             </div>
             <!-- 系统菜单 -->
             <div class="sys-menu-box" >
-                <ul class="layui-nav layui-nav-tree" id="larry_left_menu" lay-filter="LarrySide" data-group='0'>
+                <ul class="layui-nav layui-nav-tree" id="zero_left_menu" lay-filter="zeroSide" data-group='0'>
                     <!-- 此次动态生成 -->
                 </ul>
             </div>
         </div>
     </div>
     <!-- 内容主体区域 -->
-    <div class="layui-body pos-a larrycms-body" id="larry_body">
-        <div class="layui-tab larrycms-tab" id="larry_tab" lay-filter="larryTab">
-            <div class="larrycms-title-box"></div>
+    <div class="layui-body pos-a zerocms-body" id="zero_body">
+        <div class="layui-tab zerocms-tab" id="zero_tab" lay-filter="zeroTab">
+            <div class="zerocms-title-box"></div>
     	    <div class="go-left">
     	    	<div class="key-press pressKey" id="titleLeft" title="滚动至最右侧"><i class="icon iconfont icon-back"></i></div>
     	    </div>
-    	    <ul class="layui-tab-title larrycms-tab-title" lay-allowclose="true" id="larry_tab_title" lay-filter="subadd">
+    	    <ul class="layui-tab-title zerocms-tab-title" lay-allowclose="true" id="zero_tab_title" lay-filter="subadd">
                 <li class="layui-this" id="admin-home" lay-id="0" fresh="1">
                     <i class="icon iconfont icon-yibiaopan"></i><em>控制台</em>
                 </li>
@@ -98,40 +98,40 @@
                     <i class="icon iconfont icon-shuaxin"></i>
                     <cite>刷新</cite>
                 </div>
-                <div class="often key-press" lay-filter="larryOperate" id="buttonRCtrl">
+                <div class="often key-press" lay-filter="zeroOperate" id="buttonRCtrl">
                     <ul class="layui-nav pos-r">
                         <li class="layui-nav-item pos-a">
-                            <a class="top"><i class="larry-icon">&#xea51;</i><cite>操作</cite><span class="layui-nav-more"></span></a>
+                            <a class="top"><i class="zero-icon">&#xea51;</i><cite>操作</cite><span class="layui-nav-more"></span></a>
                             <dl class="layui-nav-child layui-anim layui-anim-upbit">
                                 <dd id="tabCtrD">
-                                    <a data-ename="positionCurrent"><i class="larry-icon">&#xea53;</i>定位当前选项卡</a>
+                                    <a data-ename="positionCurrent"><i class="zero-icon">&#xea53;</i>定位当前选项卡</a>
                                 </dd>
                                 <dd id="tabCtrA">
-                                    <a data-ename="closeCurrent"><i class="larry-icon">&#xea69;</i>关闭当前选项卡</a>
+                                    <a data-ename="closeCurrent"><i class="zero-icon">&#xea69;</i>关闭当前选项卡</a>
                                 </dd>
                                 <dd id="tabCtrB">
-                                    <a data-ename="closeOther"><i class="larry-icon">&#xea6a;</i>关闭其他选项卡</a>
+                                    <a data-ename="closeOther"><i class="zero-icon">&#xea6a;</i>关闭其他选项卡</a>
                                 </dd>
                                 <dd id="tabCtrC">
-                                    <a data-ename="closeAll"><i class="larry-icon">&#xea6f;</i>关闭全部选项卡</a>
+                                    <a data-ename="closeAll"><i class="zero-icon">&#xea6f;</i>关闭全部选项卡</a>
                                 </dd>
                                 <dd>
-                                    <a data-ename="refreshAdmin"><i class="larry-icon">&#xea68;</i>刷新最外层框架</a>
+                                    <a data-ename="refreshAdmin"><i class="zero-icon">&#xea68;</i>刷新最外层框架</a>
                                 </dd>
                             </dl>
                         </li>
                     </ul>
                 </div>
             </div>
-    	    <div class="layui-tab-content" id="larry_tab_content">
+    	    <div class="layui-tab-content" id="zero_tab_content">
                 <div class="layui-tab-item layui-show">
-                    <iframe class="larry-iframe" data-id='0' name="ifr_0" id='ifr0'  src="${BPATH}/admin/main"></iframe>
+                    <iframe class="zero-iframe" data-id='0' name="ifr_0" id='ifr0'  src="${BPATH}/admin/main"></iframe>
                 </div>
             </div>
         </div>
     </div>
     <!-- 底部固定区域 -->
-    <div class="layui-footer pos-a larrycms-footer" id="larry_footer">
+    <div class="layui-footer pos-a zerocms-footer" id="zero_footer">
     	<div class="layui-main">
                <p class="inline-block">©2017 华夏九鼎</p>
          </div>
@@ -140,7 +140,7 @@
 <!-- 加载js文件-->
 <script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script> 
 <script type="text/javascript" src="${CPATH}/js/gobal.js"></script>
-<script type="text/javascript" src="${CPATH}/js/larrycms.js"></script>
+<script type="text/javascript" src="${CPATH}/js/zerocms.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 
@@ -156,7 +156,7 @@
                        <input type="password" id="unlock_pass" name="lock_password" lay-verify="pass" placeholder="锁屏状态，请输入密码解锁" autocomplete="off" class="layui-input"  autofocus="">
                   </div>
                   <div class="layui-form-item">
-                       <span class="layui-btn larry-btn" id="unlock">立即解锁</span>
+                       <span class="layui-btn zero-btn" id="unlock">立即解锁</span>
                   </div>
              </form>
         </div>

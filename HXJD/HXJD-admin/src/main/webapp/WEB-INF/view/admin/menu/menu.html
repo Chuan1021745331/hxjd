@@ -30,9 +30,9 @@ layui.use( ['table','common'], function(){
 		table = layui.table,
 		common = layui.common;
 	$(function(){
-		$("#leftMenuPage").height($("#larry_body",window.parent.document).height()-35);
+		$("#leftMenuPage").height($("#zero_body",window.parent.document).height()-45);
 		$(window).on('resize', function() {
-			$("#leftMenuPage").height($("#larry_body",window.parent.document).height()-35);
+			$("#leftMenuPage").height($("#zero_body",window.parent.document).height()-45);
 		});
 		// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
 		var setting = {
@@ -129,7 +129,7 @@ layui.use( ['table','common'], function(){
 				type : 'get',
 				dataType : 'json',
 				success : function(data) {
-					console.log(data);
+// 					console.log(data);
 				}
 			});
 		}
@@ -151,7 +151,7 @@ layui.use( ['table','common'], function(){
 				type : 'get',
 				dataType : 'json',
 				success : function(data) {
-					console.log(data);
+// 					console.log(data);
 				}
 			});
 		}
@@ -160,8 +160,10 @@ layui.use( ['table','common'], function(){
 		function addHoverDom(treeId, treeNode) {
 			var sObj = $("#" + treeNode.tId + "_span");
 			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-			var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='新增节点' onfocus='this.blur();'></span>";
-			sObj.after(addStr);
+			if(treeNode.level<3){
+				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='新增节点' onfocus='this.blur();'></span>";
+				sObj.after(addStr);
+			}
 			var btn = $("#addBtn_"+treeNode.tId);
 			if (btn) btn.bind("click", function(){
 				treeNode_=treeNode;
@@ -233,7 +235,7 @@ layui.use( ['table','common'], function(){
       			top.parent.MSG(2, "请选择一条数据");
       			return false;
       		}
-      		common.larryCmsConfirm('是否确认删除',bpath+'/admin/menu/del?id='+tempData.id);
+      		common.zeroCmsConfirm('是否确认删除',bpath+'/admin/menu/del?id='+tempData.id);
       	}
 	};
 	$('#btn_group .layui-btn').on('click',function(){

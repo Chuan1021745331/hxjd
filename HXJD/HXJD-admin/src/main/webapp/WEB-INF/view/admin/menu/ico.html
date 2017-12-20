@@ -1046,7 +1046,6 @@
 			$(this).bind("click",{MenuIndex:i},function(event){
 				var h = $(this).attr("href");
 				if(h!=undefined){
-					console.log(h);
 					var h_ = h.split("/")[1];
 					$("input[name='ico']").val("fa-"+h_);
 					$("#icoVessel").attr("class","fa fa-"+h_ +"  fa-lg");

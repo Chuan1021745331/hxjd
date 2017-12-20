@@ -1,7 +1,7 @@
 layui.config({
 	base: cpath+'/lib/'
 });
-layui.use(['jquery','layer','element','common','larryMenu','form'],function(){
+layui.use(['jquery','layer','element','common','zeroMenu','form'],function(){
 	var $ = layui.$,
 	layer = layui.layer,
 	common = layui.common,
@@ -9,7 +9,7 @@ layui.use(['jquery','layer','element','common','larryMenu','form'],function(){
 	form = layui.form,
 	element = layui.element;
     // 页面上下文菜单
-    larryMenu = layui.larryMenu();
+    zeroMenu = layui.zeroMenu();
     layui.laytpl.sexTpl = function (data){
     	if("0"==data){
     		return  '<div><input type="checkbox" name="zzz" lay-skin="switch" lay-text="男|女" disabled><div>';
@@ -34,7 +34,7 @@ layui.use(['jquery','layer','element','common','larryMenu','form'],function(){
     }
     
     // 右键菜单控制
-    var larrycmsMenuData = [
+    var zerocmsMenuData = [
 		[{
 			text: "刷新当前页",
 		    func: function() {
@@ -81,11 +81,11 @@ layui.use(['jquery','layer','element','common','larryMenu','form'],function(){
 			}
 		}]
 	];
-	larryMenu.ContentMenu(larrycmsMenuData,{
+	zeroMenu.ContentMenu(zerocmsMenuData,{
          name: "html" 
 	},$('html'));
 	// 右键菜单结束
-	$('#larry_tab_content', parent.document).mouseout(function(){
-         larryMenu.remove();
+	$('#zero_tab_content', parent.document).mouseout(function(){
+         zeroMenu.remove();
 	});
 });

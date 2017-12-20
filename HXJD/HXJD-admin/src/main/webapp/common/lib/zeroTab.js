@@ -1,26 +1,26 @@
 /**
  * @Date 2017-08-10
- * LarryMS larryTab模块
- * Autor: Larry 
- * site: www.larrycms.com
- * @copyright [www.larrycms.com]
- * @link      http://www.larrycms.com/
+ * zeroMS zeroTab模块
+ * Autor: zero 
+ * site: www.zerocms.com
+ * @copyright [www.zerocms.com]
+ * @link      http://www.zerocms.com/
  * @version   [v1.9] 
  * @param     {[type]}                 exports){} [description]
  * @return    {[type]}                              [description]
  */
 
 var bpath;
-layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
+layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	var $ = layui.$,
-    	element = layui.larryElem,
+    	element = layui.zeroElem,
     	layer = parent.layer === undefined ? layui.layer : parent.layer,
     	common = layui.common;
-    	module_name = 'larryTab';
+    	module_name = 'zeroTab';
 
-	var cacheName = 'larrymenu';
+	var cacheName = 'zeromenu';
 	var gobalTabIndex = 0;
-	var LarryTab = function() {
+	var zeroTab = function() {
 	    /**
 	     *  默认配置 
 	     */
@@ -33,9 +33,9 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 			spreadOne: false, //设置是否只展开一个二级菜单
 			topFilter: 'TopMenu', //顶级菜单过滤器
 			left_menu: undefined, //左侧二级导航
-			leftFilter: 'LarrySide', //左侧菜单过滤器
-			larry_elem: undefined, //tab选项卡容器
-			tabFilter: 'larryTab', //tab过滤器
+			leftFilter: 'zeroSide', //左侧菜单过滤器
+			zero_elem: undefined, //tab选项卡容器
+			tabFilter: 'zeroTab', //tab过滤器
 			maxTab: 50, //默认允许最大打开tab个数
 			tabSession: false, //是否开启已打开tab选项卡缓存
 			closed: true, // 选项卡是否包含删除按钮进而可关闭操作
@@ -46,7 +46,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	/**
 	* @param  {[type]}  options [传入参数配置]
 	*/
-	LarryTab.prototype.set = function(options) {
+	zeroTab.prototype.set = function(options) {
 		var that = this;
 		$.extend(true, that.config, options);
 	    return that;
@@ -54,13 +54,13 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	var ELEM = {};
 	var LeftNavElem = new Array();
 	// 版本号
-	LarryTab.prototype.version = '2.0.0';
-	LarryTab.prototype.copyright = 'www.larrycms.com';
+	zeroTab.prototype.version = '2.0.0';
+	zeroTab.prototype.copyright = 'www.zerocms.com';
 	// 菜单独立设置
-	LarryTab.prototype.menuSet = function(options) {
+	zeroTab.prototype.menuSet = function(options) {
 	    var that = this;
 	    if (!options.hasOwnProperty('data') && !options.hasOwnProperty('url')) {
-	      common.larryCmsError('没有传入数据源:data 或 url参数，菜单项无法正常初始化！', common.larryCore.errorTit);
+	      common.zeroCmsError('没有传入数据源:data 或 url参数，菜单项无法正常初始化！', common.zeroCore.errorTit);
 	    }
 	    var allow = ['top_menu', 'left_menu', 'data', 'url', 'type', 'cached', 'spreadOne', 'topFilter', 'leftFilter'];
 	    var option = configFilter(options, allow);
@@ -69,9 +69,9 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    return that;
 	};
 	// Tab独立设置
-	LarryTab.prototype.tabSet = function(options) {
+	zeroTab.prototype.tabSet = function(options) {
 	    var that = this;
-	    var allow = ['larry_elem', 'maxTab', 'tabSession', 'closed', 'contextMenu', 'autoRefresh'];
+	    var allow = ['zero_elem', 'maxTab', 'tabSession', 'closed', 'contextMenu', 'autoRefresh'];
 	    // 参数检查
 	    var option = configFilter(options, allow);
 	    // 传入参数进行配置
@@ -83,7 +83,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	* [init description] 页面初始化TabSession
 	* @return {[type]} [description]
 	*/
-	LarryTab.prototype.init = function() {
+	zeroTab.prototype.init = function() {
 	    var that = this;
 	    // 1、主题设置初始化
 	    if (localStorage.getItem('fullscreen_info') || localStorage.getItem('tabSessions')) {
@@ -139,14 +139,14 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    			gobalTabIndex = tabMenus.length;
 	    		}else{
 	    			// 将默认首页存入session
-	    			var tabFirst = $('#larry_tab_title li').eq(0);
+	    			var tabFirst = $('#zero_tab_title li').eq(0);
 	    			if (tabFirst.length) {
 	    				//读取session
 	    				var tabMenu = JSON.parse(session.getItem('tabMenu')) || [];
 	    				var current = {
 	    						icon: tabFirst.children('i').data('icon'),
 	    						title: tabFirst.find('em').text() == undefined ? tabFirst.find('em').text() : '控制台',
-	    								href: $('#larry_tab_content iframe').eq(0).attr('src'),
+	    								href: $('#zero_tab_content iframe').eq(0).attr('src'),
 	    								id: tabFirst.attr('lay-id'),
 	    								closed: false
 	    				};
@@ -160,27 +160,27 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    // 其他初始化
 	        
 	    // 3、事件初始化
-	    $('#larry_tab').on("click", "#larry_tab_title li", function() {
+	    $('#zero_tab').on("click", "#zero_tab_title li", function() {
 	    	
 	    	var id= $(this).attr("lay-id");
 	    	that.changeTab(id);
 	    	
 	    	/** tab栏与菜单栏联动---开始 **/
 	    	if(id==0){
-	    		 $("#larry_top_menu").children("li:eq(0)").click();
+	    		 $("#zero_top_menu").children("li:eq(0)").click();
 	    	}else{
 	    		var nowIframe = $("iframe[data-id='"+id+"']");
 	            var nowTabDataGroup = nowIframe.attr("data-group");
-	            $("#larry_top_menu > li").removeClass("layui-this");
-	            $("#larry_top_menu>li").each(function(){
+	            $("#zero_top_menu > li").removeClass("layui-this");
+	            $("#zero_top_menu>li").each(function(){
 	            	if($(this).find("a").attr("data-group") == (typeof(nowTabDataGroup) == "undefined"?0:nowTabDataGroup)){
 	            		$(this).click();
 	            	}
 	            });
-	            $("#larry_left_menu dd").removeClass("layui-this");
-	            $("#larry_left_menu li").removeClass("layui-nav-itemed");
+	            $("#zero_left_menu dd").removeClass("layui-this");
+	            $("#zero_left_menu li").removeClass("layui-nav-itemed");
 	            
-	            $('#larry_left_menu a').each(function(){
+	            $('#zero_left_menu a').each(function(){
 		            　　		if($(this).attr("data-url")==nowIframe.attr("src")){
 		            　　			$(this).parent().parent().parent().addClass('layui-nav-itemed');
 		            　　			$(this).parent().addClass('layui-this');
@@ -191,7 +191,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    	
 	    });
 	    /** 点击隐藏与显示 **/
-	    $('#larry_left_menu').on("click","li",function(){
+	    $('#zero_left_menu').on("click","li",function(){
 	    	$(this).siblings("li").removeClass('layui-nav-itemed');
 	    	if($(this).hasClass('layui-nav-itemed')){
 	    		$(this).addClass('layui-nav-itemed');
@@ -199,7 +199,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    		$(this).removeClass('layui-nav-itemed');
 	    	}
 	    });
-	    $('#larry_tab').on("click", "#larry_tab_title li i.layui-tab-close", function() {
+	    $('#zero_tab').on("click", "#zero_tab_title li i.layui-tab-close", function() {
 	    	if (that.config.closed) {
 	    		that.deleteTab($(this).parent("li").attr('lay-id'));
 	    		that.tabMove(1, 1);
@@ -207,31 +207,49 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    });
 	    // 4、窗口状态变化监听
 	    $(window).on('resize', function() {
-	    	$('#larry_admin_out').width($(window).width()).height($(window).height());
-	    	$('#larry_body').width($('#larry_admin_out').width() - $('#larry_left').width() + 1);
-	    	$('#larry_body').height($('#larry_admin_out').height() - 84);
-	    	$('#larry_tab').width($('#larry_body').width()).height($('#larry_body').height());
+	    	$('#zero_admin_out').width($(window).width()).height($(window).height());
+	    	$('#zero_body').width($('#zero_admin_out').width() - $('#zero_left').width() + 1);
+	    	$('#zero_body').height($('#zero_admin_out').height() - 84);
+	    	$('#zero_tab').width($('#zero_body').width()).height($('#zero_body').height());
 	    	// ifrmae
-	    	$('#larry_tab_content').width($('#larry_tab').width()).height($('#larry_tab').height() - $('#larry_title_box').height()-$('#larry_footer').innerHeight()-5);
-	    	$('#larry_tab_content').find('iframe').each(function() {
-	    		$(this).height($('#larry_tab_content').height());
-	    		$(this).width($('#larry_tab_content').width());
+	    	$('#zero_tab_content').width($('#zero_tab').width()).height($('#zero_tab').height() - $('#zero_title_box').height()-$('#zero_footer').innerHeight()-5);
+	    	$('#zero_tab_content').find('iframe').each(function() {
+	    		$(this).height($('#zero_tab_content').height());
+	    		$(this).width($('#zero_tab_content').width());
 	    	});
 	    }).resize();
 	    //5、菜单开关
 	    $('#menuSwitch').on('click', function() {
-	    	$("#larry_admin_out").toggleClass("hideLeftNav");
+	    	$("#zero_admin_out").toggleClass("layui-anim-fadein hideLeftNav");
+	    	if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
+	    		numSize(54);
+	    	}else{
+	    		numSize(204);
+	    	}
+	    	
 	    });
+	    function numSize(a) {
+	    	$('#zero_body').width($('#zero_admin_out').width() - a);
+	    	$('#zero_body').height($('#zero_admin_out').height() - 84);
+	    	$('#zero_tab').width($('#zero_admin_out').width() - a);
+	    	$('#zero_tab').height($('#zero_admin_out').height() - 84);
+	    	// ifrmae
+	    	$('#zero_tab_content').width($('#zero_admin_out').width() - a).height($('#zero_admin_out').height() - 84 - $('#zero_title_box').height()-$('#zero_footer').innerHeight()-5);
+	    	$('#zero_tab_content').find('iframe').each(function() {
+	    		$(this).height($('#zero_tab_content').height());
+	    		$(this).width($('#zero_tab_content').width());
+	    	});
+		}
 	};
 	// 菜单处理
-	LarryTab.prototype.menu = function() {
+	zeroTab.prototype.menu = function() {
 		var _that = this;
 		var _config = _that.config;
 		if (_config.data === undefined && _config.url === undefined) {
-			common.larryCmsError('LarryMS Error: 请为菜单项配置数据源【Data or Url】!', common.larryCore.errorDataTit);
+			common.zeroCmsError('zeroMS Error: 请为菜单项配置数据源【Data or Url】!', common.zeroCore.errorDataTit);
 		}
 		if (_config.data !== undefined && typeof(_config.data) === 'object') {
-			_that.larryCompleteMenu(_config.data);
+			_that.zeroCompleteMenu(_config.data);
 			_that.init();
 		} else {
 			//若未传入data参数 通过url方式获取
@@ -242,10 +260,10 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 				dataType: 'json',
 				success: function(result, status, xhr) {
 					// 取得数据
-					_that.larryCompleteMenu(result);
+					_that.zeroCompleteMenu(result);
 				},
 				error: function(xhr, status, error) {
-					common.larryCmsError('LarryMS Error: ' + error, common.larryCore.errorDataTit);
+					common.zeroCmsError('zeroMS Error: ' + error, common.zeroCore.errorDataTit);
 				},
 				complete: function() {
 					_that.init();
@@ -255,11 +273,11 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 		return _that;
 	};
 	/**
-	 * [larryCompleteMenu 菜单扩展处理程序]
+	 * [zeroCompleteMenu 菜单扩展处理程序]
 	 * @param  {[type]} data [description]
 	 * @return {[type]}      [description]
 	 */
-	LarryTab.prototype.larryCompleteMenu = function(data) {
+	zeroTab.prototype.zeroCompleteMenu = function(data) {
 		var that = this;
 		var _config = that.config;
 		var $leftNav = elemCheck(_config.left_menu, 'left_menu');
@@ -270,8 +288,8 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 			// 开启了顶部菜单
 			if ($topNav !== 'undefined') {
 				var html = getHtml(data, 'on');
-				// 存入localStorage.larry_menu
-				window.localStorage.setItem('larry_menu', JSON.stringify(html));
+				// 存入localStorage.zero_menu
+				window.localStorage.setItem('zero_menu', JSON.stringify(html));
 				LeftMenuElem = html.left;
 				// 生成初始化菜单数据
 		        $topNav.html(html.top);
@@ -281,7 +299,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 		        that.config.left_menu = $leftNav;
 			} else { // 未开启顶部菜单，只有左侧菜单暂时只支持2级导航
 		        var html = getHtml(data, 'off');
-		        window.localStorage.setItem('larry_menu', JSON.stringify(html));
+		        window.localStorage.setItem('zero_menu', JSON.stringify(html));
 		        LeftMenuElem = html;
 		        $leftNav.html(html);
 		        element.init();
@@ -292,15 +310,15 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 
 	/**
 	 * @description 事件绑定处理
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-15
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-15
 	 * @param       {[type]}                 events   [description]
 	 * @param       {[type]}                 group    [description]
 	 * @param       {Function}               callback [description]
 	 * @return      {[type]}                          [description]
 	 */
-	LarryTab.prototype.on = function(events, group, callback) {
+	zeroTab.prototype.on = function(events, group, callback) {
 	    var that = this;
 	    var _config = that.config;
 	    var res = eventsCheck(events);
@@ -359,7 +377,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    return that;
 	};
 	// 清除缓存
-	LarryTab.prototype.cleanCached = function() {
+	zeroTab.prototype.cleanCached = function() {
 	    layui.data(cacheName, null);
 	    localStorage.clear();
 	    sessionStorage.clear();
@@ -372,11 +390,11 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	/**
 	 * @return  {[type]} [init 对象初始化]
 	 */
-	LarryTab.prototype.tabInit = function() {
+	zeroTab.prototype.tabInit = function() {
 	    var that = this;
 	    var _config = that.config;
-	    $container = elemCheck(_config.larry_elem, 'larry_elem');
-	    _config.larry_elem = $container;
+	    $container = elemCheck(_config.zero_elem, 'zero_elem');
+	    _config.zero_elem = $container;
 	    ELEM.titleBox = $container.children('ul.layui-tab-title');
 	    ELEM.contentBox = $container.children('div.layui-tab-content');
 	    ELEM.tabFilter = $container.attr('lay-filter');
@@ -385,14 +403,14 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	};
 	/**
 	 * @description 查询tab是否存在，如果存在则返回索引值，不存在返回-1
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-15
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-15
 	 * @param       {[type]}                 title [description]
 	 * @param       {[type]}                 url   [description]
 	 * @return      {[type]}                       [description]
 	 */
-	LarryTab.prototype.exists = function(title) {
+	zeroTab.prototype.exists = function(title) {
 	    var tabIndex = -1;
 	    var that = ELEM.titleBox === undefined ? this.tabInit() : this;
 	    ELEM.titleBox.find('li').each(function(i, e) {
@@ -404,7 +422,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    return tabIndex;
 	};
 	// 获取tabid
-	LarryTab.prototype.getTabId = function(title) {
+	zeroTab.prototype.getTabId = function(title) {
 	    var tabId = -1;
 	    var that = ELEM.titleBox === undefined ? this.tabInit() : this;
 	    ELEM.titleBox.find('li').each(function(i, e) {
@@ -418,25 +436,25 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 
 	/**
 	 * @description 获取当前获得焦点的tabid
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-15
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-15
 	 * @return      {[type]}                 [description]
 	 */
-	LarryTab.prototype.getCurrentTabId = function() {
+	zeroTab.prototype.getCurrentTabId = function() {
 	    var that = this;
 	    var _config = that.config;
-	    return $(_config.larry_elem).find('ul.layui-tab-title').children('li.layui-this').attr('lay-id');
+	    return $(_config.zero_elem).find('ul.layui-tab-title').children('li.layui-this').attr('lay-id');
 	};
 	/**
 	 * @description 添加选择卡，如果选择卡存在则获取焦点
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-15
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-15
 	 * @param       {[type]}                 data [description]
 	 * @return      {[type]}                      [description]
 	 */
-	LarryTab.prototype.tabAdd = function(data) {
+	zeroTab.prototype.tabAdd = function(data) {
 		/** 登录有效期验证---开始 **/
 		$.ajax({
 			url:bpath+'/admin/checkUserCookie',
@@ -461,7 +479,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    		var currentTabCount = ELEM.titleBox.children('li').length;
 	    		if (typeof _config.maxTab === 'number') {
 	    			if (currentTabCount === _config.maxTab) {
-	    				common.larryCmsError('为了保障系统流畅运行，默认最多只能同时打开' + _config.maxTab + '个选项卡，或请设置最大打开个数', common.larryCore.tit);
+	    				common.zeroCmsError('为了保障系统流畅运行，默认最多只能同时打开' + _config.maxTab + '个选项卡，或请设置最大打开个数', common.zeroCore.tit);
 	    				return;
 	    			}
 	    		}
@@ -469,13 +487,13 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	    			var max = _config.maxTab.max || 50;
 	    			var msg = _config.maxTab.tipMsg || '为了保障系统流畅运行，默认最多只能同时打开' + max + '个选项卡。';
 	    			if (currentTabCount === max) {
-	    				common.larryCmsError(msg, common.larryCore.tit);
+	    				common.zeroCmsError(msg, common.zeroCore.tit);
 	    				return;
 	    			}
 	    		}
 	    	}
 	    	gobalTabIndex++;
-	    	var content = '<iframe src="' + data.href + '" data-group="' + data.group + '" data-id="' + gobalTabIndex + '" name="ifr_' + gobalTabIndex + '" id="ifr' + gobalTabIndex + '"  class="larry-iframe"></iframe>';
+	    	var content = '<iframe src="' + data.href + '" data-group="' + data.group + '" data-id="' + gobalTabIndex + '" name="ifr_' + gobalTabIndex + '" id="ifr' + gobalTabIndex + '"  class="zero-iframe"></iframe>';
 	    	var title = '';
 	    	if (data.icon !== undefined) {
 	    		title += '<i class="icon iconfont ' + data.icon + '"></i>';
@@ -545,14 +563,14 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
   
 	/**
 	 * @description 页面加载效果
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-26
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-26
 	 * @param       {[type]}                 id     [description]
 	 * @param       {[type]}                 status [description]
 	 * @return      {[type]}                        [description]
 	 */
-	LarryTab.prototype.pageEffect = function(id,status){
+	zeroTab.prototype.pageEffect = function(id,status){
 		//页面淡出效果
         var index = layer.load(1);
         if (status) {
@@ -567,18 +585,18 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 	};
 	/**
 	 * @description 从session中还原tab选项卡
-	 * @link        http://www.larrycms.com/
-	 * @copyright   [LarryCMS]
-	 * @author Larry_qin 2017-08-15
+	 * @link        http://www.zerocms.com/
+	 * @copyright   [zeroCMS]
+	 * @author zero_qin 2017-08-15
 	 * @param       {[type]}                 tabObj [description]
 	 * @return      {[type]}                        [description]
 	 */
-	LarryTab.prototype.recoveryTab = function(tab) {
+	zeroTab.prototype.recoveryTab = function(tab) {
         var that = this;
         var _config = that.config;
         var tabIndex = that.exists(tab.title);
         if (tabIndex == -1) {
-            var content = '<iframe src="' + tab.href + '" data-group="' + tab.group + '" data-id="'  + tab.id + '" name="ifr_' + tab.id + '" id="ifr' + tab.id + '"  class="larry-iframe"></iframe>';
+            var content = '<iframe src="' + tab.href + '" data-group="' + tab.group + '" data-id="'  + tab.id + '" name="ifr_' + tab.id + '" id="ifr' + tab.id + '"  class="zero-iframe"></iframe>';
             var title = '';
             if (tab.icon !== undefined) {
                 title += '<i class="icon iconfont ' + tab.icon + '"></i>';
@@ -602,13 +620,13 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     };
     /**
      * @description 删除指定的tab选项卡
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-15
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-15
      * @param       {[type]}                 id [description]
      * @return      {[type]}                    [description]
      */
-    LarryTab.prototype.deleteTab = function(id) {
+    zeroTab.prototype.deleteTab = function(id) {
 	    var that = this;
 	    if (that.config.tabSession) {
 	    	that.session(function(session) {
@@ -629,13 +647,13 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     };
     /**
      * @description 改变tab
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-24
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-24
      * @param       {[type]}                 id [description]
      * @return      {[type]}                    [description]
      */
-    LarryTab.prototype.changeTab = function(id) {
+    zeroTab.prototype.changeTab = function(id) {
     	var that = this;
     	if (that.config.tabSession) {
     		that.session(function(session) {
@@ -656,14 +674,14 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     };
     /**
      * @description 判断菜单选项卡是否已超出了总宽度,若超过则激活左右移动按钮
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-15
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-15
      * @param int index 大于等于0时表示菜单选项卡已经存在，才有移动的需求
      * @param int scene 为1时表示删除tab菜单选项卡，为0时表示切换或是添加菜单选项卡
      * @return      {[type]}                       [description]
      */
-    LarryTab.prototype.tabMove = function(tabIndex, scene) {
+    zeroTab.prototype.tabMove = function(tabIndex, scene) {
     	var _that = this;
     	//取得菜单选项卡总宽度
     	var $tabNav = ELEM.titleBox.find('li'),
@@ -674,10 +692,10 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     	if (!$tabNav[0]) return;
     	$(window).on('resize', function() {
     		// 在窗口改变后重新获取外层固定宽度
-    		var larryTabTitW = parseInt(ELEM.titleBox.parent('#larry_tab').width() - 230);
+    		var zeroTabTitW = parseInt(ELEM.titleBox.parent('#zero_tab').width() - 230);
     		var currentTab_w = parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
-    		if (all_tab_width > larryTabTitW) {
-    			var m_left_w = larryTabTitW - all_tab_width;
+    		if (all_tab_width > zeroTabTitW) {
+    			var m_left_w = zeroTabTitW - all_tab_width;
     			if (m_left_w < 0) {
     				if (tabIndex >= 0) {
     					var currentTab_left = parseInt(ELEM.titleBox.find('.layui-this').position().left);
@@ -686,17 +704,17 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     					if (current_ml <= 0) {
     						m_left_w = 0 - currentTab_left;
     					} else {
-    						var is_show = -(currentTab_ml - larryTabTitW + parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true)) + currentTab_left);
+    						var is_show = -(currentTab_ml - zeroTabTitW + parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true)) + currentTab_left);
     						if (is_show <= 0) {
-    							m_left_w = larryTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
+    							m_left_w = zeroTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
     						} else {
     							if (scene == 1 && parseInt(currentTab_ml) < 0) {
-    								m_left_w = larryTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
+    								m_left_w = zeroTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
     								if (m_left_w > 0) {
     									m_left_w = 0;
     								}
     							} else if (scene != 1 && parseInt(currentTab_ml) <= 0) {
-    								m_left_w = larryTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
+    								m_left_w = zeroTabTitW - currentTab_left - parseInt(ELEM.titleBox.find('.layui-this').outerWidth(true));
     								if (m_left_w > 0) {
     									m_left_w = 0;
     								}
@@ -710,7 +728,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     					"marginLeft": m_left_w
     				});
     			}
-    			if (m_left_w == 0 && all_tab_width < larryTabTitW) {
+    			if (m_left_w == 0 && all_tab_width < zeroTabTitW) {
 
     			} else {
     				ELEM.titleBox.find('span').remove();
@@ -722,20 +740,20 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     		}
     		// 绑定左右箭头点击事件
     		$('.pressKey').on('click', function() {
-    			if (all_tab_width > larryTabTitW) {
+    			if (all_tab_width > zeroTabTitW) {
     				if ($(this).attr('id') == 'titleRight') {
     					var curTabM = parseInt(ELEM.titleBox.css("marginLeft"));
-    					if (Math.abs(curTabM) + larryTabTitW >= (all_tab_width - currentTab_w)) {
+    					if (Math.abs(curTabM) + zeroTabTitW >= (all_tab_width - currentTab_w)) {
     						ELEM.titleBox.css({
-    							"marginLeft": larryTabTitW - all_tab_width
+    							"marginLeft": zeroTabTitW - all_tab_width
     						});
     					} else {
     						ELEM.titleBox.css({
-    							"marginLeft": curTabM - larryTabTitW
+    							"marginLeft": curTabM - zeroTabTitW
     						});
     					}
     					//当选项卡打开过多时会很卡
-    					// if(Math.abs(curTabM) == (all_tab_width-larryTabTitW)){
+    					// if(Math.abs(curTabM) == (all_tab_width-zeroTabTitW)){
     					//  layer.tips('已达到最右侧,别点了滚不动啦！', $(this), {
     					//    tips: [1, '#FF5722']
     					//  });
@@ -744,9 +762,9 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     				}
     				if ($(this).attr('id') == 'titleLeft') {
     					var curTabM = parseInt(ELEM.titleBox.css("marginLeft"));
-    					if (curTabM + larryTabTitW < 0) {
+    					if (curTabM + zeroTabTitW < 0) {
     						ELEM.titleBox.css({
-    							"marginLeft": curTabM + larryTabTitW
+    							"marginLeft": curTabM + zeroTabTitW
     						});
     					} else {
     						ELEM.titleBox.css({
@@ -763,29 +781,29 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     				}
     			}
     		});
-    		// 拖拽功能实用性不是很强，以后有时间再搞: write by larry 8.20 am 04:03
+    		// 拖拽功能实用性不是很强，以后有时间再搞: write by zero 8.20 am 04:03
     	}).resize();
     };
 	/**
 	 * @description tab选项卡相关控制操作及页面右键菜单控制
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-15
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-15
      * @param       {[type]}                 eventsName [description]
      * @return      {[type]}                            [description]
      */
-    LarryTab.prototype.tabCtrl = function(eventsName) {
+    zeroTab.prototype.tabCtrl = function(eventsName) {
     	var that = this;
     	var _config = that.config;
     	var currentTabID = that.getCurrentTabId();
     	switch (eventsName) {
     		case 'positionCurrent' : //定位当前选项卡
-    			var $cur_li = $(_config.larry_elem).find('ul.layui-tab-title').children('li.layui-this');
+    			var $cur_li = $(_config.zero_elem).find('ul.layui-tab-title').children('li.layui-this');
     			var cur_href = $('#ifr'+currentTabID).attr("src");
     			var cur_gp = $('#ifr'+currentTabID).data('group');  
     			var cur_data = {
     					title: $cur_li.children('em').text(),
-    					content:'<iframe src="' + cur_href + '" data-group="' + cur_gp + '" data-id="'  + currentTabID + '" name="ifr_' + currentTabID + '" id="ifr' + currentTabID + '"  class="larry-iframe"></iframe>',
+    					content:'<iframe src="' + cur_href + '" data-group="' + cur_gp + '" data-id="'  + currentTabID + '" name="ifr_' + currentTabID + '" id="ifr' + currentTabID + '"  class="zero-iframe"></iframe>',
     					id: currentTabID
     			};
     			that.tabAdd(cur_data);
@@ -796,7 +814,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     				that.deleteTab(currentTabID);
     				that.tabMove(currentTabID, 1);
     			} else {
-    				common.larryCmsError(common.larryCore.tit + '：默认首页不能关闭的哦！', common.larryCore.closeTit);
+    				common.zeroCmsError(common.zeroCore.tit + '：默认首页不能关闭的哦！', common.zeroCore.closeTit);
     			}
     			break;
     		case 'closeOther': //关闭其他
@@ -810,9 +828,9 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     					}
     				});
     			} else if (ELEM.titleBox.children('li').length == 2) {
-    				common.larryCmsError(common.larryCore.tit + '：【默认首页】不能作为其他选项卡关闭！', common.larryCore.closeTit);
+    				common.zeroCmsError(common.zeroCore.tit + '：【默认首页】不能作为其他选项卡关闭！', common.zeroCore.closeTit);
     			} else {
-    				common.larryCmsError(common.larryCore.tit + '：当前无其他可关闭选项卡！', common.larryCore.closeTit);
+    				common.zeroCmsError(common.zeroCore.tit + '：当前无其他可关闭选项卡！', common.zeroCore.closeTit);
     			}
     			break;
     		case 'closeAll': //全部关闭
@@ -826,12 +844,12 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     					}
     				});
     			} else {
-    				common.larryCmsError(common.larryCore.tit + '：当前无其他可关闭选项卡！', common.larryCore.closeTit);
+    				common.zeroCmsError(common.zeroCore.tit + '：当前无其他可关闭选项卡！', common.zeroCore.closeTit);
     			}
     			break;
     		case 'refreshAdmin': //刷新最外层框架
     			layer.confirm('您确定真的要重新加载后台系统界面！', {
-    				title: common.larryCore.tit,
+    				title: common.zeroCore.tit,
     				time: 0,
     				resize: false,
     				btn: ['我很确定', '不,我点错了'],
@@ -849,20 +867,20 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     };
     /**
      * @description 定义sessionStorage
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-15
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-15
      * @param       {Function}               callback [description]
      * @return      {[type]}                          [description]
      */
-    LarryTab.prototype.session = function(callback) {
+    zeroTab.prototype.session = function(callback) {
     	if (!window.sessionStorage) {
     		return false;
     	}
     	callback(window.sessionStorage);
     };
     /**
-     * www.larrycms.com
+     * www.zerocms.com
      * [getHtml getHtml 功能函数]
      * @param  {[type]} data      [description]
      * @param  {[type]} topStatus [description]
@@ -994,7 +1012,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     	var $container;
     	if (elemName != 'top_menu') {
     		if (typeof(elem) !== 'string' && typeof(elem) !== 'object') {
-    			common.larryCmsError(elemName + '参数未定义或设置出错', common.larryCore.paramsTit);
+    			common.zeroCmsError(elemName + '参数未定义或设置出错', common.zeroCore.paramsTit);
     			$container = 'error';
     			return $container;
     		}
@@ -1013,13 +1031,13 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     		$container = elem;
     	}
     	if ($container.length === 0) {
-    		common.larryCmsError(elemName + ': 您设置了 ' + elemName + '参数，但DOM文档中找不到定义的【 ' + elem + ' 】元素', common.larryCore.paramsTit);
+    		common.zeroCmsError(elemName + ': 您设置了 ' + elemName + '参数，但DOM文档中找不到定义的【 ' + elem + ' 】元素', common.zeroCore.paramsTit);
     		$container = 'error';
     		return $container;
     	}
     	var filter = $container.attr('lay-filter');
     	if (filter === undefined || filter === '') {
-    		common.larryCmsError('请为【' + elem + '】容器设置一个lay-filter过滤器', 'lay-filter设置提示');
+    		common.zeroCmsError('请为【' + elem + '】容器设置一个lay-filter过滤器', 'lay-filter设置提示');
     	}
     	return $container;
     }
@@ -1027,9 +1045,9 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
 
     /**
      * @description 事件过滤检查
-     * @link        http://www.larrycms.com/
-     * @copyright   [LarryCMS]
-     * @author Larry_qin 2017-08-14
+     * @link        http://www.zerocms.com/
+     * @copyright   [zeroCMS]
+     * @author zero_qin 2017-08-14
      * @param       {[type]}                 events [description]
      * @return      {[type]}                        [description]
      */
@@ -1039,7 +1057,7 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     			filter: ''
     	};
     	if (typeof(events) !== 'string') {
-    		common.larryCmsError('事件名设置错误，请参考LarryMS API文档.', common.larryCore.errorTit);
+    		common.zeroCmsError('事件名设置错误，请参考zeroMS API文档.', common.zeroCore.errorTit);
     	}
     	var lIndex = events.indexOf('(');
     	result.eventName = events.substr(0, lIndex);
@@ -1072,16 +1090,16 @@ layui.define(['jquery', 'larryElem', 'layer', 'common'], function(exports) {
     	}
     }
     // 测试方法
-    LarryTab.prototype.test = function(callback,msg){
+    zeroTab.prototype.test = function(callback,msg){
     	callback();
     };
     //测试方法
-    LarryTab.prototype.basepath = function(pa){
+    zeroTab.prototype.basepath = function(pa){
     	bpath=pa;
     };
-    // 创建LarryTab对象
-    var larryTab = new LarryTab();
+    // 创建zeroTab对象
+    var zeroTab = new zeroTab();
     exports(module_name, function(options) {
-    	return larryTab.set(options);
+    	return zeroTab.set(options);
     });
 });

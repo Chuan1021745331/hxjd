@@ -1,63 +1,63 @@
-var larryTab;
-layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],function(){
+var zeroTab;
+layui.use(['jquery','zeroElem','layer','common','form','zeroMenu','zeroTab'],function(){
 	var $ = layui.$,
-		larryElem = layui.larryElem,
+		zeroElem = layui.zeroElem,
 		layer = layui.layer,
 		common = layui.common,
 		form = layui.form,
 		// 页面上下文菜单
-		larryMenu = layui.larryMenu();
+		zeroMenu = layui.zeroMenu();
 		//核心操作
-		larryTab = layui.larryTab({
-			top_menu: '#larry_top_menu',
-			left_menu: '#larry_left_menu',
-			larry_elem: '#larry_tab',
+		zeroTab = layui.zeroTab({
+			top_menu: '#zero_top_menu',
+			left_menu: '#zero_left_menu',
+			zero_elem: '#zero_tab',
 			spreadOne: true
 		});
     // 页面禁止双击选中
     $('body').bind("selectstart", function() {return false;});
-    larryTab.basepath(bpath);
+    zeroTab.basepath(bpath);
     // 菜单初始化
     // 方法1：
-	larryTab.menuSet({
+	zeroTab.menuSet({
 		  tyep:'GET',
 		  url: bpath+'/admin/getMenuss?t='+Math.random(),
 		  topFilter: 'TopMenu',
-		  lefFilter: 'LarrySide'
+		  lefFilter: 'zeroSide'
 	});
-    larryTab.menu();
+    zeroTab.menu();
     // 方法2：
     /*$.ajaxSettings.async = false;
 	$.getJSON('/backstage/datas/data.json?t=' + Math.random(), function(menuData) {
-		larryTab.menuSet({
+		zeroTab.menuSet({
 			data: menuData,
 			spreadOne: false,
 			topFilter: 'TopMenu',
-			lefFilter: 'LarrySide'
+			lefFilter: 'zeroSide'
 		});
-		larryTab.menu();
+		zeroTab.menu();
 	});
     $.ajaxSettings.async = true;*/
     // 1监听导航菜单点击事件 请注释2
-    $('#larry_top_menu li').on('click',function(){
+    $('#zero_top_menu li').on('click',function(){
     	 var group = $(this).children('a').data('group');
-    	 larryTab.on('click(TopMenu)',group);
+    	 zeroTab.on('click(TopMenu)',group);
     	 //监听左侧菜单点击事件
-    	 larryTab.on('click(LarrySide)',group,function(data){
-              larryTab.tabAdd(data.field);
+    	 zeroTab.on('click(zeroSide)',group,function(data){
+              zeroTab.tabAdd(data.field);
     	 });
     })
-    $('#larry_top_menu li').eq(0).click();
+    $('#zero_top_menu li').eq(0).click();
     // 2若不存在顶级菜单 注释以上顶级菜单监听js
-	// larryTab.on('click(LarrySide)','0', function(data) {
-	// 	larryTab.tabAdd(data.field);
+	// zeroTab.on('click(zeroSide)','0', function(data) {
+	// 	zeroTab.tabAdd(data.field);
 	// });
 	$(document).ready(function() {
 		var fScreen = localStorage.getItem("fullscreen_info");
 		var themeName = localStorage.getItem('themeName');
 		if (themeName) {
 			$("body").attr("class", "");
-			$("body").addClass("larryTheme-" + themeName);
+			$("body").addClass("zeroTheme-" + themeName);
 		}
 		if (fScreen && fScreen != 'false') {
 			var fScreenIndex = layer.alert('按ESC退出全屏', {
@@ -68,32 +68,32 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 				offset: '100px'
 			}, function() {
 				entryFullScreen();
-				$('#FullScreen').html('<i class="larry-icon larry-quanping"></i>退出全屏');
+				$('#FullScreen').html('<i class="zero-icon zero-quanping"></i>退出全屏');
 				layer.close(fScreenIndex);
 			});
 		}
 	});
 	// 刷新iframe
 	$("#refresh_iframe").click(function() {
-		$('#larry_tab_content').children('.layui-show').children('iframe')[0].contentWindow.location.reload(true);
+		$('#zero_tab_content').children('.layui-show').children('iframe')[0].contentWindow.location.reload(true);
 	});
 	// 常用操作
 	$('#buttonRCtrl').find('dd').each(function() {
 		$(this).on('click', function() {
 			var eName = $(this).children('a').attr('data-eName');
-			larryTab.tabCtrl(eName);
+			zeroTab.tabCtrl(eName);
 		});
 	});
 
     //清除缓存
     $('#clearCached').on('click', function () {
-        larryTab.cleanCached();
+        zeroTab.cleanCached();
         layer.alert('缓存清除完成!本地存储数据也清理成功！', { icon: 1, title: '系统提示' }, function () {
             location.reload();//刷新
         });
     });
     
-    $('#larryTheme').on('click', function() {
+    $('#zeroTheme').on('click', function() {
 		var fScreen = localStorage.getItem('fullscreen_info');
 		var themeName = localStorage.getItem('themeName');
 		layer.open({
@@ -106,7 +106,7 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 			isOutAnim: true,
 			resize: false,
 			anim: Math.ceil(Math.random() * 6),
-			content: $('#LarryThemeSet').html(),
+			content: $('#zeroThemeSet').html(),
 			success: function(layero, index) {
 				if (fScreen && fScreen != 'false') {
 					$("input[lay-filter='fullscreen']").attr("checked", "checked");
@@ -134,12 +134,12 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 			localStorage.setItem('autoRefresh', auto); 
 		});
 		// 主题设置
-		form.on('select(larryTheme)', function(data) {
+		form.on('select(zeroTheme)', function(data) {
 			var themeValue = data.value;
 			localStorage.setItem('themeName', themeValue); //themeName:themeValue
 			if (themeName) {
 				$("body").attr("class", "");
-				$("body").addClass("larryTheme-" + themeName);
+				$("body").addClass("zeroTheme-" + themeName);
 			}
 			form.render('select');
 		});
@@ -158,10 +158,10 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 			document.webkitFullscreenElement;
 		if (fullscreenElement == null) {
 			entryFullScreen();
-			$(this).html('<i class="larry-icon">&#xe604;</i>退出全屏');
+			$(this).html('<i class="zero-icon">&#xe604;</i>退出全屏');
 		} else {
 			exitFullScreen();
-			$(this).html('<i class="larry-icon">&#xe604;</i>全屏');
+			$(this).html('<i class="zero-icon">&#xe604;</i>全屏');
 		}
 	});
 
@@ -194,7 +194,7 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 		common.logOut('退出登陆提示！','你真的确定要退出系统吗？',url);
 	});
 
-    var larryMenuData = [
+    var zeroMenuData = [
 		[{
 			text: "刷新当前页",
 		    func: function() {
@@ -212,7 +212,7 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 		},{
 			text: "设置系统主题",
 		    func: function() {
-			    $("#larryTheme").trigger("click");
+			    $("#zeroTheme").trigger("click");
 		    }
 		}, {
 			text: "选项卡常用操作",
@@ -241,17 +241,17 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
 			]
 		}]
 	];
-	larryMenu.ContentMenu(larryMenuData,{
+	zeroMenu.ContentMenu(zeroMenuData,{
          name: "body" 
 	},$('body'),bpath);
-	$('#larry_body').mouseover(function(){
-        larryMenu.remove();
+	$('#zero_body').mouseover(function(){
+        zeroMenu.remove();
 	});
 
 
 	$('.pressKey').on('click', function() {
-		var titW = parseInt($('#larry_tab').width() - 270);
-		var $tabUl = $('#larry_tab').find('li'),
+		var titW = parseInt($('#zero_tab').width() - 270);
+		var $tabUl = $('#zero_tab').find('li'),
 			all_li_w = 0;
 		$tabUl.each(function(i, n) {
 			all_li_w += $(n).outerWidth(true);
@@ -310,12 +310,12 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
    	    unlockSys();
    });
    function unlockSys(){
-   	   if($('#unlock_pass').val() == 'larrycms'){
+   	   if($('#unlock_pass').val() == 'zerocms'){
            locked = 0;
    	   	   checkLockStatus(locked);
    	   	   return;
    	   }else{
-   	   	   layer.tips('模拟锁屏，输入密码：larrycms 解锁', $('#unlock'), {
+   	   	   layer.tips('模拟锁屏，输入密码：zerocms 解锁', $('#unlock'), {
 				tips: [3, '#FF5722'],
 				time:1000
 			});
@@ -346,36 +346,36 @@ layui.use(['jquery','larryElem','layer','common','form','larryMenu','larryTab'],
         if(locked == 1){
         	$('.lock-screen').show();
             $('#locker').show();
-            $('#larry_admin_out').hide();
+            $('#zero_admin_out').hide();
             $('#lock_password').val('');
         }else{
         	$('.lock-screen').hide();
             $('#locker').hide();
-            $('#larry_admin_out').show();
+            $('#zero_admin_out').show();
         }
     } 
     
     // 兼容蛋疼的移动端
-	$('#larryMobile').on('click', function() {
-		if ($('.larry-mobile #larry_left').css("display") == "none") {
-			$('.larry-mobile #larry_left').show();
+	$('#zeroMobile').on('click', function() {
+		if ($('.zero-mobile #zero_left').css("display") == "none") {
+			$('.zero-mobile #zero_left').show();
 		} else {
-			$('.larry-mobile #larry_left').hide();
+			$('.zero-mobile #zero_left').hide();
 		}
         
-        if ($('.larry-mobile .larrycms-top-menu').css("display") == "none") {
-			$('.larry-mobile .larrycms-top-menu').show();
+        if ($('.zero-mobile .zerocms-top-menu').css("display") == "none") {
+			$('.zero-mobile .zerocms-top-menu').show();
 		} else {
-			$('.larry-mobile .larrycms-top-menu').hide();
+			$('.zero-mobile .zerocms-top-menu').hide();
 		}
 
 	});
     var device = layui.device();
 	// 兼容IE8 chrome 60以下版本 calc
 	if(device.ie && device.ie <9){
-          $('.larrycms-top').width($('#larry_admin_out').width()-200);
+          $('.zerocms-top').width($('#zero_admin_out').width()-200);
 	}else if(navigator.userAgent.indexOf("Chrome") <= 60 && navigator.userAgent.indexOf("Chrome") > -1){
-          $('.larrycms-top').width($('#larry_admin_out').width()-200);
+          $('.zerocms-top').width($('#zero_admin_out').width()-200);
 	}
 
 });

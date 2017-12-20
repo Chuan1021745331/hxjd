@@ -8,7 +8,7 @@ body{
 	background: #ffffff;
 	overflow-x: hidden;
 }
-.larry-wrapper{
+.zero-wrapper{
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
@@ -16,19 +16,19 @@ body{
 	background: #5FB878;
 }
 
-.larry-panel{
+.zero-panel{
 	background: #ffffff;
 	border: 1px solid #EEEFF4;
 	-webkit-border-radius:4px;
 	border-radius: 4px;
 }
-.larry-panel-header{
+.zero-panel-header{
     padding: 15px 20px 15px 15px;
     border: none;
     border-bottom: 1px solid #EEEFF1;
     font-size: 14px;
 }
-.larry-panel-title{
+.zero-panel-title{
 	text-align: left;
 	font-size: 16px;
 	line-height: 24px;
@@ -36,35 +36,35 @@ body{
 	font-weight: 400;
 	font-family: "Microsoft YaHei";
 }
-.larry-panel-header .tools{
+.zero-panel-header .tools{
 	text-align: right;
 	color: #dddddd;
 	cursor: pointer;
 }
-.larry-panel-header .tools i{
+.zero-panel-header .tools i{
 	font-size: 24px;
 	line-height: 24px;
 	color: #dddddd;
 }
-.larry-panel-header .tools:hover i{
+.zero-panel-header .tools:hover i{
 	color: #666666;
 }
-.larry-panel-body{
+.zero-panel-body{
     padding: 15px;
 }
 /*panel主题*/
-.larry-panel-bg-one .larry-panel-header{
+.zero-panel-bg-one .zero-panel-header{
    background: #32AFCD;
    color: #ffffff;
 }
-.larry-panel-bg-one .larry-panel-header .tools i{
+.zero-panel-bg-one .zero-panel-header .tools i{
 	color: #ffffff;
 }
-/*larry动画处理*/
-.larry-ico-rotate{
+/*zero动画处理*/
+.zero-ico-rotate{
 	cursor: pointer;
 }
-.larry-ico-rotate i{
+.zero-ico-rotate i{
     -webkit-transition-duration: 0.5s;
 	transition-duration: 0.5s;
 	-webkit-transition-property: transform;
@@ -72,7 +72,7 @@ body{
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out
 }
-.larry-ico-rotate:hover i,.larry-ico-rotate:focus i,.larry-ico-rotate:active i{
+.zero-ico-rotate:hover i,.zero-ico-rotate:focus i,.zero-ico-rotate:active i{
 	-webkit-transform: rotate(360deg);
 	transform: rotate(360deg);
 }

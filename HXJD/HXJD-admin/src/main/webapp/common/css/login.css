@@ -18,7 +18,7 @@ font-family: "Microsoft YaHei";
 #supersized img { max-width: none !important }
 #supersized i { _zoom:300;}
 
-.larry-main{
+.zero-main{
 	width: 400px;
 	height: auto;
 	margin: 0 auto;
@@ -33,7 +33,7 @@ font-family: "Microsoft YaHei";
 	filter:alpha(opacity=80);/*IE*/
 	border: 1px solid #909090;
 }
-.larry-main .title{
+.zero-main .title{
 	display: block;
 	width: 100%;
 	height: 45px;
@@ -44,7 +44,7 @@ font-family: "Microsoft YaHei";
 	font-weight: bold;
 	margin-bottom: 5px;
 }
-.larry-main p.info{
+.zero-main p.info{
 	display: block;
 	width: 100%;
 	height: 35px;
@@ -104,7 +104,7 @@ font-family: "Microsoft YaHei";
 	border-right: dotted 1px #FFF;
 	text-align: right;
 }
-.layui-form .layui-form-item input.larry-input {
+.layui-form .layui-form-item input.zero-input {
 	display: block;
 	width: 100%;
 	height: 40px;
@@ -148,37 +148,37 @@ input:-ms-input-placeholder {
 	color: #ccc;
 }
 
-.layui-form .layui-form-item input.larry-input:focus{
+.layui-form .layui-form-item input.zero-input:focus{
 	color: #ffffff;
 }
-#larry_code {
+#zero_code {
 	width: 100px;
 	margin-bottom: 25px;
 /*	margin-top: 10px;
 	margin-bottom: 30px;*/
 }
-#larry_code input.larry-input{
+#zero_code input.zero-input{
 	padding-left: 10px !important;
 	color: #ffffff;
 	
 }
-#larry_code input.larry-input:focus{
+#zero_code input.zero-input:focus{
 	color: #ffffff;
 	font-size: 16px;
 }
-#larry_code input::-webkit-input-placeholder {
+#zero_code input::-webkit-input-placeholder {
 	color: #fff;
 }
-#larry_code input:-moz-placeholder {
+#zero_code input:-moz-placeholder {
 	color: #fff;
 }
-#larry_code input::-moz-placeholder {
+#zero_code input::-moz-placeholder {
 	color: #fff;
 }
-#larry_code input:-ms-input-placeholder {
+#zero_code input:-ms-input-placeholder {
 	color: #fff;
 }
-#larry_code .code{
+#zero_code .code{
 	display: block;
 	/*display: none;*/
 	background: #ffffff;
@@ -191,7 +191,7 @@ input:-ms-input-placeholder {
     left: 108px;
     box-shadow: 0 1px 1px 1px rgba(0,0,0,0.25);
 }
-#larry_code .code .arrow {
+#zero_code .code .arrow {
 	background: url(../images/login/login_code.png) no-repeat 0 0;
 	display: block;
 	width: 7px;
@@ -200,7 +200,7 @@ input:-ms-input-placeholder {
 	left: -7px;
 	top: 13px;
 }
-#larry_code .code-img{
+#zero_code .code-img{
 	width: 160px;
 	height: 38px;
 	position: absolute;
@@ -208,12 +208,12 @@ input:-ms-input-placeholder {
 	left: 2px;
 	cursor: pointer;
 }
-#larry_code .code-img img{
+#zero_code .code-img img{
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-#larry_code .code a.change{
+#zero_code .code a.change{
 	display: block;
     width: 11px;
     height: 14px;
@@ -224,7 +224,7 @@ input:-ms-input-placeholder {
     background: url(../images/login/login_code.png) no-repeat 0px -15px;
     opacity: 0.7;
 }
-.larry-btn {
+.zero-btn {
 	position: static;
 	display: block;
 	font-size: 16px;
@@ -252,12 +252,12 @@ input:-ms-input-placeholder {
 	-webkit-transition: all .2s;
 	-ms-transition: all .2s;
 }
-.larry-btn:hover {
+.zero-btn:hover {
 	-moz-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .15) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
 	-webkit-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .15) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
 	box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .15) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
 }
-.larry-btn:active {
+.zero-btn:active {
 	-moz-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .15) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
 	-webkit-box-shadow: 0 15px 30px 0 rgba(255, 255, 255, .15) inset, 0 2px 7px 0 rgba(0, 0, 0, .2);
 	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .1) inset, 0 1px 4px 0 rgba(0, 0, 0, .1);

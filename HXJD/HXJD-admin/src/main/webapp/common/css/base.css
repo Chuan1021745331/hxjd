@@ -43,6 +43,11 @@ body {
 	overflow-x: hidden;
 }
 
+textarea {
+	resize: none !important;
+	overflow: auto;
+}
+
 .iconfont {
 	width: 16px;
 }
@@ -56,9 +61,9 @@ body {
 	margin-left: -200px;
 	margin-top: -150px;
 	color: #fff;
-	background: #378821; 
-	padding: 45px 30px; 
-	border-radius: 4px; 
+	background: #378821;
+	padding: 45px 30px;
+	border-radius: 4px;
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -74,7 +79,7 @@ body {
 	margin-top: 45px;
 }
 
-.larrycms-admin .larrycms-left {
+.zerocms-admin .zerocms-left {
 	width: 203px;
 	border-right: 0px;
 }
@@ -84,46 +89,45 @@ body {
 	color: #fff;
 }
 
-.larrycms-top ul.layui-nav li.layui-nav-item {
+.zerocms-top ul.layui-nav li.layui-nav-item {
 	line-height: 53px;
 	height: 53px;
 }
 
-.larrycms-top ul.layui-nav li.layui-nav-item a {
+.zerocms-top ul.layui-nav li.layui-nav-item a {
 	line-height: 53px !important;
 	height: 53px;
 	vertical-align: top;
 	color: rgba(255, 255, 255, .7)
 }
 
-.larrycms-top ul.layui-nav li.layui-nav-item a cite {
+.zerocms-top ul.layui-nav li.layui-nav-item a cite {
 	font-size: 13px;
 	vertical-align: top;
 }
 
-.larrycms-top ul.layui-nav li.layui-nav-item a i {
+.zerocms-top ul.layui-nav li.layui-nav-item a i {
 	vertical-align: top;
 }
 
-.larrycms-admin .larrycms-left .layui-side-scroll {
+.zerocms-admin .zerocms-left .layui-side-scroll {
 	width: 203px
 }
 
-.larrycms-tab .title-right {
+.zerocms-tab .title-right {
 	width: 190px;
 }
 
-.larrycms-tab .title-right .refresh, .larrycms-tab ul.larrycms-tab-title
-	{
+.zerocms-tab .title-right .refresh, .zerocms-tab ul.zerocms-tab-title {
 	left: 35px;
 }
 
-.larrycms-tab .title-right .often {
+.zerocms-tab .title-right .often {
 	left: 104px;
 	width: 122px;
 }
 
-.layui-tab-title li, .larrycms-tab .title-right .refresh cite {
+.layui-tab-title li, .zerocms-tab .title-right .refresh cite {
 	font-size: 13px;
 }
 
@@ -140,21 +144,21 @@ body {
 	margin-left: 3px;
 }
 
-.larrycms-tab .larrycms-title-box, .larrycms-tab .key-press,
-	.larrycms-tab ul.larrycms-tab-title, .larrycms-tab .title-right,
-	.larrycms-tab ul.larrycms-tab-title .layui-this, .often ul.layui-nav li.layui-nav-item a.top i,
-	.often ul.layui-nav li.layui-nav-item a.top cite {
+.zerocms-tab .zerocms-title-box, .zerocms-tab .key-press, .zerocms-tab ul.zerocms-tab-title,
+	.zerocms-tab .title-right, .zerocms-tab ul.zerocms-tab-title .layui-this,
+	.often ul.layui-nav li.layui-nav-item a.top i, .often ul.layui-nav li.layui-nav-item a.top cite
+	{
 	height: 35px;
 }
 
-.larrycms-tab .go-left, .larrycms-tab .key-press, .larrycms-tab .key-press
+.zerocms-tab .go-left, .zerocms-tab .key-press, .zerocms-tab .key-press
 	{
 	width: 35px;
 }
 
-.larrycms-tab ul.larrycms-tab-title, .layui-tab-title li, .larrycms-tab ul.larrycms-tab-title li i.larry-icon,
-	.larrycms-tab .key-press i, .larrycms-tab ul.larrycms-tab-title li em,
-	.larrycms-tab .title-right .refresh cite, .larrycms-tab .title-right .often ul.layui-nav li.layui-nav-item a.top,
+.zerocms-tab ul.zerocms-tab-title, .layui-tab-title li, .zerocms-tab ul.zerocms-tab-title li i.zero-icon,
+	.zerocms-tab .key-press i, .zerocms-tab ul.zerocms-tab-title li em,
+	.zerocms-tab .title-right .refresh cite, .zerocms-tab .title-right .often ul.layui-nav li.layui-nav-item a.top,
 	.often ul.layui-nav li.layui-nav-item a.top i, .often ul.layui-nav li.layui-nav-item a.top cite
 	{
 	line-height: 35px
@@ -175,36 +179,36 @@ body {
 	width: 30px;
 }
 
-.larrycms-tab .title-right .often ul.layui-nav li.layui-nav-item,
-	.larrycms-tab .title-right .often ul.layui-nav {
+.zerocms-tab .title-right .often ul.layui-nav li.layui-nav-item,
+	.zerocms-tab .title-right .often ul.layui-nav {
 	width: 85px;
 }
 
-.layui-nav-item .larry-icon {
+.layui-nav-item .zero-icon {
 	font-size: 16px;
 }
 
-.larrycms-admin .larrycms-header {
+.zerocms-admin .zerocms-header {
 	height: 53px;
 	z-index: 1001;
 	border-bottom: 0px;
 }
 
-.larrycms-top .larrycms-top-menu ul.layui-nav li.layui-nav-item a i {
+.zerocms-top .zerocms-top-menu ul.layui-nav li.layui-nav-item a i {
 	font-size: 18px;
 }
 
-.larrycms-admin .larrycms-footer {
+.zerocms-admin .zerocms-footer {
 	left: 202px;
 	background-color: #393D49;
 }
 
-.larry-theme-form .submit-form button.larry-button {
+.zero-theme-form .submit-form button.zero-button {
 	margin-left: 45px;
 	margin-right: 25px;
 }
 
-.larry-theme-form .submit-form button.larry-button1 {
+.zero-theme-form .submit-form button.zero-button1 {
 	margin-left: 30px;
 }
 
@@ -279,15 +283,20 @@ body {
 }
 
 .layui-tab-title .iconfont {
-	margin-right: 5px;
+	margin-right: 3px;
+	height: 55px;
+	line-height: 35px;
+	font-weight: bold;
+	font-size: 17px;
 }
 
-.larrycms-top-menu .iconfont {
+.zerocms-top-menu .iconfont {
 	width: 0px;
 }
 
 .ztree li a.curSelectedNode {
-	border: 1px solid #009688;
+	border-left: 1px solid #009688;
+	border-right: 1px solid #009688;
 }
 
 .layui-table-header span {
@@ -299,7 +308,7 @@ body {
 	color: #c6c6c6
 }
 
-.layui-nav-itemed .layui-nav-child, .larrycms-admin .larrycms-header {
+.layui-nav-itemed .layui-nav-child, .zerocms-admin .zerocms-header {
 	/* 	background-color: #2c2c2c!important; */
 	background-color: #393D49 !important
 }
@@ -379,7 +388,7 @@ body {
 	font-size: 13px;
 }
 
-.larrycms-admin .larrycms-footer .inline-block {
+.zerocms-admin .zerocms-footer .inline-block {
 	float: right;
 	margin-right: 0px;
 }
@@ -409,11 +418,60 @@ body {
 	.layui-table-view .layui-form-switch {
 	top: -2px;
 }
+
 .often ul.layui-nav li.layui-nav-item dl a i {
 	height: 40px;
 	line-height: 40px;
 	width: 20px;
 }
-.layui-layer-title i{
+
+.layui-layer-title i {
 	margin-right: 5px;
+}
+
+.sel input {
+	border: none;
+}
+
+.hideLeftNav .layui-side-scroll .user-info {
+	padding-top: 0px;
+}
+
+.hideLeftNav .layui-side-scroll .user-info .photo {
+	width: 38px;
+	height: 38px;
+	margin-left: 3px;
+}
+
+.hideLeftNav .layui-side-scroll .user-info p {
+	font-size: 12px;
+}
+
+.hideLeftNav .layui-side-scroll .user-info p+p {
+	display: none;
+}
+
+.hideLeftNav #zero_left_menu li a {
+	padding: 0px !important;
+}
+
+.hideLeftNav #zero_left_menu li a i {
+	width: 53px;
+	font-size: 32px;
+	line-height: 45px;
+	text-align: center;
+	padding-right: 0px;
+}
+
+.hideLeftNav #zero_left_menu li a cite, .hideLeftNav #zero_left_menu li a span
+	{
+	display: none;
+}
+
+.hideLeftNav #zero_left_menu li dl dd a i {
+	width: 53px;
+	font-size: 20px;
+	line-height: 45px;
+	text-align: center;
+	padding-right: 0px;
 }

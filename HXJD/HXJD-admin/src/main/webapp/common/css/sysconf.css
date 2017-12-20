@@ -9,7 +9,7 @@ body{
 	padding: 0px;
 	margin: 0px;
 }
-.larry-wrapper{
+.zero-wrapper{
 	margin: 15px;
 	padding: 0px;
 	border-radius: 3px;
@@ -17,18 +17,18 @@ body{
     border: 1px solid #F1F2F7;
     box-shadow: 0px 1px 1px #F1F2F7;
 }
-.larry-body{
+.zero-body{
 	margin: 0 auto;
 	width: 100%;
 	height: auto;
 }
-.larry-body .larry-body-header{
+.zero-body .zero-body-header{
 	width: 100%;
 	height: 50px;
 	border-bottom: 1px solid #EEEFF1;
 	padding:0 20px;
 }
-.larry-body .larry-body-header span.tit{
+.zero-body .zero-body-header span.tit{
 	line-height: 50px;
 	font-size: 18px;
 	color: #333333;
@@ -37,14 +37,14 @@ body{
 	text-align: left;
 	padding-left: 0px;
 }
-.larry-body .larry-body-content{
+.zero-body .zero-body-content{
 	padding: 20px;
 	padding-right: 40px;
 }
 .inline-block{
 	margin-right: 5px;
 }
-.larry-form-tit{
+.zero-form-tit{
 	display: inline-block;
 	width: calc(100% - 460px);
 	width: -moz-calc(100%-460px);
@@ -52,86 +52,86 @@ body{
 	float: right;
 	height: 35px;
 }
-.larry-classify{
+.zero-classify{
 	width: 300px;
 	height: 35px;
 	float: right;
 	margin-right: 20px;
 }
-.larry-classify .layui-form-label{
+.zero-classify .layui-form-label{
 	color: #000000;
 	width: 90px;
 	padding:7.5px 15px;
 }
-.larry-classify .layui-unselect{
+.zero-classify .layui-unselect{
     width: 150px;
 	height: 35px;
 }
-.larry-search{
+.zero-search{
 	float: right;
 	width: 210px;
 	height: 35px;
 }
-.larry-search .layui-unselect{
+.zero-search .layui-unselect{
 	width: 210px;
 	height: 35px;
 }
-.larry-form-tit .layui-unselect input{
+.zero-form-tit .layui-unselect input{
 	color: #333333;
 	font-size: 14px;
 }
 
 
-.larry-table-list{
+.zero-table-list{
 	width: 100%;
 	height: auto;
 	padding: 0px;
 }
-.larry-table-list .layui-table{
+.zero-table-list .layui-table{
 	padding: 0px;
 	margin: 0px;
 }
-.larry-table-list .layui-table thead tr th:nth-child(5),
-.larry-table-list .layui-table thead tr th:nth-child(6),
-.larry-table-list .layui-table thead tr th:nth-child(7){
+.zero-table-list .layui-table thead tr th:nth-child(5),
+.zero-table-list .layui-table thead tr th:nth-child(6),
+.zero-table-list .layui-table thead tr th:nth-child(7){
 	text-align: center;
 }
-.larry-table-list .layui-table thead tr th:last-child{
+.zero-table-list .layui-table thead tr th:last-child{
 	text-align: center;
 }
-.larry-table-list .layui-table tbody tr td:nth-child(5),
-.larry-table-list .layui-table tbody tr td:nth-child(6),
-.larry-table-list .layui-table tbody tr td:nth-child(7){
+.zero-table-list .layui-table tbody tr td:nth-child(5),
+.zero-table-list .layui-table tbody tr td:nth-child(6),
+.zero-table-list .layui-table tbody tr td:nth-child(7){
 	text-align: center;
 }
-.larry-table-list .layui-table tbody tr td:last-child{
+.zero-table-list .layui-table tbody tr td:last-child{
 	text-align: center;
 }   
-.larry-table-list .layui-table tbody tr td a.layui-btn{
+.zero-table-list .layui-table tbody tr td a.layui-btn{
 	height: 24px !important;
 	line-height: 24px !important;
 	font-size: 12px;
 	padding: 0px 8px;
 }
-.larry-table-list .layui-table tbody tr td a.layui-btn-small{
+.zero-table-list .layui-table tbody tr td a.layui-btn-small{
 	height: 24px !important;
 	line-height: 24px !important;
 	font-size: 12px;
 	padding: 0px 8px;
 }
-.larry-table-list .layui-table tbody tr td a.layui-btn-normal{
+.zero-table-list .layui-table tbody tr td a.layui-btn-normal{
 	height: 24px !important;
 	line-height: 24px !important;
 	font-size: 12px;
 	padding: 0px 8px;
 }
-.larry-table-list .layui-table tbody tr td a.layui-btn-danger{
+.zero-table-list .layui-table tbody tr td a.layui-btn-danger{
 	height: 24px !important;
 	line-height: 24px !important;
 	font-size: 12px;
 	padding: 0px 8px;
 }
-.larry-table-list .layui-table tbody tr td a.layui-btn i.larry-icon{
+.zero-table-list .layui-table tbody tr td a.layui-btn i.zero-icon{
 	height: 20px !important;
 	line-height: 20px !important;
 	font-size: 12px;
@@ -142,22 +142,22 @@ body{
 
 
 /**编辑页面*/*/
-/*.larry-conf-box{
+/*.zero-conf-box{
 	background: #ffffff;
 }*/
-.larry-conf{
+.zero-conf{
 /*background: #E2DFDF;	*/
 background: #dddddd;
 }
-.larry-conf-page{
+.zero-conf-page{
 	padding-left: 60px;
 	
 }
-.larry-conf-page .layui-form-item{
+.zero-conf-page .layui-form-item{
 	width: 100%;
 	font-family: "Microsoft YaHei";
 }
-.larry-conf-page .layui-form-item label{
+.zero-conf-page .layui-form-item label{
 	display: inline-block;
 	vertical-align: top;
 	width: 100px;
@@ -169,7 +169,7 @@ background: #dddddd;
     font-size: 14px;
     color: #666666;
 }
-.larry-conf-page .layui-form-item .layui-input-block{
+.zero-conf-page .layui-form-item .layui-input-block{
 	display: inline-block;
 	vertical-align: top;
 	margin-left: 5px;
@@ -177,16 +177,16 @@ background: #dddddd;
 	height: 35px;
 	line-height: 35px;
 }
-.larry-conf-page .layui-form-item .layui-input-block .layui-unselect{
+.zero-conf-page .layui-form-item .layui-input-block .layui-unselect{
 	height: 36px;
 	line-height: 36px;
 }
-.larry-conf-page .layui-form-item .layui-input-block .layui-form-switch{
+.zero-conf-page .layui-form-item .layui-input-block .layui-form-switch{
 	height: 20px;
 	line-height: 20px;
 	margin-top: 0px;
 }
-.larry-conf-page .layui-form-item span.larry-conf-remark{
+.zero-conf-page .layui-form-item span.zero-conf-remark{
 	display: inline-block;
 	vertical-align: top;
 	height: 36px;
@@ -196,19 +196,19 @@ background: #dddddd;
 	font-size: 14px;
 	padding-left: 20px;
 }
-.larry-conf-page .layui-form-text{
+.zero-conf-page .layui-form-text{
 	height: 100px;
 	line-height: 25px;
 	margin-bottom: 15px;
 }
-.larry-conf-page .layui-form-text .layui-textarea{
+.zero-conf-page .layui-form-text .layui-textarea{
 	height: 100px;
 }
-.larry-btn-ctrl{
+.zero-btn-ctrl{
 	margin-top: 30px;
 	margin-bottom: 10px;
 }
-.larry-btn-ctrl .layui-btn{
+.zero-btn-ctrl .layui-btn{
 	padding-left: 25px;
 	padding-right: 25px;
 }

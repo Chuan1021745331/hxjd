@@ -28,7 +28,6 @@ layui.use( ['table','common'], function(){
 	  	,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 	  	,height: 'full-60' 											//容器高度，高度最大化减去差值
 		,onRowClick:function(index,row,tr){
-			console.log(index+"~"+row.username+"~"+tr);
 		}
 	  	,cols: [[
 			{type:'numbers'},
@@ -54,7 +53,6 @@ layui.use( ['table','common'], function(){
 	   		});
 	   	},
 	   	reloadAll: function(){
-	   		console.log("ddddd");
 		}
   	};
   	<#include "../../_include/tag/button.tag"/>

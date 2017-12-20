@@ -17,9 +17,9 @@ active = {
 						top.parent.MSG(2, "请选择一条数据"); 
 						return false; 
 					}
-					common.larryCmsConfirm('${button.title!}',bpath+'/${button.url}?id='+tempData.id);
+					common.zeroCmsConfirm('${button.title!}',bpath+'/${button.url}?id='+tempData.id);
 				<#else> 
-					common.larryCmsConfirm('${button.title!}',bpath+'/${button.url}');
+					common.zeroCmsConfirm('${button.title!}',bpath+'/${button.url}');
 				</#if> 
 			</#if> 
 		}<#if button_has_next>,</#if> 
@@ -32,7 +32,6 @@ var str='';
 $("#btn_group").append(str); 
 $('#btn_group .layui-btn').on('click',function(){ 
 	var type = $(this).data('type'); active[type] ? active[type].call(this) : ''; 
-	console.log(type);
 });
 $('.layui-inline .layui-btn').on('click', function(){ 
 	var type = $(this).data('type'); activeReload[type] ? activeReload[type].call(this) : ''; 

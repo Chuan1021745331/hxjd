@@ -1,7 +1,7 @@
 /**
- * LarryCMS Common模块
- * Autor: Larry 
- * site: www.larrycms.com
+ * zeroCMS Common模块
+ * Autor: zero 
+ * site: www.zerocms.com
  * Date :2017-01-24
  */
 var t,
@@ -18,10 +18,10 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        layer = layui.layer,
        element = layui.element,
        table = layui.table;
-   var LarryCommon = {
-        larryCore: {
+   var zeroCommon = {
+        zeroCore: {
             tit: '提示您：',
-            version: 'LarryCMSV1.9',
+            version: 'zeroCMSV1.9',
             errorTit:'错误提示！',
             errorDataTit:'数据源配置出错',
             paramsTit:'参数错误提示',
@@ -31,7 +31,7 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * 关闭弹出层
         */
-        larryCmsClose: function() {
+        zeroCmsClose: function() {
             if (!this.closeIndexs['_' + this.index]) {
                 this.closeIndexs['_' + this.index] = true;
                 return layer.close(this.index);
@@ -43,8 +43,8 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
          * @param callback 回调函数
          * @return {*|undefined}
          */
-        larryCmsalert: function(msg, callback) {
-            this.larryCmsClose();
+        zeroCmsalert: function(msg, callback) {
+            this.zeroCmsClose();
             return this.index = layer.alert(msg, {
                 end: callback,
                 scrollbar: false
@@ -53,10 +53,10 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * @description 抛出异常错误信息
         */
-       larryCmsError: function(msg,title){
+       zeroCmsError: function(msg,title){
            parent.layer.alert(msg,{
               title: title,
-              skin:'larry-debug',
+              skin:'zero-debug',
 			  icon: 2,
 			  time: 0,
 			  resize: false,
@@ -113,7 +113,6 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
    					data:data.field,
    					dataType:"json",
    					success:function(json){
-   						//console.log("old");
    						if(json.errorCode==0){
    							top.parent.MSG(4,  json.message);
    							if(typeof(parent.t) != "undefined"){
@@ -161,7 +160,6 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
     	   form.on('submit('+id+')', function(data) { 
     		   //$('"#'+formId+'"')
     	   $.post(url, $("#"+formId).serialize(),function(json,status){
-				//console.log("new");
 	    		if("success"==status){
 					if(json.errorCode==0){
 						top.parent.MSG(4,  json.message);
@@ -206,11 +204,11 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * @description 成功提示信息
         */
-        larryCmsSuccess: function(msg, title,time) {
-            this.larryCmsClose();
+        zeroCmsSuccess: function(msg, title,time) {
+            this.zeroCmsClose();
             return this.index = parent.layer.alert(msg, {
                 title: title,
-                skin:'larry-green',
+                skin:'zero-green',
                 icon: 1,
                 time: (time || 0) * 1000,
                 resize: false,
@@ -221,12 +219,12 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * @description 确认对话框
         */
-        larryCmsConfirm: function(msg, url) {
+        zeroCmsConfirm: function(msg, url) {
             var self = this;
             return this.index = parent.layer.confirm(msg, {
                 icon: 3,
-                skin:'larry-green',
-                title: self.larryCore.tit,
+                skin:'zero-green',
+                title: self.zeroCore.tit,
                 offset: '200px',
                 closeBtn: 0,
                 skin: 'layui-layer-molv',
@@ -268,16 +266,16 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * @description 
         */
-        larryCmsMessage: function(msg,mark,time){
+        zeroCmsMessage: function(msg,mark,time){
             var  that = this;
              msg = msg || 'default';
              mark = mark || 'other';
              Time = time || 2000;
              var htmlcon = htmldoc(function() {/*
-                 <div class="larrycms-message" id="messageBox">
+                 <div class="zerocms-message" id="messageBox">
                      <div class="message-con clearfix" id="msgstatus">
-                         <i id="larryicon" class="larry-icon"></i>
-                         <div id="resultmsg" class='resultmsg'>larry</div>
+                         <i id="zeroicon" class="zero-icon"></i>
+                         <div id="resultmsg" class='resultmsg'>zero</div>
                      </div>
                  </div>               
              */});
@@ -299,10 +297,10 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
                          success: function(layero, index) {
                              $("#resultmsg").text(msg);
                              if(mark == 'success'){
-                                 $('#larryicon').addClass('larry-chenggongtishi1');
+                                 $('#zeroicon').addClass('zero-chenggongtishi1');
                              }else{
-                                 $('#messageBox').addClass('larry-message-error');
-                                 $('#larryicon').addClass('larry-Error');
+                                 $('#messageBox').addClass('zero-message-error');
+                                 $('#zeroicon').addClass('zero-Error');
                              }
                              var conh = $('#messageBox').height();
                              if (conh > 97) {
@@ -311,7 +309,7 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
                                  $('#layui-layer' + index + ' .layui-layer-content').height($('#messageBox').height());
                                  if ($('#messageBox').height() > 97) {
                                      var mtop = ($('#messageBox').height() - 90) / 2;
-                                     $('#larryicon').css({"margin-top": mtop});
+                                     $('#zeroicon').css({"margin-top": mtop});
                                  }
                              }
                          }
@@ -330,9 +328,9 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
                          resize: false,
                          offset: [(screenHeight > 760) ? (screenHeight - 360) / 2 + "px" : "40px"],
                          success: function(layero, index) {
-                             $("#resultmsg").text(that.larryCore.tit+msg);
-                             $('#messageBox').addClass('larry-message-tips');
-                             $('#larryicon').addClass('larry-xiaoxitishi');
+                             $("#resultmsg").text(that.zeroCore.tit+msg);
+                             $('#messageBox').addClass('zero-message-tips');
+                             $('#zeroicon').addClass('zero-xiaoxitishi');
                              var conh = $('#messageBox').height();
                              if (conh > 100) {
                                  $('#messageBox').addClass('addWidth');
@@ -340,7 +338,7 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
                                  $('#layui-layer' + index + ' .layui-layer-content').height($('#messageBox').height());
                                  if ($('#messageBox').height() > 100) {
                                      var mtop = ($('#messageBox').height() - 90) / 2;
-                                     $('#larryicon').css({"margin-top": mtop});
+                                     $('#zeroicon').css({"margin-top": mtop});
                                  }
                              }
                          }
@@ -354,7 +352,7 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
        /**
         * @description 加载jq第三方插件（可以使用layui Jq 也可以自定义传入任何版本的jq，并让依赖jq的第三方插件正常运行随调随用）
         */
-       larryCmsLoadJq: function(jsUrl,callback,jqUrl){
+       zeroCmsLoadJq: function(jsUrl,callback,jqUrl){
             
             var urlArray = jsUrl.split("?")[0].split("/");
             var js_src = urlArray[urlArray.length -1];
@@ -487,5 +485,5 @@ layui.define(['form','element','layer','jquery','table'],function(exports){
    function htmldoc(fn){
    	    return fn.toString().split('\n').slice(1,-1).join('\n')+'\n';
    }
-   exports('common',LarryCommon);
+   exports('common',zeroCommon);
 });

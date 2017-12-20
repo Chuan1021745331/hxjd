@@ -8,7 +8,7 @@ active_id="dashboard">
 	<div class="layui-form-item">
 		<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
 			<div class="layui-input-inline">
-				<img src="${BPATH}/<#if (user.avatar)??>${user.avatar!}<#else>attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
+				<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
 				<!--存放图片路径,提交页面时传给后台的值-->
 				<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${_user.avatar!}'/>
 				<input type="file" class="upload" name="file" id="upfile" style="position: absolute; filter: alpha(opacity = 0);opacity: 0;width: 30px;"/>

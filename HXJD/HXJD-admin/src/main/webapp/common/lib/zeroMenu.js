@@ -1,10 +1,10 @@
 /**
  * @Date 2017-07-05
- * LarryMS larryMenu模块
- * Autor: Larry 
- * site: www.larrycms.com
- * @copyright [www.larrycms.com]
- * @link      http://www.larrycms.com/
+ * zeroMS zeroMenu模块
+ * Autor: zero 
+ * site: www.zerocms.com
+ * @copyright [www.zerocms.com]
+ * @link      http://www.zerocms.com/
  * @version   [v1.9] 
  * @param     {[type]}                 exports){} [description]
  * @return    {[type]}                              [description]
@@ -15,7 +15,7 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
 		common = layui.common,
 		element = layui.element;
 
-	var LarryRightMenu = function() {
+	var zeroRightMenu = function() {
 		this.config = {
 			name: "",
 			offsetX: 2,
@@ -29,7 +29,7 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
 	};
 	var D = $(document).data("func", {});
     var B = $("body");
-	LarryRightMenu.prototype.ContentMenu = function(data, options,obj) {
+	zeroRightMenu.prototype.ContentMenu = function(data, options,obj) {
 		var that = this;
 		that._data = data;
 		that.params = $.extend(true, that.config, options || {});
@@ -49,36 +49,36 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
                 //隐藏当前上下文菜单，确保页面上一次只有一个上下文菜单
 				that.hide();
 				var st = D.scrollTop();
-				var jqueryMenu = that.funLarryMenu(that._data);
+				var jqueryMenu = that.funzeroMenu(that._data);
 				if (jqueryMenu) {
-                    var larry_leftX,larry_topY;
+                    var zero_leftX,zero_topY;
                     var browseW = $(window).width();
                     var browseH = $(window).height();
-                    var menuW = $('div.larryMenuBox').width();
-                    var menuH = $('div.larryMenuBox').height();
+                    var menuW = $('div.zeroMenuBox').width();
+                    var menuH = $('div.zeroMenuBox').height();
 
 					if(browseW<(e.clientX + that.params.offsetX+menuW)){
-						larry_leftX = e.clientX - that.params.offsetX - menuW;
-						jqueryMenu.find('ul li').children('div.larryMenuBox').css({
+						zero_leftX = e.clientX - that.params.offsetX - menuW;
+						jqueryMenu.find('ul li').children('div.zeroMenuBox').css({
                             top: "-35px",
                             left: -(menuW+2)
 						});
 					}else{
-						larry_leftX = e.clientX + that.params.offsetX;
-						jqueryMenu.find('ul li').children('div.larryMenuBox').css({
+						zero_leftX = e.clientX + that.params.offsetX;
+						jqueryMenu.find('ul li').children('div.zeroMenuBox').css({
                             top: "-1px",
                             left: (menuW-5)
 						});
 					}
 					if(browseH <(e.clientY+that.params.offsetY+menuH)){
-                        larry_topY = e.clientY - that.params.offsetY - menuH;
+                        zero_topY = e.clientY - that.params.offsetY - menuH;
 					}else{
-						larry_topY = e.clientY + st + that.params.offsetY;
+						zero_topY = e.clientY + st + that.params.offsetY;
 					}
 					jqueryMenu.css({
 						display: "block",
-						left: larry_leftX,
-						top: larry_topY
+						left: zero_leftX,
+						top: zero_topY
 					});
 					
 					D.data("target", jqueryMenu);
@@ -96,15 +96,15 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
 		}
 	};
 
-	LarryRightMenu.prototype.htmlCreateMenu = function(datum) {
+	zeroRightMenu.prototype.htmlCreateMenu = function(datum) {
 		var that = this;
 		var dataMenu = datum || that._data,
 			nameMenu = datum ? Math.random().toString() : that.params.name,
 			htmlMenu = "",
 			htmlCorner = "",
-			clKey = "larry_menu_";
+			clKey = "zero_menu_";
         if ($.isArray(dataMenu) && dataMenu.length){
-            htmlMenu = '<div id="larryMenu_'+ nameMenu +'" class="'+ clKey +'box larryMenuBox">' +
+            htmlMenu = '<div id="zeroMenu_'+ nameMenu +'" class="'+ clKey +'box zeroMenuBox">' +
 								'<div class="'+ clKey +'body">' +
 									'<ul class="'+ clKey +'ul">';
 			$.each(dataMenu, function(i, arr) {
@@ -148,10 +148,10 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
         return htmlMenu;
 	};
 
-	LarryRightMenu.prototype.funLarryMenu = function() {
+	zeroRightMenu.prototype.funzeroMenu = function() {
 		var that = this;
-		var idKey = "#larryMenu_",
-			clKey = "larry_menu_",
+		var idKey = "#zeroMenu_",
+			clKey = "zero_menu_",
 			jqueryMenu = $(idKey + that.params.name);
 		if (!jqueryMenu.size()) {
 			$("body").append(that.htmlCreateMenu());
@@ -186,13 +186,13 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
 		}
 		return jqueryMenu;
 	};
-	LarryRightMenu.prototype.hide = function() {
+	zeroRightMenu.prototype.hide = function() {
 		var target = D.data("target");
 		if (target && target.css("display") === "block") {
 			target.hide();
 		}
 	};
-	LarryRightMenu.prototype.remove = function() {
+	zeroRightMenu.prototype.remove = function() {
 		var target = D.data("target");
 		if (target) {
 			target.remove();
@@ -200,10 +200,10 @@ layui.define(['jquery', 'layer', 'common', 'element'], function(exports) {
 	};
 
 
-	// 创建LarryMenu对象
-	var larryMenu = new LarryRightMenu();
+	// 创建zeroMenu对象
+	var zeroMenu = new zeroRightMenu();
 
-	exports('larryMenu', function() {
-		return larryMenu;
+	exports('zeroMenu', function() {
+		return zeroMenu;
 	})
 });

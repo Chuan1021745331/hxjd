@@ -1,12 +1,12 @@
 <#include "../../_include/_layout.inc.tag"/> 
 <@layout active_id="dashboard">
 
-<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+<form class="layui-form sel" action="" style="margin: 10px 10px 0px 10px;">
   
   <div class="layui-form-item">
 	<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
 		<div class="layui-input-inline">
-			<img src="${BPATH}/<#if (user.avatar)??>${user.avatar!}<#else>attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
+			<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
 		</div>
   </div>
   
@@ -37,14 +37,19 @@
   
   <div class="layui-form-item">
   	<label class="layui-form-label">性别</label>
-		<div class="layui-input-inline" >	
-			<input type="radio" name="user.gender" value="1" <#if user.gender??><#if user.gender == "1">checked="checked"<#else>disabled</#if></#if> title="男"> 
-			<input type="radio" name="user.gender" value="0" <#if user.gender??><#if user.gender == "0">checked="checked"<#else>disabled</#if></#if> title="女"> 
+		<div class="layui-input-inline" >
+			<#if user.gender??>
+				<#if user.gender == "1">
+					<input type="radio" name="user.gender" value="1" checked="checked" title="男">
+					<#else>
+					<input type="radio" name="user.gender" value="0" checked="checked" title="女"> 
+				</#if>
+			</#if>	
 		</div>	
 	</div>
   
   <div class="layui-form-item">
-    <label class="layui-form-label">角色选择</label>
+    <label class="layui-form-label">所属角色</label>
     <div class="layui-input-inline">
 	 	<#if user.role??>
 			<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
@@ -75,7 +80,7 @@
     </div>
   </div>
   <div class="layui-form-item">
-    <label class="layui-form-label">最后登录时间</label>
+    <label class="layui-form-label">最后登录</label>
     <div class="layui-input-inline">
       <input type="text" value="<#if user??>${user.logined!}</#if>" readonly = "readonly" class="layui-input inputNone">
     </div>
