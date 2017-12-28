@@ -3,7 +3,6 @@ package com.base.admin.controller;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.MenuQuery;
-import com.base.service.TestQuery;
 import com.base.service.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
@@ -17,7 +16,6 @@ import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaoleilu.hutool.util.ThreadUtil;
 import com.xiaoleilu.hutool.util.ZipUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -28,19 +26,13 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.joda.time.DateTime;
-import org.tio.core.Aio;
-import org.tio.core.ChannelContext;
-
 import com.base.constants.Consts;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
-import com.base.im.common.IMPacket;
-import com.base.im.server.IMServerStarter;
 import com.base.interceptor.AdminInterceptor;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JMenu;
-import com.base.model.JTest;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
 
@@ -230,30 +222,26 @@ public class IndexController extends BaseController {
 		ThreadUtil.excAsync(new Runnable() {
 			public void run() {
 				while (true) {
-					JTest jTest = new JTest();
-					jTest.setA("aaaa");
-					jTest.setB("baaa");
-					jTest.setC("cgdfsgdfsgf");
-					jTest.setD("agfsdgfds");
-					jTest.setE("agfsdgfdsg");
-					jTest.setF("agsdfgfdsg");
-					jTest.setG("agdfsgdfs");
-					jTest.setH("agsdfgdfsg");
-					jTest.setI("agsdfgfds");
-					jTest.setJ("ahsdfgfds");
-					jTest.setK("afdfdvbdf");
-					jTest.setL("agfdgfdg");
-					jTest.setM("adsfdsfds");
-					jTest.setN("aaaaaa");
-					TestQuery.me().saveData(jTest);
+//					JTest jTest = new JTest();
+//					jTest.setA("aaaa");
+//					jTest.setB("baaa");
+//					jTest.setC("cgdfsgdfsgf");
+//					jTest.setD("agfsdgfds");
+//					jTest.setE("agfsdgfdsg");
+//					jTest.setF("agsdfgfdsg");
+//					jTest.setG("agdfsgdfs");
+//					jTest.setH("agsdfgdfsg");
+//					jTest.setI("agsdfgfds");
+//					jTest.setJ("ahsdfgfds");
+//					jTest.setK("afdfdvbdf");
+//					jTest.setL("agfdgfdg");
+//					jTest.setM("adsfdsfds");
+//					jTest.setN("aaaaaa");
+//					TestQuery.me().saveData(jTest);
 				}
 			}
 		}, true);
 		renderAjaxResultForSuccess();
-	}
-	public void test1(){
-		long count = TestQuery.me().findCount();
-		renderAjaxResultForSuccess(count+"");
 	}
 	public static void main(String[] args) {
 //		try {
