@@ -7,7 +7,7 @@ public class Generator {
 		String modelPackage = "com.base";
 		
 		String dbHost = "192.168.0.99";
-		String dbName = "hht";
+		String dbName = "hxjd";
 		String dbUser = "root";
 		String dbPassword = "123456";
 		

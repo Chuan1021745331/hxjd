@@ -22,9 +22,7 @@ public abstract class BaseJUserrole<M extends BaseJUserrole<M>> extends JModel<M
 	public static final String ACTION_UPDATE = "userrole:update";
 
 	public void removeCache(Object key){
-		if(key == null) {
-			return;
-		}
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

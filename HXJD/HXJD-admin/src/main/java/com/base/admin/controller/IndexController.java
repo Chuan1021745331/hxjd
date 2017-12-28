@@ -3,6 +3,7 @@ package com.base.admin.controller;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.MenuQuery;
+import com.base.service.TestQuery;
 import com.base.service.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
@@ -13,6 +14,8 @@ import com.base.utils.SystemInfo;
 import com.base.utils.SystemUtils;
 import com.jfinal.aop.Clear;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaoleilu.hutool.util.ThreadUtil;
+import com.xiaoleilu.hutool.util.ZipUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -37,6 +40,7 @@ import com.base.interceptor.AdminInterceptor;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JMenu;
+import com.base.model.JTest;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
 
@@ -63,6 +67,8 @@ public class IndexController extends BaseController {
 	}
 	
 	public void main() {
+		
+		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
 		Long pel = 0L;
 		Long pelG = 0L;
 		Long ter = 0L;
@@ -219,16 +225,47 @@ public class IndexController extends BaseController {
 		String temp=s1.getRealPath("/");
 		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
+	public void test(){
+		
+		ThreadUtil.excAsync(new Runnable() {
+			public void run() {
+				while (true) {
+					JTest jTest = new JTest();
+					jTest.setA("aaaa");
+					jTest.setB("baaa");
+					jTest.setC("cgdfsgdfsgf");
+					jTest.setD("agfsdgfds");
+					jTest.setE("agfsdgfdsg");
+					jTest.setF("agsdfgfdsg");
+					jTest.setG("agdfsgdfs");
+					jTest.setH("agsdfgdfsg");
+					jTest.setI("agsdfgfds");
+					jTest.setJ("ahsdfgfds");
+					jTest.setK("afdfdvbdf");
+					jTest.setL("agfdgfdg");
+					jTest.setM("adsfdsfds");
+					jTest.setN("aaaaaa");
+					TestQuery.me().saveData(jTest);
+				}
+			}
+		}, true);
+		renderAjaxResultForSuccess();
+	}
+	public void test1(){
+		long count = TestQuery.me().findCount();
+		renderAjaxResultForSuccess(count+"");
+	}
 	public static void main(String[] args) {
-		try {
-			ChannelContext<Object, IMPacket, Object> cc = Aio.getChannelContextByUserid(IMServerStarter.serverGroupContext, "1234");
-			IMPacket resppacket = new IMPacket();
-			resppacket.setBody("推送消息".getBytes(IMPacket.CHARSET));
-			Aio.send(cc, resppacket);
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			ChannelContext<Object, IMPacket, Object> cc = Aio.getChannelContextByUserid(IMServerStarter.serverGroupContext, "1234");
+//			IMPacket resppacket = new IMPacket();
+//			resppacket.setBody("推送消息".getBytes(IMPacket.CHARSET));
+//			Aio.send(cc, resppacket);
+//			
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+		ZipUtil.unzip("C:\\Users\\Administrator\\Desktop\\page.jar", "C:\\Users\\Administrator\\Desktop\\page");
 	}
 
 }

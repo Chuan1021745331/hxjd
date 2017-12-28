@@ -22,9 +22,7 @@ public abstract class BaseJButton<M extends BaseJButton<M>> extends JModel<M> im
 	public static final String ACTION_UPDATE = "button:update";
 
 	public void removeCache(Object key){
-		if(key == null){
-			return;
-		}
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

@@ -22,9 +22,7 @@ public abstract class BaseJUser<M extends BaseJUser<M>> extends JModel<M> implem
 	public static final String ACTION_UPDATE = "user:update";
 
 	public void removeCache(Object key){
-		if(key == null) {
-			return;
-		}
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 
