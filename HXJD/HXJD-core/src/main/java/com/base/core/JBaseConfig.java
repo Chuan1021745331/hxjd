@@ -23,6 +23,7 @@ import com.base.service.JobQuery;
 import com.base.service.OptionQuery;
 import com.base.utils.ClassScaner;
 import com.base.utils.StringUtils;
+import com.cybermkd.mongo.plugin.MongoJFinalPlugin;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -103,6 +104,14 @@ public abstract class JBaseConfig extends JFinalConfig {
 		activeRecordPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
 		plugins.add(activeRecordPlugin);
 		onJfinalLoadElement(plugins);
+		
+		//加载MongoDB
+		MongoJFinalPlugin jFinalPlugin = new MongoJFinalPlugin();
+		jFinalPlugin.add("127.0.0.1", 27017);
+		jFinalPlugin.setDatabase("tbm");
+		jFinalPlugin.setDebug(false);
+		
+		plugins.add(jFinalPlugin);
 	}
 
 	/**

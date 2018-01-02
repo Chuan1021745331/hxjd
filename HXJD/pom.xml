@@ -84,7 +84,9 @@
 		<poi-version>3.14</poi-version>
 		<JFinal-assets-version>1.2.0</JFinal-assets-version>
 		<hutool-all-version>3.2.0</hutool-all-version>
-
+		<mongo-java-driver-version>3.6.1</mongo-java-driver-version>
+		<MongodbPlugin-version>1.0.8.2</MongodbPlugin-version>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -325,10 +327,23 @@
 			    <artifactId>JFinal-assets</artifactId>
 			    <version>${JFinal-assets-version}</version>
 			</dependency>
+			
 			<dependency>
 			    <groupId>com.xiaoleilu</groupId>
 			    <artifactId>hutool-all</artifactId>
 			    <version>${hutool-all-version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.mongodb</groupId>
+			    <artifactId>mongo-java-driver</artifactId>
+			    <version>${mongo-java-driver-version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.cybermkd</groupId>
+			    <artifactId>MongodbPlugin</artifactId>
+			    <version>${MongodbPlugin-version}</version>
 			</dependency>
 			
 		</dependencies>

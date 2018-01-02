@@ -3,16 +3,21 @@ package com.base.admin.controller;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.MenuQuery;
+import com.base.service.MongoDBService;
 import com.base.service.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
+import com.base.utils.GZipUtil;
 import com.base.utils.IPUtils;
 import com.base.utils.ServerUtil;
 import com.base.utils.StringUtils;
 import com.base.utils.SystemInfo;
 import com.base.utils.SystemUtils;
+import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.aop.Clear;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.mongodb.BasicDBObject;
 import com.xiaoleilu.hutool.util.ThreadUtil;
 import com.xiaoleilu.hutool.util.ZipUtil;
 
@@ -22,10 +27,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.joda.time.DateTime;
+
+import com.alibaba.fastjson.JSONObject;
 import com.base.constants.Consts;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
@@ -218,30 +228,42 @@ public class IndexController extends BaseController {
 		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
 	public void test(){
-		
 		ThreadUtil.excAsync(new Runnable() {
 			public void run() {
 				while (true) {
-//					JTest jTest = new JTest();
-//					jTest.setA("aaaa");
-//					jTest.setB("baaa");
-//					jTest.setC("cgdfsgdfsgf");
-//					jTest.setD("agfsdgfds");
-//					jTest.setE("agfsdgfdsg");
-//					jTest.setF("agsdfgfdsg");
-//					jTest.setG("agdfsgdfs");
-//					jTest.setH("agsdfgdfsg");
-//					jTest.setI("agsdfgfds");
-//					jTest.setJ("ahsdfgfds");
-//					jTest.setK("afdfdvbdf");
-//					jTest.setL("agfdgfdg");
-//					jTest.setM("adsfdsfds");
-//					jTest.setN("aaaaaa");
-//					TestQuery.me().saveData(jTest);
+					MongoQuery query = new MongoQuery();
+					query.use("test").set("a", "a")
+					.set("b", "a")
+					.set("c", "a")
+					.set("d", "a")
+					.set("e", "a")
+					.set("f", "a")
+					.set("g", "a")
+					.set("h", "a")
+					.set("i", "a")
+					.set("j", "a")
+					.set("k", "a")
+					.set("l", "a")
+					.set("m", "a")
+					.set("n", "a")
+					.set("t", DateTime.now().toString("yyyy-MM-dd HH:mm:ss")).save();
 				}
 			}
 		}, true);
 		renderAjaxResultForSuccess();
+	}
+	public void test1(){
+		MongoQuery query = new MongoQuery();
+		renderAjaxResultForSuccess(query.use("test").count()+"");
+	}
+	public void test2() throws Exception{
+		String time = getPara("time");
+		MongoQuery query = new MongoQuery();
+		List<JSONObject> list = query.use("test").eq("t", time).find();
+		System.out.println(list.toString().getBytes().length);
+		byte[] l = GZipUtil.doZip(list.toString());
+		System.out.println(l.length);
+		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
 	}
 	public static void main(String[] args) {
 //		try {
