@@ -10,7 +10,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
 
-public class UserQuery extends JBaseQuery {
+public class UserQuery {
 	protected static final JUser DAO = new JUser();
 	private static final UserQuery QUERY = new UserQuery();
 

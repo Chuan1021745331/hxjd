@@ -1,7 +1,5 @@
 package com.base.service.app;
 
-import com.base.service.JBaseQuery;
-
 import java.util.List;
 
 /**
@@ -18,7 +16,7 @@ import java.util.List;
  * @版权: 2017 hxjd Inc. All rights reserved.
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
-public class MsgQuery extends JBaseQuery {
+public class MsgQuery {
 //    protected static final JMsg DAO=new JMsg();
 //    private static final MsgQuery QUERY=new MsgQuery();
 //    public static MsgQuery me() {

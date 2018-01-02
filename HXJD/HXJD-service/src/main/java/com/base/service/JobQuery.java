@@ -11,7 +11,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 
-public class JobQuery extends JBaseQuery {
+public class JobQuery {
 	protected static final JJob DAO = new JJob();
 	private static final JobQuery QUERY = new JobQuery();
 

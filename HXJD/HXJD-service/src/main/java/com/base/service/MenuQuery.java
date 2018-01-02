@@ -10,7 +10,7 @@ import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
 import com.base.model.dto.MenuSimpDto;
 
-public class MenuQuery extends JBaseQuery {
+public class MenuQuery {
 	protected static final JMenu DAO = new JMenu();
 	private static final MenuQuery QUERY = new MenuQuery();
 
