@@ -34,6 +34,22 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<!-- 私有仓库 -->
+		<repository>
+			<id>nexus</id>
+			<name>Nexus Repository</name>
+			<url>http://192.168.0.99:8181/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+		    <id>hxjd</id>
+		    <url>http://192.168.0.99:8181/nexus/content/repositories/hxjd</url>
+		</repository>
 	</repositories>
 
 	<properties>

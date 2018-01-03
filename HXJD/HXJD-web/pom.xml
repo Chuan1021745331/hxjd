@@ -169,7 +169,6 @@
 		    <groupId>com.xiaoleilu</groupId>
 		    <artifactId>hutool-all</artifactId>
 		</dependency>
-
 	</dependencies>
 	<profiles>
 		<profile>

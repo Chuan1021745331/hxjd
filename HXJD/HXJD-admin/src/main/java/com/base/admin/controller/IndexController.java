@@ -5,6 +5,7 @@ import com.base.router.RouterNotAllowConvert;
 import com.base.service.MenuQuery;
 import com.base.service.MongoDBService;
 import com.base.service.UserQuery;
+import com.base.service.UserServie;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.GZipUtil;
@@ -43,6 +44,7 @@ import com.base.interceptor.AdminInterceptor;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JMenu;
+import com.base.model.JRole;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
 
@@ -264,6 +266,10 @@ public class IndexController extends BaseController {
 		byte[] l = GZipUtil.doZip(list.toString());
 		System.out.println(l.length);
 		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
+	}
+	public void test3(){
+		JUser user = UserServie.me().findById(1);
+		renderAjaxResultForSuccess(user.getUsername()+"");
 	}
 	public static void main(String[] args) {
 //		try {
