@@ -1,5 +1,6 @@
-package com.base.service;
+package com.base.query;
 
+import com.base.service.BaseService;
 import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.plugin.activerecord.Record;
 

@@ -3,7 +3,8 @@ package com.base.interceptor;
 import com.base.model.JMenu;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
-import com.base.service.MenuQuery;
+import com.base.query.MenuQuery;
+import com.base.service.MenuService;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class AdminInterceptor implements Interceptor {
 		if (user != null) {
 			List<MenuDto> m = CacheKit.get("menu", user.getUsername());
 			if(null == m){
-				m = MenuQuery.me().getMenus(user);
+				m = MenuService.me().getMenus(user);
 				CacheKit.put("menu", user.getUsername(),m);
 			}
 			String reUrl="";

@@ -2,7 +2,7 @@ package com.base.interceptor;
 
 import com.base.constants.Consts;
 import com.base.model.JUser;
-import com.base.service.UserQuery;
+import com.base.query.UserQuery;
 import com.base.utils.CookieUtils;
 import com.jfinal.aop.Invocation;
 

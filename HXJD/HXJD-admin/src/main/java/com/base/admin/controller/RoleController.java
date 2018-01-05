@@ -2,11 +2,7 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.ButtonQuery;
-import com.base.service.MenuQuery;
-import com.base.service.RoleMenuButtonQuery;
-import com.base.service.RoleQuery;
-import com.base.service.UserQuery;
+import com.base.service.RoleService;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
@@ -26,6 +22,10 @@ import com.base.model.JButton;
 import com.base.model.JRole;
 import com.base.model.JRolemenubutton;
 import com.base.model.dto.MenusButtonsDto;
+import com.base.query.ButtonQuery;
+import com.base.query.MenuQuery;
+import com.base.query.RoleMenuButtonQuery;
+import com.base.query.RoleQuery;
 /**
  * 
  * All rights Reserved, Designed By hxjd
@@ -76,58 +76,22 @@ public class RoleController extends BaseController {
 		renderPageResult(0, "", (int)count, list);
 		
 	}
-	public void tree() {
-		Integer roleId = getParaToInt("id");
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<JRolemenubutton> rmb = RoleMenuButtonQuery.me().findListByRoleId(roleId);
-		map.put("tree", MenuQuery.me().getMenusSimp());
-		map.put("tree_", rmb);
-		renderJson(map);
-	}
-	
+
 	public void details() {
 		Integer id = getParaToInt("id");
-		JRole role = RoleQuery.me().findById(id);
+		JRole role = RoleService.me().findById(id);
 		setAttr("role", role);
 		render("details.html");
 	}
 	public void add() {
 		render("add.html");
 	}
-	public void getButton(){
-		Integer id = getParaToInt("id");
-		List<JButton> buttons = ButtonQuery.me().findByMenuId(id);
-		renderJson(buttons);
-	}
-	public void getCheckButton(){
-		Integer mid = getParaToInt("mid");
-		Integer rid = getParaToInt("rid");
-		List<JButton> buttons = ButtonQuery.me().findByMenuId(mid);
-		JRolemenubutton mb = RoleMenuButtonQuery.me().findListByRoleIdAndMenuId(rid, mid);
-		List<MenusButtonsDto> mbs = new ArrayList<MenusButtonsDto>();
-		String[] mArray=null;
-		if(null!=mb){
-			mArray = StringUtils.isNotEmpty(mb.getButtons())?mb.getButtons().split("\\|"):null;
-		}
-		
-		for (JButton b : buttons) {
-			MenusButtonsDto dto = new MenusButtonsDto();
-			dto.setId(b.getId());
-			dto.setName(b.getName());
-			dto.setCode(b.getCode());
-			dto.setTf(false);
-			if(null!=mArray){
-				List<String> list=Arrays.asList(mArray);
-				if(list.contains(b.getCode())){
-					dto.setTf(true);
-				}
-			}
-			mbs.add(dto);
-		}
-		renderJson(mbs);
-	}
+	
+	
 	public void addSave() {
 		JRole jr = getModel(JRole.class);
+		//String roleMenus = getPara("roleMenus");
+		//String[] buttons = getParaValues("checkbox_"+rms[i]);
 		
 		boolean a = jr.save();
 		if(a){
@@ -163,8 +127,8 @@ public class RoleController extends BaseController {
 	}
 
 	public void edit() {
-		Integer id = getParaToInt("id");
-		JRole role = RoleQuery.me().findById(id);
+		Integer id = getParaToInt("id");	
+		JRole role = RoleService.me().findById(id);
 		setAttr("role", role);
 		render("edit.html");
 	}
@@ -203,14 +167,31 @@ public class RoleController extends BaseController {
 	}
 	public void del() {
 		Integer id = getParaToInt("id");
-		JRole option = RoleQuery.me().findById(id);
-		boolean a = option.delete();
-		CacheKit.remove("role", id);
+		boolean a = RoleService.me().del(id);
 		if(a){
-			RoleMenuButtonQuery.me().delbyRoleId(id);
 			renderAjaxResultForSuccess();
-			return ;
+			return;
 		}
 		renderAjaxResultForError();
+	}
+	
+	public void tree() {
+		Integer roleId = getParaToInt("id");
+		Map<String, Object> map = RoleService.me().getTree(roleId);
+		renderJson(map);
+	}
+	
+	public void getButton(){
+		Integer id = getParaToInt("id");
+		List<JButton> buttons = RoleService.me().getButton(id);
+		renderJson(buttons);
+	}
+	
+	public void getCheckButton(){
+		Integer mid = getParaToInt("mid");
+		Integer rid = getParaToInt("rid");
+			
+		List<MenusButtonsDto> mbs = RoleService.me().getCheckButton(mid, rid);
+		renderJson(mbs);
 	}
 }

@@ -2,9 +2,10 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.RoleQuery;
-import com.base.service.UserQuery;
-import com.base.service.UserRoleQuery;
+import com.base.service.RoleService;
+import com.base.query.RoleQuery;
+import com.base.query.UserQuery;
+import com.base.query.UserRoleQuery;
 import com.base.utils.AttachmentUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.StringUtils;
@@ -26,7 +27,7 @@ import com.base.model.JUser;
 import com.base.model.JUserrole;
 
 /**
- * 
+ * ----------暂未使用------------
  * All rights Reserved, Designed By hxjd
  * @类名: UserController.java   
  * @包名: com.base.admin.controller   
@@ -70,7 +71,7 @@ public class PluginController extends BaseController {
 	}
 	public void add(){
 		
-		setAttr("roles", RoleQuery.me().getAll());
+		setAttr("roles", RoleService.me().getAll());
 		render("add.html");
 	}
 	public void edit(){

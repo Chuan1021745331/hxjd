@@ -2,8 +2,8 @@ package com.base.web.controller.admin;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.MenuQuery;
-import com.base.service.UserQuery;
+import com.base.query.MenuQuery;
+import com.base.query.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.IPUtils;

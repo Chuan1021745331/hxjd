@@ -2,7 +2,8 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.OptionQuery;
+import com.base.service.OptionService;
+import com.base.query.OptionQuery;
 
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
@@ -54,7 +55,7 @@ public class OptionController extends BaseController {
 
 	public void details() {
 		Integer id = getParaToInt("id");
-		JOption option = OptionQuery.me().findById(id);
+		JOption option = OptionService.me().findById(id);
 		if("map_center".equals(option.getOptionKey())){
 			String optionXY =option.getOptionValue();
 			String[] optionXYS = optionXY.split("\\|");
@@ -70,7 +71,7 @@ public class OptionController extends BaseController {
 	}
 	public void addSave() {
 		JOption jo = getModel(JOption.class);
-		boolean a = jo.save();
+		boolean a = OptionService.me().addSave(jo);
 		if(a){
 			renderAjaxResultForSuccess(MessageConstants.ADD_SUCCESS);
 			return ;
@@ -80,7 +81,7 @@ public class OptionController extends BaseController {
 
 	public void edit() {
 		Integer id = getParaToInt("id");
-		JOption option = OptionQuery.me().findById(id);
+		JOption option = OptionService.me().findById(id);
 		if("map_center".equals(option.getOptionKey())){
 			String optionXY =option.getOptionValue();
 			String[] optionXYS = optionXY.split("\\|");
@@ -94,17 +95,9 @@ public class OptionController extends BaseController {
 	}
 	public void editSave() {
 		JOption jo = getModel(JOption.class);
-		if("map_center".equals(jo.getOptionKey())){
-			String optionX=getPara("optionX");
-			String optionY = getPara("optionY");
-			String oXY=optionX+"|"+optionY;
-			jo.setOptionValue(oXY);
-		}
-		boolean a = jo.update();
-		jo.removeCache(jo.getId());
-		jo.removeCache(jo.getOptionKey());
-//		jo.putCache(jo.getOptionKey(), jo.getOptionValue(o));
-
+		String optionX = getPara("optionX");
+		String optionY = getPara("optionY");		
+		boolean a = OptionService.me().editSave(jo, optionX, optionY);
 		if(a){
 			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
 			return ;
@@ -113,9 +106,7 @@ public class OptionController extends BaseController {
 	}
 	public void del() {
 		Integer id = getParaToInt("id");
-		JOption option = OptionQuery.me().findById(id);
-		boolean a = option.delete();
-		CacheKit.remove("option", id);
+		boolean a = OptionService.me().del(id);
 		if(a){
 			renderAjaxResultForSuccess(MessageConstants.DEL_SUCCESS);
 			return ;

@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 
 import com.base.model.JOption;
-import com.base.service.OptionQuery;
+import com.base.query.OptionQuery;
 import com.jfinal.log.Log;
 
 public class SocketService {

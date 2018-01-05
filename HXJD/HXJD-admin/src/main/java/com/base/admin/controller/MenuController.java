@@ -2,8 +2,7 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.ButtonQuery;
-import com.base.service.MenuQuery;
+import com.base.service.MenuService;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
@@ -19,6 +18,8 @@ import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JButton;
 import com.base.model.JMenu;
 import com.base.model.dto.MenuSimpDto;
+import com.base.query.ButtonQuery;
+import com.base.query.MenuQuery;
 
 /**
  * 
@@ -59,17 +60,17 @@ public class MenuController extends BaseController {
         renderPageResult(0, "", (int)count, list);
     }
 	public void add(){
-		String menuId = getPara("menuId");
-		if(StringUtils.isNotEmpty(menuId) && Integer.parseInt(menuId)!=0){
-			JMenu m = MenuQuery.me().findById(Integer.parseInt(menuId));
+		Integer menuId = getParaToInt("menuId");
+		if(null != menuId && menuId.intValue() != 0){
+			JMenu m = MenuService.me().findMenuById(menuId);
 			setAttr("menu", m);
 		}
 		render("buttonAdd.html");
 	}
 	public void edit(){
 		String id = getPara("id");
-		JButton button = ButtonQuery.me().findById(Integer.parseInt(id));
-		JMenu m = MenuQuery.me().findById(button.getMenuId());
+		JButton button = MenuService.me().findButtonById(Integer.parseInt(id));
+		JMenu m = MenuService.me().findMenuById(button.getMenuId());
 		
 		setAttr("button", button);
 		setAttr("menu", m);
@@ -77,8 +78,8 @@ public class MenuController extends BaseController {
 	}
 	public void sel(){
 		String id = getPara("id");
-		JButton button = ButtonQuery.me().findById(Integer.parseInt(id));
-		JMenu m = MenuQuery.me().findById(button.getMenuId());
+		JButton button = MenuService.me().findButtonById(Integer.parseInt(id));
+		JMenu m = MenuService.me().findMenuById(button.getMenuId());
 		
 		setAttr("button", button);
 		setAttr("menu", m);
@@ -87,8 +88,8 @@ public class MenuController extends BaseController {
 	
 	public void del(){
 		String id = getPara("id");
-		JButton button = ButtonQuery.me().findById(Integer.parseInt(id));
-		boolean b = button.delete();
+		//JButton button = ButtonQuery.me().findById(Integer.parseInt(id));
+		boolean b = MenuService.me().del(id);
 		if(b){
 			renderAjaxResultForSuccess();
 		}else{
@@ -99,7 +100,7 @@ public class MenuController extends BaseController {
 	public void addM(){
 		String pId = getPara("pId");
 		JMenu m = MenuQuery.me().findById(Integer.parseInt(pId));
-		if(null==m){
+		if(null == m){
 			m.setId(0);
 			m.setName("根节点");
 		}
@@ -145,7 +146,7 @@ public class MenuController extends BaseController {
 	}
 	
 	public void tree() {
-		List<MenuSimpDto> m = MenuQuery.me().getMenusSimp();
+		List<MenuSimpDto> m = MenuService.me().getMenusSimp();
 		renderJson(m);
 	}
 	

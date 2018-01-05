@@ -1,4 +1,4 @@
-package com.base.service;
+package com.base.query;
 
 import java.util.LinkedList;
 import java.util.List;

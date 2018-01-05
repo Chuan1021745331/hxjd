@@ -1,4 +1,4 @@
-package com.base.service;
+package com.base.query;
 
 import java.math.BigInteger;
 import java.util.LinkedList;

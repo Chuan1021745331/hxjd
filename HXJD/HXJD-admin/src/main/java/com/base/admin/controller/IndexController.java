@@ -2,10 +2,11 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.MenuQuery;
-import com.base.service.MongoDBService;
-import com.base.service.UserQuery;
-import com.base.service.UserServie;
+import com.base.query.MenuQuery;
+import com.base.query.MongoDBService;
+import com.base.query.UserQuery;
+import com.base.service.IndexService;
+import com.base.service.UserService;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.GZipUtil;
@@ -115,31 +116,13 @@ public class IndexController extends BaseController {
 		render("main.html");
 	}
 	
-	public void getMenuss(){
-		
-		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
-		JUser user = UserQuery.me().findById(new Integer(userId));
+	public void getMenuss(){		
+		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);		
+		JUser user = UserService.me().findById(new Integer(userId));
 		if (null != user) {
 			List<Map<String, Object>> um = CacheKit.get("menu", "userMenu_"+user.getUsername());
 			if(null == um){
-				List<MenuDto> m = CacheKit.get("menu", user.getUsername());
-				um=new ArrayList<Map<String,Object>>();
-				for (MenuDto m_:m) {
-					JMenu m__ = m_.getM();
-					Map<String, Object> mp = new HashMap<String, Object>();
-					mp.put("id", m__.getId());
-					mp.put("pid", m__.getParent());
-					mp.put("title", m__.getName());
-					mp.put("icon", m__.getIco());
-					mp.put("url", m__.getUrl());
-					mp.put("spread", false);
-					if(m_.getN()>0){
-						mp.put("children",getChild(m_.getChildren()));
-					}
-					
-					um.add(mp);
-				}
-				CacheKit.put("menu", "userMenu_"+user.getUsername(),um);
+				um = IndexService.me().getMenuss(um, user);			
 			}
 			renderJson(um);
 			return;
@@ -147,23 +130,7 @@ public class IndexController extends BaseController {
 		redirect("/admin/login");
 	}
 	
-	private List<Map<String, Object>> getChild(List<MenuDto> ms){
-		List<Map<String, Object>> mts = new ArrayList<Map<String, Object>>();
-		for (MenuDto m:ms) {
-			Map<String, Object> mp = new HashMap<String, Object>();
-			mp.put("id", m.getM().getId());
-			mp.put("pid", m.getM().getParent());
-			mp.put("title", m.getM().getName());
-			mp.put("icon", m.getM().getIco());
-			mp.put("url", m.getM().getUrl());
-			mp.put("spread", false);
-			if(m.getN()>0){
-				mp.put("children",getChild(m.getChildren()));
-			}
-			mts.add(mp);
-		}
-		return mts;
-	}
+	
 	
 
 	@Clear(AdminInterceptor.class)
@@ -176,7 +143,7 @@ public class IndexController extends BaseController {
 			return;
 		}
 
-		JUser user = UserQuery.me().findUserByUserName(username);
+		JUser user = UserService.me().findUserByUserName(username);
 		if (null == user) {
 			renderAjaxResultForError(MessageConstants.USER_NULL);
 			return;
@@ -268,7 +235,7 @@ public class IndexController extends BaseController {
 		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
 	}
 	public void test3(){
-		JUser user = UserServie.me().findById(1);
+		JUser user = UserService.me().findById(1);
 		renderAjaxResultForSuccess(user.getUsername()+"");
 	}
 	public static void main(String[] args) {

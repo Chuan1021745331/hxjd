@@ -2,9 +2,11 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.RoleQuery;
-import com.base.service.UserQuery;
-import com.base.service.UserRoleQuery;
+import com.base.service.RoleService;
+import com.base.service.UserService;
+import com.base.query.RoleQuery;
+import com.base.query.UserQuery;
+import com.base.query.UserRoleQuery;
 import com.base.utils.AttachmentUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.StringUtils;
@@ -69,15 +71,16 @@ public class UserController extends BaseController {
 		renderPageResult(0, "", (int)count, list);
 	}
 	public void add(){
-		
-		setAttr("roles", RoleQuery.me().getAll());
+		List<JRole> roles = RoleService.me().getAll();
+		setAttr("roles", roles);
 		render("add.html");
 	}
 	public void edit(){
 		Integer id = getParaToInt("id");
-		JUser user = UserQuery.me().findById(id);
-		List<JRole> roles = RoleQuery.me().getAll();
-		JRole role = RoleQuery.me().findByUserId(id);
+		
+		JUser user = UserService.me().findById(id);
+		List<JRole> roles = RoleService.me().getAll();
+		JRole role = RoleService.me().findByUserId(id);
 		
 		setAttr("role", role);
 		setAttr("roles", roles);
@@ -85,27 +88,21 @@ public class UserController extends BaseController {
 		render("edit.html");
 	}
 	public void sel(){
-		String id = getPara("id");
-		JUser user = UserQuery.me().findById(Integer.parseInt(id));
-		
-		JRole role = RoleQuery.me().findByUserId(Integer.parseInt(id));
+		Integer id = getParaToInt("id");
+		JUser user = UserService.me().findById(id);;
+		JRole role = RoleService.me().findByUserId(id);
 		
 		setAttr("role", role);
-		
 		setAttr("user", user);
 		render("sel.html");
 	}
 	
 	public void del(){
 		Integer id = getParaToInt("id");
-		JUser user = UserQuery.me().findById(id);
-		
-		boolean a = user.delete();
-		CacheKit.remove("user", id);
-		
-		if(a){
-			UserRoleQuery.me().delByUserId(id);
-			renderAjaxResultForSuccess("删除成功");
+	
+		boolean a = UserService.me().delUserById(id);				
+		if(a){			
+			renderAjaxResultForSuccess("删除成功");			
 			return ;
 		}
 		renderAjaxResultForError("删除失败，请重试！");
@@ -113,75 +110,30 @@ public class UserController extends BaseController {
 	
 	public void addSave() {
 		JUser user = getModel(JUser.class);
-		String salt = EncryptUtils.salt();
-		user.setSalt(salt);
-		user.setCreated(DateTime.now().toDate());
-		if (StringUtils.isNotEmpty(user.getPassword())) {
-			String password = EncryptUtils.encryptPassword(user.getPassword(), salt);
-			user.setPassword(password);
-		}
-		
-		boolean a = user.save();
-		
+		Integer roleId = getParaToInt("role");
+		boolean a = UserService.me().addUserSave(user, roleId);
 		if(a){
-			Integer roleId = getParaToInt("role");
-			JUserrole jUserrole= new JUserrole();
-			jUserrole.setUserId(user.getId());
-			jUserrole.setRoleId(roleId);
-			boolean b = jUserrole.save();
-			if(b){
-				renderAjaxResultForSuccess("新增用户成功");
-				return ;
-			}
+			renderAjaxResultForSuccess("新增用户成功");
+			return ;
 		}
 		renderAjaxResultForError("新增用户失败，请重试！");
 	}
 	
 	public void editSave() {
 		UploadFile uploadFile = this.getFile();
-		
+		Integer roleId = getParaToInt("role");
 		JUser user = getModel(JUser.class);
-		JUser u = UserQuery.me().findById(user.getId());
-		u.setUsername(user.getUsername());
-		u.setNickname(user.getNickname());
-		u.setRelname(user.getRelname());
-		u.setEmail(user.getEmail());
-		u.setGender(user.getGender());
-		u.setMobile(user.getMobile());
 		
+		boolean a = UserService.me().editUserSave(user, uploadFile, roleId);
 		
-		if (null != uploadFile) {
-			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
-			user.setAvatar(newPath);
-			//System.out.println(newPath);
-			u.setAvatar(user.getAvatar());
-		}
-
-		boolean a = u.update();
-
-		CacheKit.remove("user", u.getId());
 		if(a){
-			if("administrator".equals(user.getRole())){
-				renderAjaxResultForSuccess("修改用户成功");
-				return ;
-			}else{
-				Integer roleId = getParaToInt("role");
-				UserRoleQuery.me().delByUserId(user.getId());
-				JUserrole jUserrole= new JUserrole();
-				jUserrole.setUserId(user.getId());
-				jUserrole.setRoleId(roleId);
-				boolean b = jUserrole.save();
-				if(b){
-					renderAjaxResultForSuccess("修改用户成功");
-					return ;
-				}
-			}
-			
+			renderAjaxResultForSuccess("修改用户成功");
+			return ;	
 		}
 		renderAjaxResultForError("修改用户失败，请重试！");
 	}
 	
-	public void saveOrUpdata(){
+/*	public void saveOrUpdata(){
 		JButton button = getModel(JButton.class);
 		boolean b = button.saveOrUpdate();
 		if(b){
@@ -189,5 +141,5 @@ public class UserController extends BaseController {
 		}else{
 			renderAjaxResultForError();
 		}
-	}
+	}*/
 }

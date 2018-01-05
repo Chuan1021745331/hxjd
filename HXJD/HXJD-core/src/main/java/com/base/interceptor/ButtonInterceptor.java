@@ -5,9 +5,10 @@ import com.base.model.JButton;
 import com.base.model.JMenu;
 import com.base.model.JRolemenubutton;
 import com.base.model.JUser;
-import com.base.service.ButtonQuery;
-import com.base.service.MenuQuery;
-import com.base.service.RoleMenuButtonQuery;
+import com.base.query.ButtonQuery;
+import com.base.query.MenuQuery;
+import com.base.query.RoleMenuButtonQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 

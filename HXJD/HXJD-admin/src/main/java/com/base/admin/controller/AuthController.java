@@ -2,7 +2,8 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.MenuQuery;
+import com.base.service.MenuService;
+import com.base.query.MenuQuery;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import com.base.core.BaseController;
@@ -21,13 +22,12 @@ public class AuthController extends BaseController {
 	}
 	
 	public void tree() {
-		renderJson(MenuQuery.me().getMenusSimp());
+		renderJson(MenuService.me().getMenusSimp());
 	}
 	
 	public void addTree() throws UnsupportedEncodingException {
 		Integer pId = getParaToInt("pId");
 		String name = new String(getPara("name").getBytes("iso8859_1"),"utf-8");
-		
 		JMenu menu = new JMenu();
 		menu.setParent(pId);
 		menu.setName(name);
@@ -74,14 +74,7 @@ public class AuthController extends BaseController {
 	
 	public void delTree() {
 		Integer id = getParaToInt("id");
-		JMenu menu = MenuQuery.me().findById(id);
-		List<JMenu> menuList = MenuQuery.me().findByParent(id);
-		if(menuList.size()>0){
-			for (JMenu m:menuList) {
-				m.delete();
-			}
-		}
-		boolean b = menu.delete();
+		boolean b = MenuService.me().delTree(id); 
 		if(b){
 			renderAjaxResultForSuccess();
 		}else{
@@ -91,7 +84,7 @@ public class AuthController extends BaseController {
 	
 	public void getMenu(){
 		Integer id = getParaToInt("id");
-		JMenu menu = MenuQuery.me().findById(id);
+		JMenu menu = MenuService.me().findMenuById(id);
 		renderJson(menu);
 	}
 }

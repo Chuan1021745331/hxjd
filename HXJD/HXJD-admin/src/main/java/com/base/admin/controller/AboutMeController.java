@@ -2,7 +2,9 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.UserQuery;
+import com.base.service.AboutmeService;
+import com.base.service.UserService;
+import com.base.query.UserQuery;
 import com.base.utils.AttachmentUtils;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
@@ -38,27 +40,18 @@ public class AboutMeController extends BaseController {
 	public void edit(){
 		UploadFile uploadFile = getFile();
 		Integer userId = getParaToInt("id");
-		JUser user = UserQuery.me().findById(userId);
-		if(null==user){
-			renderAjaxResultForError(MessageConstants.USER_NULL);
-			return;
-		}
-		if (null != uploadFile) {
-			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
-			user.setAvatar(newPath);
-			System.out.println(newPath);
-		}
-		
 		JUser newUser = getModel(JUser.class);
-		user.setNickname(newUser.getNickname());
-		user.setRelname(newUser.getRelname());
-		user.setGender(newUser.getGender());
-		user.setEmail(newUser.getEmail());
-		user.setMobile(newUser.getMobile());
-		user.update();
 		
-	    renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
+		int state = AboutmeService.me().edit(userId, uploadFile, newUser);
+		if(state == 0){
+			renderAjaxResultForError(MessageConstants.EDIT_DEFEAT);
+		} else if(state == 2){
+			renderAjaxResultForError(MessageConstants.USER_NULL);
+		} else {
+			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
+		}		
 	}
+	
 	public void changePassword(){
 		render("changePassword.html");
 	}
@@ -67,19 +60,15 @@ public class AboutMeController extends BaseController {
 		String np = getPara("np");
 		String dnp = getPara("dnp");
 		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
-		JUser user = UserQuery.me().findById(new Integer(userId));
-		if (!EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), op)) {
+		JUser user = UserService.me().findById(new Integer(userId));
+		
+		int state = AboutmeService.me().saveNewPwd(op, np, dnp, user);
+		if(state == 0){
 			renderAjaxResultForError(MessageConstants.RAW_PASS_ERROR);
-			return;
-		}
-		if(np.equals(dnp)){
-			String newPassword = EncryptUtils.encryptPassword(np, user.getSalt());
-			user.setPassword(newPassword);
-			user.update();
+		} else if(state == 1){
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
 			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
-			return ;
-		}else{
+		} else if(state == 2){
 			renderAjaxResultForError(MessageConstants.PASS_INCONFORMITY);
 		}
 	}
