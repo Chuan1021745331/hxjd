@@ -3,8 +3,6 @@ package com.base.admin.controller;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.query.MenuQuery;
-import com.base.query.MongoDBService;
-import com.base.query.UserQuery;
 import com.base.service.IndexService;
 import com.base.service.UserService;
 import com.base.utils.CookieUtils;
@@ -17,24 +15,19 @@ import com.base.utils.SystemInfo;
 import com.base.utils.SystemUtils;
 import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.aop.Clear;
-import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.mongodb.BasicDBObject;
 import com.xiaoleilu.hutool.util.ThreadUtil;
 import com.xiaoleilu.hutool.util.ZipUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 import javax.servlet.ServletContext;
 
-import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.joda.time.DateTime;
 
 import com.alibaba.fastjson.JSONObject;
@@ -45,9 +38,7 @@ import com.base.interceptor.AdminInterceptor;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JMenu;
-import com.base.model.JRole;
 import com.base.model.JUser;
-import com.base.model.dto.MenuDto;
 
 /**
  * 

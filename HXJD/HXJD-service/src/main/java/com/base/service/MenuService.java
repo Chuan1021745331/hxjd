@@ -71,7 +71,7 @@ public class MenuService {
 		return fmts;
 	}
 	
-	public List<MenuDto> getChild(JMenu pm,List<JMenu> ms){
+	public List<MenuDto> getChild(JMenu pm, List<JMenu> ms){
 //		List<Menu> menus = this.findByParent(pm.getId());
 		List<MenuDto> mts = new ArrayList<MenuDto>();
 		for (JMenu m:ms) {
@@ -97,7 +97,7 @@ public class MenuService {
 		return mts;
 	}
 	
-	public List<MenuSimpDto> getChildSimp(JMenu pm,List<JMenu> ms){
+	public List<MenuSimpDto> getChildSimp(JMenu pm, List<JMenu> ms){
 		List<MenuSimpDto> mts = new ArrayList<MenuSimpDto>();
 		for (JMenu m:ms) {
 			if(m.getParent().intValue()==pm.getId().intValue()){

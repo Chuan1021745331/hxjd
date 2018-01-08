@@ -4,28 +4,18 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.RoleService;
 import com.base.service.UserService;
-import com.base.query.RoleQuery;
 import com.base.query.UserQuery;
-import com.base.query.UserRoleQuery;
-import com.base.utils.AttachmentUtils;
-import com.base.utils.EncryptUtils;
-import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
-import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.upload.UploadFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
-import com.base.model.JButton;
 import com.base.model.JRole;
 import com.base.model.JUser;
-import com.base.model.JUserrole;
 
 /**
  * 
@@ -49,6 +39,7 @@ public class UserController extends BaseController {
 	public void index() {
 		renderTable("user.html");
 	}
+	
 	/**
 	 * 
 	 * userData(这里用一句话描述这个方法的作用)  
@@ -66,15 +57,17 @@ public class UserController extends BaseController {
 		long count = UserQuery.me().findConuntUserRole();
 		if(count!=0){
 			page = (page>count/limit && count%limit==0)?page-1:page ;
-	        list = UserQuery.me().findListUserRole(page, limit,where);
+	        list = UserQuery.me().findListUserRole(page, limit, where);
 		}
 		renderPageResult(0, "", (int)count, list);
 	}
+	
 	public void add(){
 		List<JRole> roles = RoleService.me().getAll();
 		setAttr("roles", roles);
 		render("add.html");
 	}
+	
 	public void edit(){
 		Integer id = getParaToInt("id");
 		
@@ -87,6 +80,7 @@ public class UserController extends BaseController {
 		setAttr("user", user);
 		render("edit.html");
 	}
+	
 	public void sel(){
 		Integer id = getParaToInt("id");
 		JUser user = UserService.me().findById(id);;
