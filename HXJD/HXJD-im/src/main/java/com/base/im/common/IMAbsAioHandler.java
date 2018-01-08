@@ -13,12 +13,13 @@ import org.tio.core.exception.AioDecodeException;
 import org.tio.core.intf.AioHandler;
 
 import com.base.im.IMcacheMap;
+import com.base.service.UserService;
 import com.base.utils.GZipUtil;
 
 public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Object>
 {
+	
 	private final static Logger logger= LoggerFactory.getLogger(IMAbsAioHandler.class);
-
 	/**
 	 * 编码：把业务消息包编码为可以发送的ByteBuffer
 	 */
@@ -36,51 +37,15 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 		ByteBuffer buffer = ByteBuffer.allocate(allLen);
 		buffer.order(groupContext.getByteOrder());
 		
-		//buffer.clear();
-		//
-		ClientChannelContext<Object, IMPacket, Object> clientChannelContext = (ClientChannelContext<Object, IMPacket, Object>) IMcacheMap.cacheMap.get("IM-C");
-		
-		
-		
+		//buffer.clear();	
 		if (body != null)
 		{
-			//byte[] headByte = ArrayUtils.subarray(body, 0, 2);
-			try {
-				//String headStr = new String(headByte, "utf-8");
-				//if(headStr.equals("$C")){
-				if(channelContext.equals(clientChannelContext==null?"":clientChannelContext)){//与C端通信	
-					logger.info("==C--encode==");
-					//byte[] temp = ArrayUtils.subarray(body, 2, body.length);
-					
-					byte[] bytes2 = new byte[4];				
-					byte[] bytes3;
-					bytes3 = String.valueOf(body.length).getBytes("utf-8");
-					int j = 0;
-					for(int i= 0; i<4; i++){	
-						if(i < 4-bytes3.length){
-							bytes2[i] = '0';
-						} else{
-							bytes2[i] = bytes3[j];
-							j++;
-						}
-					}
-					//buffer.clear();
-					//buffer = ByteBuffer.allocate(allLen-2);
-					//buffer.clear();
-					buffer.put(bytes2);
-					buffer.put(body);
-				} else {//与Android、本机IM通信
-					logger.info("==normal--encode==");
-					buffer.putInt(bodyLen);
-					buffer.put(body);				
-				}
-			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			logger.info("==normal--encode==");
+			logger.info(""+bodyLen);
+			buffer.put(body);				
 		}
-		logger.info(buffer.toString());
-		logger.info("##encode##");
+		//logger.info(buffer.toString());
+		//logger.info("##encode##");
 		return buffer;
 	}
 
@@ -92,26 +57,19 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 	{
 		//buffer.getI
 		if(buffer==null){
-			logger.info("-------------------");
+			//logger.info("-------------------");
 		}else{
 			//byte[] bytes = new byte[buffer.capacity()];
-			logger.info(buffer.toString());
+			//logger.info(buffer.toString());
 		}
 		logger.info("##decode##");
 		
 		buffer.position(0);
-		//byte[] all = new byte[buffer.limit()];
-		//buffer.get(all);
-		//buffer.position(0);
+
 		byte[] head = new byte[4];
 		buffer.get(head);
 		boolean a = false;
-/*		for (byte b : head) {
-			if(b <= 0){
-				a = true;
-				break;
-			}
-		}*/
+
 		buffer.position(0);
 		
 		int readableLength = buffer.limit() - buffer.position();
@@ -121,13 +79,9 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 		}
 
 		int bodyLength,neededLength;
-/*		if(a){////原来的		
-			bodyLength = buffer.getInt();
-			neededLength =  IMPacket.HEADER_LENGHT +bodyLength;
-		} else {*/////C通讯
+
 			bodyLength = buffer.limit();
 			neededLength =  bodyLength;
-		//}
 			
 		if (bodyLength < 0)
 		{
@@ -151,30 +105,7 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 			return imPacket;
 		}
 		
-		////C通讯
-		/*int bodyLength = buffer.limit();
 
-		if (bodyLength < 0)
-		{
-			throw new AioDecodeException("bodyLength [" + bodyLength + "] is not right, remote:" + channelContext.getClientNode());
-		}
-
-		int neededLength =  bodyLength;
-		int test = readableLength - neededLength;
-		if (test < 0) // 不够消息体长度(剩下的buffe组不了消息体)
-		{
-			return null;
-		} else
-		{
-			IMPacket imPacket = new IMPacket();
-			if (bodyLength > 0)
-			{
-				byte[] dst = new byte[bodyLength];
-				buffer.get(dst);
-				imPacket.setBody(dst);
-			}
-			return imPacket;
-		}*/
 		
 	}
 }

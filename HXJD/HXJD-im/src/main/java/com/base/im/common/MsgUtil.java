@@ -29,7 +29,6 @@ public class MsgUtil {
     public static void Send(ChannelContext context, ResponseDto responseDto){
         IMPacket packet=new IMPacket();
         String respo= JSON.toJSONString(responseDto);
-//                String respo= JSON.toJSONString("ma dong de ......");
         byte[] doZipMsg = new byte[0];
         try {
             doZipMsg = GZipUtil.doZip(respo);

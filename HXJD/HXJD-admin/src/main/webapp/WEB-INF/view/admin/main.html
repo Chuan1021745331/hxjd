@@ -140,11 +140,11 @@ active_id="dashboard">
 					</tr>
 					<tr>
 						<td>服务器地址</td>
-						<td class="homePage">192.168.0.33</td>
+						<td class="homePage">${serverIP!}</td>
 					</tr>
 					<tr>
 						<td>服务器环境</td>
-						<td class="server">windows</td>
+						<td class="server">${osName!}</td>
 					</tr>
 					<tr>
 						<td>数据库版本</td>
@@ -194,38 +194,58 @@ layui.use(['jquery', 'common', 'layer', 'element'], function() {
         	    ]
 		};
         myChart.setOption(option,true);
-        setInterval(sendMessage, 1000); //循环执行！！
-       	function sendMessage(){
-           	//直接用dwr.xml中暴露出来的类来调用，第一个是方法test的传入参数，最后一个是回调的方法  
-           	DwrService.pushMessage("1",showMessage);
-           	dwr.engine._errorHandler = function(message, ex) {dwr.engine._debug("Error: " + ex.name + ", " + ex.message, true);};
-       	}  
-       //回调方法  
-       	function showMessage(data){
-    		var obj = JSON.parse(data);
-    		$("#totalMemory").html(obj.t);
-    		$("#freeMemory").html(obj.f);
-       		$("#compare").html(obj.c);
-       		var myDate = new Date();
-       		var m=myDate.getMinutes();     //获取当前分钟数(0-59)
-       		var s=myDate.getSeconds();
-       		if(date.length==10){
-           		date.shift();
-           		data1.shift();
-           	}
-       		date.push(p(m)+":"+p(s));
-       		data1.push(Number(obj.c));
-       		
-        	myChart.setOption({
-        		xAxis: {
-                    data: date
-                },
-                series: [{
-                    name:'使用率',
-                    data: data1
-                }]
-            });
-       	}
+        
+        ws1 = new WebSocket("ws://" + window.location.host + bpath + "/IndexWebsocket.ws");
+        
+        
+        function sendMessage(){
+         	ws1.send("1");
+         } 
+         
+         ws1.onopen = function(event) {
+     		console.log("websocket ws1 has been opened!");  
+     		ws1.send("1");
+     	};
+     	
+     	ws1.onmessage = function(event) {//WebSocket收到消息时调用
+     		var received_msg = event.data;
+     		console.log("socketData: " + received_msg);
+     		var data = eval('(' + received_msg + ')');
+     		$("#totalMemory").html(data.t);
+     		$("#freeMemory").html(data.f);
+        		$("#compare").html(data.c);
+        		var myDate = new Date();
+        		var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+        		var s=myDate.getSeconds();
+        		if(date.length==10){
+            		date.shift();
+            		data1.shift();
+            	}
+        		date.push(p(m)+":"+p(s));
+        		data1.push(Number(data.c));
+        		
+         	myChart.setOption({
+         		xAxis: {
+                     data: date
+                 },
+                 series: [{
+                     name:'使用率',
+                     data: data1
+                 }]
+             });
+     	};
+     	ws1.onclose = function(event) {
+     		console.log("websocket ws1 has been closed!");
+     		clearInterval();
+     	};
+      	ws1.onerror = function(event) {
+     		ws1 = undefined;
+     	}; 
+     	window.onunload = function() {
+            ws.close();
+        }
+     	//setInterval(sendMessage, 1000); //循环执行！！
+           
        	function p(s) {
        	    return s < 10 ? '0' + s: s;
        	}

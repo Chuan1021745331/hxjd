@@ -4,12 +4,10 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.RoleService;
 import com.base.service.UserService;
-import com.base.query.UserQuery;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.base.core.BaseController;
@@ -53,12 +51,9 @@ public class UserController extends BaseController {
 		Integer limit = getParaToInt("limit");
 		String where = getPara("id");
 		
-		List<Record> list = new ArrayList<>();
-		long count = UserQuery.me().findConuntUserRole();
-		if(count!=0){
-			page = (page>count/limit && count%limit==0)?page-1:page ;
-	        list = UserQuery.me().findListUserRole(page, limit, where);
-		}
+		long count = UserService.me().findConuntUserRole();
+		List<Record> list = UserService.me().findListUserRole(page, limit, where, count);
+
 		renderPageResult(0, "", (int)count, list);
 	}
 	

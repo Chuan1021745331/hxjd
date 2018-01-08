@@ -1,30 +1,10 @@
 package com.base.admin.controller;
 
-import com.base.router.RouterMapping;
-import com.base.router.RouterNotAllowConvert;
-import com.base.service.RoleService;
-import com.base.query.RoleQuery;
-import com.base.query.UserQuery;
-import com.base.query.UserRoleQuery;
-import com.base.utils.AttachmentUtils;
-import com.base.utils.EncryptUtils;
-import com.base.utils.StringUtils;
-import com.jfinal.aop.Before;
-import com.jfinal.plugin.activerecord.Record;
-import com.jfinal.plugin.ehcache.CacheKit;
-import com.jfinal.upload.UploadFile;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.time.DateTime;
-
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
-import com.base.model.JButton;
-import com.base.model.JRole;
-import com.base.model.JUser;
-import com.base.model.JUserrole;
+import com.base.router.RouterMapping;
+import com.base.router.RouterNotAllowConvert;
+import com.jfinal.aop.Before;
 
 /**
  * ----------暂未使用------------
@@ -56,7 +36,7 @@ public class PluginController extends BaseController {
 	 * @exception   
 	 * @since  1.0.0
 	 */
-	public void userData() {
+/*	public void userData() {
 		Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
 		String where = getPara("id");
@@ -68,13 +48,13 @@ public class PluginController extends BaseController {
 	        list = UserQuery.me().findListUserRole(page, limit,where);
 		}
 		renderPageResult(0, "", (int)count, list);
-	}
-	public void add(){
+	}*/
+	/*public void add(){
 		
 		setAttr("roles", RoleService.me().getAll());
 		render("add.html");
-	}
-	public void edit(){
+	}*/
+	/*public void edit(){
 		Integer id = getParaToInt("id");
 		JUser user = UserQuery.me().findById(id);
 		List<JRole> roles = RoleQuery.me().getAll();
@@ -84,8 +64,8 @@ public class PluginController extends BaseController {
 		setAttr("roles", roles);
 		setAttr("user", user);
 		render("edit.html");
-	}
-	public void sel(){
+	}*/
+/*	public void sel(){
 		String id = getPara("id");
 		JUser user = UserQuery.me().findById(Integer.parseInt(id));
 		
@@ -95,9 +75,9 @@ public class PluginController extends BaseController {
 		
 		setAttr("user", user);
 		render("sel.html");
-	}
+	}*/
 	
-	public void del(){
+/*	public void del(){
 		Integer id = getParaToInt("id");
 		JUser user = UserQuery.me().findById(id);
 		
@@ -110,9 +90,9 @@ public class PluginController extends BaseController {
 			return ;
 		}
 		renderAjaxResultForError("删除失败，请重试！");
-	}
+	}*/
 	
-	public void addSave() {
+/*	public void addSave() {
 		JUser user = getModel(JUser.class);
 		String salt = EncryptUtils.salt();
 		user.setSalt(salt);
@@ -136,9 +116,9 @@ public class PluginController extends BaseController {
 			}
 		}
 		renderAjaxResultForError("新增用户失败，请重试！");
-	}
+	}*/
 	
-	public void editSave() {
+/*	public void editSave() {
 		UploadFile uploadFile = this.getFile();
 		
 		JUser user = getModel(JUser.class);
@@ -154,7 +134,7 @@ public class PluginController extends BaseController {
 		if (null != uploadFile) {
 			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
 			user.setAvatar(newPath);
-			//logger.info(newPath);
+			//System.out.println(newPath);
 			u.setAvatar(user.getAvatar());
 		}
 
@@ -180,9 +160,9 @@ public class PluginController extends BaseController {
 			
 		}
 		renderAjaxResultForError("修改用户失败，请重试！");
-	}
+	}*/
 	
-	public void saveOrUpdata(){
+/*	public void saveOrUpdata(){
 		JButton button = getModel(JButton.class);
 		boolean b = button.saveOrUpdate();
 		if(b){
@@ -190,5 +170,5 @@ public class PluginController extends BaseController {
 		}else{
 			renderAjaxResultForError();
 		}
-	}
+	}*/
 }

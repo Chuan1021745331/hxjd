@@ -1,15 +1,24 @@
 package com.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
+import com.base.constants.Consts;
+import com.base.constants.MessageConstants;
+import com.base.message.Actions;
+import com.base.message.MessageKit;
 import com.base.model.JUser;
 import com.base.model.JUserrole;
 import com.base.query.UserQuery;
 import com.base.query.UserRoleQuery;
 import com.base.utils.AttachmentUtils;
+import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.upload.UploadFile;
@@ -22,8 +31,7 @@ public class UserService {
 	public static UserService me() {
 		return SERVICE;
 	}
-
-
+	
 	public JUser findById(final Integer userId) {
 		return UserQuery.me().findById(userId);
 	}
@@ -95,10 +103,32 @@ public class UserService {
 				if(b){
 					return true;
 				}
-			}
-			
+			}			
 		}
-
 		return false;
+	}
+	
+	@Before(Tx.class)
+	public Boolean login(JUser user, String password){
+		if (EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), password)) {			
+			user.setLogined(DateTime.now().toDate());
+			user.saveOrUpdate();
+			return true;			
+		} else {
+			return false;
+		}
+	}
+	
+	public long findConuntUserRole(){
+		return UserQuery.me().findConuntUserRole();
+	}
+	
+	public List<Record> findListUserRole(Integer page, Integer limit, String where, long count){
+		List<Record> list = new ArrayList<>();
+		if(count!=0){
+			page = (page>count/limit && count%limit==0)?page-1:page ;
+	        list = UserQuery.me().findListUserRole(page, limit, where);
+		}
+		return list;
 	}
 }

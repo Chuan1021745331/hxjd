@@ -2,14 +2,13 @@ package com.base.admin.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
+import com.base.service.ButtonService;
 import com.base.service.MenuService;
-import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.base.constants.MessageConstants;
@@ -18,8 +17,6 @@ import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JButton;
 import com.base.model.JMenu;
 import com.base.model.dto.MenuSimpDto;
-import com.base.query.ButtonQuery;
-import com.base.query.MenuQuery;
 
 /**
  * 
@@ -50,13 +47,8 @@ public class MenuController extends BaseController {
 		Integer limit = getParaToInt("limit");
 		String where = getPara("menuId");
 		
-		long count = ButtonQuery.me().findConunt(where);
-		List<JButton> list = new ArrayList<>();
-		if(count!=0){
-			page = (page>count/limit && count%limit==0)?page-1:page ;
-	        list = ButtonQuery.me().findList(page, limit,where);
-		}
-        
+		long count = ButtonService.me().findConunt(where);
+		List<JButton> list = ButtonService.me().findList(page, limit, where, count);      
         renderPageResult(0, "", (int)count, list);
     }
 	public void add(){
@@ -99,7 +91,7 @@ public class MenuController extends BaseController {
 	
 	public void addM(){
 		String pId = getPara("pId");
-		JMenu m = MenuQuery.me().findById(Integer.parseInt(pId));
+		JMenu m = MenuService.me().findMenuById(Integer.parseInt(pId));
 		if(null == m){
 			m.setId(0);
 			m.setName("根节点");
@@ -109,8 +101,8 @@ public class MenuController extends BaseController {
 	}
 	public void editM(){
 		String id = getPara("id");
-		JMenu m = MenuQuery.me().findById(Integer.parseInt(id));
-		JMenu pm = MenuQuery.me().findById(m.getParent());
+		JMenu m = MenuService.me().findMenuById(Integer.parseInt(id));
+		JMenu pm = MenuService.me().findMenuById(m.getParent());
 		
 		setAttr("menu", m);
 		setAttr("pmenu", pm);
@@ -123,23 +115,19 @@ public class MenuController extends BaseController {
 	
 	public void saveOrUpdata(){
 		JButton button = getModel(JButton.class);
-		button.setIsModal(null==button.getIsModal()?false:true);
-		button.setIsRight(null==button.getIsRight()?false:true);
-		if(button.getUrl().startsWith("/")){
-			button.setUrl(button.getUrl().substring(1, button.getUrl().length()));
-		}
-		boolean b = button.saveOrUpdate();
+		boolean b = ButtonService.me().saveOrUpdate(button);
 		if(b){
 			renderAjaxResultForSuccess();
 		}else{
 			renderAjaxResultForError();
 		}
 	}
+	
 	public void saveOrUpdataForMenu(){
-		JMenu button = getModel(JMenu.class);
-		boolean b = button.saveOrUpdate();
-		if(b){
-			renderAjaxResult("", 0, button);
+		JMenu menu = getModel(JMenu.class);
+		JMenu jMenu = MenuService.me().saveOrUpdataForMenu(menu);
+		if(null != jMenu){
+			renderAjaxResult("", 0, jMenu);
 		}else{
 			renderAjaxResultForError();
 		}
@@ -153,29 +141,22 @@ public class MenuController extends BaseController {
 	public void addTree() throws UnsupportedEncodingException {
 		Integer pId = getParaToInt("pId");
 		String name = getPara("name");
+		JMenu menu = MenuService.me().addTree(pId, name);
 		
-		JMenu menu = new JMenu();
+		/*JMenu menu = new JMenu();
 		menu.setParent(pId);
 		menu.setName(name);
 		boolean b = menu.save();
-		CacheKit.removeAll("menu");
-		if(b){
-			this.JButtonE(menu.getId(), "新增", "add");
-			this.JButtonE(menu.getId(), "删除", "del");
-			this.JButtonE(menu.getId(), "修改", "edit");
-			this.JButtonE(menu.getId(), "详情", "sel");
+		CacheKit.removeAll("menu");*/
+		if(null != menu){
+			ButtonService.me().JButtonE(menu.getId(), "新增", "add");
+			ButtonService.me().JButtonE(menu.getId(), "删除", "del");
+			ButtonService.me().JButtonE(menu.getId(), "修改", "edit");
+			ButtonService.me().JButtonE(menu.getId(), "详情", "sel");
 			renderJson(menu);
 		}else{
 			renderAjaxResultForError();
 		}
-	}
-	
-	private void JButtonE(Integer id,String name,String code){
-		JButton button = new JButton();
-		button.setMenuId(id);
-		button.setName(name);
-		button.setCode(code);
-		button.save();
 	}
 	
 	public void editTree() {
@@ -188,17 +169,9 @@ public class MenuController extends BaseController {
 			String ico = getPara("ico");
 			int sort = getParaToInt("sort");
 			
-			JMenu menu = MenuQuery.me().findById(id);
-			menu.setParent(parent);
-			menu.setName(name);
-			menu.setUrl(url);
-			menu.setTag(tag);
-			menu.setIco(ico);
-			menu.setSort(sort);
-			
-			boolean b = menu.saveOrUpdate();
+			JMenu menu = MenuService.me().editTree(id, parent, name, url, tag, ico, sort);
 			CacheKit.removeAll("menu");
-			if(b){
+			if(null != menu){
 				renderAjaxResult("", 0, menu);
 			}else{
 				renderAjaxResultForError(MessageConstants.EDIT_TREE_DEFEAT);
@@ -210,7 +183,7 @@ public class MenuController extends BaseController {
 	}
 	public void button(){
 		Integer menuId = getParaToInt("id");
-		List<JButton> menuButton = ButtonQuery.me().findByMenuId(menuId);
+		List<JButton> menuButton = ButtonService.me().findByMenuId(menuId);
 		String add="";
 		String del="";
 		String edit="";
@@ -250,35 +223,15 @@ public class MenuController extends BaseController {
 	
 	public void addButton(){
 		try {
-			Integer menuId = getParaToInt("menuId");
-			ButtonQuery.me().delButtonNotInByMenuId(menuId);
-			String[] newButtonName = getParaValues("newButtonName");
-			String[] newButtonCode = getParaValues("newButtonCode");
-			String[] newButtonUrl = getParaValues("newButtonUrl");
-			if(null!=newButtonName){
-				for (int i = 0; i < newButtonName.length; i++) {
-					if(StringUtils.isNotEmpty(newButtonName[i]) && StringUtils.isNotEmpty(newButtonUrl[i]) && StringUtils.isNotEmpty(newButtonCode[i])){
-						JButton button = new JButton();
-						button.setMenuId(menuId);
-						button.setName(newButtonName[i]);
-						button.setCode(newButtonCode[i]);
-						button.setUrl(newButtonUrl[i]);
-						
-						button.save();
-					}
-				}
-			}
-			
+			Integer menuId = getParaToInt("menuId");			
 			String add = getPara("add");
 			String del = getPara("del");
 			String edit = getPara("edit");
 			String sel = getPara("sel");
-			
-			ButtonQuery.me().updateByTypeAndMenuId("add", menuId, add);
-			ButtonQuery.me().updateByTypeAndMenuId("del", menuId, del);
-			ButtonQuery.me().updateByTypeAndMenuId("edit", menuId, edit);
-			ButtonQuery.me().updateByTypeAndMenuId("sel", menuId, sel);
-			
+			String[] newButtonName = getParaValues("newButtonName");
+			String[] newButtonCode = getParaValues("newButtonCode");
+			String[] newButtonUrl = getParaValues("newButtonUrl");
+			ButtonService.me().addButton(menuId, add, del, edit, sel, newButtonName, newButtonCode, newButtonUrl);			
 			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
 		} catch (Exception e) {
 			log.debug(e.toString());
@@ -293,16 +246,7 @@ public class MenuController extends BaseController {
 	
 	public void delTree() {
 		Integer id = getParaToInt("id");
-		JMenu menu = MenuQuery.me().findById(id);
-		List<JMenu> menuList = MenuQuery.me().findByParent(id);
-		if(menuList.size()>0){
-			for (JMenu m:menuList) {
-				m.delete();
-			}
-		}
-		boolean b = menu.delete();
-		CacheKit.removeAll("menu");
-		ButtonQuery.me().delButtonByMenuId(id);
+		boolean b = ButtonService.me().delTree(id);
 		if(b){
 			renderAjaxResultForSuccess();
 		}else{
@@ -312,7 +256,7 @@ public class MenuController extends BaseController {
 	
 	public void getMenu(){
 		Integer id = getParaToInt("id");
-		JMenu menu = MenuQuery.me().findById(id);
+		JMenu menu = MenuService.me().findMenuById(id);
 //		List<JButton> button = ButtonQuery.me().findByMenuId(id);
 //		MenuButton mb = new MenuButton();
 //		mb.setMenu(menu);

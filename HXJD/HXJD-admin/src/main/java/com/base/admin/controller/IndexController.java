@@ -4,6 +4,7 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.query.MenuQuery;
 import com.base.service.IndexService;
+import com.base.service.MenuService;
 import com.base.service.UserService;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
@@ -64,7 +65,7 @@ public class IndexController extends BaseController {
 	
 	public void main() {
 		
-//		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
+		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
 		Long pel = 0L;
 		Long pelG = 0L;
 		Long ter = 0L;
@@ -128,25 +129,21 @@ public class IndexController extends BaseController {
 	public void login() {
 		String username = getPara("username");
 		String password = getPara("password");
-
+		
 		if (!StringUtils.areNotEmpty(username, password)) {
 			render("login.html");
 			return;
 		}
-
 		JUser user = UserService.me().findUserByUserName(username);
 		if (null == user) {
 			renderAjaxResultForError(MessageConstants.USER_NULL);
 			return;
 		}
-
-		if (EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), password)) {
+		
+		boolean a =  UserService.me().login(user, password);
+		if(a){
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
-
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
-			user.setLogined(DateTime.now().toDate());
-			user.saveOrUpdate();
-
 			renderAjaxResultForSuccess(MessageConstants.USER_SUCCESS);
 		} else {
 			renderAjaxResultForError(MessageConstants.PASS_ERROR);
@@ -178,14 +175,14 @@ public class IndexController extends BaseController {
 		String search = getPara("search[value]");
 		
 		
-		List<JMenu> list = MenuQuery.me().findList(start, length,column,order,search);
-		long count = MenuQuery.me().findConunt(search);
+		List<JMenu> list = MenuService.me().findList(start, length,column,order,search);
+		long count = MenuService.me().findConunt(search);
 		renderPageResult(draw, (int)count, (int)count, list);
 	}
 	public void editFile(){
 		ServletContext s1=getRequest().getServletContext();
 		String temp=s1.getRealPath("/");
-//		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
+		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
 	public void test(){
 		ThreadUtil.excAsync(new Runnable() {
@@ -220,9 +217,9 @@ public class IndexController extends BaseController {
 		String time = getPara("time");
 		MongoQuery query = new MongoQuery();
 		List<JSONObject> list = query.use("test").eq("t", time).find();
-//		System.out.println(list.toString().getBytes().length);
+		System.out.println(list.toString().getBytes().length);
 		byte[] l = GZipUtil.doZip(list.toString());
-//		System.out.println(l.length);
+		System.out.println(l.length);
 		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
 	}
 	public void test3(){

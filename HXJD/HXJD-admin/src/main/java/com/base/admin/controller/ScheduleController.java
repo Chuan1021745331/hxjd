@@ -3,9 +3,7 @@ package com.base.admin.controller;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.cron.QuartzJob;
-import com.base.cron.QuartzJobFactory;
 import com.base.cron.QuartzManager;
-import com.base.interceptor.ButtonInterceptor;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.*;
 import com.base.query.JobQuery;
@@ -14,13 +12,10 @@ import com.base.router.RouterNotAllowConvert;
 import com.base.service.*;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
-import com.jfinal.plugin.activerecord.tx.Tx;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,14 +49,8 @@ public class ScheduleController extends BaseController {
     	Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
 		String where = getPara("id");
-		List<Record> list = new ArrayList<Record>();
-		long count =  JobQuery.me().findConunt(where);
-				//OptionQuery.me().findConunt(where);
-		if(count!=0){
-			page = (page>count/limit && count%limit==0)?page-1:page ;
-	        list = JobQuery.me().findJobList(page, limit,where);
-	        		
-		}
+		long count =  ScheduleService.me().findConunt(where);
+		List<Record> list = ScheduleService.me().findJobList(page, limit, where, count);
 		renderPageResult(0, "", (int)count, list);
     }
 

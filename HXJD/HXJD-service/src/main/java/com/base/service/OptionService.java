@@ -1,8 +1,12 @@
 package com.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.base.model.JOption;
 import com.base.query.OptionQuery;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -45,9 +49,19 @@ public class OptionService {
 			CacheKit.remove("option", id);
 			return true;
 		}
-		
-		
 		return false;
 	}
-
+	
+	public long findConunt(String where){
+		return OptionQuery.me().findConunt(where);
+	}
+	
+	public List<Record> findListOptions(Integer page, Integer limit, String where, long count){
+		List<Record> list = new ArrayList<Record>();
+		if(count!=0){
+			page = (page>count/limit && count%limit==0)?page-1:page ;
+			list = OptionQuery.me().findListOptions(page, limit,where);
+		}
+		return list;
+	}
 }

@@ -6,6 +6,8 @@ import com.base.service.MenuService;
 import com.base.query.MenuQuery;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.model.JMenu;
 /**
@@ -28,11 +30,8 @@ public class AuthController extends BaseController {
 	public void addTree() throws UnsupportedEncodingException {
 		Integer pId = getParaToInt("pId");
 		String name = new String(getPara("name").getBytes("iso8859_1"),"utf-8");
-		JMenu menu = new JMenu();
-		menu.setParent(pId);
-		menu.setName(name);
-		boolean b = menu.save();
-		if(b){
+		JMenu menu= MenuService.me().addTree(pId, name);
+		if(null != menu){
 			renderJson(menu);
 		}else{
 			renderAjaxResultForError();
@@ -48,22 +47,14 @@ public class AuthController extends BaseController {
 			String tag = getPara("tag");
 			String ico = getPara("ico");
 			int sort = getParaToInt("sort");
-			JMenu menu = MenuQuery.me().findById(id);
-			menu.setParent(parent);
-			menu.setName(name);
-			menu.setUrl(url);
-			menu.setTag(tag);
-			menu.setIco(ico);
-			menu.setSort(sort);
-			
-			boolean b = menu.saveOrUpdate();
-			if(b){
+			JMenu menu = MenuService.me().editTree(id, parent, name, url, tag, ico, sort);
+			if(null != menu){
 				renderAjaxResult("", 0, menu);
 			}else{
 				renderAjaxResultForError("密码修改失败，请重试！");
 			}
 		} catch (Exception e) {
-			renderAjaxResultForError("请先选择父级菜单");
+			renderAjaxResultForError(MessageConstants.EDIT_TREE_NONE_PARENT);
 		}
 		
 	}

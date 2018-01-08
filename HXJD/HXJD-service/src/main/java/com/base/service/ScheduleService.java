@@ -1,5 +1,8 @@
 package com.base.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -14,14 +17,15 @@ import com.base.cron.QuartzManager;
 import com.base.model.JJob;
 import com.base.query.JobQuery;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ScheduleService {
-    private final static Logger logger= LoggerFactory.getLogger(ScheduleService.class);
+	   private final static Logger logger= LoggerFactory.getLogger(ScheduleService.class);
 
-    public static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
+	public static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
     private static Scheduler  scheduler ;
     QuartzManager quartzManager = new QuartzManager();
     QuartzJob qj = new QuartzJob();
@@ -162,6 +166,19 @@ public class ScheduleService {
         StringBuffer a = new StringBuffer(join);
         a.insert(1,h);
         return String.valueOf(a);
+    }
+    
+    public long findConunt(String where){
+    	return JobQuery.me().findConunt(where);
+    }
+    
+    public List<Record> findJobList(Integer page, Integer limit, String where, long count){
+    	List<Record> list = new ArrayList<Record>();
+    	if(count!=0){
+			page = (page>count/limit && count%limit==0)?page-1:page ;
+	        list = JobQuery.me().findJobList(page, limit,where);	        		
+		}
+    	return list;
     }
 	
 }

@@ -12,11 +12,11 @@ import com.base.model.JRole;
 import com.base.model.JRolemenubutton;
 import com.base.model.dto.MenusButtonsDto;
 import com.base.query.ButtonQuery;
-import com.base.query.MenuQuery;
 import com.base.query.RoleMenuButtonQuery;
 import com.base.query.RoleQuery;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -39,18 +39,20 @@ public class RoleService {
 	}
 	
 	@Before(Tx.class)
-	public boolean addSave(JRole jr, String roleMenus, String[] buttons){
+	public boolean addSave(JRole jr, String roleMenus, Map<String,String[]> m){
 		boolean a = jr.save();
 		if(a){		
 			if(roleMenus.length()>1){
 				String[] rms = roleMenus.split(",");
 				for (int i = 0; i < rms.length; i++) {
-					StringBuffer sb = new StringBuffer();					
+					StringBuffer sb = new StringBuffer();
+					String[] buttons = m.get("checkbox_"+rms[i]);
 					if(null !=buttons){
 						for (int j = 0; j < buttons.length; j++) {
 							sb.append(buttons[j]+"|");
 						}
-					}					
+					}
+					
 					JRolemenubutton jmb= new JRolemenubutton();
 					jmb.setRoleId(jr.getId());
 					jmb.setMenuId(new Integer(rms[i]));
@@ -63,6 +65,37 @@ public class RoleService {
 			return true;
 		}
 		return false;
+	}
+	
+	@Before(Tx.class)
+	public boolean editSave(JRole jr, String roleMenus, Map<String,String[]> m){
+		boolean a = jr.update();
+		if(a){			
+			RoleMenuButtonQuery.me().delbyRoleId(jr.getId());
+			CacheKit.remove("role", jr.getId());
+			CacheKit.removeAll("menu");
+			if(roleMenus.length()>1){
+				String[] rms = roleMenus.split(",");
+				for (int i = 0; i < rms.length; i++) {
+					StringBuffer sb = new StringBuffer();
+					String[] buttons = m.get("checkbox_"+rms[i]);
+					if(null !=buttons){
+						for (int j = 0; j < buttons.length; j++) {
+							sb.append(buttons[j]+"|");
+						}
+					}
+					
+					JRolemenubutton jmb= new JRolemenubutton();
+					jmb.setRoleId(jr.getId());
+					jmb.setMenuId(new Integer(rms[i]));
+					jmb.setButtons(sb.toString());
+					System.out.println("buttons: " + sb.toString());
+					jmb.saveOrUpdate();
+				}
+			}
+			return true;
+		} 
+		return false;		
 	}
 	
 	@Before(Tx.class)
@@ -106,8 +139,8 @@ public class RoleService {
 			dto.setName(b.getName());
 			dto.setCode(b.getCode());
 			dto.setTf(false);
-			if(null!=mArray){
-				List<String> list=Arrays.asList(mArray);
+			if(null != mArray){
+				List<String> list = Arrays.asList(mArray);
 				if(list.contains(b.getCode())){
 					dto.setTf(true);
 				}
@@ -116,4 +149,18 @@ public class RoleService {
 		}
 		return mbs;
 	}
+	
+	public long findConunt(String where){
+		return RoleQuery.me().findConunt(where);
+	}
+	
+	public List<Record> findListRole(Integer page, Integer limit, String where, long count){
+		List<Record> list = new ArrayList<Record>();
+		if(count!=0){
+			page = (page>count/limit && count%limit==0)?page-1:page ;
+			list = RoleQuery.me().findListRole(page, limit, where);
+		}
+		return list;
+	}
+		
 }

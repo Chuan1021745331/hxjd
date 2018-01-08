@@ -10,6 +10,8 @@ import com.base.model.dto.MenuDto;
 import com.base.model.dto.MenuSimpDto;
 import com.base.query.ButtonQuery;
 import com.base.query.MenuQuery;
+import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.tx.Tx;
 
 public class MenuService {
 	private static final MenuService SERVICE = new MenuService();
@@ -25,11 +27,45 @@ public class MenuService {
 		return ButtonQuery.me().findById(buttonId);
 	}
 	
+	@Before(Tx.class)
 	public boolean del(String id){
 		JButton button = ButtonQuery.me().findById(Integer.parseInt(id));
 		return button.delete();
 	}
 	
+	@Before(Tx.class)
+	public JMenu editTree(Integer id, Integer parent, String name, String url, String tag, String ico, int sort){
+		JMenu menu = MenuService.me().findMenuById(id);
+		menu.setParent(parent);
+		menu.setName(name);
+		menu.setUrl(url);
+		menu.setTag(tag);
+		menu.setIco(ico);
+		menu.setSort(sort);	
+		boolean a = menu.saveOrUpdate();
+		if(a){
+			return menu;
+		}else{
+			return null;
+		}
+	}
+	
+	
+	@Before(Tx.class)
+	public JMenu addTree(Integer pId, String name){
+		JMenu menu = new JMenu();
+		menu.setParent(pId);
+		menu.setName(name);
+		boolean a = menu.save();
+		if(a){
+			return menu;
+		} else {
+			return null;
+		}
+		
+	}
+	
+	@Before(Tx.class)
 	public boolean delTree(Integer id){
 		JMenu menu = MenuQuery.me().findById(id);
 		List<JMenu> menuList = MenuQuery.me().findByParent(id);
@@ -142,5 +178,23 @@ public class MenuService {
 			}
 		}
 		return mts;
+	}
+	
+	public List<JMenu> findList(Integer start, Integer length, Integer column, String order, String search ){
+		return MenuQuery.me().findList(start, length,column,order,search);
+	}
+	
+	public long findConunt(String search){
+		return MenuQuery.me().findConunt(search);
+	}
+	
+	@Before(Tx.class)
+	public JMenu saveOrUpdataForMenu(JMenu menu){
+		boolean a = menu.saveOrUpdate();
+		if(a){
+			return menu;
+		} else {
+			return null;
+		}
 	}
 }

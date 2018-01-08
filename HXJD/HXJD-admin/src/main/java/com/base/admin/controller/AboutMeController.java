@@ -42,10 +42,10 @@ public class AboutMeController extends BaseController {
 		Integer userId = getParaToInt("id");
 		JUser newUser = getModel(JUser.class);
 		
-		int state = AboutmeService.me().edit(userId, uploadFile, newUser);
-		if(state == 0){
+		String state = AboutmeService.me().edit(userId, uploadFile, newUser);
+		if(MessageConstants.EDIT_DEFEAT.equals(state)){
 			renderAjaxResultForError(MessageConstants.EDIT_DEFEAT);
-		} else if(state == 2){
+		} else if(MessageConstants.USER_NULL.equals(state)){
 			renderAjaxResultForError(MessageConstants.USER_NULL);
 		} else {
 			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
@@ -55,6 +55,7 @@ public class AboutMeController extends BaseController {
 	public void changePassword(){
 		render("changePassword.html");
 	}
+	
 	public void saveNewPassword(){
 		String op = getPara("op");
 		String np = getPara("np");
@@ -62,13 +63,13 @@ public class AboutMeController extends BaseController {
 		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
 		JUser user = UserService.me().findById(new Integer(userId));
 		
-		int state = AboutmeService.me().saveNewPwd(op, np, dnp, user);
-		if(state == 0){
+		String state = AboutmeService.me().saveNewPwd(op, np, dnp, user);
+		if(MessageConstants.RAW_PASS_ERROR.equals(state)){
 			renderAjaxResultForError(MessageConstants.RAW_PASS_ERROR);
-		} else if(state == 1){
+		} else if(MessageConstants.EDIT_SUCCESS.equals(state)){
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
 			renderAjaxResultForSuccess(MessageConstants.EDIT_SUCCESS);
-		} else if(state == 2){
+		} else if(MessageConstants.PASS_INCONFORMITY.equals(state)){
 			renderAjaxResultForError(MessageConstants.PASS_INCONFORMITY);
 		}
 	}
