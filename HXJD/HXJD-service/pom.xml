@@ -33,14 +33,6 @@
 		
 		<dependency>
 			<groupId>com.base</groupId>
-			<artifactId>HXJD-core</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.base</groupId>
 			<artifactId>HXJD-dao</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
