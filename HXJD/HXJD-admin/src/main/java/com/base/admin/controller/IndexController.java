@@ -64,7 +64,7 @@ public class IndexController extends BaseController {
 	
 	public void main() {
 		
-		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
+//		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
 		Long pel = 0L;
 		Long pelG = 0L;
 		Long ter = 0L;
@@ -185,7 +185,7 @@ public class IndexController extends BaseController {
 	public void editFile(){
 		ServletContext s1=getRequest().getServletContext();
 		String temp=s1.getRealPath("/");
-		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
+//		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
 	public void test(){
 		ThreadUtil.excAsync(new Runnable() {
@@ -220,9 +220,9 @@ public class IndexController extends BaseController {
 		String time = getPara("time");
 		MongoQuery query = new MongoQuery();
 		List<JSONObject> list = query.use("test").eq("t", time).find();
-		System.out.println(list.toString().getBytes().length);
+//		System.out.println(list.toString().getBytes().length);
 		byte[] l = GZipUtil.doZip(list.toString());
-		System.out.println(l.length);
+//		System.out.println(l.length);
 		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
 	}
 	public void test3(){
