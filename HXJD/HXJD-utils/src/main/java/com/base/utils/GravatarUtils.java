@@ -10,12 +10,15 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GravatarUtils {
 	private final static int DEFAULT_SIZE = 80;
 	private final static String GRAVATAR_URL = "http://7xwl4d.com2.z0.glb.qiniucdn.com/avatar/";
 	private static final GravatarRating DEFAULT_RATING = GravatarRating.GENERAL_AUDIENCES;
 	private static final GravatarDefaultImage DEFAULT_DEFAULT_IMAGE = GravatarDefaultImage.HTTP_404;
+	private final static Logger logger= LoggerFactory.getLogger(GravatarUtils.class);
 
 	private int size = DEFAULT_SIZE;
 	private GravatarRating rating = DEFAULT_RATING;
@@ -100,7 +103,7 @@ public class GravatarUtils {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(GRAVATAR_URL+MD5Util.md5Hex("zyisgod@126.com")+"-60");
+		logger.info(GRAVATAR_URL+MD5Util.md5Hex("zyisgod@126.com")+"-60");
 	}
 	
 }

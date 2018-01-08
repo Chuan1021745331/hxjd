@@ -10,8 +10,12 @@ import com.base.utils.EncryptUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.upload.UploadFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AboutmeService {
+	private final static Logger logger= LoggerFactory.getLogger(AboutmeService.class);
+
 	private static final AboutmeService SERVICE = new AboutmeService();
 	public static AboutmeService me() {
 		return SERVICE;
@@ -27,7 +31,7 @@ public class AboutmeService {
 		if (null != uploadFile) {
 			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
 			user.setAvatar(newPath);
-			System.out.println(newPath);
+			logger.info(newPath);
 		}
 			
 		user.setNickname(newUser.getNickname());

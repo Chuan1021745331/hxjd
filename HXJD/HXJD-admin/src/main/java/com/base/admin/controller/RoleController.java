@@ -26,6 +26,9 @@ import com.base.query.ButtonQuery;
 import com.base.query.MenuQuery;
 import com.base.query.RoleMenuButtonQuery;
 import com.base.query.RoleQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * All rights Reserved, Designed By hxjd
@@ -43,6 +46,7 @@ import com.base.query.RoleQuery;
 @RouterMapping(url = "/admin/role", viewPath = "/view/admin/role")
 @RouterNotAllowConvert
 public class RoleController extends BaseController {
+	private final static Logger logger= LoggerFactory.getLogger(RoleController.class);
 	
 	@Before(NewButtonInterceptor.class)
 	public void index() {
@@ -155,7 +159,7 @@ public class RoleController extends BaseController {
 					jmb.setRoleId(jr.getId());
 					jmb.setMenuId(new Integer(rms[i]));
 					jmb.setButtons(sb.toString());
-					System.out.println("buttons: " + sb.toString());
+					logger.info("buttons: " + sb.toString());
 					jmb.saveOrUpdate();
 				}
 			}

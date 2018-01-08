@@ -3,9 +3,12 @@ package com.base.service;
 import com.base.service.BaseService;
 import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.plugin.activerecord.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MongoDBService extends BaseService {
-	
+	private final static Logger logger= LoggerFactory.getLogger(MongoDBService.class);
+
 	public static void save(Record record){
 		MongoQuery query = new MongoQuery();
 		query.use("test").set(record).save();
@@ -23,8 +26,8 @@ public class MongoDBService extends BaseService {
 //		while (list.hasNext()) {
 //			DBObject l = list.next();
 //			i++;
-//			System.out.println(l.get("_id").toString());
+//			logger.info(l.get("_id").toString());
 //		}
-		System.out.println(i);
+		logger.info(""+i);
 	}
 }

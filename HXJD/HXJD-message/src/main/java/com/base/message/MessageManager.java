@@ -16,8 +16,11 @@ import java.util.concurrent.TimeUnit;
 import com.base.message.annotation.Listener;
 import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageManager {
+	private final static Logger logger= LoggerFactory.getLogger(MessageManager.class);
 
 	//池中所保存的线程数，包括空闲线程。  
 	private final static int COREPOOLSIZE = 5;  
@@ -51,7 +54,7 @@ public class MessageManager {
 		deleteListner(asyncListenerMap, listenerClass);
 		
 		if (JFinal.me().getConstants().getDevMode()) {
-			System.out.println(String.format("listener[%s]-->>unRegisterListener.", listenerClass));
+			logger.info(String.format("listener[%s]-->>unRegisterListener.", listenerClass));
 		}
 
 	}
@@ -127,7 +130,7 @@ public class MessageManager {
 		}
 		
 		if (JFinal.me().getConstants().getDevMode()) {
-			System.out.println(String.format("listener[%s]-->>registered.", listener));
+			logger.info(String.format("listener[%s]-->>registered.", listener));
 		}
 
 	}
@@ -190,7 +193,7 @@ public class MessageManager {
 		for (final MessageListener listener : syncListeners) {
 			try {
 				if (JFinal.me().getConstants().getDevMode()) {
-					System.out.println(String.format("listener[%s]-->>onMessage(%s)", listener, message));
+					logger.info(String.format("listener[%s]-->>onMessage(%s)", listener, message));
 				}
 				listener.onMessage(message);
 			} catch (Throwable e) {
@@ -206,7 +209,7 @@ public class MessageManager {
 				public void run() {
 					try {
 						if (JFinal.me().getConstants().getDevMode()) {
-							System.out.println(String.format("listener[%s]-->>onMessage(%s) in async", listener, message));
+							logger.info(String.format("listener[%s]-->>onMessage(%s) in async", listener, message));
 						}
 						listener.onMessage(message);
 					} catch (Throwable e) {

@@ -4,12 +4,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 
 import com.jfinal.core.JFinal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AudioUtils {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-	
-	
-	public static boolean transAmrToMp3(String oldFile, String newFile){
+    private final static Logger logger= LoggerFactory.getLogger(AudioUtils.class);
+
+
+    public static boolean transAmrToMp3(String oldFile, String newFile){
 		//File file = new File(sourcePath);  
 		//String webroot = "C:/Users/kevin/Desktop/test/trans";
 		//String out = "C:/Users/kevin/Desktop/test/trans/003.mp3";
@@ -30,7 +33,7 @@ public class AudioUtils {
             p.getErrorStream().close();    
             p.waitFor();    
             long end=System.currentTimeMillis();    
-            System.out.println(oldFile+" convert success, costs:"+(end-start)+"ms");
+            logger.info(oldFile+" convert success, costs:"+(end-start)+"ms");
             return true;
             //删除原来的文件    
             //if(file.exists()){    

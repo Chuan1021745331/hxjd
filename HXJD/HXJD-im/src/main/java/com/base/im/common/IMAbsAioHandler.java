@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tio.client.ClientChannelContext;
 import org.tio.core.ChannelContext;
 import org.tio.core.GroupContext;
@@ -15,6 +17,8 @@ import com.base.utils.GZipUtil;
 
 public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Object>
 {
+	private final static Logger logger= LoggerFactory.getLogger(IMAbsAioHandler.class);
+
 	/**
 	 * 编码：把业务消息包编码为可以发送的ByteBuffer
 	 */
@@ -45,7 +49,7 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 				//String headStr = new String(headByte, "utf-8");
 				//if(headStr.equals("$C")){
 				if(channelContext.equals(clientChannelContext==null?"":clientChannelContext)){//与C端通信	
-					System.out.println("==C--encode==");
+					logger.info("==C--encode==");
 					//byte[] temp = ArrayUtils.subarray(body, 2, body.length);
 					
 					byte[] bytes2 = new byte[4];				
@@ -66,7 +70,7 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 					buffer.put(bytes2);
 					buffer.put(body);
 				} else {//与Android、本机IM通信
-					System.out.println("==normal--encode==");
+					logger.info("==normal--encode==");
 					buffer.putInt(bodyLen);
 					buffer.put(body);				
 				}
@@ -75,8 +79,8 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 				e1.printStackTrace();
 			}
 		}
-		System.out.println(buffer.toString());
-		System.out.println("##encode##");
+		logger.info(buffer.toString());
+		logger.info("##encode##");
 		return buffer;
 	}
 
@@ -88,12 +92,12 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 	{
 		//buffer.getI
 		if(buffer==null){
-			System.out.println("-------------------");
+			logger.info("-------------------");
 		}else{
 			//byte[] bytes = new byte[buffer.capacity()];
-			System.out.println(buffer.toString());
+			logger.info(buffer.toString());
 		}
-		System.out.println("##decode##");
+		logger.info("##decode##");
 		
 		buffer.position(0);
 		//byte[] all = new byte[buffer.limit()];
@@ -133,7 +137,7 @@ public abstract class IMAbsAioHandler implements AioHandler<Object, IMPacket, Ob
 		int test = readableLength - neededLength;
 		if (test < 0) // 不够消息体长度(剩下的buffe组不了消息体)
 		{
-			System.out.println("不够消息体长度");
+			logger.info("不够消息体长度");
 			return null;
 		} else
 		{

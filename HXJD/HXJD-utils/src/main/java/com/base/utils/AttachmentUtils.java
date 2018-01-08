@@ -9,10 +9,13 @@ import java.util.UUID;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AttachmentUtils {
 
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	private final static Logger logger= LoggerFactory.getLogger(AttachmentUtils.class);
 
 	/**
 	 * @param uploadFile
@@ -65,7 +68,7 @@ public class AttachmentUtils {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(FileUtils.getSuffix("xxx.jpg"));
+		logger.info(FileUtils.getSuffix("xxx.jpg"));
 	}
 
 }

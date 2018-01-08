@@ -23,10 +23,12 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.plugin.druid.DruidPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JGenerator {
+	private final static Logger logger= LoggerFactory.getLogger(JGenerator.class);
 
-	
 	private final String basePackage;
 	private final String dbHost;
 	private final String dbName;
@@ -47,7 +49,7 @@ public class JGenerator {
 
 
 	public void doGenerate(){
-		
+
 		String modelPackage = basePackage+".model";
 		String baseModelPackage = basePackage+".model.base";
 //		String adminControllerPackage = basePackage+".controller.admin";
@@ -56,8 +58,8 @@ public class JGenerator {
 		String baseModelDir = PathKit.getWebRootPath() + "/src/main/java/"+baseModelPackage.replace(".", "/");
 //		String adminControllerDir = PathKit.getWebRootPath() + "/src/main/java/"+adminControllerPackage.replace(".", "/");
 		
-		System.out.println("start generate...");
-		System.out.println("Generate dir:"+modelDir);
+		logger.info("start generate...");
+		logger.info("Generate dir:"+modelDir);
 		
 		
 		List<TableMeta> tableMetaList = new MetaBuilder(getDataSource()).build();
@@ -66,7 +68,7 @@ public class JGenerator {
 		new JModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
 //		new JControllerGenerator(adminControllerPackage, baseModelPackage, adminControllerDir).generate(tableMetaList);
 		
-		System.out.println("Generate finished !!!");
+		logger.info("Generate finished !!!");
 		
 	}
 	

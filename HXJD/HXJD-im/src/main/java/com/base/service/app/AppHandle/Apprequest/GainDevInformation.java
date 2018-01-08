@@ -9,6 +9,8 @@ import com.base.service.app.AppInterface.BaseHandleImpl;
 import com.base.service.app.AppInterface.RequestCodeMaping;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +31,9 @@ import java.util.Date;
  */
 @RequestCodeMaping(requestCode = RequestCodeConstants.DEV_CAPS_CODE)
 public class GainDevInformation extends BaseHandleImpl {
+
+    private final static Logger logger= LoggerFactory.getLogger(GainDevInformation.class);
+
     /**
      * 获取设备信息
      * @param data
@@ -36,9 +41,9 @@ public class GainDevInformation extends BaseHandleImpl {
      */
     @Override
     public String init(RequestDto data) {
-        System.out.println(data.getCode());
-        System.out.println(data.getHandle());
-        System.out.println(data.getDevMac());
+        logger.info(""+data.getCode());
+        logger.info(""+data.getHandle());
+        logger.info(""+data.getDevMac());
 
         Record record= Db.findFirst("SELECT jt.sdnum,jt.terminal_name,jt.terminal_power,jt.terminal_stauts,jm.mediator_name,jm.mediator_grade,jm.camp,jm.id FROM j_terminal jt JOIN j_mediatorterminal jmt on jt.id=jmt.terminal_id JOIN j_mediator jm on jmt.mediator_id=jm.id JOIN j_drillcode dc ON dc.id = jm.drillId WHERE dc.state = 0 and jt.terminal_num=? and jt.sdnum=?",data.getDevMac(),data.getSdMac());
         if(record==null){

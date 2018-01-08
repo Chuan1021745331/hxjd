@@ -22,16 +22,18 @@ import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Jdb {
-	
+	private final static Logger logger= LoggerFactory.getLogger(Jdb.class);
 	static String tx(String sql){
 		return JModelMapping.me().tx(sql);
 	}
 	
 	private static void debugPrintParas(Object ...objects){
 		if(JFinal.me().getConstants().getDevMode()){
-			System.out.println("\r\n---------------Paras: "+Arrays.toString(objects)+"----------------");
+			logger.info("\r\n---------------Paras: "+Arrays.toString(objects)+"----------------");
 		}
 	}
 	

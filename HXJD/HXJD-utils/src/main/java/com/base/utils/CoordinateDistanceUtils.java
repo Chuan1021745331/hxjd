@@ -1,5 +1,8 @@
 package com.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +13,8 @@ import java.util.Map;
  *
  */
 public class CoordinateDistanceUtils {
+	private final static Logger logger= LoggerFactory.getLogger(CoordinateDistanceUtils.class);
+
 	public static double getDistance(Map<String, String> a, Map<String, String> b) {
 		double lat1 = (Math.PI / 180) * Double.parseDouble(a.get("y"));
 		double lat2 = (Math.PI / 180) * Double.parseDouble(b.get("y"));
@@ -34,6 +39,6 @@ public class CoordinateDistanceUtils {
 		b.put("x", "106.5200686455");
 		b.put("y", "29.5507892327");
 		double c = CoordinateDistanceUtils.getDistance(a, b);
-		System.out.println(c);
+		logger.info(""+c);
 	}
 }

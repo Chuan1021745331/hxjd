@@ -107,7 +107,7 @@ public class QuartzManager {
 				logger.info("任务调度中不存在[" + job.getJobName() + "]定时任务，不予立即运行！");
 				return;
 			}
-			System.out.println(jobKey);
+			logger.info(jobKey.toString());
 			scheduler.triggerJob(jobKey);
 		} catch (Exception e) {
 			logger.error("立即运行任务调度中的定时任务异常！" + e.getMessage(), e);

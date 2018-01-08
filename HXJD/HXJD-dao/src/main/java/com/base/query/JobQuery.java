@@ -9,11 +9,15 @@ import com.base.model.JJob;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class JobQuery {
 	protected static final JJob DAO = new JJob();
 	private static final JobQuery QUERY = new JobQuery();
+	private final static Logger logger= LoggerFactory.getLogger(JobQuery.class);
+
 
 	public static JobQuery me() {
 		return QUERY;
@@ -143,7 +147,7 @@ public class JobQuery {
 
 
 	public  void test(){
-		System.out.println("==========================a+b= ");
+		logger.info("==========================a+b= ");
 	}
 
 }

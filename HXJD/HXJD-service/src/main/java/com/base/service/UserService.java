@@ -13,13 +13,17 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.upload.UploadFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserService {
 	private static final UserService SERVICE = new UserService();
+	private final static Logger logger= LoggerFactory.getLogger(UserService.class);
 	public static UserService me() {
 		return SERVICE;
 	}
-	
+
+
 	public JUser findById(final Integer userId) {
 		return UserQuery.me().findById(userId);
 	}
@@ -73,7 +77,7 @@ public class UserService {
 		if (null != uploadFile) {
 			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
 			user.setAvatar(newPath);
-			//System.out.println(newPath);
+			//logger.info(newPath);
 			u.setAvatar(user.getAvatar());
 		}
 		boolean a = u.update();

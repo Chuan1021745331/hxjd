@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.jfinal.kit.HashKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EncryptUtils extends HashKit {
+	private final static Logger logger= LoggerFactory.getLogger(EncryptUtils.class);
 
 	public static String salt() {
 		int random = (int) (10 + (Math.random() * 10));
@@ -49,7 +52,7 @@ public class EncryptUtils extends HashKit {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(encryptPassword("admin", "admin"));
+		logger.info(encryptPassword("admin", "admin"));
 	}
 
 }

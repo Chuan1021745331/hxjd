@@ -1,8 +1,13 @@
 package com.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public class DelFile {
+	private final static Logger logger= LoggerFactory.getLogger(DelFile.class);
+
 	public static void deleteFile(File file) {  
 	    if (file.exists()) {//判断文件是否存在  
 	    	if (file.isFile()) {//判断是否是文件  
@@ -15,7 +20,7 @@ public class DelFile {
 	    		file.delete();//删除文件夹  
 	    	}  
 	    } else {  
-	    	System.out.println("所删除的文件不存在");  
+	    	logger.info("所删除的文件不存在");
 	    }  
 	}
 }

@@ -154,7 +154,7 @@ public class PluginController extends BaseController {
 		if (null != uploadFile) {
 			String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
 			user.setAvatar(newPath);
-			//System.out.println(newPath);
+			//logger.info(newPath);
 			u.setAvatar(user.getAvatar());
 		}
 

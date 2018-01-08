@@ -15,9 +15,13 @@ import com.base.model.JJob;
 import com.base.query.JobQuery;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScheduleService {
-	public static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
+    private final static Logger logger= LoggerFactory.getLogger(ScheduleService.class);
+
+    public static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
     private static Scheduler  scheduler ;
     QuartzManager quartzManager = new QuartzManager();
     QuartzJob qj = new QuartzJob();
@@ -144,11 +148,11 @@ public class ScheduleService {
         int j = 0;
         String h = "";
         for(int i = analy.length-1; 0 < i; i--){
-            System.out.println(analy[i]);
+            logger.info(analy[i]);
             if (!"*".equals(analy[i])&&!"?".equals(analy[i])){
                 if (j==0){
                     h = crons[i+1];
-                    System.out.println("h"+h);
+                    logger.info("h"+h);
                     j++;
                 }
                 join += analy[i]+crons[i];

@@ -29,12 +29,15 @@ import com.jfinal.plugin.activerecord.Table;
 import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //import io.jpress.core.db.DbDialectFactory;
 
 @SuppressWarnings("serial")
 public class JModel<M extends JModel<M>> extends Model<M> {
-	
+	private final static Logger logger= LoggerFactory.getLogger(JModel.class);
+
 	private String forPaginateFrom(String tableName, String where) {
 		StringBuilder from = new StringBuilder(" FROM ");
 		from.append("`" + tableName + "`");
@@ -311,7 +314,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 
 	private void debugPrintParas(Object... objects) {
 		if (JFinal.me().getConstants().getDevMode()) {
-			System.out.println("\r\n---------------Paras: " + Arrays.toString(objects) + "----------------");
+			logger.info("\r\n---------------Paras: " + Arrays.toString(objects) + "----------------");
 		}
 	}
 	

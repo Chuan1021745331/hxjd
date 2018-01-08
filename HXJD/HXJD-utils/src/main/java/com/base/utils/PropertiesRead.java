@@ -1,5 +1,8 @@
 package com.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +13,9 @@ import java.util.Properties;
 
 
 public class PropertiesRead {
+
+	private final static Logger logger= LoggerFactory.getLogger(PropertiesRead.class);
+
 	static String profilepath = "socket.properties";
 	
 	private static Properties properties = new Properties();
@@ -52,7 +58,7 @@ public class PropertiesRead {
 			fos.flush();
 			fos.close();
 		} catch (Exception e) {
-			System.out.println("no");
+			logger.info("no");
 		}
 	}
 }

@@ -16,9 +16,13 @@ import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaseController extends Controller {
 	private static final char URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator().toCharArray()[0];
+	private final static Logger logger= LoggerFactory.getLogger(BaseController.class);
+
 	private JSession session;
 
 	public BaseController() {
@@ -298,7 +302,7 @@ public class BaseController extends Controller {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(630 % 15);
+		logger.info(""+630 % 15);
 	}
 
 	public void page(String upPage, String downPage, String dirPage, int allCount, int pageSize) {

@@ -30,6 +30,8 @@ import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JMenu;
 import com.base.model.JUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -48,6 +50,7 @@ import com.base.model.JUser;
 @RouterMapping(url = "/admin", viewPath = "/view/admin")
 @RouterNotAllowConvert
 public class IndexController extends BaseController {
+	private final static Logger logger= LoggerFactory.getLogger(IndexController.class);
 
 	public void index() {
 		
@@ -129,7 +132,7 @@ public class IndexController extends BaseController {
 	public void editFile(){
 		ServletContext s1=getRequest().getServletContext();
 		String temp=s1.getRealPath("/");
-		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
+		logger.info(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
 /*	public static void main(String[] args) {
 		try {

@@ -22,6 +22,8 @@ import com.jfinal.plugin.activerecord.Record;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tio.client.ClientChannelContext;
 import org.tio.core.Aio;
 import org.tio.core.ChannelContext;
@@ -44,6 +46,8 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 
 	// private static List<Map<String, String>> unTerminalList = new
 	// ArrayList<Map<String, String>>();
+	private final static Logger logger= LoggerFactory.getLogger(IMServerAioHandler.class);
+
 
 	/**
 	 * 处理消息
@@ -55,12 +59,12 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 			// String b_ = GZipUtil.unZipByte(body);
 			body = ArrayUtils.subarray(body, 4, body.length);
 			if (body.length <= 4) {
-				System.out.println("===============心跳包===============");
+				logger.info("===============心跳包===============");
 				return null;
 			}
 
 			String str = StringGZIP.unCompress(body);
-			System.out.println("收到消息：" + GZipUtil.unZipByte(body));
+			logger.info("收到消息：" + GZipUtil.unZipByte(body));
 			RequestDto requestDto = JSON.parseObject(str, RequestDto.class);
 
 			ChannelContext context = isNullOrYes(channelContext, requestDto);// 否初始化
@@ -86,7 +90,7 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 				 * Aio.send(clientChannelContext, packet_); }
 				 */
 				// =========================
-				System.out.println("requsetCode: " + requestDto.getCode());
+				logger.info("requsetCode: " + requestDto.getCode());
 				//
 				String respo = AppService.handleCore(requestDto);// --------------
 				IMPacket imPacket = new IMPacket();
@@ -304,7 +308,7 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 		// resppacket.setBody(respo.getBytes(IMPacket.CHARSET));
 		// }
 		Aio.send(channelContext, resppacket);
-		System.out.println("ini-resppacket: " + respo);
+		logger.info("ini-resppacket: " + respo);
 		return mID;
 	}
 

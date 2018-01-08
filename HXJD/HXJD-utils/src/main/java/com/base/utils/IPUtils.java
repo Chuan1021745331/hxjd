@@ -1,10 +1,15 @@
 package com.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
 
 public class IPUtils {
+	private final static Logger logger= LoggerFactory.getLogger(IPUtils.class);
+
 	public static String getLocalIP(HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -30,7 +35,7 @@ public class IPUtils {
 		try {
 			return InetAddress.getLocalHost();
 		} catch (UnknownHostException e) {
-			System.out.println("unknown host!");
+			logger.info("unknown host!");
 		}
 		return null;
 	}

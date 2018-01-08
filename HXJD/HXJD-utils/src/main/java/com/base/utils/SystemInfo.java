@@ -1,5 +1,8 @@
 package com.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Date;
@@ -60,6 +63,7 @@ public class SystemInfo {
 	private String server_protocol;
 
 	public static SystemInfo SYSTEMINFO;
+	private final static Logger logger= LoggerFactory.getLogger(SystemInfo.class);
 
 	public static SystemInfo getInstance() {
 		if (SYSTEMINFO == null) {
@@ -96,23 +100,23 @@ public class SystemInfo {
 	 */
 	public void PrintInfo() {
 		Properties props = System.getProperties();
-		System.out.println("Java的运行环境版本：" + props.getProperty("java.version"));
-		System.out.println("默认的临时文件路径：" + props.getProperty("java.io.tmpdir"));
-		System.out.println("操作系统的名称：" + props.getProperty("os.name"));
-		System.out.println("操作系统的构架：" + props.getProperty("os.arch"));
-		System.out.println("操作系统的版本：" + props.getProperty("os.version"));
-		System.out.println("文件分隔符：" + props.getProperty("file.separator")); // 在
+		logger.info("Java的运行环境版本：" + props.getProperty("java.version"));
+		logger.info("默认的临时文件路径：" + props.getProperty("java.io.tmpdir"));
+		logger.info("操作系统的名称：" + props.getProperty("os.name"));
+		logger.info("操作系统的构架：" + props.getProperty("os.arch"));
+		logger.info("操作系统的版本：" + props.getProperty("os.version"));
+		logger.info("文件分隔符：" + props.getProperty("file.separator")); // 在
 																			// unix
 																			// 系统中是＂／＂
-		System.out.println("路径分隔符：" + props.getProperty("path.separator")); // 在
+		logger.info("路径分隔符：" + props.getProperty("path.separator")); // 在
 																			// unix
 																			// 系统中是＂:＂
-		System.out.println("行分隔符：" + props.getProperty("line.separator")); // 在
+		logger.info("行分隔符：" + props.getProperty("line.separator")); // 在
 																			// unix
 																			// 系统中是＂/n＂
-		System.out.println("用户的账户名称：" + props.getProperty("user.name"));
-		System.out.println("用户的主目录：" + props.getProperty("user.home"));
-		System.out.println("用户的当前工作目录：" + props.getProperty("user.dir"));
+		logger.info("用户的账户名称：" + props.getProperty("user.name"));
+		logger.info("用户的主目录：" + props.getProperty("user.home"));
+		logger.info("用户的当前工作目录：" + props.getProperty("user.dir"));
 	}
 
 	/**

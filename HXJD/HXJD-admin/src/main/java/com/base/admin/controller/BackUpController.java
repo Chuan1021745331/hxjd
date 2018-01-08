@@ -7,6 +7,8 @@ import com.base.interceptor.ButtonInterceptor;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.jfinal.aop.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ import java.util.List;
 @Before(AdminInterceptor.class)
 @RouterNotAllowConvert
 public class BackUpController extends BaseController {
+    private final static Logger logger= LoggerFactory.getLogger(IndexController.class);
+
     @Before(ButtonInterceptor.class)
     public void index() {
         File file = new File("E:\\apache-tomcat-7.0.78\\back\\");
@@ -133,7 +137,7 @@ public class BackUpController extends BaseController {
                       stringBuffer.append(str + "\r\n");
                   }
                   str = stringBuffer.toString();
-                  System.out.println(str);
+                  logger.info(str);
                   OutputStreamWriter writer = new OutputStreamWriter(outputStream,
                           "utf-8");
                   writer.write(str);

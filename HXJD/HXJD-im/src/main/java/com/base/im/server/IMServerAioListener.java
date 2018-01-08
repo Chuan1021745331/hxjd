@@ -2,6 +2,8 @@ package com.base.im.server;
 
 import com.base.im.IMcacheMap;
 import com.base.im.common.IMPacket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tio.core.ChannelContext;
 import org.tio.server.intf.ServerAioListener;
 
@@ -20,24 +22,26 @@ import org.tio.server.intf.ServerAioListener;
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
 public class IMServerAioListener implements ServerAioListener<Object, IMPacket, Object> {
+    private final static Logger logger= LoggerFactory.getLogger(IMServerAioListener.class);
+
     @Override
     public void onAfterConnected(ChannelContext<Object, IMPacket, Object> channelContext, boolean b, boolean b1) throws Exception {
-        System.out.println("---------------onAfterConnected");//连接成功！//（第一次连接成功调用。好像body是空的）
+        logger.info("---------------onAfterConnected");//连接成功！//（第一次连接成功调用。好像body是空的）
     }
 
     @Override
     public void onAfterSent(ChannelContext<Object, IMPacket, Object> channelContext, IMPacket imPacket, boolean b) throws Exception {
-        System.out.println("---------------onAfterSent");//目测是服务端调用Aio.send()过会调用
+        logger.info("---------------onAfterSent");//目测是服务端调用Aio.send()过会调用
     }
 
     @Override
     public void onAfterReceived(ChannelContext<Object, IMPacket, Object> channelContext, IMPacket imPacket, int i) throws Exception {
-        System.out.println("---------------onAfterReceived");//好像是接收消息方法运行完成调用
+        logger.info("---------------onAfterReceived");//好像是接收消息方法运行完成调用
     }
 
     @Override
     public void onAfterClose(ChannelContext<Object, IMPacket, Object> channelContext, Throwable throwable, String s, boolean b) throws Exception {
-        System.out.println("---------------onAfterClose");//终端断开连接
+        logger.info("---------------onAfterClose");//终端断开连接
         IMcacheMap.cacheMap.removeValue(channelContext);
     }
 }

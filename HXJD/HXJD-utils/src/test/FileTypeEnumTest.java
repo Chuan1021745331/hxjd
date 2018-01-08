@@ -16,16 +16,18 @@ import org.junit.Test;
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
 public class FileTypeEnumTest {
+    private final static Logger logger=LoggerFactory.getLogger(IndexController.class);
+
     @Test
     public void testGetFileType()
     {
 //        FileTypeEnum fileTypeEnum = FileTypeEnum.AUDIO;
 
-//        System.out.println(fileTypeEnum.getFileType());
-        System.out.println(FileTypeEnum.getFileTypeByValue(0));
-        System.out.println(FileTypeEnum.getFileTypeByValue(1));
-        System.out.println(FileTypeEnum.getFileTypeByValue(2));
-        System.out.println(FileTypeEnum.getFileTypeByValue(3));
-        System.out.println(FileTypeEnum.getFileTypeByValue(4));
+//        logger.info(fileTypeEnum.getFileType());
+        logger.info(FileTypeEnum.getFileTypeByValue(0));
+        logger.info(FileTypeEnum.getFileTypeByValue(1));
+        logger.info(FileTypeEnum.getFileTypeByValue(2));
+        logger.info(FileTypeEnum.getFileTypeByValue(3));
+        logger.info(FileTypeEnum.getFileTypeByValue(4));
     }
 }
