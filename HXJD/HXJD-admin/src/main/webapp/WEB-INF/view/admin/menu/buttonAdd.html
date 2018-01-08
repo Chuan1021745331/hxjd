@@ -159,22 +159,13 @@ active_id="dashboard">
 			common = layui.common;
 		common.formSubmit('formDemo',bpath+'/admin/menu/saveOrUpdata');
 		$('#iconBtn').on('click', function(){  
-			top.layer.open({
+			layer.open({
 		      	type: 2 ,
 		      	title: '图标选择',
-		      	btn: ['选择', '关闭'],
 		      	content: bpath+'/admin/menu/icon',
 		      	resize: false,
 		      	area: ['914px', '600px'],
-		      	anim: Math.ceil(Math.random() * 6),
-		      	yes: function(index, layero) {
-		      		iconId.value = $(layero).find('iframe')[0].contentWindow.iconVal.value; //将子窗口中的 user_id 抓过来
-		      		$("#iconShow").attr("class","icon iconfont "+$(layero).find('iframe')[0].contentWindow.iconVal.value);
-		      		parent.layer.close(index);
-				},
-				btn2: function(index) {
-					parent.layer.close(index);
-				}
+		      	anim: Math.ceil(Math.random() * 6)
 		   	});
 		});
 	});

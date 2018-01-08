@@ -2,8 +2,6 @@ package com.base.page.controller;
 
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.MenuQuery;
-import com.base.service.UserQuery;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.IPUtils;
@@ -60,7 +58,7 @@ import com.base.page.service.PageService;
 public class IndexController extends BaseController {
 
 	public void index() {
-		setAttr("list", PageService.me().getAll());
+//		setAttr("list", PageService.me().getAll());
 		render("index.html");
 	}
 }

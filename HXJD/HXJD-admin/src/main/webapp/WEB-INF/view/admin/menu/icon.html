@@ -367,7 +367,7 @@ pre{
   background: #fff;
 }
 </style>
-<ul class="icon_lists clear" style="height: 500px;overflow: auto;">
+<ul class="icon_lists clear" style="height: 556px;overflow: auto;">
 	<li>
 	<i class="icon iconfont icon-commentfill"></i>
 	    <div class="name">comment_fill</div>
@@ -1160,17 +1160,22 @@ pre{
 	    <div class="fontclass">.icon-tuceng</div>
 	</li>
 </ul>
-<input id='iconVal' type='text'>
 <script>
+layui.use(['layer','form','common'], function() {
 	$("i").each(function(i){
 		$(this).bind("click",{MenuIndex:i},function(event){
 			$("li").removeAttr("style");
 			$(this).parent().attr("style","background-color: #f2f2f2;");
 			var h = $(this).attr("class");
 			if(h!=undefined){
+				parent.$('#iconId').attr("value",h.split(" ")[2]);
+				parent.$("#iconShow").attr("class","icon iconfont "+h.split(" ")[2]);
 				$('#iconVal').attr("value", h.split(" ")[2]+"");
+				var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		   		parent.layer.close(index); //再执行关闭
 			}
 		})
 	});
+});
 </script>
 </@layout>
