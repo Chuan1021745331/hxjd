@@ -17,13 +17,13 @@
   </properties>
   
   	<dependencies>
-		<dependency>
+	   <!-- <dependency>
 			<groupId>com.base</groupId>
 			<artifactId>HXJD-service</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>com.base</groupId>

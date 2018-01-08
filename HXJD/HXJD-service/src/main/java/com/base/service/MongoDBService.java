@@ -1,4 +1,4 @@
-package com.base.query;
+package com.base.service;
 
 import com.base.service.BaseService;
 import com.cybermkd.mongo.kit.MongoQuery;
