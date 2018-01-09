@@ -45,6 +45,6 @@ public class DepartmentController extends BaseController{
             department.setName("根节点");
         }
         this.setAttr("department",department);
-        render("departmentAdd.html");
+        render("departmentAdd.html1");
     }
 }
