@@ -1,0 +1,95 @@
+.layui-header {
+	height: 50px;
+}
+
+.layui-layout-admin .layui-logo {
+	line-height: 50px;
+}
+
+.layui-nav .layui-nav-item {
+	line-height: 50px;
+}
+
+.layui-nav-child {
+	top: 55px;
+}
+
+.layui-layout-admin .layui-body {
+	top: 50px;
+}
+
+.layui-layout-admin .layui-body {
+	left: 0px;
+}
+
+.layui-layout-admin .layui-footer {
+	left: 0px;
+}
+
+.layui-phone {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	bottom: 6px;
+	left: 6px;
+	z-index: 99999;
+	background-color: #64646c;
+	filter: alpha(Opacity = 80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+	padding: 8px;
+	font-size: 23px;
+	color: #fff;
+	border-radius: 21px;
+}
+
+.layui-phone i {
+	text-align: center;
+	font-size: 28px;
+	color: #fff;
+	margin: 45px 0px 0px 8px;
+}
+
+.displayNone {
+	display: none;
+}
+
+.displayBlock {
+	display: block;
+}
+
+.layui-body iframe {
+	min-width: 480px;
+	width: 100% !important;
+	border: 0;
+	height: 100%;
+	border: none !important;
+	overflow-x: hidden !important;
+}
+
+.phoneUl {
+	display: none;
+	position: absolute;
+	width: 100px;
+	background-color: #64646c;
+	filter: alpha(Opacity = 80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+	bottom: 50px;
+	left: 5px;
+	padding: 0px 5px;
+	border-radius: 9px;
+	z-index: 9999;
+}
+
+.phoneUl li {
+	text-align: center;
+	padding: 6px 0px;
+	color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+.pcUl li {
+	float: left;
+	text-align: center;
+}

@@ -188,10 +188,7 @@ public abstract class JBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
-		/**
-		 * admin页面统一过滤器
-		 */
-		interceptors.add(new AdminInterceptor());
+		configInterceptor4Module(interceptors);
 	}
 
 	@Override
@@ -209,43 +206,6 @@ public abstract class JBaseConfig extends JFinalConfig {
 		}
 
 		JBase.renderImmediately();
-		log.info("载入计划任务。。。");
-		try {
-			List<JJob> jobs = JobQuery.me().findAll();
-			for (JJob j : jobs) {
-				if (j.getJobStatus() == 1) {
-					QuartzJob qj = new QuartzJob();
-					qj.setJobId(Integer.parseInt(j.getId() + ""));
-					qj.setJobName(j.getJobName());
-					qj.setJobGroup(j.getJobGroup());
-					qj.setJobStatus(j.getJobStatus());
-					qj.setCronExpression(j.getCronExp());
-					QuartzManager qm = new QuartzManager();
-					qm.initJob(qj, QuartzJobFactory.class);
-					SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
-					Scheduler sched;
-					try {
-						sched = gSchedulerFactory.getScheduler();
-						sched.start();
-						log.info("计划任务载入成功。。。");
-					} catch (SchedulerException e) {
-						log.debug("计划任务载入失败。。。");
-						e.printStackTrace();
-					}
-				}
-			}
-			log.info("共载入计划任务【" + jobs.size() + "】个");
-		} catch (Exception e) {
-			log.debug("计划任务载入失败。。。");
-		}
-
-		log.info("载入配置缓存。。。");
-		try {
-			OptionQuery.me().optionCacheAll();
-			log.info("配置缓存载入成功。。。");
-		} catch (Exception e) {
-			log.debug("配置缓存载入失败。。。");
-		}
 
 		onJfinalStartAfter();
 	}
@@ -255,4 +215,6 @@ public abstract class JBaseConfig extends JFinalConfig {
 	public abstract void onJfinalStartBefore();
 
 	public abstract void onJfinalLoadElement(Plugins plugins);
+	
+	public abstract void configInterceptor4Module(Interceptors interceptors);
 }
