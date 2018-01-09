@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<script type="text/javascript" src="../../../../common/ckplayer/ckplayer.js"></script>
+<div class="ms-width-100-per ms-height-80-per debug">
+    <div id="video" style="width:600px;height:400px"></div>
+</div>
+<script type="text/javascript">
+    var videoObject = {
+        container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+        variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+        debug:true,
+        flashplayer:false,//如果强制使用flashplayer则设置成true
+        video:'rtmp://120.78.49.241:1935/live/test1'//视频地址
+    };
+    var player = new ckplayer(videoObject);
+</script>
+</body>
+</html>

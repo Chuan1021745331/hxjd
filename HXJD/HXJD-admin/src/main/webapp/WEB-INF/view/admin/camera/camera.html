@@ -1,0 +1,30 @@
+<#include "../../_include/_layout.inc.tag"/>
+<@layout active_id="dashboard">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/msmart.css">
+<script type="text/javascript" src="${CPATH}/ckplayer/ckplayer.js" charset="utf-8"></script>
+<!--<script type="text/javascript" src="../../../../common/ckplayer/ckplayer.js"></script>-->
+<div class="ms-width-100-per ms-height-80-per debug">
+    <div id="a1" style="width:600px;height:400px"></div>
+</div>
+
+<input id="ckplayerPath" value="${CPATH}/ckplayer/ckplayer.swf" />
+<script type="text/javascript">
+    $().ready(function ()
+    {
+        var flashvars={
+            f:'rtmp://120.78.49.241:1935/live/test1',
+            c:0,
+            b:1,
+            i:'http://www.ckplayer.com/static/images/cqdw.jpg'
+        };
+        var video=['http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4->video/mp4'];
+        CKobject.embed($("#ckplayerPath").val(),'a1','ckplayer_a1','600','400',false,flashvars,video);
+        function closelights(){//关灯
+            alert(' 本演示不支持开关灯');
+        }
+        function openlights(){//开灯
+            alert(' 本演示不支持开关灯');
+        }
+    });
+</script>
+</@layout>

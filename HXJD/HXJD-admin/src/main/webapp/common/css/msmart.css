@@ -1,0 +1,308 @@
+/*padding*/
+.ms-padding-left-2rem{
+    padding-left: 2rem;
+}
+.ms-padding-left-3rem{
+    padding-left: 3rem;
+}
+.ms-padding-left-4rem{
+    padding-left: 4rem;
+}
+.ms-padding-1rem{
+    padding: 1rem;
+}
+
+
+
+.debug{
+    border: 1px solid red;
+}
+.debug{
+    border: 1px solid red;
+}
+
+/*字体颜色*/
+.ms-text-color-black
+{
+    color: #000;
+}
+.ms-text-color-red
+{
+    color: red;
+}
+.ms-text-color-white
+{
+    color: #fff;
+}
+.ms-text-color-read-only{
+    color: rgba(91, 91, 91, 0.78);
+}
+
+.white{
+    background-color: #ffffff;
+}
+.black{
+    background-color: black;
+}
+
+/*布局*/
+.ms-layout-nowrap-vertical{
+    display: flex;
+    flex-direction:column;
+    flex-wrap: nowrap;
+
+    justify-content: space-around;
+    align-items: center;
+}
+.ms-layout-center-vertical-with-wrap
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-items: center;
+}
+.ms-layout-wrap-vertical{
+    display: flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+
+    justify-content: space-around;
+    align-items: center;
+}
+.ms-layout-center-horizontal
+ {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap;
+
+     justify-content: center;
+     align-items: center;
+ }
+.ms-layout-center-wrap-horizontal
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-items: center;
+}
+.ms-layout-left-center
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: flex-start;
+    align-items: center;
+}
+.ms-layout-right-center
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: flex-end;
+    align-items: center;
+}
+.ms-layout-wrap-left-center
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+    align-items: center;
+}
+.ms-layout-wrap-right-center
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+/*margin*/
+.ms-margin-left-1rem{
+    margin-left: 1rem;
+}
+.ms-margin-top-1rem{
+    margin-top: 1rem;
+}
+.ms-margin-right-1rem{
+    margin-right:1rem;
+}
+.ms-margin-right-2rem{
+    margin-right:2rem;
+}
+
+/*高宽*/
+.ms-width-100-per{
+    width:100%;
+}
+.ms-width-30-per{
+    width:30%;
+}
+.ms-width-20-per{
+    width:100%;
+}
+.ms-width-50-per{
+    width: 50%;
+}
+.ms-width-70-per{
+    width: 70%;
+}
+.ms-width-40-per{
+    width: 40%;
+}
+.ms-width-35-per{
+    width: 35%;
+}
+.ms-width-65-per{
+    width: 65%;
+}
+.ms-width-60-per{
+    width: 60%;
+}
+.ms-width-80-per{
+    width: 80%;
+}
+.ms-width-20-per{
+    width: 20%;
+}
+
+.ms-height-100-per{
+    height:100%;
+}
+.ms-height-30-per{
+    height:30%;
+}
+.ms-height-70-per{
+    height:70%;
+}
+.ms-height-60-per{
+    height:60%;
+}
+.ms-height-40-per{
+    height:40%;
+}
+.ms-height-50-per{
+    height:50%;
+}
+.ms-height-10-per{
+    height:10%;
+}
+.ms-height-90-per{
+    height:90%;
+}
+.ms-height-20-per{
+    height:20%;
+}
+.ms-height-12-per{
+    height:12%;
+}
+.ms-height-80-per{
+    height:80%;
+}
+.ms-height-85-per{
+    height:85%;
+}
+.ms-height-15-per{
+    height:15%;
+}
+.ms-height-5-per{
+    height:5%;
+}
+.ms-height-95-per{
+    height:95%;
+}
+.ms-height-92-per{
+    height:92%;
+}
+.ms-height-8-per{
+    height:8%;
+}
+
+/*滚动条*/
+
+.ms-scrollbar-black::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.ms-scrollbar-black::-webkit-scrollbar
+{
+    /*width: 4px;*/
+    background-color: #F5F5F5;
+    height: 0;
+    width: 0;
+}
+
+.ms-scrollbar-black::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    background-color: #000000;
+}
+
+.ms-overflow{
+    overflow: scroll
+}
+/*border*/
+.ms-top-border-2px-black
+{
+    border-top: 2px solid rgb(221, 222, 227);
+}
+.ms-top-border-2px-red
+{
+    border-top: 2px solid rgb(255, 0, 0);
+}
+.ms-left-border-2px-red
+{
+    border-left: 2px solid rgb(255, 0, 0);
+}
+.ms-left-border-2px-black
+{
+    border-left: 2px solid rgb(221, 222, 227);
+}
+.ms-modal-hidden{
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: none;
+}
+.ms-modal-show{
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+/*鼠标样式*/
+.ms-mouse-style-hand{
+    cursor:pointer;
+}
+
+/*input边框样式*/
+.ms-input-border-1px{
+    border: 1px solid black;
+}
+
+/*tr的背景色*/
+.ms-tr-red-bgcolor{
+    background: rgba(255, 107, 104, 0.84)
+}
+.ms-tr-orange-bgcolor{
+    background: rgba(187, 111, 11, 0.64)
+}
+
+
+.text-ellipsis-single-line
+{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
