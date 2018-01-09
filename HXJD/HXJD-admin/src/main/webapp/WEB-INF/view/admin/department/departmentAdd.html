@@ -1,0 +1,63 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+	<input type="hidden" name="jDepartment.parent" value="<#if department??>${department.id}</#if>">
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属父级</label>
+		<div class="layui-input-inline">
+			<input type="text" required lay-verify="required"
+				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+				value="<#if department??>${department.name}</#if>"
+				id="departmentSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jDepartment.name" required lay-verify="required"
+				placeholder="请输入部门名称" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">类型</label>
+		<div class="layui-input-inline">
+			<!--<input type="text" name="jDepartment.type" required lay-verify="required"
+				placeholder="请输入类型" autocomplete="off" class="layui-input">-->
+			<select name="jDepartment.type" lay-verify="">
+				<option value="0">部门</option>
+				<option value="1">职称</option>
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">状态</label>
+		<div class="layui-input-inline">
+<!--
+			<input type="text" name="jDepartment.state" placeholder="请输入部门状态" autocomplete="off" class="layui-input">
+-->
+			<select name="jDepartment.state" lay-verify="">
+				<option value="1" selected>开放</option>
+				<option value="0">关闭</option>
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+<div id="departmentContent" class="departmentContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+
+<script>
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		common.formSubmit('formDemo',bpath+'/admin/department/saveOrUpdataForDepartment');
+	});
+</script>
+</@layout>
