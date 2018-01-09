@@ -66,11 +66,10 @@
 	border: none !important;
 	overflow-x: hidden !important;
 }
-
-.phoneUl {
+.UlDiv{
 	display: none;
 	position: absolute;
-	width: 100px;
+	width: 202px;
 	background-color: #64646c;
 	filter: alpha(Opacity = 80);
 	-moz-opacity: 0.8;
@@ -81,14 +80,20 @@
 	border-radius: 9px;
 	z-index: 9999;
 }
+.phoneUl {
+	width: 100px;
+	float: left;
+}
 
 .phoneUl li {
 	text-align: center;
-	padding: 6px 0px;
+	padding: 10px 0px;
 	color: #fff;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px dashed #ccc;
 }
-
+.phoneUl li a{
+	color: #fff;
+}
 .pcUl li {
 	float: left;
 	text-align: center;

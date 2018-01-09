@@ -16,7 +16,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		resizeSize(96);
 	}
 	$("#phoneDiv").click(function(){
-		$(".phoneUl").toggle();
+		$(".UlDiv").toggle();
 	});
 	function resizeSize(size) {
 		$(window).on('resize', function() {
