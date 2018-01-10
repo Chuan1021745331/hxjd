@@ -21,7 +21,7 @@ import com.base.core.BaseController;
 @RouterMapping(url = "/", viewPath = "/view/web")
 @RouterNotAllowConvert
 public class IndexController extends BaseController {
-	String a= "";
+
 	public void index() {
 		render("index.html");
 	}
