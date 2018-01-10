@@ -8,5 +8,6 @@ import com.base.model.base.BaseJDepartmentuser;
  */
 @Table(tableName="departmentuser",primaryKey="id")
 public class JDepartmentuser extends BaseJDepartmentuser<JDepartmentuser> {
-	
+    private static final long serialVersionUID = 1L;
+
 }

@@ -29,12 +29,12 @@
   
   <div class="layui-form-item">
   	<label class="layui-form-label">性别</label>
-		<div class="layui-input-inline" >	
-					<input type="radio" name="jUser.gender" value="1" checked="checked" title="男"> 
-					<input type="radio" name="jUser.gender" value="0" title="女"> 
+    <div class="layui-input-inline" >
+                <input type="radio" name="jUser.gender" value="1" checked="checked" title="男">
+                <input type="radio" name="jUser.gender" value="0" title="女">
+    </div>
+  </div>
 
-		</div>	
-	</div>
   
   <div class="layui-form-item">
     <label class="layui-form-label">角色选择</label>
@@ -47,8 +47,17 @@
 				</#list>
 			</#if>
 	  </select>
-    
     </div>
+  </div>
+  <div class="layui-form-item">
+      <label class="layui-form-label">部门职称</label>
+      <div id="selector" class="layui-input-inline">
+          <select id="select_department_0" name="departmentId" lay-verify=""></select>
+          <select id="select_department_2" name="departmentId" lay-verify="">
+          </select>
+          <select id="select_department_3" name="departmentId" lay-verify="">
+          </select>
+      </div>
   </div>
   
   <div class="layui-form-item">
@@ -79,6 +88,49 @@
 		var form = layui.form,
 			common = layui.common;
 		common.formSubmit('formDemo',bpath+'/admin/user/addSave');
+        $.ajax({
+            url : bpath + "/admin/department/getChildren?pId="+0,
+            type : 'get',
+            dataType : 'json',
+            success : function(data) {
+                console.log("getChildren");
+                console.log(data);
+                for(var i in data){
+                    var department=data[i];
+                    $("#department_first").append('<option  value="'+ department.id +'">'+department.name+'</option>');
+                }
+                form.render();
+            }
+        });
+        function onSelectChange(_this){
+            var $this=$(_this);
+            var departmentId=$this.val();
+            //把后面的select删除
+            $this.nextAll().remove();
+            //产生新的select
+            $.ajax({
+                url : bpath + "/admin/department/getChildren?pId="+departmentId,
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    console.log("getChildren");
+                    console.log(data);
+                    //没有子部门了
+                    if(data.length==0){
+                        return;
+                    }
+                    var selectId="select_department_"+departmentId;
+                    $("#selector").append('<select id="'+selectId+'" name="departmentId" lay-verify=""></select>')
+                    for(var i in data){
+                        var department=data[i];
+                        $("#"+selectId).append('<option  value="'+ department.id +'">'+department.name+'</option>');
+                    }
+                    form.render();
+                }
+            });
+
+        }
+
 	});
 </script>
 </@layout>

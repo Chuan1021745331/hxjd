@@ -32,6 +32,18 @@ public class DepartmentService {
         return DepartmentQuery.me().findById(departmentId);
     }
 
+    public boolean save(JDepartment department){
+        //父节点为根节点，直接添加
+        if(department.getParentId()==0){
+            return department.saveOrUpdate();
+        }
+        JDepartment parent = this.findDepartmentById(department.getParentId());
+        //如果上一级是职称，不能添加
+        if(parent.getType()==JDepartment.TYPE_POSITION){
+            return false;
+        }
+        return department.saveOrUpdate();
+    }
     public boolean del(String id){
         JDepartment department = DepartmentQuery.me().findById(Integer.parseInt(id));
         return department.delete();
@@ -65,9 +77,10 @@ public class DepartmentService {
             JDepartment department = DepartmentQuery.me().findById(departmentId);
             dtt.setId(department.getId()+"");
             dtt.setName(department.getName());
+            dtt.setScore(department.getType()+"");
         }else{
             dtt.setId("0");
-            dtt.setName("根节点");
+            dtt.setName("总部");
         }
         List<TreeSimpDto> treeChildren= new ArrayList<>();
         if(children.size()>0){

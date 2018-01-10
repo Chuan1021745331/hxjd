@@ -100,7 +100,7 @@ layui.use( ['table','common'], function(){
 		function beforeEditName(treeId, treeNode) {
 			treeNode_=treeNode;
 			treeType=2;
-			common.tableOpenLayer('菜单新增','icon-xinzeng',bpath+'/admin/menu/editM?id='+treeNode.id);
+			common.tableOpenLayer('部门修改','icon-xinzeng',bpath+'/admin/department/editD?id='+treeNode.id);
 			return false;
 		}
 		function zTreeOnClick(event, treeId, treeNode) {
@@ -124,7 +124,7 @@ layui.use( ['table','common'], function(){
 		}
 		function onRemove(e, treeId, treeNode) {
 			$.ajax({
-				url : bpath + "/admin/menu/delTree?id="+treeNode.id,
+				url : bpath + "/admin/department/delTree?id="+treeNode.id,
 				type : 'get',
 				dataType : 'json',
 				success : function(data) {
@@ -146,7 +146,7 @@ layui.use( ['table','common'], function(){
 		}
 		function onRename(e, treeId, treeNode, isCancel) {
 			$.ajax({
-				url : bpath + "/admin/menu/editTree?id="+treeNode.id+"&name="+treeNode.name,
+				url : bpath + "/admin/department/editTree?id="+treeNode.id+"&name="+treeNode.name,
 				type : 'get',
 				dataType : 'json',
 				success : function(data) {
@@ -157,9 +157,12 @@ layui.use( ['table','common'], function(){
 	
 		var newCount = 1;
 		function addHoverDom(treeId, treeNode) {
+		    console.log("treeNode:");
+		    console.log(treeNode);
 			var sObj = $("#" + treeNode.tId + "_span");
 			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-			if(treeNode.level<3){
+			//是否能够添加新的部门,0为否,1为是
+			if(treeNode.score==1){
 				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='新增节点' onfocus='this.blur();'></span>";
 				sObj.after(addStr);
 			}
@@ -181,6 +184,8 @@ layui.use( ['table','common'], function(){
 			dataType : 'json',
 			success : function(data) {
 				zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
+				console.log("树形数据");
+				console.log(data);
 				zTree.expandAll(true);
 			}
 		});

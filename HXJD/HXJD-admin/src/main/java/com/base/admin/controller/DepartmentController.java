@@ -10,6 +10,8 @@ import com.base.service.DepartmentService;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
+import java.util.List;
+
 /**
  * All rights Reserved, Designed By hxjd
  *
@@ -37,14 +39,51 @@ public class DepartmentController extends BaseController{
         renderJson(departmentSimp);
     }
 
+    public void delTree(){
+        String id = getPara("id");
+        boolean flag = DepartmentService.me().delTree(Integer.parseInt(id));
+        if(flag){
+            renderAjaxResultForSuccess();
+        }else{
+            renderAjaxResultForError();
+        }
+    }
+
     public void addD(){
         String pid = getPara("pId");
         JDepartment department = DepartmentService.me().findDepartmentById(Integer.parseInt(pid));
         if(null==department){
+            department=new JDepartment();
             department.setId(0);
-            department.setName("根节点");
+            department.setName("总部");
         }
         this.setAttr("department",department);
-        render("departmentAdd.html1");
+        render("departmentAdd.html");
+    }
+
+
+    public void editD(){
+        String id = getPara("id");
+        JDepartment department = DepartmentService.me().findDepartmentById(Integer.parseInt(id));
+        JDepartment pdepartment = DepartmentService.me().findDepartmentById(department.getParentId());
+        setAttr("department",department);
+        setAttr("pdepartment",pdepartment);
+        renderTable("departmentEdit.html");
+    }
+
+    public void saveOrUpdateForDepartment(){
+        JDepartment model = getModel(JDepartment.class);
+        boolean flag = DepartmentService.me().save(model);
+        if(flag){
+            renderAjaxResultForSuccess();
+        }else{
+            renderAjaxResultForError();
+        }
+    }
+
+    public void getChildren(){
+        String pId = getPara("pId");
+        List<JDepartment> children = DepartmentService.me().getChildren(Integer.parseInt(pId));
+        renderJson(children);
     }
 }

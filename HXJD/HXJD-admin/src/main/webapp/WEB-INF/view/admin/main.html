@@ -209,7 +209,7 @@ layui.use(['jquery', 'common', 'layer', 'element'], function() {
      	
      	ws1.onmessage = function(event) {//WebSocket收到消息时调用
      		var received_msg = event.data;
-     		console.log("socketData: " + received_msg);
+     		// console.log("socketData: " + received_msg);
      		var data = eval('(' + received_msg + ')');
      		$("#totalMemory").html(data.t);
      		$("#freeMemory").html(data.f);

@@ -1,7 +1,9 @@
 package com.base.admin.controller;
 
+import com.base.model.dto.TreeSimpDto;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
+import com.base.service.DepartmentService;
 import com.base.service.RoleService;
 import com.base.service.UserService;
 import com.jfinal.aop.Before;
@@ -59,6 +61,7 @@ public class UserController extends BaseController {
 	
 	public void add(){
 		List<JRole> roles = RoleService.me().getAll();
+		TreeSimpDto departmentes = DepartmentService.me().getDepartmentSimp(0);
 		setAttr("roles", roles);
 		render("add.html");
 	}

@@ -8,5 +8,10 @@ import com.base.model.base.BaseJDepartment;
  */
 @Table(tableName="department",primaryKey="id")
 public class JDepartment extends BaseJDepartment<JDepartment> {
-	
+    private static final long serialVersionUID = 1L;
+    //部门类型
+    public final static Integer TYPE_DEPARTMENT=1;
+    //职称类型
+    public final static Integer TYPE_POSITION=0;
+
 }
