@@ -13,7 +13,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	}else{
 		$("#phoneDiv").remove();
 		$("#pcDiv").removeClass("displayNone");
-		resizeSize(96);
+		resizeSize(94);
 	}
 	$("#phoneDiv").click(function(){
 		$(".UlDiv").toggle();
