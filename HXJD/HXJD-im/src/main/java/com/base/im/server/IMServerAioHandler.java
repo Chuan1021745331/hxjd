@@ -1,6 +1,8 @@
 package com.base.im.server;
 
 import com.alibaba.fastjson.JSON;
+import com.base.im.IMcacheMap;
+import com.base.im.MsgProtocol;
 import com.base.im.common.IMAbsAioHandler;
 import com.base.im.common.IMPacket;
 import com.base.model.dto.*;
@@ -18,6 +20,8 @@ import org.tio.server.intf.ServerAioHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.base.im.MsgProtocol.isInitMsg;
 
 /**
  * @author tanyaowu
@@ -37,17 +41,28 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 	@Override
 	public Object handler(IMPacket packet, ChannelContext<Object, IMPacket, Object> channelContext) throws Exception {
 		byte[] body = packet.getBody();
+
 		if (body != null) {
-			// String b_ = GZipUtil.unZipByte(body);
+
 			body = ArrayUtils.subarray(body, 4, body.length);
 			if (body.length <= 4) {
 				logger.info("===============心跳包===============");
 				return null;
 			}
+			String msg = new String(body,"utf-8");
+			boolean initMsgBool = MsgProtocol.isInitMsg(msg);
+			if(initMsgBool){
+				//注册信息
+				IMcacheMap.cacheMap.put(channelContext.getClientNode().getIp(),channelContext);
+				IMPacket imPacket = new IMPacket();
+				imPacket.setBody(MsgProtocol.INIT_MSG.getBytes("utf-8"));
+				Aio.send(channelContext,imPacket);
+			}
 
-			String str = StringGZIP.unCompress(body);
-			logger.info("收到消息：" + GZipUtil.unZipByte(body));
-			RequestDto requestDto = JSON.parseObject(str, RequestDto.class);
+//			String msg = new String(body,"utf-8");
+//			String str = StringGZIP.unCompress(body);
+//			logger.info("收到消息：" + GZipUtil.unZipByte(body));
+//			RequestDto requestDto = JSON.parseObject(str, RequestDto.class);
 		}
 		return null;
 	}

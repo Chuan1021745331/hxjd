@@ -362,7 +362,8 @@
 			    <artifactId>MongodbPlugin</artifactId>
 			    <version>${MongodbPlugin-version}</version>
 			</dependency>
-			
+
+
 		</dependencies>
 	</dependencyManagement>
 

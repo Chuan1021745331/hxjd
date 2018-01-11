@@ -104,7 +104,7 @@ public abstract class JBaseConfig extends JFinalConfig {
 		activeRecordPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
 		plugins.add(activeRecordPlugin);
 		onJfinalLoadElement(plugins);
-		
+
 		//加载MongoDB
 		MongoJFinalPlugin jFinalPlugin = new MongoJFinalPlugin();
 		jFinalPlugin.add("127.0.0.1", 27017);

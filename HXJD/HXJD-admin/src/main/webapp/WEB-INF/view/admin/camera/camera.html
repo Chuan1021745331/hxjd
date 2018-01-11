@@ -24,7 +24,8 @@
 </div>
 <script type="text/javascript">
     $().ready(function (){
-        var rtms = ["rtmp://120.78.49.241:1935/live/test1","rtmp://120.78.49.241:1935/live/test2"]
+        var rtms = ${rtmps}
+        alert(rtms)
         for (var i =0;i<rtms.length;i++){
             playCamera(rtms[i],i+1)
         }

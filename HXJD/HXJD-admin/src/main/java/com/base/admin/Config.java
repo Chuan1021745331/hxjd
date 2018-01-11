@@ -2,6 +2,7 @@ package com.base.admin;
 
 import java.util.List;
 
+import com.base.im.server.IMServerStarter;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -118,6 +119,8 @@ public class Config extends JBaseConfig {
 
 	@Override
 	public void onJfinalLoadElement(Plugins plugins) {
+		/*tio*/
+		plugins.add(new IMServerStarter());
 	}
 	/**
 	 * 拦截器
