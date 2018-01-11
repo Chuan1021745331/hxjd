@@ -1,9 +1,15 @@
 .layui-header {
 	height: 50px;
+	background-color: #3F51B5 !important;
 }
 
 .layui-layout-admin .layui-logo {
 	line-height: 50px;
+	color: #fff !important;
+}
+
+.layui-nav .layui-nav-item a {
+	color: #fff !important;
 }
 
 .layui-nav .layui-nav-item {
@@ -122,7 +128,7 @@
 
 .c .c1 {
 	display: inline-block;
-	/*     border-radius: 1000px; */
+	/* border-radius: 1000px; */
 	/* border: 1px solid #ccc; */
 	margin-top: 3px;
 	/* position: fixed; */
@@ -130,15 +136,20 @@
 	/* transform: rotate(-45deg); */
 	/* right: 10px; */
 	font-size: 12px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 }
 
 .c .c1 .c2 {
 	float: left;
 	border: 1px solid #ccc;
 }
-.orange{
+
+.orange {
 	background-color: #E64A19 !important;
 }
+
 #dataDiv div {
 	width: 160px;
 }
@@ -167,6 +178,7 @@
 	height: 25px;
 	line-height: 25px;
 }
-.colAll_ .colText{
+
+.colAll_ .colText {
 	height: 70px;
 }
