@@ -3,6 +3,9 @@ package com.base.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.base.model.JDepartment;
+import com.base.model.JDepartmentuser;
+import com.base.query.DepartmentUserQuery;
 import org.joda.time.DateTime;
 
 import com.base.constants.Consts;
@@ -61,7 +64,7 @@ public class UserService {
 			user.setPassword(password);
 		}
 		boolean a = user.save();
-		if(a){			
+		if(a){
 			JUserrole jUserrole= new JUserrole();
 			jUserrole.setUserId(user.getId());
 			jUserrole.setRoleId(roleId);
@@ -69,6 +72,15 @@ public class UserService {
 			if(b){
 				return true;
 			}
+		}
+		return false;
+	}
+
+	@Before(Tx.class)
+	public boolean addUserSave(JUser user, Integer roleId,Integer departmentId){
+		boolean b = addUserSave(user, roleId);
+		if(b){
+			return saveDepartmentUser(user.getId(),departmentId);
 		}
 		return false;
 	}
@@ -107,7 +119,28 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
+	@Before(Tx.class)
+	public boolean editUserSave(JUser user, UploadFile uploadFile, Integer roleId,Integer departmentId) {
+		boolean b = this.editUserSave(user, uploadFile, roleId);
+		if(b){
+			DepartmentUserQuery.me().delByUserId(user.getId());
+			return saveDepartmentUser(user.getId(),departmentId);
+		}
+		return false;
+	}
+
+	public boolean saveDepartmentUser(Integer userId,Integer departmentId){
+		JDepartmentuser jDepartmentuser=new JDepartmentuser();
+		jDepartmentuser.setUserId(userId);
+		jDepartmentuser.setDepartmentId(departmentId);
+		boolean save = jDepartmentuser.save();
+		if(save){
+			return true;
+		}
+		return false;
+	}
+
 	@Before(Tx.class)
 	public Boolean login(JUser user, String password){
 		if (EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), password)) {			
@@ -128,6 +161,13 @@ public class UserService {
 		if(count!=0){
 			page = (page>count/limit && count%limit==0)?page-1:page ;
 	        list = UserQuery.me().findListUserRole(page, limit, where);
+	        for(Record record:list){
+				JDepartment department = DepartmentService.me().findDepartmentByUserId(record.getInt("id"));
+				if(department!=null)
+					record.set("departmentName",department.getName());
+				else
+					record.set("departmentName","暂无职称");
+			}
 		}
 		return list;
 	}

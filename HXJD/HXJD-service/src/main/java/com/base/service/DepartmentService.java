@@ -44,6 +44,11 @@ public class DepartmentService {
         }
         return department.saveOrUpdate();
     }
+
+    public List<JDepartment> getAll(){
+        return DepartmentQuery.me().getAll();
+    }
+
     public boolean del(String id){
         JDepartment department = DepartmentQuery.me().findById(Integer.parseInt(id));
         return department.delete();
@@ -58,6 +63,10 @@ public class DepartmentService {
             }
         }
         return department.delete();
+    }
+
+    public JDepartment findDepartmentByUserId (int userId){
+        return DepartmentQuery.me().findByUserId(userId);
     }
 
     public List<JDepartment> getChildren(int departmentId){

@@ -10,7 +10,9 @@ import com.base.service.DepartmentService;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * All rights Reserved, Designed By hxjd
@@ -81,9 +83,29 @@ public class DepartmentController extends BaseController{
         }
     }
 
+    public void getAll(){
+        renderJson(DepartmentService.me().getAll());
+    }
+
     public void getChildren(){
         String pId = getPara("pId");
         List<JDepartment> children = DepartmentService.me().getChildren(Integer.parseInt(pId));
         renderJson(children);
+    }
+
+    public void getD(){
+        String departmentId = getPara("departmentId");
+        JDepartment department = DepartmentService.me().findDepartmentById(Integer.parseInt(departmentId));
+        renderJson(department);
+    }
+
+    public void getDepartmentAndChildren(){
+        String pId = getPara("pId");
+        Map map=new HashMap<>();
+        JDepartment department = DepartmentService.me().findDepartmentById(Integer.parseInt(pId));
+        List<JDepartment> children = DepartmentService.me().getChildren(Integer.parseInt(pId));
+        map.put("department",department);
+        map.put("children",children);
+        renderJson(map);
     }
 }

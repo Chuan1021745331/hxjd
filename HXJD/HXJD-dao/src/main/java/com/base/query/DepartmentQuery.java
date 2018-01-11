@@ -36,4 +36,8 @@ public class DepartmentQuery {
     public List<JDepartment> getAll(){
         return DAO.find("select * from j_department");
     }
+
+    public JDepartment findByUserId(int userId){
+        return DAO.findFirst("select d.* from j_department d join j_departmentuser du on d.id=du.departmentId where du.userId="+userId);
+    }
 }

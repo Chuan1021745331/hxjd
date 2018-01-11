@@ -1,5 +1,6 @@
 package com.base.admin.controller;
 
+import com.base.model.JDepartment;
 import com.base.model.dto.TreeSimpDto;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
@@ -72,9 +73,11 @@ public class UserController extends BaseController {
 		JUser user = UserService.me().findById(id);
 		List<JRole> roles = RoleService.me().getAll();
 		JRole role = RoleService.me().findByUserId(id);
-		
+		JDepartment department = DepartmentService.me().findDepartmentByUserId(id);
+
 		setAttr("role", role);
 		setAttr("roles", roles);
+		setAttr("department",department);
 		setAttr("user", user);
 		render("edit.html");
 	}
@@ -102,8 +105,9 @@ public class UserController extends BaseController {
 	
 	public void addSave() {
 		JUser user = getModel(JUser.class);
+		Integer departmentId = getParaToInt("departmentId");
 		Integer roleId = getParaToInt("role");
-		boolean a = UserService.me().addUserSave(user, roleId);
+		boolean a = UserService.me().addUserSave(user, roleId,departmentId);
 		if(a){
 			renderAjaxResultForSuccess("新增用户成功");
 			return ;
@@ -114,9 +118,10 @@ public class UserController extends BaseController {
 	public void editSave() {
 		UploadFile uploadFile = this.getFile();
 		Integer roleId = getParaToInt("role");
+		Integer departmentId = getParaToInt("departmentId");
 		JUser user = getModel(JUser.class);
 		
-		boolean a = UserService.me().editUserSave(user, uploadFile, roleId);
+		boolean a = UserService.me().editUserSave(user, uploadFile, roleId,departmentId);
 		
 		if(a){
 			renderAjaxResultForSuccess("修改用户成功");
