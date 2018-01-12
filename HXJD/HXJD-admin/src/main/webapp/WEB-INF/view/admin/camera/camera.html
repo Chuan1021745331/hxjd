@@ -3,24 +3,33 @@
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
 <script type="text/javascript" src="${CPATH}/ckplayer/ckplayer.js"></script>
+<script type="text/javascript" src="${CPATH}/js/heatbeats.js"></script>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
-<div class="ms-width-100-per ms-height-100-per ms-layout-nowrap-vertical">
-    <div id="play_h1" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
-        <div id="play_a1" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal debug">
-            <div id="a1"></div>
+<div class="ms-width-100-per ms-height-100-per ms-layout-center-horizontal">
+    <div class="sm-width-90-per sm-height-100-per ms-layout-center-vertical-with-wrap debug">
+        <div id="play_h1" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
+            <div id="play_a1" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal">
+                <div id="a1"></div>
+            </div>
+            <div id="play_a2" class="ms-margin-left-1rem ms-width-45-per ms-height-100-per ms-layout-center-horizontal">
+                <div id="a2"></div>
+            </div>
         </div>
-        <div id="play_a2" class="ms-margin-left-1rem ms-width-45-per ms-height-100-per ms-layout-center-horizontal debug">
-            <div id="a2"></div>
+        <div id="play_h2" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
+            <div id="play_a3" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal ">
+                <div id="a3"></div>
+            </div>
+            <div id="play_a4" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal ">
+                <div id="a4"></div>
+            </div>
         </div>
     </div>
-    <div id="play_h2" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
-        <div id="play_a3" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal ">
-            <div id="a3"></div>
-        </div>
-        <div id="play_a4" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal ">
-            <div id="a4"></div>
-        </div>
+    <!--控制框-->
+    <div class="sm-height-100-per sm-width-10-per debug ms-layout-nowrap-vertical">
+        <button onclick="sendActived()">test1</button>
+        <button onclick="sendActived1()">test2</button>
     </div>
+
 </div>
 <script type="text/javascript">
     $().ready(function (){
