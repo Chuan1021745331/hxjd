@@ -55,11 +55,35 @@
 			<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
 		<#elseif role??>
 			<input type="text" class="layui-input inputNone" style="color: blue;" value="${role.name!}" readonly = "readonly">
-		<#else>		
+		<#else>
 			<input type="text" class="layui-input inputNone" style="color: blue;" value="暂无角色" readonly = "readonly">
-		</#if>   
+		</#if>
     </div>
   </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <div class="layui-input-inline layui-row" style="width: 50%">
+            <#list parents as pdepartment>
+                <#if (pdepartment_index==parents.size()-1)>
+                    <div class="layui-col-md2"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}" readonly = "readonly"></div>
+                <#else>
+                    <div class="layui-col-md2"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}   ——> " readonly = "readonly"></div>
+                </#if>
+            </#list>
+        </div>
+    </div>
+  <div class="layui-form-item">
+      <label class="layui-form-label">职称</label>
+      <div class="layui-input-inline">
+          <#if department??>
+             <input type="text" class="layui-input inputNone" style="color: blue;" value="${department.name}" readonly = "readonly">
+          <#else>
+             <input type="text" class="layui-input inputNone" style="color: blue;" value="暂无职称" readonly = "readonly">
+          </#if>
+      </div>
+  </div>
+
+
   
   <div class="layui-form-item">
     <label class="layui-form-label">邮箱</label>

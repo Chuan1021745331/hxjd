@@ -45,6 +45,7 @@ public class UserService {
 		if(a){
 			CacheKit.remove("user", id);
 			UserRoleQuery.me().delByUserId(id);
+			DepartmentUserQuery.me().delByUserId(id);
 			return true;
 		}		
 		return false;

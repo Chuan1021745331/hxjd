@@ -1,5 +1,6 @@
 package com.base.admin.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.base.model.JDepartment;
 import com.base.model.dto.TreeSimpDto;
 import com.base.router.RouterMapping;
@@ -8,6 +9,7 @@ import com.base.service.DepartmentService;
 import com.base.service.RoleService;
 import com.base.service.UserService;
 import com.jfinal.aop.Before;
+import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
@@ -74,10 +76,11 @@ public class UserController extends BaseController {
 		List<JRole> roles = RoleService.me().getAll();
 		JRole role = RoleService.me().findByUserId(id);
 		JDepartment department = DepartmentService.me().findDepartmentByUserId(id);
-
+		List<JDepartment> parents = DepartmentService.me().getParents(department.getParentId());
 		setAttr("role", role);
 		setAttr("roles", roles);
 		setAttr("department",department);
+		setAttr("parents", JSON.toJSON(parents));
 		setAttr("user", user);
 		render("edit.html");
 	}
@@ -86,9 +89,13 @@ public class UserController extends BaseController {
 		Integer id = getParaToInt("id");
 		JUser user = UserService.me().findById(id);;
 		JRole role = RoleService.me().findByUserId(id);
-		
+		JDepartment department = DepartmentService.me().findDepartmentByUserId(id);
+		List<JDepartment> parents = DepartmentService.me().getParents(department.getParentId());
+
 		setAttr("role", role);
 		setAttr("user", user);
+		setAttr("department",department);
+		setAttr("parents",parents);
 		render("sel.html");
 	}
 	

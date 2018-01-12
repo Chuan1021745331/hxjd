@@ -149,6 +149,8 @@ function getPath(obj) {
     layui.use(['form','common'], function() {
         var form = layui.form,
             common = layui.common;
+        var layer=layui.layer;
+        $("#aa").parents("");
         //表单提交
         form.on('submit(formDemo)', function(data){
             // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -156,7 +158,8 @@ function getPath(obj) {
             // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
             var departmentId=data.field.departmentId;
             if(departmentId==null||departmentId==""){
-                top.parent.MSG(3, "关联部门必须为职称");
+                // top.parent.MSG(3, "关联部门必须为职称");
+                layer.msg('关联部门必须为职称', {icon: 5,anim: 6});
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             }
             $("#myForm").ajaxSubmit({
@@ -203,11 +206,15 @@ function getPath(obj) {
         form.on('select(department)', function(data){
             /*console.log(data.value); //得到被选中的值
             console.log(data.othis); //得到美化后的DOM对象*!/*/
-            onSelectChange($(data.elem));
+            onSelectChange($(data.elem),null);
         });
-        onSelectChange($("#select_department_parent"));
+        var p='${parents}';
+        var parents=eval('('+p+')');
+        console.log("parents");
+        console.log(parents);
+        onSelectChange($("#select_department_parent"),parents);
 
-        function onSelectChange($this){
+        function onSelectChange($this,parents){
             console.log($this.val());
             var departmentId=$this.val();
             //把后面的select删除
@@ -238,10 +245,24 @@ function getPath(obj) {
                     $("#selector").append('<div class="layui-col-md2"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
                     for(var i in children){
                         var department=children[i];
-                        $("#"+selectId).append('<option  value="'+ department.id +'">'+department.name+'</option>');
+                        var value="";
+                        //表示职称
+                        if(department.type==0){
+                            value="职称:"+department.name;
+                        }else if(department.type==1){
+                            value="部门:"+department.name;
+                        }
+                        $("#"+selectId).append('<option  value="'+ department.id +'">'+value+'</option>');
+                    }
+                    //这里设置该select显示哪一个值,
+                    if(parents!=null&&parents.length>0){
+                        //shift()方法删除并返回数组的第一个元素
+                        console.log("parents........."+parents[0].id);
+                        var parentId=parents.shift().id;
+                        $("#"+selectId).find("option[value='"+parentId+"']").attr("selected","selected");
                     }
                     //根据生成的select值，传递到下一个
-                    onSelectChange($("#"+selectId));
+                    onSelectChange($("#"+selectId),parents);
                     form.render();
                 }
             });

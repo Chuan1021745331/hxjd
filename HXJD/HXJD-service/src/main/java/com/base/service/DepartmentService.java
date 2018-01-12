@@ -100,4 +100,34 @@ public class DepartmentService {
         dtt.setChildren(treeChildren);
         return dtt;
     }
+    /**
+     * @MethodName: getParents
+     * @Description: 返回传入部门的所有上级部门
+     * @param departmentId
+     * @return: java.util.List<com.base.model.JDepartment>
+     */
+    public List<JDepartment> getParents(int departmentId){
+        List<JDepartment> parents=new ArrayList<>();
+        this.getParents(departmentId,parents);
+        return parents;
+    }
+
+    /**
+     * @MethodName: getParents
+     * @Description: 递归去取出每个部门的上一级并放在集合中
+     * @param departmentId
+     * @param parents
+     * @return: void
+     */
+    public void getParents(int departmentId,List<JDepartment> parents){
+        JDepartment department =null;
+        if(departmentId==0){
+            return;
+        }
+        department=DepartmentQuery.me().findById(departmentId);
+        if(null!=department){
+            getParents(department.getParentId(),parents);
+            parents.add(department);
+        }
+    }
 }
