@@ -1,5 +1,6 @@
 package com.base.admin.service;
 
+import com.base.im.common.SenMsg;
 import com.jfinal.aop.Clear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,62 +28,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class CameraAliveHeartBeat {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static int onlineCount = 0;
     private static CopyOnWriteArraySet<CameraAliveHeartBeat> webSocketSet = new CopyOnWriteArraySet<>();
+    private static Map<String,List<CameraAliveHeartBeat>> sessionMaps = new HashMap<>();
 
-    /*
-     * key:摄像头id
-     *
-     */
-    private static Map<String, Long> camLinkMapping = new HashMap<>();
-    private static Set<String> camIdSet = new HashSet<>();
-
-    static {
-        Timer timer = new Timer();
-        timer.schedule(new HeatBeatCheck(), 1000, 10000);//
-    }
-
-    private static class HeatBeatCheck extends TimerTask {
-        @Override
-        public void run() {
-            check();
-        }
-    }
-
-
-    private static void check() {
-
-        /*SavePlayInfoUtil savePlayInfoUtil = new SavePlayInfoUtil();
-        Set<String> invalidCamIdSet = new HashSet<>();
-
-        long serverCurrentTime = System.currentTimeMillis();
-        for (String camId : camIdSet) {
-            long heartBeatArrivalTime = camLinkMapping.get(camId);
-
-            if((serverCurrentTime - heartBeatArrivalTime) / 1000 > 10)
-            {
-                //TODO 关闭流
-                String videoId = "videoRtmp"+camId;
-                manager.stop(videoId);
-                savePlayInfoUtil.delect(videoId);
-                System.out.println("关闭视频流ID号为："+camId);
-                invalidCamIdSet.add(camId);
-            }
-        }*/
-
-        /*for (String invalidCamId : invalidCamIdSet) {
-            try{
-                camLinkMapping.remove(invalidCamId);
-                camIdSet.remove(invalidCamId);
-            }catch (Exception e){
-                System.out.println("-----------------------------");
-            }
-        }*/
-    }
-
-    public CameraAliveHeartBeat() {
-        logger.info("客户端心跳监测初始化完毕");
-    }
 
     private Session session;
 
@@ -97,25 +45,70 @@ public class CameraAliveHeartBeat {
     @OnClose
     public void onClose() throws IOException {
         webSocketSet.remove(this);
-//        logger.info("控制中心【" + this.session.getId() + "】已关闭");
+        if (webSocketSet.size() == 0){
+            sessionMaps.clear();
+            //0000:表示关闭全部推流
+            SenMsg.sendMsg(0,"0000");
+            return;
+        }
+        removeSessionByBrowserExceptionClose();
     }
 
+    /**
+     * 浏览器异常关闭，从map中清除该链接
+     */
+    public void removeSessionByBrowserExceptionClose(){
+        for (Map.Entry<String,List<CameraAliveHeartBeat>> entry:sessionMaps.entrySet()){
+            String machineNum = entry.getKey();
+            List<CameraAliveHeartBeat> cameraAliveHeartBeatList = entry.getValue();
+            boolean ishas = false;
+            for (CameraAliveHeartBeat cameraAliveHeartBeat:cameraAliveHeartBeatList){
+                if(this == cameraAliveHeartBeat){
+                    ishas = true;
+                    break;
+                }
+            }
+            cameraAliveHeartBeatList.remove(this);
+        }
+    }
+    /**
+     * message的消息格式：#hxjd#oldMachineName#newMachineName
+     * oldMachineName:表示要关闭的盾构机摄像头组(盾构机名；与推流配置文件中的一致)
+     * newMachineName：表示将要观看的盾构机摄像头组(盾构机名；与推流配置文件中的一致)
+     * @param message
+     * @param session
+     * @throws IOException
+     */
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        //#init#摄像头id
-        if (message.startsWith("#init#")) {
-            camLinkMapping.put(message.split("#")[2], System.currentTimeMillis());
-            camIdSet.add(message.split("#")[2]);
-        }
-        //#heartbeat#摄像头id
-        else if (message.startsWith("#heartbeat#")) {
-            if(!camIdSet.contains(message.split("#")[2]))
-            {
-                sendMessage("#timeout#连接超时，视频流已关闭");
-            }
-            camLinkMapping.put(message.split("#")[2], System.currentTimeMillis());
+        if (message.startsWith("#hxjd#")){
+            String[] megs = message.split("#");
+            List<CameraAliveHeartBeat> oldSessionList = sessionMaps.get(megs[2]);
+            if(oldSessionList != null){
+                /*从megs[1]的观众中移除此人*/
+                oldSessionList.remove(this);
 
+                if(oldSessionList.size() == 0){
+                /*没有人观看此盾构机的摄像头*/
+                    sessionMaps.remove(megs[2]);
+                    //todo c此处要从数据库中通过megs[1]查出该盾构机摄像头推流程序所属电脑的ip
+                    SenMsg.sendMsg(0,megs[2]);
+                }
+            }
+
+            List<CameraAliveHeartBeat> yangSessionList = sessionMaps.get(megs[3]);
+            /*在megs[2]的观众中加入此人*/
+            if (yangSessionList == null){
+                yangSessionList = new ArrayList<>();
+                yangSessionList.add(this);
+                sessionMaps.put(megs[3],yangSessionList);
+                //todo c此处要从数据库中通过megs[1]查出该盾构机摄像头推流程序所属电脑的ip
+                SenMsg.sendMsg(1,megs[3]);
+            } else {
+                yangSessionList.add(this);
+            }
         }
+
     }
 
     private void send(String data) {

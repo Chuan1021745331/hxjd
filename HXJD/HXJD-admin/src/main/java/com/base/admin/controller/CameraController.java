@@ -27,11 +27,11 @@ import java.util.List;
 public class CameraController extends BaseController {
     @Before(NewButtonInterceptor.class)
     public void index() {
-        try {
+        /*try {
             SenMsg.sendMsg(1,"1");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
         List<String> rtmpList = new ArrayList<>();
         rtmpList.add("rtmp://120.78.49.241:1935/live/test1");
         rtmpList.add("rtmp://120.78.49.241:1935/live/test2");

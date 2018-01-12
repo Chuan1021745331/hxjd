@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class SenMsg {
     /**
      * 关闭或者开启推送某个盾构机下的所有摄像头流
-     * @param order：表示命令
+     * @param order：表示命令1:推送；0：停止推送
      * @param num：表示盾构机编号
      * @throws UnsupportedEncodingException
      */

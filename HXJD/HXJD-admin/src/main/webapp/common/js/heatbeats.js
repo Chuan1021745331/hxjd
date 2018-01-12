@@ -1,13 +1,13 @@
 var webSocket = null;
 // var webSocketUrl = "ws://localhost:10105/videoPlayCheck";
-var webSocketUrl = "ws://localhost:12251/HeartBeat.ws";
+var webSocketUrl = "ws://localhost:18080/HeartBeat.ws";
 var camId = "001";
-
-(function heartBeatInit()
-{
-    // initWebSocket($("#webSocketUrl").val());
+$().ready(function(){
     initWebSocket(webSocketUrl);
-})();
+    // initSend();
+
+})
+;
 
 // function choosenCam(id)
 // {
@@ -17,28 +17,28 @@ var camId = "001";
 function initWebSocket(url) {
     if ('WebSocket' in window) {
         webSocket = new WebSocket(url);
-    }
-    else {
+    } else {
         alert('对不起，您的浏览器不支持websocket，请更换浏览器')
     }
 
     //Error callback
     webSocket.onerror = function () {
-        //alert('error')
+        alert('error')
     };
 
     //socket opened callback
     webSocket.onopen = function (event) {
-
+        alert("open");
+        initSend();
         // webSocket.send("#init#" + camId);
-        sendActivedCam2Server("#init#");
+       /* sendActivedCam2Server("#init#");
 
         setInterval(function ()
         {
             sendActivedCam2Server("#heartbeat#");
             // console.log(activedCamMapping);
             // webSocket.send("???")
-        }, 3000)
+        }, 3000)*/
     };
 
     webSocket.onmessage = function (event) {
@@ -46,7 +46,7 @@ function initWebSocket(url) {
     };
 
     webSocket.onclose = function () {
-        // alert("onclose")
+        alert("onclose")
     };
 
     //when browser window closed, close the socket, to prevent server exception
@@ -56,18 +56,19 @@ function initWebSocket(url) {
     }
 }
 
-function sendActivedCam2Server(type)
+function sendActived()
 {
-    var activedCamMap = getActivedCamMapping();
-    for (var i = 0; i < 6; i++) {
-        // console.log("key:" + (i + 1) +" value: " + activedCamMap.get((i + 1) + ""))
-        if(activedCamMap.get((i + 1) + "") !== "")
-        {
-            console.log("key:" + (i + 1) +" value: " + activedCamMap.get((i + 1) + ""));
-            console.log(":::" + type + activedCamMap.get((i + 1) + ""))
-            webSocket.send(type + activedCamMap.get((i + 1) + ""))
-        }
-    }
+    webSocket.send("#hxjd#2#1")
+
+}
+function sendActived1()
+{
+    webSocket.send("#hxjd#1#2")
+
+}
+function initSend() {
+    console.log("initSend")
+    webSocket.send("#hxjd#0000#2")
 }
 
 function dataHandler(data)
