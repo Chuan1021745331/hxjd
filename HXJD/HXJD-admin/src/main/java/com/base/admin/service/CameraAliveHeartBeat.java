@@ -1,9 +1,10 @@
 package com.base.admin.service;
 
+import com.jfinal.aop.Clear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.mail.Session;
+import javax.websocket.Session;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -21,7 +22,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * ----------------------------
  * Desc: 用于实时更新界面数据，前后端数据处理需要自己实现
  */
-@ServerEndpoint("/IndexWebsocket.ws")//todo 配置websocket
+@ServerEndpoint("/HeartBeat.ws")
+@Clear
 public class CameraAliveHeartBeat {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 

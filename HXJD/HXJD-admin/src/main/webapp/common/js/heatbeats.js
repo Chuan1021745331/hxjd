@@ -1,6 +1,6 @@
 var webSocket = null;
 // var webSocketUrl = "ws://localhost:10105/videoPlayCheck";
-var webSocketUrl = "ws://localhost:12251/videoPlayCheck";
+var webSocketUrl = "ws://localhost:12251/HeartBeat.ws";
 var camId = "001";
 
 (function heartBeatInit()
