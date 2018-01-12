@@ -4,7 +4,6 @@ import com.base.core.JBase;
 import com.base.core.JBaseConfig;
 import com.base.core.db.DbDialectFactory;
 import com.base.im.server.IMServerStarter;
-import com.base.interceptor.AdminInterceptor;
 import com.base.interceptor.WebInterceptor;
 import com.base.utils.StringUtils;
 import com.jfinal.config.Interceptors;
@@ -70,6 +69,14 @@ public class Config extends JBaseConfig {
 
 	@Override
 	public void onJfinalLoadElement(Plugins plugins) {
+		//加载IM服务
+		log.info("加载IM服务。。。");
+		try {
+			plugins.add(new IMServerStarter());
+			log.info("IM服务加载成功。。。");
+		} catch (Exception e) {
+			log.debug("IM服务加载失败。。。");
+		}
 	}
 	/**
 	 * 拦截器
