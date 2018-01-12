@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.base.constants.MessageConstants;
 import com.base.model.JButton;
 import com.base.model.JRole;
@@ -21,6 +24,7 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 public class RoleService {
+	private final static Logger logger = LoggerFactory.getLogger(RoleService.class);
 	private static final RoleService SERVICE = new RoleService();
 	public static RoleService me() {
 		return SERVICE;
@@ -47,13 +51,13 @@ public class RoleService {
 				for (int i = 0; i < rms.length; i++) {
 					StringBuffer sb = new StringBuffer();
 					String[] buttons = m.get("checkbox_"+rms[i]);
-					if(null !=buttons){
+					if(null != buttons){
 						for (int j = 0; j < buttons.length; j++) {
 							sb.append(buttons[j]+"|");
 						}
 					}
 					
-					JRolemenubutton jmb= new JRolemenubutton();
+					JRolemenubutton jmb = new JRolemenubutton();
 					jmb.setRoleId(jr.getId());
 					jmb.setMenuId(new Integer(rms[i]));
 					if(sb.length()>0){
@@ -79,17 +83,17 @@ public class RoleService {
 				for (int i = 0; i < rms.length; i++) {
 					StringBuffer sb = new StringBuffer();
 					String[] buttons = m.get("checkbox_"+rms[i]);
-					if(null !=buttons){
+					if(null != buttons){
 						for (int j = 0; j < buttons.length; j++) {
 							sb.append(buttons[j]+"|");
 						}
 					}
 					
-					JRolemenubutton jmb= new JRolemenubutton();
+					JRolemenubutton jmb = new JRolemenubutton();
 					jmb.setRoleId(jr.getId());
 					jmb.setMenuId(new Integer(rms[i]));
 					jmb.setButtons(sb.toString());
-					System.out.println("buttons: " + sb.toString());
+					logger.info("buttons: " + sb.toString());
 					jmb.saveOrUpdate();
 				}
 			}
@@ -111,7 +115,6 @@ public class RoleService {
 	}
 	
 	
-	
 	public Map<String, Object> getTree(Integer roleId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<JRolemenubutton> rmb = RoleMenuButtonQuery.me().findListByRoleId(roleId);
@@ -129,8 +132,8 @@ public class RoleService {
 		List<JButton> buttons = ButtonQuery.me().findByMenuId(mid);
 		JRolemenubutton mb = RoleMenuButtonQuery.me().findListByRoleIdAndMenuId(rid, mid);
 		List<MenusButtonsDto> mbs = new ArrayList<MenusButtonsDto>();
-		String[] mArray=null;
-		if(null!=mb){
+		String[] mArray = null;
+		if(null != mb){
 			mArray = StringUtils.isNotEmpty(mb.getButtons())?mb.getButtons().split("\\|"):null;
 		}
 		for (JButton b : buttons) {

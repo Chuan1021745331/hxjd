@@ -30,6 +30,8 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.base.constants.Consts;
@@ -58,14 +60,15 @@ import com.base.model.JUser;
 @RouterMapping(url = "/admin", viewPath = "/view/admin")
 @RouterNotAllowConvert
 public class IndexController extends BaseController {
-
+	
+	private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
+	
 	public void index() {
 		render("index.html");
 	}
 	
 	public void main() {
-		
-		System.out.println(getRequest().getSession().getServletContext().getRealPath("/"));
+		logger.info(getRequest().getSession().getServletContext().getRealPath("/"));
 		Long pel = 0L;
 		Long pelG = 0L;
 		Long ter = 0L;
@@ -173,17 +176,18 @@ public class IndexController extends BaseController {
 		Integer column = getParaToInt("order[0][column]");
 		String order = getPara("order[0][dir]");
 		String search = getPara("search[value]");
-		
-		
-		List<JMenu> list = MenuService.me().findList(start, length,column,order,search);
+				
+		List<JMenu> list = MenuService.me().findList(start, length, column, order, search);
 		long count = MenuService.me().findConunt(search);
 		renderPageResult(draw, (int)count, (int)count, list);
 	}
+	
 	public void editFile(){
 		ServletContext s1=getRequest().getServletContext();
 		String temp=s1.getRealPath("/");
-		System.out.println(temp+"common\\ueditor\\dialogs\\template\\config.js");
+		logger.info(temp+"common\\ueditor\\dialogs\\template\\config.js");
 	}
+	
 	public void test(){
 		ThreadUtil.excAsync(new Runnable() {
 			public void run() {
@@ -209,23 +213,27 @@ public class IndexController extends BaseController {
 		}, true);
 		renderAjaxResultForSuccess();
 	}
+	
 	public void test1(){
 		MongoQuery query = new MongoQuery();
 		renderAjaxResultForSuccess(query.use("test").count()+"");
 	}
+	
 	public void test2() throws Exception{
 		String time = getPara("time");
 		MongoQuery query = new MongoQuery();
 		List<JSONObject> list = query.use("test").eq("t", time).find();
 		System.out.println(list.toString().getBytes().length);
 		byte[] l = GZipUtil.doZip(list.toString());
-		System.out.println(l.length);
+		//logger.info(""+l.length);
 		renderAjaxResultForSuccess(GZipUtil.unZipByte(l));
 	}
+	
 	public void test3(){
 		JUser user = UserService.me().findById(1);
 		renderAjaxResultForSuccess(user.getUsername()+"");
 	}
+	
 	public static void main(String[] args) {
 //		try {
 //			ChannelContext<Object, IMPacket, Object> cc = Aio.getChannelContextByUserid(IMServerStarter.serverGroupContext, "1234");

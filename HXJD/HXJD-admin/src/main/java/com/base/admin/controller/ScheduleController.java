@@ -60,6 +60,7 @@ public class ScheduleController extends BaseController {
         setAttr("job", job);
         render("details.html");
     }
+    
     public void add() {
         render("add.html");
     }

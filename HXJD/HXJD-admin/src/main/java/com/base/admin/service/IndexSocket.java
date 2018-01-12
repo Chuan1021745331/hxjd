@@ -6,6 +6,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.JsonKit;
 
@@ -32,10 +35,10 @@ import java.util.Map;
 @ServerEndpoint("/IndexWebsocket.ws")
 @Clear
 public class IndexSocket {
-    @OnMessage
-    public void onMessage(String message, Session session) throws IOException, InterruptedException {
-    	
-    	
+	private final static Logger logger= LoggerFactory.getLogger(IndexSocket.class);
+	
+	@OnMessage
+    public void onMessage(String message, Session session) throws IOException, InterruptedException {	
     	if(Integer.parseInt(message)==1){
     		while(true){		
     				if(session.isOpen()){	
@@ -68,15 +71,15 @@ public class IndexSocket {
 
     @OnOpen
     public void onOpen() {
-        System.out.println("Client connected");
+    	logger.info("Client connected");
     }
 
     @OnClose
     public void onClose() {
-        System.out.println("Connection closed");
+    	logger.info("Connection closed");
     }
     
     public void startMessageBlock(){
-    	System.out.println("startMessageBlock");
+    	logger.info("startMessageBlock");
     }
 }
