@@ -6,7 +6,7 @@
 <script type="text/javascript" src="${CPATH}/js/heatbeats.js"></script>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div class="ms-width-100-per ms-height-100-per ms-layout-center-horizontal">
-    <div class="sm-width-90-per sm-height-100-per ms-layout-center-vertical-with-wrap debug">
+    <div class="ms-width-92-per sm-height-100-per ms-layout-center-vertical-with-wrap debug">
         <div id="play_h1" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
             <div id="play_a1" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal">
                 <div id="a1"></div>
@@ -25,16 +25,17 @@
         </div>
     </div>
     <!--控制框-->
-    <div class="sm-height-100-per sm-width-10-per debug ms-layout-nowrap-vertical">
-        <button onclick="sendActived()">test1</button>
-        <button onclick="sendActived1()">test2</button>
+    <div class="sm-height-15-per ms-width-8-per debug ms-layout-nowrap-vertical ms-margin-right-2rem">
+
+        <button class="layui-btn layui-btn-primary  layui-btn-sm"  onclick="sendActived()">盾构机一</button>
+        <button class="layui-btn layui-btn-primary" onclick="sendActived1()">盾构机二</button>
     </div>
 
 </div>
 <script type="text/javascript">
     $().ready(function (){
         var rtms = ${rtmps}
-        alert(rtms)
+//        alert(rtms)
         for (var i =0;i<rtms.length;i++){
             playCamera(rtms[i],i+1)
         }
@@ -54,10 +55,10 @@ function playCamera(rtmp,num) {
 //    var swf = ;
     CKobject.embed($('#ckpalyer_swf').val(),'a'+num,'ckplayer_a'+num,width,height,false,flashvars,video)
     function closelights(){//关灯
-        alert(' 本演示不支持开关灯');
+//        alert(' 本演示不支持开关灯');
     }
     function openlights(){//开灯
-        alert(' 本演示不支持开关灯');
+//        alert(' 本演示不支持开关灯');
     }
 }
 </script>

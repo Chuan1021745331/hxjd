@@ -160,6 +160,12 @@
 .ms-width-50-per{
     width: 50%;
 }
+.ms-width-92-per{
+    width: 92%;
+}
+.ms-width-8-per{
+    width: 8%;
+}
 .ms-width-70-per{
     width: 70%;
 }
@@ -187,6 +193,12 @@
 .ms-width-20-per{
     width: 20%;
 }
+.ms-width-95-per{
+    width: 95%;
+}
+.ms-width-5-per{
+    width: 5%;
+}
 
 .ms-height-100-per{
     height:100%;
@@ -196,6 +208,12 @@
 }
 .ms-height-70-per{
     height:70%;
+}
+.ms-height-95-per{
+    height:95%;
+}
+.ms-height-5-per{
+    height:5%;
 }
 .ms-height-60-per{
     height:60%;
