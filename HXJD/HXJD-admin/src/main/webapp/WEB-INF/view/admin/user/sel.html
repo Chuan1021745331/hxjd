@@ -62,15 +62,19 @@
   </div>
     <div class="layui-form-item">
         <label class="layui-form-label">所属部门</label>
-        <div class="layui-input-inline layui-row" style="width: 50%">
             <#list parents as pdepartment>
                 <#if (pdepartment_index==parents.size()-1)>
-                    <div class="layui-col-md2"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}" readonly = "readonly"></div>
+                    <!--<div class="layui-col-md2"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}" readonly = "readonly"></div>-->
+                    <div class="layui-input-inline">
+                        <input type="text" required lay-verify="required"
+                               placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+                               value="${pdepartment.name}"
+                               id="menuSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+                    </div>
                 <#else>
                     <div class="layui-col-md2"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}   ——> " readonly = "readonly"></div>
                 </#if>
             </#list>
-        </div>
     </div>
   <div class="layui-form-item">
       <label class="layui-form-label">职称</label>

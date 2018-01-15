@@ -4,13 +4,15 @@ active_id="dashboard">
 	<input type="hidden" name="jDepartment.id" value="<#if department??>${department.id}</#if>">
 	<input type="hidden" name="jDepartment.parentId" value="<#if department??>${department.parentId}</#if>">
 	<div class="layui-form-item">
-		<label class="layui-form-label">所属上一级</label>
-		<div class="layui-input-inline">
-			<input type="text" required lay-verify="required"
-				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
-				value="<#if pdepartment??>${pdepartment.name}</#if>"
-				id="departmentSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
-		</div>
+		<label class="layui-form-label">所属部门</label>
+		<#list parents as pdepartment>
+			<#if (pdepartment_index==parents.size()-1)>
+				<div class="layui-input-inline" style="width: 100px;"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}" readonly = "readonly"></div>
+		    <#else>
+				<div class="layui-input-inline" style="width: 100px;"><input type="text" class="layui-input" style="color: blue;" value="${pdepartment.name}" readonly = "readonly"></div>
+				<div class="layui-form-mid">——></div>
+			</#if>
+		</#list>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">名称</label>
@@ -24,18 +26,20 @@ active_id="dashboard">
 		<label class="layui-form-label">类型</label>
 		<div class="layui-input-inline">
 			<select name="jDepartment.type" lay-verify="">
-				<option value="1">部门</option>
+				<option value="0">职称</option>
 			</select>
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">状态</label>
-		<div class="layui-input-inline">
-			<select name="jDepartment.state" lay-verify="" value="0">
-				<option value="1" <#if ((department.state) ==1)>selected="selected"</#if>>开放</option>
-				<option value="0" <#if ((department.state) ==0)>selected="selected"</#if>>关闭</option>
-			</select>
-		</div>
+			<!--<select name="jDepartment.state" lay-verify="" value="0">-->
+				<!--<option value="1" <#if ((department.state) ==1)>selected="selected"</#if>>开放</option>-->
+				<!--<option value="0" <#if ((department.state) ==0)>selected="selected"</#if>>关闭</option>-->
+			<!--</select>-->
+			<div class="layui-input-block">
+				<input type="radio" name="jDepartment.state" value="1" title="开放" <#if ((department.state) ==1)>checked=""</#if>>
+				<input type="radio" name="jDepartment.state" value="0" title="关闭" <#if ((department.state) ==0)>checked=""</#if>>
+			</div>
 	</div>
 	<div class="layui-form-item">
 		<div class="layui-input-block">

@@ -1,7 +1,10 @@
 package com.base.query;
 
 import com.base.model.JDepartment;
+import com.jfinal.plugin.activerecord.Db;
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -39,5 +42,21 @@ public class DepartmentQuery {
 
     public JDepartment findByUserId(int userId){
         return DAO.findFirst("select d.* from j_department d join j_departmentuser du on d.id=du.departmentId where du.userId="+userId);
+    }
+
+    public Long findCountPositionBydepartmentId(int departmentId){
+        return Db.queryLong("select count(*) from j_department where parentId="+departmentId+" and type="+JDepartment.TYPE_POSITION);
+    }
+
+    public List<JDepartment> findPositionByDepartmentId(int page,int limit,int departmentId){
+        StringBuilder sql=new StringBuilder("select * from j_department");
+        sql.append(" where parentId=? and type=?");
+        sql.append(" order by id asc limit ?,?");
+        LinkedList<Object> params = new LinkedList<Object>();
+        params.add(departmentId);
+        params.add(JDepartment.TYPE_POSITION);
+        params.add(limit*page-limit);
+        params.add(limit);
+        return DAO.find(sql.toString(),params.toArray());
     }
 }

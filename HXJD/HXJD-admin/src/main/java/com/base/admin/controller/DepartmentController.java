@@ -1,9 +1,11 @@
 package com.base.admin.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JDepartment;
 import com.base.model.dto.TreeSimpDto;
+import com.base.query.DepartmentUserQuery;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.DepartmentService;
@@ -108,4 +110,71 @@ public class DepartmentController extends BaseController{
         map.put("children",children);
         renderJson(map);
     }
+
+    /**
+     * @MethodName: positionData
+     * @Description: 部门为departmentId的职位数据
+     * @param
+     * @return: void
+     */
+    public void positionData(){
+        Integer departmentId = getParaToInt("departmentId");
+        Integer page = getParaToInt("page");
+        Integer limit = getParaToInt("limit");
+        //默认为根节点
+        if(null==departmentId)
+            departmentId=new Integer(0);
+        long count = DepartmentService.me().findCountPositionByDepartmentId(departmentId);
+        List<JDepartment> positionList = DepartmentService.me().findPositionByDepartmentId(page, limit, departmentId, count);
+        renderPageResult(0, "", (int)count, positionList);
+    }
+
+    public void addPosition(){
+        Integer departmentId = getParaToInt("departmentId");
+        JDepartment department = DepartmentService.me().findDepartmentById(departmentId);
+        if(null==department){
+            department=new JDepartment();
+            department.setId(0);
+            department.setName("总部");
+        }
+        setAttr("department",department);
+        renderTable("positionAdd.html");
+    }
+
+    public void editPosition(){
+        Integer id = getParaToInt("id");
+        JDepartment position = DepartmentService.me().findDepartmentById(id);
+        List<JDepartment> parents = DepartmentService.me().getParents(position.getParentId());
+        setAttr("department",position);
+        setAttr("parents", parents);
+        renderTable("positionEdit.html");
+    }
+
+    public void selPosition(){
+        Integer id = getParaToInt("id");
+        JDepartment position = DepartmentService.me().findDepartmentById(id);
+        List<JDepartment> parents = DepartmentService.me().getParents(position.getParentId());
+        setAttr("department",position);
+        setAttr("parents", parents);
+        renderTable("positionSel.html");
+    }
+
+    public void delPosition(){
+        Integer id = getParaToInt("id");
+        JDepartment position = DepartmentService.me().findDepartmentById(id);
+        //需要判断有无用户属于该职称
+        boolean canDel = DepartmentService.me().isCanDel(id);
+        //如果不能删除
+        if(!canDel){
+            renderAjaxResultForError("该职位还有用户关联,请先删除或修改用户!!!");
+            return ;
+        }
+        boolean flag = position.delete();
+        if(flag){
+            renderAjaxResultForSuccess("删除成功");
+        }else{
+            renderAjaxResultForError("删除失败");
+        }
+    }
+
 }

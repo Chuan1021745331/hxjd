@@ -2,6 +2,7 @@ package com.base.query;
 
 import com.base.model.JDepartmentuser;
 import com.base.model.JUser;
+import com.jfinal.plugin.activerecord.Db;
 
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class DepartmentUserQuery {
 
     public static DepartmentUserQuery me(){
         return QUERY;
+    }
+
+    public long findCountByDepartmentId(int departmentId){
+        return Db.queryLong("select count(*) from j_departmentuser where departmentId="+departmentId);
     }
 
     public int delByUserId(int userId){

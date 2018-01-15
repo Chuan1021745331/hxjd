@@ -4,6 +4,9 @@ import com.base.model.JDepartment;
 import com.base.model.dto.MenuSimpDto;
 import com.base.model.dto.TreeSimpDto;
 import com.base.query.DepartmentQuery;
+import com.base.query.DepartmentUserQuery;
+import com.base.query.UserQuery;
+import com.jfinal.plugin.activerecord.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +52,14 @@ public class DepartmentService {
         return DepartmentQuery.me().getAll();
     }
 
+    /**
+     * @MethodName: del
+     * @Description: (删除部门,当该部门的子部门有用户关联时,不能删除)
+     * @param id
+     * @return: boolean
+     */
     public boolean del(String id){
+
         JDepartment department = DepartmentQuery.me().findById(Integer.parseInt(id));
         return department.delete();
     }
@@ -94,6 +104,10 @@ public class DepartmentService {
         List<TreeSimpDto> treeChildren= new ArrayList<>();
         if(children.size()>0){
             for(JDepartment d:children){
+                //如果子节点不是部门，则不添加进去
+                if(d.getType()!=JDepartment.TYPE_DEPARTMENT){
+                    continue;
+                }
                 treeChildren.add(getDepartmentSimp(d.getId()));
             }
         }
@@ -122,6 +136,10 @@ public class DepartmentService {
     public void getParents(int departmentId,List<JDepartment> parents){
         JDepartment department =null;
         if(departmentId==0){
+            department =new JDepartment();
+            department.setId(0);
+            department.setName("总部");
+            parents.add(department);
             return;
         }
         department=DepartmentQuery.me().findById(departmentId);
@@ -130,4 +148,39 @@ public class DepartmentService {
             parents.add(department);
         }
     }
+
+    public Long findCountPositionByDepartmentId(Integer departmentId){
+        return DepartmentQuery.me().findCountPositionBydepartmentId(departmentId);
+    }
+
+    //获取部门的下职位
+    public List<JDepartment> findPositionByDepartmentId(Integer page, Integer limit, Integer departmentId, long count){
+        List<JDepartment> positionList=new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            positionList = DepartmentQuery.me().findPositionByDepartmentId(page, limit, departmentId);
+        }
+        return positionList;
+    }
+
+    /**
+     * @MethodName: isCanDel
+     * @Description: (判断该不能能不能删除,当子部门下的职位关联了用户时，不能删除)
+     * @param departmentId
+     * @return: boolean
+     */
+    public boolean isCanDel(Integer departmentId){
+        JDepartment department = DepartmentQuery.me().findById(departmentId);
+        List<JDepartment> departmentList = DepartmentQuery.me().findByParentId(departmentId);
+        if(departmentList.size()<=0)
+            return DepartmentUserQuery.me().findCountByDepartmentId(departmentId)<=0;
+        else{
+            for(JDepartment d:departmentList){
+                if(!isCanDel(d.getId()))
+                    return false;
+            }
+            return true;
+        }
+    }
+
 }

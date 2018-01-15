@@ -1,14 +1,13 @@
 <#include "../../_include/_layout.inc.tag"/> <@layout
 active_id="dashboard">
 <form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
-	<input type="hidden" name="jDepartment.id" value="<#if department??>${department.id}</#if>">
-	<input type="hidden" name="jDepartment.parentId" value="<#if department??>${department.parentId}</#if>">
+	<input type="hidden" name="jDepartment.parentId" value="<#if department??>${department.id}</#if>">
 	<div class="layui-form-item">
-		<label class="layui-form-label">所属上一级</label>
+		<label class="layui-form-label">所属部门</label>
 		<div class="layui-input-inline">
 			<input type="text" required lay-verify="required"
 				placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
-				value="<#if pdepartment??>${pdepartment.name}</#if>"
+				value="<#if department??>${department.name}</#if>"
 				id="departmentSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
 		</div>
 	</div>
@@ -16,24 +15,23 @@ active_id="dashboard">
 		<label class="layui-form-label">名称</label>
 		<div class="layui-input-inline">
 			<input type="text" name="jDepartment.name" required lay-verify="required"
-				placeholder="请输入功能名称" autocomplete="off" class="layui-input"
-				 value="<#if department??>${department.name!}</#if>">
+				placeholder="请输入部门名称" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">类型</label>
 		<div class="layui-input-inline">
 			<select name="jDepartment.type" lay-verify="">
-				<option value="1">部门</option>
+				<option value="0">职称</option>
 			</select>
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">状态</label>
 		<div class="layui-input-inline">
-			<select name="jDepartment.state" lay-verify="" value="0">
-				<option value="1" <#if ((department.state) ==1)>selected="selected"</#if>>开放</option>
-				<option value="0" <#if ((department.state) ==0)>selected="selected"</#if>>关闭</option>
+			<select name="jDepartment.state" lay-verify="">
+				<option value="1" selected>开放</option>
+				<option value="0">关闭</option>
 			</select>
 		</div>
 	</div>
@@ -45,7 +43,7 @@ active_id="dashboard">
 	</div>
 </form>
 
-<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+<div id="departmentContent" class="departmentContent" style="display:none; position: absolute;">
 	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
 
