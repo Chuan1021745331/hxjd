@@ -35,7 +35,7 @@ public class DepartmentService {
         return DepartmentQuery.me().findById(departmentId);
     }
 
-    public boolean save(JDepartment department){
+    public boolean saveOrUpdate(JDepartment department){
         //父节点为根节点，直接添加
         if(department.getParentId()==0){
             return department.saveOrUpdate();
@@ -47,7 +47,14 @@ public class DepartmentService {
         }
         return department.saveOrUpdate();
     }
-
+    public JDepartment saveOrUpdateForDepartment(JDepartment department){
+        boolean b = saveOrUpdate(department);
+        if(b){
+            return department;
+        }else{
+            return null;
+        }
+    }
     public List<JDepartment> getAll(){
         return DepartmentQuery.me().getAll();
     }

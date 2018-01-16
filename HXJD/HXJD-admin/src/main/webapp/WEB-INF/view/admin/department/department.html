@@ -112,7 +112,7 @@ layui.use( ['table','common'], function(){
 			        curr: 1 //重新从第 1 页开始
 			    },
 				where: { //设定异步数据接口的额外参数，任意设
-					departmentId: treeNode.id
+					menuId: treeNode.id
 				}
 			})
 		};
@@ -127,9 +127,16 @@ layui.use( ['table','common'], function(){
 				url : bpath + "/admin/department/delTree?id="+treeNode.id,
 				type : 'get',
 				dataType : 'json',
-				success : function(data) {
-// 					console.log(data);
-				}
+				success : function(json) {
+                    if(json.errorCode==0){
+                        top.parent.MSG(4, json.message);
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        top.parent.MSG(3, json.message);
+                    }
+                    reloadTreeData();
+				},
+
 			});
 		}
 		function beforeRename(treeId, treeNode, newName, isCancel) {
@@ -174,18 +181,21 @@ layui.use( ['table','common'], function(){
 		function removeHoverDom(treeId, treeNode) {
 			$("#addBtn_"+treeNode.tId).unbind().remove();
 		};
-		
-		$.ajax({
-			url : bpath + "/admin/department/tree",
-			type : 'get',
-			dataType : 'json',
-			success : function(data) {
-				zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
-				console.log("树形数据");
-				console.log(data);
-				zTree.expandAll(true);
-			}
-		});
+		function reloadTreeData(){
+            $.ajax({
+                url : bpath + "/admin/department/tree",
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
+                    console.log("树形数据");
+                    console.log(data);
+                    zTree.expandAll(true);
+                }
+            });
+		}
+        reloadTreeData();
+
 	});
 	//表格渲染
 	t = table.render({
@@ -198,7 +208,8 @@ layui.use( ['table','common'], function(){
 			{type:'checkbox'},
 			{${thBase},title:'ID',field:'id', width:80, sort: true},
 			{${thBase},title:'职称',field:'name'},
-			{${thBase},title:'状态',field:'state'}
+			{${thBase},title:'状态',field:'state',
+				templet: '#switchTpl', unresize: true}
 	  	]],
 	  	done: function(res, curr, count){
 	  	    page = curr;
@@ -230,53 +241,14 @@ layui.use( ['table','common'], function(){
       		common.tableOpenLayer('职位详情','icon-xiangqing',bpath+'/admin/department/selPosition?id='+tempData.id);
       	},
       	<!-- 删除操作 -->
-      	del:function(){
-      		if(null==tempData){
-      			top.parent.MSG(2, "请选择一条数据");
-      			return false;
-      		}
-            var self = this;
-            parent.layer.confirm("是否确认删除", {
-                icon: 3,
-                skin:'zero-green',
-                offset: '200px',
-                closeBtn: 0,
-                skin: 'layui-layer-molv',
-                anim: Math.ceil(Math.random() * 6),
-                btn: ['确定', '取消']
-            }, function(index) {
-                $.ajax({
-                    url:bpath+'/admin/department/delPosition?id='+tempData.id,
-                    type:"POST",
-                    dataType:"json",
-                    success:function(json){
-                        if(json.errorCode==0){
-                            top.parent.MSG(4, json.message);
-                            parent.layer.close(index); //再执行关闭
-                        }else{
-                            top.parent.MSG(3, json.message);
-                        }
+      	del:function() {
+            if (null == tempData) {
+                top.parent.MSG(2, "请选择一条数据");
+                return false;
+            }
+           common.zeroCmsConfirm('是否确认删除',bpath+'/admin/department/delPosition?id='+tempData.id);
+        }
 
-                    },
-                    error:function(res){
-                        top.parent.MSG(3, "数据提交异常");
-                    }
-                });
-                t.reload({
-                    page: {
-                        curr: page //重新从第 1 页开始
-                    },
-                    where: { //设定异步数据接口的额外参数，任意设
-                        departmentId: $("#hiddenValue").attr("value")
-                    }
-                })
-                tempData=null;
-                layer.close(index);
-            }, function(index) {
-                parent.layer.close(index);
-            });
-      		// common.zeroCmsConfirm('是否确认删除',bpath+'/admin/department/delPosition?id='+tempData.id);
-      	}
 	};
 	$('#btn_group .layui-btn').on('click',function(){
        var type = $(this).data('type');
@@ -288,5 +260,8 @@ layui.use( ['table','common'], function(){
  		active[type] ? active[type].call(this) : '';
  	});
 });
+</script>
+<script type="text/html" id="switchTpl">
+	<input type="checkbox" name="state" disabled="" value="{{d.state}}" lay-skin="switch" lay-text="开放|关闭" lay-filter="" {{ d.state == 1 ? 'checked' : '' }}>
 </script>
 </@layout>

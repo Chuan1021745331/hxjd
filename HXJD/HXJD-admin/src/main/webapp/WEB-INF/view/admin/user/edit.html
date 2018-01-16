@@ -65,15 +65,13 @@ active_id="dashboard">
 			</#if>
     	</div>
     </div>
-	<div class="layui-form-item">
+	<div id="selector" class="layui-form-item">
 		<label class="layui-form-label">部门职称</label>
-		<div id="selector" class="layui-input-inline layui-row " style="width: 60%">
 			<div style="display: none">
 				<select id="select_department_parent"  lay-filter="department" lay-verify="">
 					<option value="0" selected></option>
 				</select>
 			</div>
-		</div>
 	</div>
 
 	<div class="layui-form-item">
@@ -210,7 +208,7 @@ function getPath(obj) {
         });
         var p='${parents}';
         var parents=eval('('+p+')');
-        console.log("parents");
+        console.log("parents*****"+p);
         console.log(parents);
         parents.shift();	//移除根节点
         onSelectChange($("#select_department_parent"),parents);
@@ -220,6 +218,7 @@ function getPath(obj) {
             var departmentId=$this.val();
             //把后面的select删除
             $this.parent().nextAll().remove();
+            $this.attr("name","");
             //产生新的select
             $.ajax({
                 url : bpath + "/admin/department/getDepartmentAndChildren?pId="+departmentId,
@@ -236,14 +235,12 @@ function getPath(obj) {
                         //表示为职称,只有选中为职称时才能上传
                         if(department.type==0){
                             $this.attr("name","departmentId");
-                        }else{
-                            $this.attr("name","");
                         }
                         form.render();
                         return;
                     }
                     var selectId="select_department_"+departmentId;
-                    $("#selector").append('<div class="layui-col-md2"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
+                    $("#selector").append('<div class="layui-input-inline"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
                     for(var i in children){
                         var department=children[i];
                         var value="";

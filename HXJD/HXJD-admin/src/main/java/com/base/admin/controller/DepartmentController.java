@@ -45,6 +45,13 @@ public class DepartmentController extends BaseController{
 
     public void delTree(){
         String id = getPara("id");
+        //判断能否删除
+        boolean canDel = DepartmentService.me().isCanDel(Integer.parseInt(id));
+        //不能删除
+        if(!canDel){
+            renderAjaxResultForError("该部门或子部门还有用户关联,请先删除或修改用户!!!");
+            return;
+        }
         boolean flag = DepartmentService.me().delTree(Integer.parseInt(id));
         if(flag){
             renderAjaxResultForSuccess();
@@ -77,9 +84,9 @@ public class DepartmentController extends BaseController{
 
     public void saveOrUpdateForDepartment(){
         JDepartment model = getModel(JDepartment.class);
-        boolean flag = DepartmentService.me().save(model);
-        if(flag){
-            renderAjaxResultForSuccess();
+        JDepartment department = DepartmentService.me().saveOrUpdateForDepartment(model);
+        if(null!=department){
+            renderAjaxResult("",0,department);
         }else{
             renderAjaxResultForError();
         }
@@ -118,7 +125,7 @@ public class DepartmentController extends BaseController{
      * @return: void
      */
     public void positionData(){
-        Integer departmentId = getParaToInt("departmentId");
+        Integer departmentId = getParaToInt("menuId");
         Integer page = getParaToInt("page");
         Integer limit = getParaToInt("limit");
         //默认为根节点

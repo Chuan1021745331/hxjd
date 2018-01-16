@@ -13,6 +13,7 @@ import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.base.core.BaseController;
@@ -76,7 +77,11 @@ public class UserController extends BaseController {
 		List<JRole> roles = RoleService.me().getAll();
 		JRole role = RoleService.me().findByUserId(id);
 		JDepartment department = DepartmentService.me().findDepartmentByUserId(id);
-		List<JDepartment> parents = DepartmentService.me().getParents(department.getParentId());
+		List<JDepartment> parents=new ArrayList<>();
+		if(department!=null){
+			parents = DepartmentService.me().getParents(department.getParentId());
+			parents.add(department);
+		}
 		setAttr("role", role);
 		setAttr("roles", roles);
 		setAttr("department",department);
@@ -90,8 +95,11 @@ public class UserController extends BaseController {
 		JUser user = UserService.me().findById(id);;
 		JRole role = RoleService.me().findByUserId(id);
 		JDepartment department = DepartmentService.me().findDepartmentByUserId(id);
-		List<JDepartment> parents = DepartmentService.me().getParents(department.getParentId());
+		List<JDepartment> parents=new ArrayList<>();
+		if(department!=null){
+			parents = DepartmentService.me().getParents(department.getParentId());
 
+		}
 		setAttr("role", role);
 		setAttr("user", user);
 		setAttr("department",department);

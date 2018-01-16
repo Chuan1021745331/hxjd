@@ -49,14 +49,15 @@
 	  </select>
     </div>
   </div>
-  <div class="layui-form-item">
+  <div id="selector" class="layui-form-item">
       <label class="layui-form-label">部门职称</label>
-      <div id="selector" class="layui-input-inline layui-row " style="width: 60%">
         <div style="display: none">
           <select id="select_department_parent"  lay-filter="department" lay-verify="">
             <option value="0" selected></option>
           </select>
         </div>
+      <div class="layui-input-inline" style="width: 60%">
+
       </div>
   </div>
   
@@ -115,6 +116,9 @@
             var departmentId=$this.val();
             //把后面的select删除
             $this.parent().nextAll().remove();
+            //改变时，去除name
+            $this.attr("name","");
+            console.log("改变了"+$this.attr("name"));
             //产生新的select
             $.ajax({
                 url : bpath + "/admin/department/getDepartmentAndChildren?pId="+departmentId,
@@ -131,14 +135,12 @@
                         //表示为职称,只有选中为职称时才能上传
                         if(department.type==0){
                             $this.attr("name","departmentId");
-                        }else{
-                            $this.attr("name","");
                         }
                         form.render();
                         return;
                     }
                     var selectId="select_department_"+departmentId;
-                    $("#selector").append('<div class="layui-col-md2"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
+                    $("#selector").append('<div class="layui-input-inline"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
                     for(var i in children){
                         var department=children[i];
                         var value="";
