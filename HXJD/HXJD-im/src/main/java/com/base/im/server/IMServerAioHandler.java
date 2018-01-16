@@ -53,6 +53,7 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 			boolean initMsgBool = MsgProtocol.isInitMsg(msg);
 			if(initMsgBool){
 				//注册信息
+				//todo 解析出mac地址当做key
 				IMcacheMap.cacheMap.put(channelContext.getClientNode().getIp(),channelContext);
 				IMPacket imPacket = new IMPacket();
 				imPacket.setBody(MsgProtocol.INIT_MSG.getBytes("utf-8"));

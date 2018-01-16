@@ -1,6 +1,7 @@
 package com.base.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.im.common.SenMsg;
 import com.base.interceptor.NewButtonInterceptor;
@@ -35,8 +36,22 @@ public class CameraController extends BaseController {
         List<String> rtmpList = new ArrayList<>();
         rtmpList.add("rtmp://120.78.49.241:1935/live/test1");
         rtmpList.add("rtmp://120.78.49.241:1935/live/test2");
+        String machines = "['{machineName:盾构机1,machineNo:1}','{machineName:盾构机1,machineNo:1}']";
         String rtmps = JSON.toJSONString(rtmpList);
         setAttr("rtmps",rtmps);
-        renderTable("camera.html");
+//        setAttr("machines",machines);
+        render("camera.html");
+    }
+    public void getMachine(){
+        String machineNo = getPara("machineNo");
+       /* List<String> rtmpList = new ArrayList<>();
+        rtmpList.add("rtmp://120.78.49.241:1935/live/test1");
+//        rtmpList.add("rtmp://120.78.49.241:1935/live/test2");
+        String machines = "{{machineName:盾构机1,machineNo:1},{machineName:盾构机1,machineNo:1}}";
+        String rtmps = JSON.toJSONString(rtmpList);
+        setAttr("rtmps",rtmps);
+        setAttr("")
+        if()
+        renderAjaxResultForError();*/
     }
 }

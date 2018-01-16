@@ -1,13 +1,15 @@
 var webSocket = null;
 // var webSocketUrl = "ws://localhost:10105/videoPlayCheck";
-var webSocketUrl = "ws://localhost:18080/HeartBeat.ws";
+var webSocketUrl = "ws://192.168.0.192:18080/HeartBeat.ws";
 var camId = "001";
+
 $().ready(function(){
+    // initVue();
     initWebSocket(webSocketUrl);
     // initSend();
 
 })
-;
+
 
 // function choosenCam(id)
 // {
@@ -74,4 +76,47 @@ function initSend() {
 function dataHandler(data)
 {
     console.log("收到服务器反馈：" + data);
+}
+
+/*vue webSocket*/
+function initVue() {
+    var webSocket = new Vue({
+        el:'#camera_root_div',
+        data:{
+            webSocket:null,
+            webSocketUrl:"ws://localhost:18080/HeartBeat.ws"
+        },
+        mounted:function () {
+            this.init();
+        },
+        methods:{
+            test:function () {
+                alert("button")
+            },
+            initMachine:function (no) {
+                var param = {
+                    machineNo:no
+                }
+                this.$http.post("/admin/camera/getMachine",param,{emulateJSON: true}).then(function (res) {
+
+                });
+            },
+            /*
+            * 1:绿色√，2：红色×，3：黄色？，4：灰色锁，5：红色不开心,6：绿色开心，7：黄色！
+            * */
+            dialog:function (msg,icon) {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.msg(msg, {icon: icon});
+                });
+            },
+            initWebSocket:function () {
+                if ('WebSocket' in window) {
+                    this.webSocket = new WebSocket(url);
+                } else {
+                    this.dialog('对不起，您的浏览器不支持websocket，请更换浏览器',5);
+                }
+            }
+        }
+    });
 }

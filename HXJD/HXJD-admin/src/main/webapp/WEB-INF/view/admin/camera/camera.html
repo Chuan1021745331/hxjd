@@ -3,9 +3,11 @@
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
 <script type="text/javascript" src="${CPATH}/ckplayer/ckplayer.js"></script>
+<script type="text/javascript" src="${CPATH}/js/vue/vue.js"></script>
+<script type="text/javascript" src="${CPATH}/js/vue/vue-resource.min.js"></script>
 <script type="text/javascript" src="${CPATH}/js/heatbeats.js"></script>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
-<div class="ms-width-100-per ms-height-100-per ms-layout-center-horizontal">
+<div id="camera_root_div" class="ms-width-100-per ms-height-100-per ms-layout-center-horizontal">
     <div class="ms-width-92-per sm-height-100-per ms-layout-center-vertical-with-wrap debug">
         <div id="play_h1" class="ms-width-100-per ms-height-50-per ms-layout-center-horizontal">
             <div id="play_a1" class="ms-width-45-per ms-height-100-per ms-layout-center-horizontal">
@@ -25,10 +27,10 @@
         </div>
     </div>
     <!--控制框-->
-    <div class="sm-height-15-per ms-width-8-per debug ms-layout-nowrap-vertical ms-margin-right-2rem">
+    <div class="sm-height-15-per ms-width-8-per ms-layout-nowrap-vertical ms-margin-right-2rem sm-border-2px-black">
 
         <button class="layui-btn layui-btn-primary  layui-btn-sm"  onclick="sendActived()">盾构机一</button>
-        <button class="layui-btn layui-btn-primary" onclick="sendActived1()">盾构机二</button>
+        <button class="layui-btn layui-btn-primary  layui-btn-sm" onclick="sendActived1()">盾构机二</button>
     </div>
 
 </div>
