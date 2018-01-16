@@ -1,19 +1,130 @@
+* {
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+*:before, *:after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+::-webkit-scrollbar {
+	width: 14px;
+	height: 14px;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: 1px 1px 5px #3F51B5 inset;
+}
+
+::-webkit-scrollbar-thumb {
+	min-height: 20px;
+	background-clip: content-box;
+	box-shadow: 0 0 0 5px #3F51B5 inset;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
 .layui-header {
-	height: 50px;
+	height: 60px;
 	background-color: #3F51B5 !important;
 }
 
 .layui-layout-admin .layui-logo {
-	line-height: 50px;
+	width: 350px;
+	line-height: 60px;
 	color: #fff !important;
+}
+
+.layui-layout-admin .layui-logo-p {
+	position: absolute;
+	left: 45px;
+	height: 100%;
+	right: 45px;
+	top: 0px;
+	line-height: 60px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	line-height: 60px;
+}
+
+.layui-side-right {
+	top: 60px;
+	width: 180px;
+	right: 0px;
+	overflow-x: hidden;
+	position: fixed;
+	bottom: 0;
+	z-index: 999;
+	background-color: #fff !important;
+	border-left: 1px solid #ccc !important;
+	color: #000 !important;
+	font-size: 13px;
+}
+
+.layui-side-chart {
+	top: 60px;
+	width: 360px;
+	right: 0px;
+	overflow-x: hidden;
+	position: fixed;
+	bottom: 0;
+	z-index: 998;
+	background-color: #E9ECF1 !important;
+	border-left: 1px solid #ccc !important;
+	color: #000 !important;
+	font-size: 13px;
+}
+
+.layui-side-right .layui-btn {
+	width: 160px;
+	margin-left: 10px;
+	margin-bottom: 5px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 13px;
+}
+
+.color-black {
+	color: #000 !important;
+}
+
+.paddingDiv {
+	padding: 5px;
+}
+
+.paddingDiv div {
+	padding-bottom: 10px;
+}
+
+.top-right-img {
+	width: 42px;
+	height: 42px;
+	margin-right: 15px;
+	margin-top: 10px;
+	cursor: pointer;
+	padding: 0px;
 }
 
 .layui-nav .layui-nav-item a {
 	color: #fff !important;
 }
 
+.layui-header .layui-nav-item dl dd a {
+	color: #000 !important;
+}
+
 .layui-nav .layui-nav-item {
-	line-height: 50px;
+	line-height: 60px;
 }
 
 .layui-nav-child {
@@ -21,13 +132,12 @@
 }
 
 .layui-layout-admin .layui-body {
-	top: 50px;
+	top: 60px;
 }
 
-.layui-layout-admin .layui-body {
-	left: 0px;
-}
-
+/* .layui-layout-admin .layui-body { */
+/* 	left: 0px; */
+/* } */
 .layui-layout-admin .layui-footer {
 	left: 0px;
 }
@@ -49,7 +159,52 @@
 	border-radius: 21px;
 }
 
-.layui-phone i {
+.layui-menu {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 10px;
+	left: 6px;
+	z-index: 99999;
+	padding: 8px;
+	font-size: 23px;
+	color: #fff;
+}
+
+.layui-user {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 10px;
+	right: 6px;
+	z-index: 99999;
+	padding: 8px;
+	font-size: 23px;
+	color: #fff;
+}
+
+.layui-bottom {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	height: 40px;
+	z-index: 99999;
+	padding: 4px 5px 8px;
+	color: #000;
+	background-color: #fff;
+	text-align: center;
+	font-size: 12px;
+}
+.layui-bottom i {
+	height: 30px;
+	display: block;
+	/* width: 40px; */
+	text-align: center;
+	font-size: 30px;
+}
+
+.layui-phone i, .layui-menu i, .layui-user i {
 	text-align: center;
 	font-size: 28px;
 	color: #fff;

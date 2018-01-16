@@ -22,68 +22,80 @@
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<div class="layui-header">
-			<div class="layui-logo">盾构机监控</div>
-			<ul class="layui-nav layui-layout-right">
-				<li class="layui-nav-item">
-					<a href="javascript:;"> 
-						<img src="${BPATH}<#if _user.avatar??>${_user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" class="layui-nav-img">${_user.nickname!}
-					</a>
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="">基本资料</a>
-						</dd>
-						<dd>
-							<a href="">安全设置</a>
-						</dd>
-						<dd>
-							<a href="">退出登录</a>
-						</dd>
-					</dl>
-				</li>
-			</ul>
+			<div id="logoDiv" class="layui-logo">盾构机监控</div>
+			<img id="header-right" src="${BPATH}<#if _user.avatar??>${_user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
-
+		<div id="left-menu" class="layui-side layui-bg-black displayNone">
+		    <div class="layui-side-scroll">
+		      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+				<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+			        <li class="layui-nav-item layui-nav-itemed">
+			          	<a href="javascript:;">一号线</a>
+		          		<dl class="layui-nav-child">
+		            		<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
+		            		<dd><a href="javascript:;">列表二</a></dd>
+		            		<dd><a href="">超链接</a></dd>
+		          		</dl>
+			        </li>
+			        <li class="layui-nav-item">
+			        	<a href="javascript:;">二号线</a>
+			        	<dl class="layui-nav-child">
+			            	<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
+			            	<dd><a href="javascript:;">列表二</a></dd>
+			            	<dd><a href="">超链接</a></dd>
+			          	</dl>
+			       	</li>
+			        <li class="layui-nav-item">
+			        	<a href="javascript:;">三号线</a>
+			        	<dl class="layui-nav-child">
+			            	<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
+			            	<dd><a href="javascript:;">列表二</a></dd>
+			            	<dd><a href="">超链接</a></dd>
+			          	</dl>
+			        </li>
+				</ul>
+		    </div>
+		</div>
 		<iframe class="zero-iframe layui-body" data-id='0' name="ifr_0" id="zero_tab_content" width='100%' height='100%' frameborder='0' src="${BPATH}/main"></iframe>
-		
-		<div id ="phoneDiv" class="layui-phone displayNone icon iconfont icon-fenlei">
+		<div id="left-menu-chart" class="layui-side-chart displayNone">
+			<div id="main" style="width: 360px;height:270px;"></div>
+			<div id="main1" style="width: 360px;height:270px;"></div>
+			<div id="main2" style="width: 360px;height:270px;"></div>
 		</div>
-		<div class="UlDiv">
-			<ul class="phoneUl" style=" border-right: 1px dashed #ccc;">
-				<li><a href="">主监控</a></li>
-				<li><a href="">泡沫系统</a></li>
-				<li><a href="">注浆系统</a></li>
-				<li><a href="">电力参数</a></li>
-				<li><a href="">辅助系统</a></li>
-				<li style="border: none;"><a href="">盾尾密封</a></li>
-			</ul>
-			<ul class="phoneUl" style="margin-left: 1px;">
-				<li><a href="">启动条</a></li>
-				<li><a href="">导向仪</a></li>
-				<li><a href="">报警状态</a></li>
-				<li><a href="">累计量</a></li>
-				<li><a href="">历史记录</a></li>
-			</ul>
-		</div>
+		<!-- 左侧菜单按钮开始  -->
+		<div id ="menuDiv" class="layui-menu displayNone icon iconfont icon-liebiao"></div>
 		
-		<div id ="pcDiv" class="layui-footer displayNone">
-			<ul class="layui-row pcUl">
-				<li class="layui-col-sm1 layui-col-md1"><a href="">主监控</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">泡沫系统</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">注浆系统</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">电力参数</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">辅助系统</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">盾尾密封</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">启动条</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">导向仪</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">报警状态</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
-				<li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
-			</ul>
+		<!-- 左侧菜单按钮结束  -->
+		
+		<!-- 右侧用户按钮开始  -->
+		<div id ="userDiv" class="layui-user displayNone icon iconfont icon-renyuan"></div>
+		<div id="right-user" class="layui-side-right displayNone">
+			<div class="layui-row paddingDiv">
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">王安成</div>
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">施工单位工程管理部</div>
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">中国中铁成都投资发展有限公司工程管理部</div>
+			</div>
+			<div>
+				<button class="layui-btn layui-btn-primary">个人详情</button>
+			    <button class="layui-btn layui-btn-primary">修改密码</button>
+			    <button class="layui-btn layui-btn-danger">退出登录</button>
+			</div>
+		</div>
+		<!-- 右侧用户按钮结束  -->
+		<div id ="bottomDiv" class="layui-bottom layui-row displayNone">
+			<a href="${BPATH}/main" target="ifr_0"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><i class="icon iconfont icon-xianlu1"></i>线路导航</div></a>
+			<a href="http://www.baidu.com" target="ifr_0"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><i class="icon iconfont icon-hekriconshebeisaodijiqiren"></i>盾构监控</div></a>
+			<a href="http://www.baidu.com" target="ifr_0"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><i class="icon iconfont icon-plus-monitored"></i>数据统计</div></a>
+			<a href="http://www.baidu.com" target="ifr_0"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><i class="icon iconfont icon-tongzhi"></i>新闻中心</div></a>
 		</div>
 	</div>
 	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 	<script type="text/javascript" src="${CPATH}/js/index.js"></script>
+	<script type="text/javascript" src="${CPATH}/plus/echarts.min.js"></script>
+	<script type="text/javascript">
+		drawChart();
+	</script>
 </body>
 </html>

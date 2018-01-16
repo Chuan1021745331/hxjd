@@ -61,7 +61,7 @@ textarea {
 	margin-left: -160px;
 	margin-top: -150px;
 	color: #fff;
-	background: #378821;
+	background: #3D7DD4;
 	padding: 45px 30px;
 	border-radius: 4px;
 	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -474,4 +474,7 @@ textarea {
 	line-height: 45px;
 	text-align: center;
 	padding-right: 0px;
+}
+#formLogin{
+	background-color: #349cf0
 }
