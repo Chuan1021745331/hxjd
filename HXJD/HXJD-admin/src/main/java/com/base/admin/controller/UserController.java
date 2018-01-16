@@ -65,7 +65,6 @@ public class UserController extends BaseController {
 	
 	public void add(){
 		List<JRole> roles = RoleService.me().getAll();
-		TreeSimpDto departmentes = DepartmentService.me().getDepartmentSimp(0);
 		setAttr("roles", roles);
 		render("add.html");
 	}

@@ -1,0 +1,272 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<script src="${CPATH}/plus/jquery.form.min.js"></script>
+
+<form class="layui-form" id="myForm" action="${BPATH}/admin/user/editSave" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="jUser.id" value="<#if user??>${user.id}</#if>">
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
+			<div class="layui-input-inline">
+				<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
+				<!--存放图片路径,提交页面时传给后台的值-->
+				<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${_user.avatar!}'/>
+				<input type="file" class="upload" name="file" id="upfile" style="position: absolute; filter: alpha(opacity = 0);opacity: 0;width: 30px;"/>
+			</div>
+  	</div>
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">用户名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.username" required lay-verify="required"
+				autocomplete="off" class="layui-input"
+				value="<#if user??>${user.username!}</#if>">
+		</div>
+	</div>
+		<div class="layui-form-item">
+		<label class="layui-form-label">昵称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.nickname" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.nickname!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">真实姓名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.relname" required lay-verify="required"
+				 autocomplete="off" class="layui-input"
+				value="<#if user??>${user.relname!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">性别</label>		
+		<div class="layui-input-inline" >	
+			<input type="radio" name="jUser.gender" value="1" required lay-verify="required" <#if user.gender??><#if user.gender == "1">checked="checked"</#if></#if> title="男"> 
+			<input type="radio" name="jUser.gender" value="0" required lay-verify="required" <#if user.gender??><#if user.gender == "0">checked="checked"</#if></#if> title="女"> 
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+    	<label class="layui-form-label">角色选择</label>
+    	<div class="layui-input-inline">
+      		
+      		<#if user.role??>
+				<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
+					<#else>
+						<select name="role"  class="">
+							<option value="0" data-position="0">未选择</option>
+								<#if roles??>
+									<#list roles as bean>
+										<option value="${bean.id!}" data-position="${bean.id!}" <#if role??> <#if role.id==bean.id>selected="selected"</#if></#if>>${bean.name!}</option>
+									</#list>
+								</#if>
+						</select>
+			</#if>
+    	</div>
+    </div>
+	<div id="selector" class="layui-form-item">
+		<label class="layui-form-label">部门职称</label>
+			<div style="display: none">
+				<select id="select_department_parent"  lay-filter="department" lay-verify="">
+					<option value="0" selected></option>
+				</select>
+			</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">电子邮箱</label>
+		<div class="layui-input-inline">
+			<input type="email" name="jUser.email" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.email!}</#if>">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">联系电话</label>
+		<div class="layui-input-inline">
+			<input type="text" name="jUser.mobile" required lay-verify="required"
+				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
+				value="<#if user??>${user.mobile!}</#if>">
+		</div>
+	</div>
+	
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" id="doSubmit" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+<script>
+function F_Open_dialog() { 
+    document.getElementById("upfile").click(); 
+}
+/**  
+* 预览图片  
+* @param obj  
+* @returns {Boolean}  
+*/  
+$(':file').change(function(){
+ 
+   var newPreview = document.getElementById("imgsrc");   
+   var imgPath = getPath(this);
+   if( !this.value.match( /.jpg|.gif|.png|.bmp/i ) ){  
+       alert("图片格式错误！");
+       return false;
+   }  
+     
+   newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";      
+   newPreview.src = imgPath;
+});   
+/**  
+* 得到图片绝对路径  
+* @param obj  
+* @returns  
+*/  
+function getPath(obj) { 
+	if(obj) { 
+     	if (window.navigator.userAgent.indexOf("MSIE")>=1) { 
+       	obj.select(); 
+       	return document.selection.createRange().text; 
+     	} else if(window.navigator.userAgent.indexOf("Firefox")>=1) { 
+       	if(obj.files) { 
+         		return obj.files.item(0).getAsDataURL(); 
+       	} 
+       	return obj.value; 
+     	}else if( navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ) {
+           var f = obj.files[0]
+           var src = window.URL.createObjectURL(f);  
+           return src;
+     	}
+     	return obj.value; 
+	} 
+} 
+</script>
+<script>
+    layui.use(['form','common'], function() {
+        var form = layui.form,
+            common = layui.common;
+        var layer=layui.layer;
+        $("#aa").parents("");
+        //表单提交
+        form.on('submit(formDemo)', function(data){
+            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            var departmentId=data.field.departmentId;
+            if(departmentId==null||departmentId==""){
+                // top.parent.MSG(3, "关联部门必须为职称");
+                layer.msg('关联部门必须为职称', {icon: 5,anim: 6});
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            }
+            $("#myForm").ajaxSubmit({
+                type : "post",
+                dataType : "json",
+                success : function(json) {
+                    if(json.errorCode==0){
+                        top.parent.MSG(4,  json.message);
+                        if(typeof(parent.t) != "undefined"){
+                            parent.t.reload({
+                                page: {
+                                    curr: page //重新从第 1 页开始
+                                },
+                                where: { //设定异步数据接口的额外参数，任意设
+                                    menuId: where
+                                }
+                            })
+                        }
+                        if(parent.treeNode_ != null){
+                            if(parent.treeType==1){
+                                parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+                            }else if(parent.treeType==2){
+                                var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+                                node.name=json.data.name;
+                                parent.zTree.updateNode(node);
+                            }
+
+                            parent.treeNode_ =null;
+                            parent.treeType = 0;
+                        }
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        top.parent.MSG(3,  json.message);
+                    }
+                },
+                error : function(res) {
+                    top.parent.MSG(3, "数据提交异常");
+                }
+            });
+            return false;
+        });
+        form.on('select(department)', function(data){
+            /*console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象*!/*/
+            onSelectChange($(data.elem),null);
+        });
+        var p='${parents}';
+        var parents=eval('('+p+')');
+        console.log("parents*****"+p);
+        console.log(parents);
+        parents.shift();	//移除根节点
+        onSelectChange($("#select_department_parent"),parents);
+
+        function onSelectChange($this,parents){
+            console.log($this.val());
+            var departmentId=$this.val();
+            //把后面的select删除
+            $this.parent().nextAll().remove();
+            $this.attr("name","");
+            //产生新的select
+            $.ajax({
+                url : bpath + "/admin/department/getDepartmentAndChildren?pId="+departmentId,
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    console.log("getChildren");
+                    console.log(data);
+                    var department=data.department;
+                    var children=data.children;
+
+                    //没有子部门了
+                    if(children.length==0){
+                        //表示为职称,只有选中为职称时才能上传
+                        if(department.type==0){
+                            $this.attr("name","departmentId");
+                        }
+                        form.render();
+                        return;
+                    }
+                    var selectId="select_department_"+departmentId;
+                    $("#selector").append('<div class="layui-input-inline"><select id="'+selectId+'"  lay-filter="department" lay-verify=""></select></div>')
+                    for(var i in children){
+                        var department=children[i];
+                        var value="";
+                        //表示职称
+                        if(department.type==0){
+                            value="职称:"+department.name;
+                        }else if(department.type==1){
+                            value="部门:"+department.name;
+                        }
+                        $("#"+selectId).append('<option  value="'+ department.id +'">'+value+'</option>');
+                    }
+                    //这里设置该select显示哪一个值,
+                    if(parents!=null&&parents.length>0){
+                        //shift()方法删除并返回数组的第一个元素
+                        console.log("parents........."+parents[0].id);
+                        var parentId=parents.shift().id;
+                        $("#"+selectId).find("option[value='"+parentId+"']").attr("selected","selected");
+                    }
+                    //根据生成的select值，传递到下一个
+                    onSelectChange($("#"+selectId),parents);
+                    form.render();
+                }
+            });
+        }
+
+    });
+
+</script>
+</@layout>

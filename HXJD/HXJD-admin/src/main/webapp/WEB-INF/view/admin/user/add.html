@@ -101,7 +101,9 @@
                 layer.msg('关联部门必须为职称', {icon: 5});
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             }
+            console.log(bpath);
             common.formSubmit('formDemo',bpath+'/admin/user/addSave');
+            return false;
         });
         form.on('select(department)', function(data){
             /*console.log(data.value); //得到被选中的值

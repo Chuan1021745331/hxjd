@@ -1,0 +1,119 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+
+<form class="layui-form sel" action="" style="margin: 10px 10px 0px 10px;">
+  
+  <div class="layui-form-item">
+	<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
+		<div class="layui-input-inline">
+			<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
+		</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">id</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.id!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">用户姓名</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.username!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">昵称</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.nickname!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">真实姓名</label>
+    <div class="layui-input-inline" >
+      <input type="text" value="<#if user??>${user.relname!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+  	<label class="layui-form-label">性别</label>
+		<div class="layui-input-inline" >
+			<#if user.gender??>
+				<#if user.gender == "1">
+					<input type="radio" name="user.gender" value="1" checked="checked" title="男">
+					<#else>
+					<input type="radio" name="user.gender" value="0" checked="checked" title="女"> 
+				</#if>
+			</#if>	
+		</div>	
+	</div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">所属角色</label>
+    <div class="layui-input-inline">
+	 	<#if user.role??>
+			<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
+		<#elseif role??>
+			<input type="text" class="layui-input inputNone" style="color: blue;" value="${role.name!}" readonly = "readonly">
+		<#else>
+			<input type="text" class="layui-input inputNone" style="color: blue;" value="暂无角色" readonly = "readonly">
+		</#if>
+    </div>
+  </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <#if (parents.size()==0)>
+            <div class="layui-input-inline" style="width: 70px;">
+                <input type="text" class="layui-input" value="暂无部门" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+            </div>
+        </#if>
+        <#list parents as pdepartment>
+            <div class="layui-input-inline" style="width: 70px;">
+                <input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+            </div>
+            <#if (pdepartment_index!=parents.size()-1)>
+             <div class="layui-form-mid">——></div>
+            </#if>
+        </#list>
+    </div>
+  <div class="layui-form-item">
+      <label class="layui-form-label">职称</label>
+      <div class="layui-input-inline">
+          <#if department??>
+             <input type="text" class="layui-input inputNone" style="color: #009688;font-weight: bolder;" value="${department.name}" readonly = "readonly">
+          <#else>
+             <input type="text" class="layui-input inputNone" style="color: #009688;font-weight: bolder;" value="暂无职称" readonly = "readonly">
+          </#if>
+      </div>
+  </div>
+
+
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-inline">
+      <input type="email" value="<#if user??>${user.email!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">电话</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.mobile!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">创建时间</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.created!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">最后登录</label>
+    <div class="layui-input-inline">
+      <input type="text" value="<#if user??>${user.logined!}</#if>" readonly = "readonly" class="layui-input inputNone">
+    </div>
+  </div>
+</form>
+
+</@layout>
+

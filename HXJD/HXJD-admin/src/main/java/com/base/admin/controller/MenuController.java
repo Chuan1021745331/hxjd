@@ -93,6 +93,7 @@ public class MenuController extends BaseController {
 		String pId = getPara("pId");
 		JMenu m = MenuService.me().findMenuById(Integer.parseInt(pId));
 		if(null == m){
+			m=new JMenu();
 			m.setId(0);
 			m.setName("根节点");
 		}
