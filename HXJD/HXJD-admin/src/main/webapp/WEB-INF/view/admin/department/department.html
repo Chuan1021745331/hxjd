@@ -73,10 +73,9 @@ layui.use( ['table','common'], function(){
 		var log, className = "dark";
 		function beforeClick(treeId, treeNode) {
 			var check = (treeNode && !treeNode.isParent);
-			/*if(treeNode.id!=0){
-				if (!check) top.parent.MSG(2, "末尾节点才拥有功能按钮");
-				return check;
-			}*/
+            if(treeNode.id==0){
+                top.parent.MSG(2, "根节点不具备该功能");
+            }
 			
 		}
 		function showRemoveBtn(treeId, treeNode) {

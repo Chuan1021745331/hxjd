@@ -101,8 +101,48 @@
                 layer.msg('关联部门必须为职称', {icon: 5});
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             }
-            console.log(bpath);
-            common.formSubmit('formDemo',bpath+'/admin/user/addSave');
+            $.ajax({
+                url:bpath+'/admin/user/addSave',
+                type:"POST",
+                data:data.field,
+                dataType:"json",
+                success:function(json){
+                    if(json.errorCode==0){
+                        top.parent.MSG(4,  json.message);
+                        if(typeof(parent.t) != "undefined"){
+                            parent.t.reload({
+                                page: {
+                                    curr: page //重新从第 1 页开始
+                                },
+                                where: { //设定异步数据接口的额外参数，任意设
+                                    menuId: where
+                                }
+                            })
+                        }
+                        if(parent.treeNode_ != null){
+                            if(parent.treeType==1){
+                                parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+                            }else if(parent.treeType==2){
+                                var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+                                node.name=json.data.name;
+                                parent.zTree.updateNode(node);
+                            }
+
+                            parent.treeNode_ =null;
+                            parent.treeType = 0;
+                        }
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        top.parent.MSG(3,  json.message);
+                    }
+
+                },
+                error:function(res){
+                    top.parent.MSG(3, "数据提交异常");
+                }
+            });
             return false;
         });
         form.on('select(department)', function(data){

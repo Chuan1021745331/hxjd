@@ -61,4 +61,12 @@ public class VisitorQuery {
         StringBuilder sqlBuilder = new StringBuilder("SELECT count(*) FROM j_visitor v LEFT JOIN j_departmentvisitor dv ON dv.visitorId=v.id LEFT JOIN j_department d ON d.id=dv.departmentId");
         return Db.queryLong(sqlBuilder.toString());
     }
+
+    public JVisitor findByVisitorName(String visitorname){
+        return DAO.findFirst("select * from j_visitor where visitorname=?",visitorname);
+    }
+
+    public boolean delById(int visitorId){
+       return DAO.deleteById(visitorId);
+    }
 }

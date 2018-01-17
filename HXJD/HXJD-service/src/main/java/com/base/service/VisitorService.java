@@ -2,12 +2,17 @@ package com.base.service;
 
 import com.base.model.JDepartmentvisitor;
 import com.base.model.JVisitor;
+import com.base.query.DepartmentQuery;
+import com.base.query.DepartmentVisitorQuery;
 import com.base.query.VisitorQuery;
+import com.base.utils.AttachmentUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinal.upload.UploadFile;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -73,5 +78,72 @@ public class VisitorService {
             return departmentvisitor.save();
         }
         return false;
+    }
+
+    public JVisitor findByVisitorName(String visitorname){
+        return VisitorQuery.me().findByVisitorName(visitorname);
+    }
+
+    /**
+     * @MethodName: isExists
+     * @Description: 判断访客是否存在
+     * @param visitorname 访客用户名
+     * @return: boolean
+     */
+    public boolean isExists(String visitorname){
+        JVisitor visitor = VisitorQuery.me().findByVisitorName(visitorname);
+        if(null==visitor)
+            return false;
+        return true;
+    }
+
+    @Before(Tx.class)
+    public boolean editVisitorSave(JVisitor visitor, UploadFile uploadFile,Integer departmentId){
+        //修改visitor
+        JVisitor temp = VisitorService.me().findVisitorById(visitor.getId());
+        temp.setVisitorname(visitor.getVisitorname());
+        temp.setRelname(visitor.getRelname());
+        temp.setEmail(visitor.getEmail());
+        temp.setGender(visitor.getGender());
+        temp.setMobile(visitor.getMobile());
+        if (null != uploadFile) {
+            String newPath = AttachmentUtils.moveFile(uploadFile,"avatar");
+            visitor.setAvatar(newPath);
+            //logger.info(newPath);
+            temp.setAvatar(visitor.getAvatar());
+        }
+        boolean b = temp.update();
+        //清除缓存
+//        CacheKit.remove("visitor", temp.getId());
+        //修改新的关联关系
+        if(b){
+            JDepartmentvisitor departmentvisitor = DepartmentVisitorQuery.me().findByVisitorId(visitor.getId());
+            departmentvisitor.setDepartmentId(departmentId);
+            return  departmentvisitor.update();
+        }
+        return false;
+    }
+
+    public boolean delByVisitorId(Integer visitorId){
+        //删除自己
+        boolean b = VisitorQuery.me().delById(visitorId);
+        if(b){
+            //清除缓存
+//            CacheKit.remove("visitor",visitorId);
+            //删除关联关系
+            DepartmentVisitorQuery.me().delByVisitorId(visitorId);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean login(JVisitor visitor,String password){
+        //匹配密码
+        if(!EncryptUtils.verlifyUser(visitor.getPassword(),visitor.getSalt(),password)){
+            return false;
+        }
+        visitor.setLogined(DateTime.now().toDate());
+        visitor.saveOrUpdate();
+        return true;
     }
 }

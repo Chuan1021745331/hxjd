@@ -44,6 +44,10 @@ public class DepartmentQuery {
         return DAO.findFirst("select d.* from j_department d join j_departmentuser du on d.id=du.departmentId where du.userId="+userId);
     }
 
+    public JDepartment findByVisitorId(int visitorId){
+        return DAO.findFirst("select d.* from j_department d join j_departmentvisitor dv on d.id=dv.departmentId where dv.visitorId="+visitorId);
+    }
+
     public Long findCountPositionBydepartmentId(int departmentId){
         return Db.queryLong("select count(*) from j_department where parentId="+departmentId+" and type="+JDepartment.TYPE_POSITION);
     }

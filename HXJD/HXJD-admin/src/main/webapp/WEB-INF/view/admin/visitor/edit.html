@@ -2,15 +2,15 @@
 active_id="dashboard">
 <script src="${CPATH}/plus/jquery.form.min.js"></script>
 
-<form class="layui-form" id="myForm" action="${BPATH}/admin/user/editSave" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
-	<input type="hidden" name="jUser.id" value="<#if user??>${user.id}</#if>">
+<form class="layui-form" id="myForm" action="${BPATH}/admin/visitor/editSave" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="jVisitor.id" value="<#if visitor??>${visitor.id}</#if>">
 	
 	<div class="layui-form-item">
 		<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
 			<div class="layui-input-inline">
-				<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
+				<img src="${BPATH}<#if (visitor.avatar)??>${visitor.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;" id="imgsrc" onclick="F_Open_dialog()"/>
 				<!--存放图片路径,提交页面时传给后台的值-->
-				<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${_user.avatar!}'/>
+				<input id='imgurl' type='hidden' name="imgurl" style="height:30px;width:100%" value='${visitor.avatar!}'/>
 				<input type="file" class="upload" name="file" id="upfile" style="position: absolute; filter: alpha(opacity = 0);opacity: 0;width: 30px;"/>
 			</div>
   	</div>
@@ -18,53 +18,27 @@ active_id="dashboard">
 	<div class="layui-form-item">
 		<label class="layui-form-label">用户名</label>
 		<div class="layui-input-inline">
-			<input type="text" name="jUser.username" required lay-verify="required"
+			<input type="text" name="jVisitor.visitorname" required lay-verify="required"
 				autocomplete="off" class="layui-input"
-				value="<#if user??>${user.username!}</#if>">
-		</div>
-	</div>
-		<div class="layui-form-item">
-		<label class="layui-form-label">昵称</label>
-		<div class="layui-input-inline">
-			<input type="text" name="jUser.nickname" required lay-verify="required"
-				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
-				value="<#if user??>${user.nickname!}</#if>">
+				value="<#if visitor??>${visitor.visitorname!}</#if>">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">真实姓名</label>
 		<div class="layui-input-inline">
-			<input type="text" name="jUser.relname" required lay-verify="required"
+			<input type="text" name="jVisitor.relname" required lay-verify="required"
 				 autocomplete="off" class="layui-input"
-				value="<#if user??>${user.relname!}</#if>">
+				value="<#if visitor??>${visitor.relname!}</#if>">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">性别</label>		
 		<div class="layui-input-inline" >	
-			<input type="radio" name="jUser.gender" value="1" required lay-verify="required" <#if user.gender??><#if user.gender == "1">checked="checked"</#if></#if> title="男"> 
-			<input type="radio" name="jUser.gender" value="0" required lay-verify="required" <#if user.gender??><#if user.gender == "0">checked="checked"</#if></#if> title="女"> 
+			<input type="radio" name="jVisitor.gender" value="1" required lay-verify="required" <#if visitor.gender??><#if visitor.gender == "1">checked="checked"</#if></#if> title="男">
+			<input type="radio" name="jVisitor.gender" value="0" required lay-verify="required" <#if visitor.gender??><#if visitor.gender == "0">checked="checked"</#if></#if> title="女">
 		</div>
 	</div>
 
-	<div class="layui-form-item">
-    	<label class="layui-form-label">角色选择</label>
-    	<div class="layui-input-inline">
-      		
-      		<#if user.role??>
-				<input type="text" class="layui-input inputNone" style="color: red;" value="超级管理员" readonly = "readonly">
-					<#else>
-						<select name="role"  class="">
-							<option value="0" data-position="0">未选择</option>
-								<#if roles??>
-									<#list roles as bean>
-										<option value="${bean.id!}" data-position="${bean.id!}" <#if role??> <#if role.id==bean.id>selected="selected"</#if></#if>>${bean.name!}</option>
-									</#list>
-								</#if>
-						</select>
-			</#if>
-    	</div>
-    </div>
 	<div id="selector" class="layui-form-item">
 		<label class="layui-form-label">部门职称</label>
 			<div style="display: none">
@@ -77,17 +51,17 @@ active_id="dashboard">
 	<div class="layui-form-item">
 		<label class="layui-form-label">电子邮箱</label>
 		<div class="layui-input-inline">
-			<input type="email" name="jUser.email" required lay-verify="required"
+			<input type="email" name="jVisitor.email" required lay-verify="required"
 				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
-				value="<#if user??>${user.email!}</#if>">
+				value="<#if visitor??>${visitor.email!}</#if>">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">联系电话</label>
 		<div class="layui-input-inline">
-			<input type="text" name="jUser.mobile" required lay-verify="required"
+			<input type="text" name="jVisitor.mobile" required lay-verify="required"
 				placeholder="请输入功能链接" autocomplete="off" class="layui-input"
-				value="<#if user??>${user.mobile!}</#if>">
+				value="<#if visitor??>${visitor.mobile!}</#if>">
 		</div>
 	</div>
 	

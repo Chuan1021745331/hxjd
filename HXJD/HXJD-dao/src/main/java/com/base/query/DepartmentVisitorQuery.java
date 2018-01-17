@@ -1,6 +1,7 @@
 package com.base.query;
 
 import com.base.model.JDepartmentvisitor;
+import com.jfinal.plugin.activerecord.Db;
 
 /**
  * All rights Reserved, Designed By hxjd
@@ -19,7 +20,19 @@ import com.base.model.JDepartmentvisitor;
 public class DepartmentVisitorQuery {
     private final static JDepartmentvisitor DAO=new JDepartmentvisitor();
     private final static DepartmentVisitorQuery QUERY=new DepartmentVisitorQuery();
-    public DepartmentVisitorQuery me(){
+    public static DepartmentVisitorQuery me(){
         return QUERY;
+    }
+
+    public JDepartmentvisitor findByVisitorId(int visitorId){
+        return DAO.findFirst("select * from j_departmentvisitor where visitorId="+visitorId);
+    }
+
+    public long findCountByDepartmentId(int departmentId){
+        return Db.queryLong("select count(*) from j_departmentvisitor where departmentId="+departmentId);
+    }
+
+    public int delByVisitorId(int visitorId){
+        return DAO.doDelete("visitorId="+visitorId);
     }
 }

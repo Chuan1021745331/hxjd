@@ -1,6 +1,7 @@
 package com.base.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JDepartment;
@@ -49,7 +50,7 @@ public class DepartmentController extends BaseController{
         boolean canDel = DepartmentService.me().isCanDel(Integer.parseInt(id));
         //不能删除
         if(!canDel){
-            renderAjaxResultForError("该部门或子部门还有用户关联,请先删除或修改用户!!!");
+            renderAjaxResultForError(MessageConstants.DEPARTMENt_DEL_DEFEAT);
             return;
         }
         boolean flag = DepartmentService.me().delTree(Integer.parseInt(id));
@@ -66,7 +67,7 @@ public class DepartmentController extends BaseController{
         if(null==department){
             department=new JDepartment();
             department.setId(0);
-            department.setName("总部");
+            department.setName("根节点");
         }
         this.setAttr("department",department);
         render("departmentAdd.html");
@@ -142,7 +143,7 @@ public class DepartmentController extends BaseController{
         if(null==department){
             department=new JDepartment();
             department.setId(0);
-            department.setName("总部");
+            department.setName("根节点");
         }
         setAttr("department",department);
         renderTable("positionAdd.html");
@@ -173,7 +174,7 @@ public class DepartmentController extends BaseController{
         boolean canDel = DepartmentService.me().isCanDel(id);
         //如果不能删除
         if(!canDel){
-            renderAjaxResultForError("该职位还有用户关联,请先删除或修改用户!!!");
+            renderAjaxResultForError(MessageConstants.POSITION_DEL_DEFEAT);
             return ;
         }
         boolean flag = position.delete();

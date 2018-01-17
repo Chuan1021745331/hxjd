@@ -1,8 +1,10 @@
 package com.base.web.controller.web;
 
+import com.base.model.JVisitor;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.UserService;
+import com.base.service.VisitorService;
 import com.base.utils.CookieUtils;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Clear;
@@ -34,26 +36,30 @@ public class IndexController extends BaseController {
 	
 	@Clear(WebInterceptor.class)
 	public void login() {
-		String username = getPara("username");
+		String visitorname = getPara("username");
 		String password = getPara("password");
-		
-		if (!StringUtils.areNotEmpty(username, password)) {
+		if (!StringUtils.areNotEmpty(visitorname, password)) {
 			render("login.html");
 			return;
 		}
-		JUser user = UserService.me().findUserByUserName(username);
-		if (null == user) {
+		JVisitor visitor = VisitorService.me().findByVisitorName(visitorname);
+		if(null==visitor){
 			renderAjaxResultForError(MessageConstants.USER_NULL);
-			return;
+			return ;
 		}
-		
-		boolean a =  UserService.me().login(user, password);
-		if(a){
-			MessageKit.sendMessage(Actions.USER_LOGINED, user);
-			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
+		boolean b = VisitorService.me().login(visitor, password);
+		if(b){
+			MessageKit.sendMessage(Actions.VISITOR_LOGINED, visitor);
+			CookieUtils.put(this, Consts.COOKIE_LOGINED_VISITOR, visitor.getId().toString());
 			renderAjaxResultForSuccess(MessageConstants.USER_SUCCESS);
-		} else {
+		}else {
 			renderAjaxResultForError(MessageConstants.PASS_ERROR);
 		}
+	}
+
+	@Clear(WebInterceptor.class)
+	public void logout() {
+		CookieUtils.remove(this, Consts.COOKIE_LOGINED_VISITOR);
+		redirect("/login");
 	}
 }

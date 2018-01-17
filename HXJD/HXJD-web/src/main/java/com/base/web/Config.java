@@ -5,6 +5,7 @@ import com.base.core.JBaseConfig;
 import com.base.core.db.DbDialectFactory;
 import com.base.im.server.IMServerStarter;
 import com.base.interceptor.WebInterceptor;
+import com.base.query.OptionQuery;
 import com.base.utils.StringUtils;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
@@ -40,6 +41,13 @@ public class Config extends JBaseConfig {
 	 */
 	@Override
 	public void onJfinalStartAfter() {
+		log.info("载入配置缓存。。。");
+		try {
+			OptionQuery.me().optionCacheAll();
+			log.info("配置缓存载入成功。。。");
+		} catch (Exception e) {
+			log.debug("配置缓存载入失败。。。");
+		}
 		searcherConfig();
 	}
 

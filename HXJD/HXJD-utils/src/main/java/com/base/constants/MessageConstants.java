@@ -28,7 +28,11 @@ public class MessageConstants {
 	public static final String PASS_INCONFORMITY="两次密码不一致，请确认后输入";
 	
 	public static final String PASS_ERROR="用户名和密码无法匹配!";
-	
+
+	public static final String DEPARTMENt_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";
+
+	public static final String POSITION_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";
+
 	public static final String ADD_SUCCESS = "数据新增成功!";
 
 	public static final String ADD_DEFEAT = "数据新增失败!";

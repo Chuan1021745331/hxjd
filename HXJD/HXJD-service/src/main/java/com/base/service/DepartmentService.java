@@ -5,6 +5,7 @@ import com.base.model.dto.MenuSimpDto;
 import com.base.model.dto.TreeSimpDto;
 import com.base.query.DepartmentQuery;
 import com.base.query.DepartmentUserQuery;
+import com.base.query.DepartmentVisitorQuery;
 import com.base.query.UserQuery;
 import com.jfinal.plugin.activerecord.Record;
 
@@ -86,6 +87,10 @@ public class DepartmentService {
         return DepartmentQuery.me().findByUserId(userId);
     }
 
+    public JDepartment findDepartmentByVisitorId(Integer visitorId){
+        return DepartmentQuery.me().findByVisitorId(visitorId);
+    }
+
     public List<JDepartment> getChildren(int departmentId){
         return DepartmentQuery.me().findByParentId(departmentId);
     }
@@ -106,7 +111,7 @@ public class DepartmentService {
             dtt.setScore(department.getType()+"");
         }else{
             dtt.setId("0");
-            dtt.setName("总部");
+            dtt.setName("根节点");
         }
         List<TreeSimpDto> treeChildren= new ArrayList<>();
         if(children.size()>0){
@@ -145,7 +150,7 @@ public class DepartmentService {
         if(departmentId==0){
             department =new JDepartment();
             department.setId(0);
-            department.setName("总部");
+            department.setName("根节点");
             parents.add(department);
             return;
         }
@@ -179,8 +184,12 @@ public class DepartmentService {
     public boolean isCanDel(Integer departmentId){
         JDepartment department = DepartmentQuery.me().findById(departmentId);
         List<JDepartment> departmentList = DepartmentQuery.me().findByParentId(departmentId);
-        if(departmentList.size()<=0)
-            return DepartmentUserQuery.me().findCountByDepartmentId(departmentId)<=0;
+        if(departmentList.size()<=0){
+            //查看与部门关联的用户，有:返回false,无:返回true
+            long countDU = DepartmentUserQuery.me().findCountByDepartmentId(departmentId);
+            long countDV = DepartmentVisitorQuery.me().findCountByDepartmentId(departmentId);
+            return countDU==0&&countDV==0;
+        }
         else{
             for(JDepartment d:departmentList){
                 if(!isCanDel(d.getId()))

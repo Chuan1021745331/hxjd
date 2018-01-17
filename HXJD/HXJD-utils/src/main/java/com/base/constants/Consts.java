@@ -3,6 +3,7 @@ package com.base.constants;
 public class Consts {
 	
 	public static final String COOKIE_LOGINED_USER = "user";
+	public static final String COOKIE_LOGINED_VISITOR = "visitor";
 	public static final String CHARTSET_UTF8 = "UTF-8";
 	
 	public static final int ERROR_CODE_NOT_VALIDATE_CAPTHCHE = 1;

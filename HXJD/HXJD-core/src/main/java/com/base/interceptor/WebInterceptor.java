@@ -1,11 +1,15 @@
 package com.base.interceptor;
 
+import com.base.model.JDepartment;
 import com.base.model.JMenu;
 import com.base.model.JUser;
+import com.base.model.JVisitor;
 import com.base.model.dto.MenuDto;
 import com.base.query.MenuQuery;
+import com.base.service.DepartmentService;
 import com.base.service.MenuService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.base.constants.UserConstants;
@@ -24,39 +28,19 @@ public class WebInterceptor implements Interceptor {
 		String target = controller.getRequest().getRequestURI();
 		String cpath = controller.getRequest().getContextPath();
 		
-//		if (!target.startsWith(cpath + "/web")) {
-//			inv.invoke();
-//			return;
-//		}
-		JUser user = InterUtils.tryToGetUser(inv);
-		if (user != null) {
-			List<MenuDto> m = CacheKit.get("menu", user.getUsername());
-			if(null == m){
-				m = MenuService.me().getMenus(user);
-				CacheKit.put("menu", user.getUsername(),m);
+		JVisitor visitor=InterUtils.tryToGetVisitor(inv);
+		if (visitor != null) {
+			JDepartment position = DepartmentService.me().findDepartmentByVisitorId(visitor.getId());
+			List<JDepartment> parents = new ArrayList<>();
+			if(null!=position){
+				parents=DepartmentService.me().getParents(position.getParentId());
 			}
-			String reUrl="";
-			List<JMenu> menuAll = MenuQuery.me().getAll();
-			for (JMenu m_ : menuAll) {
-				if(StringUtils.isNotEmpty(m_.getUrl())){
-					if(target.contains(m_.getUrl())){
-						reUrl=m_.getUrl();
-						continue;
-					}
-				}
-			}
-			
-			
-			controller.setAttr(UserConstants.ATT_USER, user);
-			controller.setAttr(UserConstants.ATT_MENUS, m);
-			
-			
-			
-			controller.setAttr("ucode", EncryptUtils.generateUcode(user.getId().toString(),user.getSalt()));
+			controller.setAttr(UserConstants.ATT_USER, visitor);
+			controller.setAttr("position",position);
+			controller.setAttr("parents",parents);
+			controller.setAttr("ucode", EncryptUtils.generateUcode(visitor.getId().toString(),visitor.getSalt()));
 			controller.setAttr("sys_title", CacheKit.get("option", "sys_title"));
 			controller.setAttr("copyright", CacheKit.get("option", "copyright"));
-			controller.setAttr("admin_top_title", CacheKit.get("option", "admin_top_title"));
-			controller.setAttr("reUrl", cpath+"/"+reUrl);
 			inv.invoke();
 			return;
 		}
