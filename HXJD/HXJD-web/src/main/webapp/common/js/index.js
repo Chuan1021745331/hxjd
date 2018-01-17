@@ -92,9 +92,9 @@ function drawChart() {
 		return;
 	}
 	// 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var myChart1 = echarts.init(document.getElementById('main1'));
-    var myChart2 = echarts.init(document.getElementById('main2'));
+    var myChart = echarts.init(document.getElementById('main'),'shine');
+    var myChart1 = echarts.init(document.getElementById('main1'),'shine');
+    var myChart2 = echarts.init(document.getElementById('main2'),'shine');
 
 	option = {
 	    title: {

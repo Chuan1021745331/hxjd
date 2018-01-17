@@ -36,6 +36,7 @@
 .layui-header {
 	height: 60px;
 	background-color: #3F51B5 !important;
+	box-shadow: 0px 0px 10px #000;
 }
 
 .layui-layout-admin .layui-logo {
@@ -57,9 +58,13 @@
 	line-height: 60px;
 }
 
+.layui-side-scroll {
+	width: 200px;
+}
+
 .layui-side-right {
 	top: 60px;
-	width: 180px;
+	width: 150px;
 	right: 0px;
 	overflow-x: hidden;
 	position: fixed;
@@ -83,10 +88,11 @@
 	border-left: 1px solid #ccc !important;
 	color: #000 !important;
 	font-size: 13px;
+	box-shadow: 0px 0px 10px #000
 }
 
 .layui-side-right .layui-btn {
-	width: 160px;
+	width: 130px;
 	margin-left: 10px;
 	margin-bottom: 5px;
 	height: 30px;
@@ -195,7 +201,9 @@
 	background-color: #fff;
 	text-align: center;
 	font-size: 12px;
+	box-shadow: 0px 0px 10px #000;
 }
+
 .layui-bottom i {
 	height: 30px;
 	display: block;

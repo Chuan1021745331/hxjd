@@ -36,18 +36,25 @@ body{height:100%;margin:0px;padding:0px}
 		var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],anchor: BMAP_ANCHOR_TOP_LEFT});
 
 		var map = new BMap.Map("container");
-		var point = new BMap.Point(116.404, 39.915);
+		var point = new BMap.Point(106.545474,29.601621);
 		
 		map.enableScrollWheelZoom(true);
-		map.centerAndZoom(point, 15);
+		map.centerAndZoom(point, 13);
 
 		map.addControl(mapType1);          //2D图，卫星图
 		
 		var polyline = new BMap.Polyline([
-			new BMap.Point(116.399, 39.910),
-			new BMap.Point(116.405, 39.920),
-			new BMap.Point(116.423493, 39.907445)
-		], {strokeColor:"#00FF00", strokeWeight:8, strokeOpacity:0.9});   //创建折线
+			new BMap.Point(106.55562,29.60744),
+			new BMap.Point(106.555624,29.606738),
+			new BMap.Point(106.555615,29.606724),
+			new BMap.Point(106.555571,29.606182),
+			new BMap.Point(106.55531,29.605499),
+			new BMap.Point(106.55531,29.605499),
+			new BMap.Point(106.554376,29.604997),
+			new BMap.Point(106.55063,29.604989),
+			new BMap.Point(106.548645,29.605154),
+			new BMap.Point(106.542051,29.606284)
+		], {strokeColor:"#00FF00", strokeWeight:8, strokeOpacity:1});   //创建折线
 		map.addOverlay(polyline);   //增加折线
 	</script>  
 </body>
