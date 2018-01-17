@@ -1,0 +1,33 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+    <input type="hidden" name="jDepartment.id" value="<#if department??>${department.id}</#if>">
+    <input type="hidden" name="jDepartment.parentId" value="<#if department??>${department.parentId}</#if>">
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属工点</label>
+        <#list parents as pdepartment>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+
+            </div>
+            <#if (pdepartment_index!=parents.size()-1)>
+                <div class="layui-form-mid">——></div>
+            </#if>
+        </#list>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" readonly value="<#if department??>${department.name!}</#if>">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <#if department??&&department.state==1>
+            <div class="layui-input-inline" style="width: 100px;"><input type="text" class="layui-input" style="color: #009688;font-weight: bolder;" value="开放" readonly = "readonly"></div>
+            <#else>
+                <div class="layui-input-inline" style="width: 100px;"><input type="text" class="layui-input" style="color: #009688;font-weight: bolder;" value="关闭" readonly = "readonly"></div>
+        </#if>
+    </div>
+</form>
+</@layout>
