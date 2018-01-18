@@ -20,4 +20,6 @@ public class UserConstants {
 	public static final String ATT_MENUS="_menus";
 	
 	public static final String CURRENT_DRILL="_drill";
+
+	public static final String ATT_VISITOR="_visitor";
 }

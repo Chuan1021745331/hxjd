@@ -30,11 +30,9 @@ active_id="dashboard">
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">状态</label>
-		<div class="layui-input-inline">
-			<select name="jDepartment.state" lay-verify="" value="0">
-				<option value="1" <#if ((department.state) ==1)>selected="selected"</#if>>开放</option>
-				<option value="0" <#if ((department.state) ==0)>selected="selected"</#if>>关闭</option>
-			</select>
+		<div class="layui-input-block">
+			<input type="radio" name="jDepartment.state" value="1" title="开放"checked="">
+			<input type="radio" name="jDepartment.state" value="0" title="关闭">
 		</div>
 	</div>
 	<div class="layui-form-item">

@@ -73,10 +73,7 @@ layui.use( ['table','common'], function(){
 		var log, className = "dark";
 		function beforeClick(treeId, treeNode) {
 			var check = (treeNode && !treeNode.isParent);
-            if(treeNode.id==0){
-                top.parent.MSG(2, "根节点不具备该功能");
-            }
-			
+
 		}
 		function showRemoveBtn(treeId, treeNode) {
 			if(treeNode.id==0){
@@ -106,7 +103,12 @@ layui.use( ['table','common'], function(){
 			$("#hiddenValue").attr("value", treeNode.id);
 			tempData=null;
 			where= treeNode.id;
-			t.reload({
+            if(treeNode.id==0){
+                top.parent.MSG(2, "根节点不具备该功能");
+                return;
+            }
+
+            t.reload({
 				page: {
 			        curr: 1 //重新从第 1 页开始
 			    },
@@ -189,6 +191,18 @@ layui.use( ['table','common'], function(){
                     zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
                     console.log("树形数据");
                     console.log(data);
+                    //默认显示根节点第一个子部门的职位
+                    if(data.children.length>0){
+                        $("#hiddenValue").val(data.children[0].id);
+                        t.reload({
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            },
+                            where: { //设定异步数据接口的额外参数，任意设
+                                menuId: $("#hiddenValue").val()
+                            }
+                        })
+                    }
                     zTree.expandAll(true);
                 }
             });
@@ -201,6 +215,9 @@ layui.use( ['table','common'], function(){
 		id:'positionData'
 		,${tableBase}												//基础属性
 		,url:'${BPATH}/admin/department/positionData'							//数据地址
+		,where: { 													//设定异步数据接口的额外参数，任意设
+			menuId: $("#hiddenValue").val()
+		}
 	  	,elem: '#positionData' 											//指定原始表格元素选择器（推荐id选择器）
 	  	,height: 'full-105' 											//容器高度，高度最大化减去差值
 	  	,cols: [[
@@ -221,7 +238,12 @@ layui.use( ['table','common'], function(){
 	active = {
     	<!-- 新增操作 -->
       	add:function(){
-      		common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/department/addPosition?departmentId='+$("#hiddenValue").val());
+    	    var departmentId=$("#hiddenValue").val();
+    	    if(departmentId==0){
+                top.parent.MSG(2, "根节点不具备该功能");
+    	        return;
+			}
+      		common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/department/addPosition?departmentId='+departmentId);
       	},
       	<!-- 修改操作 -->
       	edit:function(){

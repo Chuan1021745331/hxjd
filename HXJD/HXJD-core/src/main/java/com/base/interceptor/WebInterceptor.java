@@ -35,7 +35,7 @@ public class WebInterceptor implements Interceptor {
 			if(null!=position){
 				parents=DepartmentService.me().getParents(position.getParentId());
 			}
-			controller.setAttr(UserConstants.ATT_USER, visitor);
+			controller.setAttr(UserConstants.ATT_VISITOR, visitor);
 			controller.setAttr("position",position);
 			controller.setAttr("parents",parents);
 			controller.setAttr("ucode", EncryptUtils.generateUcode(visitor.getId().toString(),visitor.getSalt()));

@@ -146,4 +146,17 @@ public class VisitorService {
         visitor.saveOrUpdate();
         return true;
     }
+
+    public boolean editPassword(JVisitor visitor,String oldPassword,String newPassword){
+        String salt = visitor.getSalt();
+        String oldPasswordEn=EncryptUtils.encryptPassword(oldPassword, salt);
+        String newPasswordEn = EncryptUtils.encryptPassword(newPassword, salt);
+        //匹配密码
+        if(!visitor.getPassword().equals(oldPasswordEn)){
+            return false;
+        }
+        visitor.setPassword(newPasswordEn);
+        visitor.saveOrUpdate();
+        return true;
+    }
 }

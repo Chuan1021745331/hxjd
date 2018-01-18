@@ -86,6 +86,54 @@ layui.use(['jquery', 'layer', 'element'], function() {
 			}
 		}
 	});
+	$("#user-sel").click(function (){
+        var index = layer.open({
+            type: 2 ,
+            title: '访客详情',
+            content: bpath+"/visitor/sel?id="+visitorId,
+            resize: false,
+            area: ['30%', '86%'],
+            anim: Math.ceil(Math.random() * 6),
+            success : function(layero, index){
+                setTimeout(function(){
+                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                },500)
+            }
+        });
+	});
+    $("#user-edit").click(function (){
+        var index = layer.open({
+            type: 2 ,
+            title: '修改密码',
+            content: bpath+"/visitor/edit?id="+visitorId,
+            resize: false,
+            area: ['30%', '30%'],
+            anim: Math.ceil(Math.random() * 6),
+            success : function(layero, index){
+                setTimeout(function(){
+                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                },500);
+            }
+        });
+    });
+    $("#user-logout").click(function (){
+        layer.confirm('是否确认退出',{
+            icon: 3,
+            skin:'zero-green',
+            title: "退出登录",
+            offset: '200px',
+            closeBtn: 0,
+            skin: 'layui-layer-molv',
+            anim: Math.ceil(Math.random() * 6),
+            btn: ['确定', '取消']
+		},function () {
+			window.location.href=bpath+'/logout';
+        });
+    });
 });
 function drawChart() {
 	if(type==1){
