@@ -29,4 +29,17 @@ public class WorkSiteQuery {
     public List<JWorksite> findAllCircuit(){
         return DAO.find("SELECT * FROM j_worksite");
     }
+
+    public List<JWorksite> findByCirciuteId(int id){
+        return DAO.find("select * from j_worksite where circuitid="+id);
+    }
+
+    /**
+     * 删除工点byId
+     * @param id
+     * @return
+     */
+    public boolean delWorksiteById(int id){
+        return DAO.deleteById(id);
+    }
 }

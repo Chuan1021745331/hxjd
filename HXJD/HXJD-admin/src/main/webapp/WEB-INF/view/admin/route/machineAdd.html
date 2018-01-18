@@ -1,38 +1,38 @@
 <#include "../../_include/_layout.inc.tag"/> <@layout
 active_id="dashboard">
 <form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
-    <input type="hidden" name="jRoute.parent" value="<#if route??>${route.id}</#if>">
+    <input type="hidden" name="jTbm.worksiteid" value="<#if worksite??>${worksite.id}</#if>">
     <div class="layui-form-item">
-        <label class="layui-form-label">所属<#if route??><#if route.type == -1>节点 <#elseif route.type == 0>线路<#elseif route.type == 1>工点 <#else>盾构机</#if></#if></label>
+        <label class="layui-form-label">所属工点</label>
         <div class="layui-input-inline">
             <input type="text" required lay-verify="required"
                    placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
-                   value="<#if route??>${route.name}</#if>"
+                   value="<#if worksite??>${worksite.name}</#if>"
                    id="routeSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">名称</label>
         <div class="layui-input-inline">
-            <input type="text" name="jRoute.name" required lay-verify="required"
-                   placeholder="请输入<#if route??><#if route.type == -1>线路 <#else>工点</#if></#if>名称" autocomplete="off" class="layui-input">
+            <input type="text" name="jTbm.name" required lay-verify="required"
+                   placeholder="请输入盾构机名称" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">详细描述</label>
+        <label class="layui-form-label">盾构机编码</label>
         <div class="layui-input-inline">
-            <textarea  name="jRoute.general" placeholder="请输入内容" class="layui-textarea"></textarea>
+            <input type="text" name="jTbm.code" required lay-verify="required"
+                   placeholder="请输入盾构机编码" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--<div class="layui-form-item">
-        <label class="layui-form-label">状态</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户端Mac地址</label>
         <div class="layui-input-inline">
-            <select name="jDepartment.state" lay-verify="">
-                <option value="1" selected>开放</option>
-                <option value="0">关闭</option>
-            </select>
+            <input type="text" name="jTbm.mac" required lay-verify="required"
+                   placeholder="请输入推流计算机Mac地址" autocomplete="off" class="layui-input">
         </div>
-    </div>-->
+    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
@@ -49,7 +49,7 @@ active_id="dashboard">
     layui.use(['form','common'], function() {
         var form = layui.form,
             common = layui.common;
-        common.formSubmit('formDemo',bpath+'/admin/route/saveAndUpdateRoute');
+        common.formSubmit('formDemo',bpath+'/admin/route/saveAndUpdateTbm');
     });
 </script>
 </@layout>

@@ -48,8 +48,8 @@
                     editNameSelectAll: true,
                     showRemoveBtn: showRemoveBtn,
                     showRenameBtn: showRenameBtn,
-                    removeTitle: "删除部门",
-                    renameTitle: "编辑部门"
+                    removeTitle: "删除节点",
+                    renameTitle: "编辑节点"
                 },
                 data: {
                     simpleData: {
@@ -128,8 +128,9 @@
                 return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
             }
             function onRemove(e, treeId, treeNode) {
+                var level = treeNode.level;
                 $.ajax({
-                    url : bpath + "/admin/department/delTree?id="+treeNode.id,
+                    url : bpath + "/admin/route/delTreeNode?id="+treeNode.id+"&level="+level,
                     type : 'get',
                     dataType : 'json',
                     success : function(json) {
@@ -150,7 +151,7 @@
                     setTimeout(function() {
                         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                         zTree.cancelEditName();
-                        alert("节点名称不能为空.");
+//                        alert("节点名称不能为空.");
                     }, 0);
                     return false;
                 }
@@ -213,14 +214,14 @@
         t = table.render({
                 id:'positionData'
                 ,${tableBase}												//基础属性
-            ,url:'${BPATH}/admin/route/machineData'							//数据地址
+            ,url:'${BPATH}/admin/route/tbmData'							//数据地址
             ,elem: '#positionData' 											//指定原始表格元素选择器（推荐id选择器）
             ,height: 'full-105' 											//容器高度，高度最大化减去差值
             ,cols: [[
             {type:'checkbox'},
             {${thBase},title:'ID',field:'id', width:80, sort: true},
-        {${thBase},title:'盾构机名称',field:'name'}
-//        {${thBase},title:'盾构机名称',field:'name'}
+        {${thBase},title:'盾构机名称',field:'name'},
+        {${thBase},title:'盾构机编码',field:'code'}
 
         ]],
         done: function(res, curr, count){
@@ -234,7 +235,7 @@
         active = {
             <!-- 新增操作 -->
             add:function(){
-                common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/department/addPosition?departmentId='+$("#hiddenValue").val());
+                common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/route/addTbm?workSiteId='+$("#hiddenValue").val());
             },
             <!-- 修改操作 -->
             edit:function(){
@@ -242,7 +243,7 @@
                     top.parent.MSG(2, "请选择一条数据");
                     return false;
                 }
-                common.tableOpenLayer('职位编辑','icon-bianji',bpath+'/admin/department/editPosition?id='+tempData.id);
+                common.tableOpenLayer('职位编辑','icon-bianji',bpath+'/admin/route/tbmEdit?id='+tempData.id);
             },
             <!-- 查询操作 -->
             sel:function(){
@@ -250,7 +251,7 @@
                     top.parent.MSG(2, "请选择一条数据");
                     return false;
                 }
-                common.tableOpenLayer('职位详情','icon-xiangqing',bpath+'/admin/department/selPosition?id='+tempData.id);
+                common.tableOpenLayer('职位详情','icon-xiangqing',bpath+'/admin/route/selTbm?id='+tempData.id);
             },
             <!-- 删除操作 -->
             del:function() {
@@ -258,7 +259,7 @@
                     top.parent.MSG(2, "请选择一条数据");
                     return false;
                 }
-                common.zeroCmsConfirm('是否确认删除',bpath+'/admin/department/delPosition?id='+tempData.id);
+                common.zeroCmsConfirm('是否确认删除',bpath+'/admin/route/delTbm?id='+tempData.id);
             }
 
         };

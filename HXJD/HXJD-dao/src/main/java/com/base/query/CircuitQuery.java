@@ -28,4 +28,8 @@ public class CircuitQuery {
     public List<JCircuit> findAllCircuit(){
         return DAO.find("SELECT * FROM j_circuit");
     }
+
+    public boolean delCircuitById(int id){
+        return DAO.deleteById(id);
+    }
 }
