@@ -218,7 +218,6 @@
             ,elem: '#positionData' 											//指定原始表格元素选择器（推荐id选择器）
             ,height: 'full-105' 											//容器高度，高度最大化减去差值
             ,cols: [[
-            {type:'checkbox'},
             {${thBase},title:'ID',field:'id', width:80, sort: true},
         {${thBase},title:'盾构机名称',field:'name'},
         {${thBase},title:'盾构机编码',field:'code'}
@@ -251,7 +250,7 @@
                     top.parent.MSG(2, "请选择一条数据");
                     return false;
                 }
-                common.tableOpenLayer('职位详情','icon-xiangqing',bpath+'/admin/route/selTbm?id='+tempData.id);
+                common.tableOpenLayer('盾构机详情','icon-xiangqing',bpath+'/admin/route/selTbm?id='+tempData.id);
             },
             <!-- 删除操作 -->
             del:function() {

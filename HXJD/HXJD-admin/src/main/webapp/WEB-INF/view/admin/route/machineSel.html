@@ -1,5 +1,7 @@
 <#include "../../_include/_layout.inc.tag"/> <@layout
 active_id="dashboard">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
 <form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
     <input type="hidden" name="jTbm.worksiteid" value="<#if worksite??>${worksite.id}</#if>">
     <input type="hidden" name="jTbm.id" value="<#if tbm??>${tbm.id}</#if>">
@@ -33,14 +35,181 @@ active_id="dashboard">
     <div class="layui-form-item">
         <label class="layui-form-label">盾构机编码</label>
         <div class="layui-input-inline">
-            <input type="text" required value="<#if tbm??>${tbm.code!}</#if>"  class="layui-input">
+            <input type="text" readonly value="<#if tbm??>${tbm.code!}</#if>"  class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">客户端Mac地址</label>
         <div class="layui-input-inline">
-            <input type="text" required value="<#if tbm??>${tbm.mac!}</#if>"  class="layui-input">
+            <input type="text" readonly value="<#if tbm??>${tbm.mac!}</#if>"  class="layui-input">
         </div>
     </div>
 </form>
+<!--添加摄像头-->
+<div class="layui-row ms-margin-left-2rem">
+    <button id="addCamera" class="layui-btn">
+        <i class="layui-icon">&#xe608;</i> 添加摄像头
+    </button>
+</div>
+<hr class="layui-bg-gray">
+<!--展示摄像头-->
+<div id="showCamera" class="sm-width-70-per sm-layout-center-vertical">
+<#if cameras??>
+    <#list cameras as camera>
+        <div class="sm-width-70-per sm-height-8-per  ms-padding-left-3rem ms-margin-top-1rem ms-layout-center-horizontal">
+             <div id="cameraName${camera.id!}" class="ms-width-20-per">${camera.name!}</div>
+             <div id="cameraRtsp${camera.id!}" class="ms-width-60-per">${camera.rtsp!}</div>
+             <div class="ms-width-20-per">
+                 <button data="${camera.id!}" class="editCamera layui-btn layui-btn-sm layui-btn-primary">
+                     <i class="layui-icon">&#xe642;</i>
+                 </button>
+             </div>
+        </div>
+    </#list>
+</#if>
+</div>
+<!--添加摄像头模态框-->
+<div id="addCameraDiv" hidden>
+    <form class="layui-form " action="" style="margin: 10px 10px 0px 10px;">
+        <input type="hidden" name="jCamera.tbmid" value="<#if tbm??>${tbm.id}</#if>">
+        <div class="layui-form-item">
+            <label class="layui-form-label">摄像头名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="jCamera.name" required lay-verify="required"
+                       placeholder="请输入摄像头名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">rtsp</label>
+            <div class="layui-input-block">
+                <input type="text" name="jCamera.rtsp" required lay-verify="required"
+                       placeholder="请输入rtsp" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formAddCamera123123">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--修改摄像头模态框-->
+<div id="editCameraDiv" hidden>
+    <form class="layui-form " action="" style="margin: 10px 10px 0px 10px;">
+        <input type="hidden" name="jCamera.tbmid" value="<#if tbm??>${tbm.id}</#if>">
+        <input id="cameraId" type="hidden" name="jCamera.id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">摄像头名称</label>
+            <div class="layui-input-block">
+                <input id="cameraName" type="text" name="jCamera.name" required lay-verify="required"
+                       placeholder="请输入摄像头名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">rtsp</label>
+            <div class="layui-input-block">
+                <input  id="cameraRtsp" type="text" name="jCamera.rtsp" required lay-verify="required"
+                       placeholder="请输入rtsp" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formAddCamera123123">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    layui.use(["layer","form","element","common"],function () {
+        var layer = layui.layer
+        var form = layui.form
+        var element = layui.element
+        var common = layui.common
+        var index;
+        var cameraID;
+
+        $("#addCamera").click(function () {
+            layer.open({
+                type: 1,
+                area: ['550px', '260px'],
+                content: $('#addCameraDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        })
+
+        //修改摄像头信息
+        $(".editCamera").click(function () {
+            var cameraId = $(this).attr('data');
+            console.log("#cameraName"+cameraId)
+            var cameraName = $("#cameraName"+cameraId).html()
+            var cameraRtsp = $("#cameraRtsp"+cameraId).html()
+//            console.log(cameraId+"----"+cameraName+"----"+cameraRtsp)
+            $("#cameraId").val(cameraId);
+            $("#cameraName").val(cameraName);
+            $("#cameraRtsp").val(cameraRtsp);
+            index = layer.open({
+                type: 1,
+                area: ['550px', '260px'],
+                content: $('#editCameraDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        })
+        formSubmitCamera('formAddCamera123123',bpath+'/admin/route/addAndUpdateCamera');
+        function formSubmitCamera(id,url){
+            cameraID = $("#cameraId").val();
+            form.on('submit('+id+')', function(data) {
+                $.ajax({
+                    url:url,
+                    type:"POST",
+                    data:data.field,
+                    dataType:"json",
+                    success:function(json){
+                        if(json.errorCode==0){
+                            top.parent.MSG(4,  json.message);
+                            var data = json.data;
+
+                            var cid = data.id;
+                            var name = data.name;
+
+                            var rtsp = data.rtsp;
+                            console.log("cid="+cid+"....name="+name+"....rtsp="+rtsp)
+                            if(cameraID == 'undefined'){
+                                var html = '<div class="sm-width-70-per sm-height-8-per  ms-padding-left-3rem ms-margin-top-1rem ms-layout-center-horizontal">'
+                                +'<div id="cameraName'+cid+'" class="ms-width-20-per">'+name+'</div>'
+                                    +'<div id="cameraRtsp'+cid+'" class="ms-width-60-per">'+rtsp+'</div>'
+                                    +'<div class="ms-width-20-per">'
+                                    +'<button data="'+cid+'" class="editCamera layui-btn layui-btn-sm layui-btn-primary">'
+                                    +'<i class="layui-icon">&#xe642;</i>'
+                                +'</button></div></div>';
+
+                                $("#showCamera").hrml(html)
+                                layer.close(index)
+                                return;
+                            }
+                            console.log("#cameraName"+cameraID);
+                            $("#cameraName"+cameraID).empty();
+                            $("#cameraName"+cameraID).html(name)
+                            $("#cameraRtsp"+cameraID).html(rtsp)
+                            layer.close(index)
+                        }else{
+                            top.parent.MSG(3,  json.message);
+                        }
+
+                    },
+                    error:function(res){
+                        top.parent.MSG(3, "数据提交异常");
+                    }
+                });
+
+                return false;
+            });
+        }
+
+
+    });
+
+</script>
 </@layout>

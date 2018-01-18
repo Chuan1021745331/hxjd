@@ -93,14 +93,6 @@ public abstract class BaseJWorksite<M extends BaseJWorksite<M>> extends JModel<M
 		return get("name");
 	}
 
-	public void setSort(java.lang.Integer sort) {
-		set("sort", sort);
-	}
-
-	public java.lang.Integer getSort() {
-		return get("sort");
-	}
-
 	public void setGeneral(java.lang.String general) {
 		set("general", general);
 	}

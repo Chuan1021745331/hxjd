@@ -3,10 +3,7 @@ package com.base.admin.controller;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
-import com.base.model.JCircuit;
-import com.base.model.JRoute;
-import com.base.model.JTbm;
-import com.base.model.JWorksite;
+import com.base.model.*;
 import com.base.model.dto.MenuSimpDto;
 import com.base.model.dto.TreeSimpDto;
 import com.base.query.CircuitQuery;
@@ -160,9 +157,12 @@ public class RouteController extends BaseController {
         JTbm tbm = TbmQuery.me().findTbmById(id);
         JWorksite worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
         JCircuit circuit = CircuitQuery.me().findById(worksite.getCircuitid());
+        List<JCamera> cameras = CameraService.me().findCamerasByTbmId(id);
         setAttr("worksite",worksite);
         setAttr("circuit",circuit);
         setAttr("tbm",tbm);
+        setAttr("cameras",cameras);
+
         renderTable("machineSel.html");
     }
 
@@ -222,56 +222,20 @@ public class RouteController extends BaseController {
         }
     }
 
-
-
-
-
-
-    public void addD(){
-        String pid = getPara("pId");
-        JRoute route = RouteQuery.me().findById(Integer.parseInt(pid));
-        if(null == route){
-            route=new JRoute();
-            route.setType(-1);
-            route.setId(0);
-            route.setName("根节点");
-        }
-        this.setAttr("route",route);
-        render("routeAdd.html");
-    }
-    public void saveAndUpdateRoute(){
-        JRoute model = getModel(JRoute.class);
-        JRoute route = RouteService.me().saveAndUpdateRoute(model);
-        if(null != route){
-            renderAjaxResult("",0,route);
+    /**
+     * 添加或者修改摄像头
+     */
+    public void addAndUpdateCamera(){
+        JCamera model = getModel(JCamera.class);
+        JCamera camera = CameraService.me().saveAndUpdateCamera(model);
+        if(null != camera){
+            renderAjaxResult("",0,camera);
         }else{
             renderAjaxResultForError();
         }
     }
-    public void editD(){
-        String id = getPara("id");
-        JRoute route = RouteService.me().findById(Integer.parseInt(id));
-        JRoute proute = RouteService.me().findById(route.getParent());
-        if(proute == null){
-            proute = new JRoute();
-            proute.setId(0);
-            proute.setName("根节点");
-        }
-        setAttr("route",route);
-        setAttr("proute",proute);
-        renderTable("routeEdit.html");
-    }
-    public void machineData(){
-        Integer routeId = getParaToInt("menuId");
-        Integer page = getParaToInt("page");
-        Integer limit = getParaToInt("limit");
-        //默认为根节点
-        if(null == routeId){
-            routeId = new Integer(0);
-        }
 
-        long count = RouteService.me().findMachineCountByType(routeId);
-        List<JRoute> routeList = RouteService.me().findRoutesByParent(page, limit, routeId, count);
-        renderPageResult(0, "", (int)count, routeList);
-    }
+
+
+
 }
