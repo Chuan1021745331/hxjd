@@ -1,0 +1,75 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<form class="layui-form" id="form" action="" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+  <div class="layui-form-item">
+    <label class="layui-form-label">标题</label>
+    <div class="layui-input-inline" style="width:40%;">
+      <input type="text" value="${news.title!}" readonly = "readonly" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">内容</label>
+    <div class="layui-input-inline" style="width:40%; height:50%;">
+      <textarea id="content" class="layui-textarea">${news.content!}</textarea>     
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">类型</label>
+    <div class="layui-input-inline" style="width:40%;">
+      <select name="jNews.type" lay-verify="" disbaled>
+      	<option value="">${news.name!}</option>
+      </select>	
+    </div>
+  </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label">附件</label>
+    <div class="layui-input-inline" style="width:40%;">
+      <input type="file" id="attachment" name="attachment">
+    </div>
+  </div>
+<!--   <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">参数说明</label>
+    <div class="layui-input-inline" >
+      <textarea name="jOption.remark" placeholder="请输入参数说明" class="layui-textarea"></textarea>
+    </div>
+  </div> -->
+  
+<!--   <div class="layui-form-item">
+    <label class="layui-form-label">参数说明</label>
+    <div class="layui-input-inline">
+      <input type="text" name="jOption.remark" placeholder="请输入参数说明" autocomplete="off" class="layui-input">
+    </div>
+  </div> -->
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+<!-- ///HXJD-web/src/main/webapp/common/plus/kindeditor/kindeditor-all-min.js -->
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script>
+	layui.use(['form','common'], function() {
+		var form = layui.form,
+			common = layui.common;
+		
+		var editor = null;
+		editor = KindEditor;
+		editor.create('#content',{	
+			cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
+			uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
+			fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
+			width:'100%',
+			height:'450px',
+			resizeType: 0,
+			readonlyMode : true,
+			autoHeightMode : false,
+			allowFileManager : true,
+			afterBlur: function(){this.sync();}
+		});
+	});
+	
+</script>
+</@layout>

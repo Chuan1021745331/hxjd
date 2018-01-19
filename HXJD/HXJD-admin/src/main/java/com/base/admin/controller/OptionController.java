@@ -44,7 +44,7 @@ public class OptionController extends BaseController {
 		Integer limit = getParaToInt("limit");
 		String where = getPara("id");
 		
-		long count = OptionQuery.me().findConunt(where);
+		long count = OptionService.me().findConunt(where);
 		List<Record> list = OptionService.me().findListOptions(page, limit, where, count);
 		renderPageResult(0, "", (int)count, list);
 		

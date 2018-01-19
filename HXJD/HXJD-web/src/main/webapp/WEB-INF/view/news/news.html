@@ -1,0 +1,60 @@
+<#include "../../_include/tag/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<blockquote class="layui-elem-quote tableTool">
+	<div class="layui-inline float_right">
+	    <div class="layui-input-inline">
+	    	<input type="text" name="id" id="idReload" placeholder="请输入关键字" class="layui-input layui-input-small search_input">
+	    </div>
+	    <div class="layui-btn-group">
+		    <button class="layui-btn layui-btn-sm search_btn" data-type="reload"><i class="icon iconfont icon-chaxun"></i><cite>查询</button>
+		    <button class="layui-btn layui-btn-sm search_btn" data-type="reloadAll"><i class="icon iconfont icon-adsearch2"></i><cite>高级查询</button>
+	    </div>
+	</div>
+	<div class="layui-btn-group" id="btn_group">
+  	</div>
+</blockquote>
+<table class="layui-hide" id="newsData" lay-filter="newsData"></table>
+<script>
+layui.use( ['table','common'], function(){
+	var $ = layui.$,
+		table = layui.table,
+		common = layui.common;
+	//表格渲染
+	t = table.render({
+		id:'newsTable'
+		,${tableBase}												//基础属性
+		,url:'${BPATH}/news/newsData'							//数据地址
+	  	,elem: '#newsData' 											//指定原始表格元素选择器（推荐id选择器）
+	  	,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+	  	,height: 'full-60' 											//容器高度，高度最大化减去差值
+		,onRowClick:function(index,row,tr){
+		}
+	  	,cols: [[
+			{type:'numbers'},
+			{${thBase},title:'ID',field:'id', width:80, sort: true},
+			{${thBase},title:'类型',field:'type'},
+			{${thBase},title:'标题',field:'title'},
+			{${thBase},title:'发布人',field:'postMan'},
+			{${thBase},title:'发布时间',field:'postTime'}
+			//{${thBase},title:'性别',field:'gender', templet: '<div>{{layui.laytpl.sexTpl(d.gender)}}</div>'}
+	  	]]
+	});
+  	table.on('tool(newsData)', function(obj){
+  	  	tempData=obj.data
+  	});
+  	activeReload = {
+		<!-- 查询操作 -->
+		reload: function(){
+	     	t.reload({
+	       		where: {
+	          		id: $('#idReload').val()
+	       		}
+	   		});
+	   	},
+	   	reloadAll: function(){
+		}
+  	};
+  	<#include "../../_include/tag/button.tag"/>
+});
+</script>
+</@layout>
