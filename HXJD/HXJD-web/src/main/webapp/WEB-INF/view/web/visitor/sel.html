@@ -21,7 +21,7 @@
     </script>
 </head>
 <body>
-<form class="layui-form sel" action="" style="margin: 10px 10px 0px 10px;">
+<form class="layui-form sel" action="" style="margin: 10px 10px 0px 10px; height: 100%; overflow-y: scroll">
   
   <div class="layui-form-item">
 	<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
@@ -70,14 +70,20 @@
                 <input type="text" class="layui-input" value="暂无部门" readonly = "readonly" style="color: #009688;font-weight: bolder;">
             </div>
         </#if>
+        <!--<#list parents as pdepartment>-->
+            <!--<div class="layui-input-inline" style="width: 70px;">-->
+                <!--<input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">-->
+            <!--</div>-->
+            <!--<#if (pdepartment_index!=parents.size()-1)>-->
+             <!--&lt;!&ndash;<div class="layui-form-mid">——></div>&ndash;&gt;-->
+            <!--</#if>-->
+        <!--</#list>-->
+    <div class="layui-input-inline" >
+        <div class="layui-form-mid"><span style="color: #009688;font-weight: bolder;">
         <#list parents as pdepartment>
-            <div class="layui-input-inline" style="width: 70px;">
-                <input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
-            </div>
-            <#if (pdepartment_index!=parents.size()-1)>
-             <div class="layui-form-mid">——></div>
-            </#if>
-        </#list>
+                <!--<input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">-->
+            ${pdepartment.name}
+        </#list></span></div>
     </div>
   <div class="layui-form-item">
       <label class="layui-form-label">职称</label>

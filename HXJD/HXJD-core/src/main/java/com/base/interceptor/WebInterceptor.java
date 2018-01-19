@@ -40,6 +40,8 @@ public class WebInterceptor implements Interceptor {
 			controller.setAttr("parents",parents);
 			controller.setAttr("ucode", EncryptUtils.generateUcode(visitor.getId().toString(),visitor.getSalt()));
 			controller.setAttr("sys_title", CacheKit.get("option", "sys_title"));
+			controller.setAttr("tbm_logo", CacheKit.get("option", "tbm_logo"));
+			controller.setAttr("tbm_title", CacheKit.get("option", "tbm_title"));
 			controller.setAttr("copyright", CacheKit.get("option", "copyright"));
 			inv.invoke();
 			return;

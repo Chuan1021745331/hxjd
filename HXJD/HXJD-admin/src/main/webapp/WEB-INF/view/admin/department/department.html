@@ -122,6 +122,24 @@ layui.use( ['table','common'], function(){
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
 			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+			/*var flag=false;
+            this.index = parent.layer.confirm("确认删除 节点", {
+                icon: 3,
+                skin:'zero-green',
+                title: "删除节点",
+                offset: '200px',
+                closeBtn: 0,
+                skin: 'layui-layer-molv',
+                anim: Math.ceil(Math.random() * 6),
+                btn: ['确定', '取消']
+            }, function(index) {
+                flag=true;
+            }, function(index) {
+                flag=false;
+                parent.layer.close(index);
+            });
+            console.log("点击删除"+flag);
+            return flag;*/
 		}
 		function onRemove(e, treeId, treeNode) {
 			$.ajax({

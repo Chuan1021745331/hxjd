@@ -78,7 +78,7 @@ public class VisitorController extends BaseController{
             parents=DepartmentService.me().getParents(department.getParentId());
         }
         setAttr("department",department);
-        setAttr("parents", JSON.toJSON(parents));
+        setAttr("parents", parents);
         setAttr("visitor", visitor);
         renderTable("sel.html");
     }

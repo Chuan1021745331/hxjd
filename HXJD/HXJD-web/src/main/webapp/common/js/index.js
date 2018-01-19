@@ -87,12 +87,16 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		}
 	});
 	$("#user-sel").click(function (){
+		var area=['30%', '86%'];
+        if(device.android || device.ios){
+        	area=['90%', '80%'];
+		}
         var index = layer.open({
             type: 2 ,
             title: '访客详情',
             content: bpath+"/visitor/sel?id="+visitorId,
             resize: false,
-            area: ['30%', '86%'],
+            area: area,
             anim: Math.ceil(Math.random() * 6),
             success : function(layero, index){
                 setTimeout(function(){
@@ -104,12 +108,16 @@ layui.use(['jquery', 'layer', 'element'], function() {
         });
 	});
     $("#user-edit").click(function (){
+        var area=['30%', '30%'];
+        if(device.android || device.ios){
+            area=['90%', '40%'];
+        }
         var index = layer.open({
             type: 2 ,
             title: '修改密码',
             content: bpath+"/visitor/edit?id="+visitorId,
             resize: false,
-            area: ['30%', '30%'],
+            area: area,
             anim: Math.ceil(Math.random() * 6),
             success : function(layero, index){
                 setTimeout(function(){
