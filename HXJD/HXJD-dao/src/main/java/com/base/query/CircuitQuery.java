@@ -1,7 +1,10 @@
 package com.base.query;
 
 import com.base.model.JCircuit;
+import com.base.model.JWorksite;
+import com.base.model.dto.CircuitWorksiteDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,4 +35,14 @@ public class CircuitQuery {
     public boolean delCircuitById(int id){
         return DAO.deleteById(id);
     }
+
+    /**
+     * 查询所有线路
+     * @return
+     */
+    public List<JCircuit> getAllCircuit(){
+        return DAO.find("select * from j_circuit");
+    }
+
+
 }

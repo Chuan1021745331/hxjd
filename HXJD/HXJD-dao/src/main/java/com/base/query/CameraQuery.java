@@ -1,6 +1,7 @@
 package com.base.query;
 
 import com.base.model.JCamera;
+import com.base.model.JCircuit;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.List;

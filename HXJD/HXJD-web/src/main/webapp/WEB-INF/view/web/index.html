@@ -32,30 +32,23 @@
 		<div id="left-menu" class="layui-side layui-bg-black displayNone">
 		    <div class="layui-side-scroll">
 				<ul class="layui-nav layui-nav-tree"  lay-filter="test">
-			        <li class="layui-nav-item layui-nav-itemed">
-			          	<a href="javascript:;">一号线</a>
-		          		<dl class="layui-nav-child">
-		            		<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
-		            		<dd><a href="javascript:;">列表二</a></dd>
-		            		<dd><a href="">超链接</a></dd>
-		          		</dl>
-			        </li>
-			        <li class="layui-nav-item">
-			        	<a href="javascript:;">二号线</a>
-			        	<dl class="layui-nav-child">
-			            	<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
-			            	<dd><a href="javascript:;">列表二</a></dd>
-			            	<dd><a href="">超链接</a></dd>
-			          	</dl>
-			       	</li>
-			        <li class="layui-nav-item">
-			        	<a href="javascript:;">三号线</a>
-			        	<dl class="layui-nav-child">
-			            	<dd><a href="http://www.baidu.com" target="ifr_0">列表一</a></dd>
-			            	<dd><a href="javascript:;">列表二</a></dd>
-			            	<dd><a href="">超链接</a></dd>
-			          	</dl>
-			        </li>
+					<#if circuitWorksiteDtos??>
+						<#list circuitWorksiteDtos as item>
+
+							<li class="layui-nav-item">
+								<a href="javascript:;">${item.name!}</a>
+								<dl class="layui-nav-child">
+									<#if item.worksites??>
+										<#list item.worksites as worksite>
+											<dd><a href="http://www.baidu.com" target="ifr_0">${worksite.name}</a></dd>
+										</#list>
+									</#if>
+								</dl>
+							</li>
+
+						</#list>
+					</#if>
+
 				</ul>
 		    </div>
 		</div>

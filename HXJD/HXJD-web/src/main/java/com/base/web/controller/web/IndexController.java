@@ -1,8 +1,11 @@
 package com.base.web.controller.web;
 
+import com.base.model.JCircuit;
 import com.base.model.JVisitor;
+import com.base.model.dto.CircuitWorksiteDto;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
+import com.base.service.CircuitService;
 import com.base.service.UserService;
 import com.base.service.VisitorService;
 import com.base.utils.CookieUtils;
@@ -16,6 +19,9 @@ import com.base.interceptor.WebInterceptor;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
 import com.base.model.JUser;
+
+import java.util.List;
+
 /**
  * 首页
  * @author z
@@ -26,7 +32,8 @@ import com.base.model.JUser;
 public class IndexController extends BaseController {
 
 	public void index() {
-		
+		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
+		setAttr("circuitWorksiteDtos",circuitWorksiteDtos);
 		render("index.html");
 	}
 	public void main() {

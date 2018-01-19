@@ -66,7 +66,7 @@ public class RouteService {
         * 工点节点
         * */
         List<JCircuit> circuits = CircuitQuery.me().findAllCircuit();
-        List<JWorksite> worksites = WorkSiteQuery.me().findAllCircuit();
+        List<JWorksite> worksites = WorkSiteQuery.me().findAllWorksite();
 
 //        List<JRoute> menus = RouteQuery.me().getAllRoute();
         List<TreeSimpDto> fmts = new ArrayList<TreeSimpDto>();

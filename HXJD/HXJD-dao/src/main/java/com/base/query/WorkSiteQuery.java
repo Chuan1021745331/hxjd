@@ -26,7 +26,7 @@ public class WorkSiteQuery {
         return DAO.findById(id);
     }
 
-    public List<JWorksite> findAllCircuit(){
+    public List<JWorksite> findAllWorksite(){
         return DAO.find("SELECT * FROM j_worksite");
     }
 
