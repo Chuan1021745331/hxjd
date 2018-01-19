@@ -46,24 +46,30 @@ active_id="dashboard">
     </div>
 </form>
 <!--添加摄像头-->
-<div class="layui-row ms-margin-left-2rem">
-    <button id="addCamera" class="layui-btn">
+<div class="layui-row ms-margin-left-2rem ">
+    <!--<div class="layui-col-md1 debug"> </div>-->
+    <button id="addCamera" class="layui-btn ms-margin-left-2rem ">
         <i class="layui-icon">&#xe608;</i> 添加摄像头
     </button>
 </div>
 <hr class="layui-bg-gray">
 <!--展示摄像头-->
-<div id="showCamera" class="sm-width-70-per sm-layout-center-vertical">
+<div id="showCamera" class="sm-width-80-per ms-padding-left-2rem sm-layout-center-vertical ">
 <#if cameras??>
     <#list cameras as camera>
-        <div class="sm-width-70-per sm-height-8-per  ms-padding-left-3rem ms-margin-top-1rem ms-layout-center-horizontal">
-             <div id="cameraName${camera.id!}" class="ms-width-20-per">${camera.name!}</div>
-             <div id="cameraRtsp${camera.id!}" class="ms-width-60-per">${camera.rtsp!}</div>
-             <div class="ms-width-20-per">
-                 <button data="${camera.id!}" class="editCamera layui-btn layui-btn-sm layui-btn-primary">
+        <div id="camera${camera.id!}" class="sm-width-100-per sm-height-20-per ms-margin-top-1rem ms-layout-center-horizontal " style="background-color: #f2f2f2;">
+             <div id="cameraName${camera.id!}" class="ms-width-20-per sm-height-100-per    "  style="background-color: #f2f2f2;">${camera.name!}</div>
+             <div id="cameraRtsp${camera.id!}" class="ms-width-60-per sm-height-100-per    "  style="background-color: #f2f2f2;">${camera.rtsp!}</div>
+             <div class="ms-width-5-per  sm-height-100-per ms-margin-left-1rem  ms-layout-center-horizontal "  style="background-color: #ffffff;" >
+                 <button data="${camera.id!}"  class="editCamera layui-btn layui-btn-sm layui-btn-primary">
                      <i class="layui-icon">&#xe642;</i>
                  </button>
              </div>
+            <div class="ms-width-18-per  sm-height-100-per  "  style="background-color: #ffffff;">
+                <button data="${camera.id!}"  class="delCamera layui-btn layui-btn-sm layui-btn-primary">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
         </div>
     </#list>
 </#if>
@@ -75,20 +81,20 @@ active_id="dashboard">
         <div class="layui-form-item">
             <label class="layui-form-label">摄像头名称</label>
             <div class="layui-input-block">
-                <input type="text" name="jCamera.name" required lay-verify="required"
+                <input type="text" id="addCname" name="jCamera.name" required lay-verify="required"
                        placeholder="请输入摄像头名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">rtsp</label>
             <div class="layui-input-block">
-                <input type="text" name="jCamera.rtsp" required lay-verify="required"
+                <input type="text" id="addCrtsp" name="jCamera.rtsp" required lay-verify="required"
                        placeholder="请输入rtsp" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formAddCamera123123">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="formAddAndUpdateCamera">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -116,7 +122,7 @@ active_id="dashboard">
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formAddCamera123123">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="formAddAndUpdateCamera">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -131,36 +137,78 @@ active_id="dashboard">
         var element = layui.element
         var common = layui.common
         var index;
-        var cameraID;
-
+        var cameraID="NULL";
+        var addIndex;
+        /*打开添加摄像头模态框*/
         $("#addCamera").click(function () {
-            layer.open({
+            addIndex = layer.open({
                 type: 1,
                 area: ['550px', '260px'],
                 content: $('#addCameraDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
             });
         })
+        editCamera();
+        //修改摄像头信息模态框
+        function editCamera() {
+            $(".editCamera").click(function () {
+                var cameraId = $(this).attr('data');
+                console.log("#cameraName"+cameraId)
+                var cameraName = $("#cameraName"+cameraId).html()
+                var cameraRtsp = $("#cameraRtsp"+cameraId).html()
+                $("#cameraId").val(cameraId);
+                console.log("#cameraId.val();="+$("#cameraId").val())
+                $("#cameraName").val(cameraName);
+                $("#cameraRtsp").val(cameraRtsp);
+                index = layer.open({
+                    type: 1,
+                    area: ['550px', '260px'],
+                    content: $('#editCameraDiv'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    cancel: function(){
+                        //右上角关闭回调
+                        $("#cameraId").val('');
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            })
+        }
 
-        //修改摄像头信息
-        $(".editCamera").click(function () {
-            var cameraId = $(this).attr('data');
-            console.log("#cameraName"+cameraId)
-            var cameraName = $("#cameraName"+cameraId).html()
-            var cameraRtsp = $("#cameraRtsp"+cameraId).html()
-//            console.log(cameraId+"----"+cameraName+"----"+cameraRtsp)
-            $("#cameraId").val(cameraId);
-            $("#cameraName").val(cameraName);
-            $("#cameraRtsp").val(cameraRtsp);
-            index = layer.open({
-                type: 1,
-                area: ['550px', '260px'],
-                content: $('#editCameraDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+        /*删除摄像头*/
+        formSubmitDelCamera(bpath+'/admin/route/delCamera');
+        function formSubmitDelCamera(url) {
+            $(".delCamera").click(function () {
+                var cameraId = $(this).attr('data');
+                $.ajax({
+                    url:url,
+                    type:"POST",
+                    data:{cid:cameraId},
+                    dataType:"json",
+                    success:function(json){
+                        if(json.errorCode==0){
+                            top.parent.MSG(4,  json.message);
+                            $("#showCamera").children().remove("#camera"+cameraId);
+                        }else{
+                            top.parent.MSG(3,  json.message);
+                        }
+                    },
+                    error:function(res){
+                        top.parent.MSG(3, "数据提交异常");
+                    }
+                });
+                return false;
             });
-        })
-        formSubmitCamera('formAddCamera123123',bpath+'/admin/route/addAndUpdateCamera');
+        }
+
+        /*提交修改或者添加摄像头信息*/
+        formSubmitCamera('formAddAndUpdateCamera',bpath+'/admin/route/addAndUpdateCamera');
         function formSubmitCamera(id,url){
-            cameraID = $("#cameraId").val();
             form.on('submit('+id+')', function(data) {
+
+                var de = $("#cameraId").val();
+                if(de != ''){
+                    /*修改摄像头*/
+                    cameraID = $("#cameraId").val();
+                    $("#cameraId").val('');
+                }
                 $.ajax({
                     url:url,
                     type:"POST",
@@ -170,29 +218,49 @@ active_id="dashboard">
                         if(json.errorCode==0){
                             top.parent.MSG(4,  json.message);
                             var data = json.data;
-
                             var cid = data.id;
                             var name = data.name;
-
                             var rtsp = data.rtsp;
-                            console.log("cid="+cid+"....name="+name+"....rtsp="+rtsp)
-                            if(cameraID == 'undefined'){
-                                var html = '<div class="sm-width-70-per sm-height-8-per  ms-padding-left-3rem ms-margin-top-1rem ms-layout-center-horizontal">'
-                                +'<div id="cameraName'+cid+'" class="ms-width-20-per">'+name+'</div>'
-                                    +'<div id="cameraRtsp'+cid+'" class="ms-width-60-per">'+rtsp+'</div>'
-                                    +'<div class="ms-width-20-per">'
-                                    +'<button data="'+cid+'" class="editCamera layui-btn layui-btn-sm layui-btn-primary">'
-                                    +'<i class="layui-icon">&#xe642;</i>'
-                                +'</button></div></div>';
+                            /*添加摄像头*/
+                            if(cameraID == 'NULL'){
+                                var html = '<div id="camera'+cid+'" class="sm-width-100-per sm-height-20-per ms-margin-top-1rem ms-layout-center-horizontal " style="background-color: #f2f2f2;">'
+                                                +'<div id="cameraName'+cid+'" class="ms-width-20-per sm-height-100-per   "  style="background-color: #f2f2f2;">'+name+'</div>'
+                                                 +'<div id="cameraRtsp'+cid+'" class="ms-width-60-per sm-height-100-per    "  style="background-color: #f2f2f2;">'+rtsp+'</div>'
+                                                 +'<div class="ms-width-5-per  sm-height-100-per ms-margin-left-1rem  ms-layout-center-horizontal "  style="background-color: #ffffff;">'
+                                                         +'<button data="'+cid+'" class="editCamera layui-btn layui-btn-sm layui-btn-primary">'
+                                                            +'<i class="layui-icon">&#xe642;</i>'
+                                                         +'</button>'
+                                                 +'</div>'
+                                                 +'<div class="ms-width-18-per  sm-height-100-per  "  style="background-color: #ffffff;">'
+                                                        +'<button data="'+cid+'"  class="delCamera layui-btn layui-btn-sm layui-btn-primary">'
+                                                            +'<i class="layui-icon">&#xe640;</i>'
+                                                        +'</button>'
+                                                 +'</div>'
+                                            + '</div>';
 
-                                $("#showCamera").hrml(html)
-                                layer.close(index)
+                                $("#showCamera").append(html)
+
+                                /*解除修改摄像头信息的模态框弹出事件*/
+                                $(".editCamera").unbind();
+                                /*从新绑定弹出事件*/
+                                editCamera();
+                                /*解除删除事件*/
+                                $(".delCamera").unbind();
+                                /*绑定删除事件*/
+                                formSubmitDelCamera(bpath+'/admin/route/delCamera');
+                                /*关闭添加模态框*/
+                                layer.close(addIndex)
+                                cameraID = "NULL";
+
+                                $("#addCname").val('')
+                                $("#addCrtsp").val('')
                                 return;
                             }
-                            console.log("#cameraName"+cameraID);
+                            /*修改摄像头*/
                             $("#cameraName"+cameraID).empty();
                             $("#cameraName"+cameraID).html(name)
                             $("#cameraRtsp"+cameraID).html(rtsp)
+                            cameraID = "NULL";
                             layer.close(index)
                         }else{
                             top.parent.MSG(3,  json.message);

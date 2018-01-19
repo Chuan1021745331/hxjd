@@ -37,7 +37,7 @@ public class WorkSiteService {
      */
     public boolean isCanDel(int id){
         List<JTbm> tbms = TbmQuery.me().findByWorkSiteId(id);
-        if(tbms == null && tbms.size() == 0){
+        if(tbms == null || tbms.size() == 0){
             return true;
         }
         return false;

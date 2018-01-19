@@ -1,6 +1,8 @@
 package com.base.service;
 
+import com.base.model.JCamera;
 import com.base.model.JTbm;
+import com.base.query.CameraQuery;
 import com.base.query.TbmQuery;
 import org.quartz.ee.jta.JTAAnnotationAwareJobRunShellFactory;
 
@@ -56,5 +58,17 @@ public class TbmService {
             return tbm;
         }
         return null;
+    }
+    /**
+     * 判断盾构机是否能删除盾构机
+     * @param id
+     * @return
+     */
+    public boolean isCanDel(int id){
+        List<JCamera> cameras = CameraQuery.me().findCamerasByTbmId(id);
+        if(cameras != null && cameras.size() != 0){
+            return false;
+        }
+        return true;
     }
 }

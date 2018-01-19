@@ -95,7 +95,7 @@
     justify-content: center;
     align-items: center;
 }
-.ms-layout-left-center
+.ms-layout-left-center-nowrap-horizontal
 {
     display: flex;
     flex-direction: row;
@@ -104,7 +104,16 @@
     justify-content: flex-start;
     align-items: center;
 }
-.ms-layout-right-center
+.ms-layout-left-center-wrap-horizontal
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+    align-items: center;
+}
+.ms-layout-right-center-nowrap-horizontal
 {
     display: flex;
     flex-direction: row;
@@ -140,8 +149,17 @@
 .ms-margin-left-2rem{
     margin-left: 2rem;
 }
+.ms-margin-left-3rem{
+    margin-left: 3rem;
+}
+.ms-margin-left-4rem{
+    margin-left: 4rem;
+}
 .ms-margin-top-1rem{
     margin-top: 1rem;
+}
+.ms-margin-top-2rem{
+    margin-top: 2rem;
 }
 .ms-margin-right-1rem{
     margin-right:1rem;
@@ -157,8 +175,9 @@
 .ms-width-30-per{
     width:30%;
 }
-.ms-width-20-per{
-    width:100%;
+
+.ms-width-18-per{
+    width:18%;
 }
 .ms-width-50-per{
     width: 50%;
@@ -168,6 +187,9 @@
 }
 .ms-width-8-per{
     width: 8%;
+}
+.ms-width-10-per{
+    width: 10%;
 }
 .ms-width-70-per{
     width: 70%;
@@ -338,4 +360,25 @@
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+}
+
+/*阴影*/
+.z-depth-2 {
+    -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-3 {
+    -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-4, .modal {
+    -webkit-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-5 {
+    -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
 }

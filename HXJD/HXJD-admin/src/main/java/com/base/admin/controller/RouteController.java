@@ -172,13 +172,12 @@ public class RouteController extends BaseController {
     public void delTbm(){
         Integer id = getParaToInt("id");
         JTbm tbm = TbmQuery.me().findTbmById(id);
-        //todo 需要判断有摄像头属于该盾构机
-//        boolean canDel = DepartmentService.me().isCanDel(id);
+        boolean canDel = TbmService.me().isCanDel(id);
         //如果不能删除
-        /*if(!canDel){
-            renderAjaxResultForError(MessageConstants.POSITION_DEL_DEFEAT);
+        if(!canDel){
+            renderAjaxResultForError(MessageConstants.TBM__DEL_DEFEAT);
             return ;
-        }*/
+        }
         boolean flag = tbm.delete();
         if(flag){
             renderAjaxResultForSuccess("删除成功");
@@ -231,6 +230,19 @@ public class RouteController extends BaseController {
         if(null != camera){
             renderAjaxResult("",0,camera);
         }else{
+            renderAjaxResultForError();
+        }
+    }
+
+    /**
+     * 删除摄像头
+     */
+    public void delCamera(){
+        Integer cid = getParaToInt("cid");
+        boolean isDel = CameraService.me().delCameraById(cid);
+        if(isDel){
+            renderAjaxResultForSuccess();
+        }else {
             renderAjaxResultForError();
         }
     }

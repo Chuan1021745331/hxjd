@@ -31,6 +31,8 @@ public class MessageConstants {
 
 	public static final String DEPARTMENt_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";
 
+	public static final String TBM__DEL_DEFEAT="该盾构机下还有摄像头关联,请先删除摄像头!!!";
+
 	public static final String ROUTE__DEL_DEFEAT="该节点下还有节点关联,请先删除子节点!!!";
 
 	public static final String POSITION_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";

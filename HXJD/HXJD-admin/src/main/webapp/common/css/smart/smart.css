@@ -639,6 +639,12 @@ body{
 {
     background: #000000;
 }
+/*h灰色*/
+.sm-background-color-gray
+{
+    background: #f2f2f2;
+}
+
 .sm-background-color-red
 {
     background: #FF0000;

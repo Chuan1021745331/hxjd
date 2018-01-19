@@ -40,4 +40,8 @@ public class CameraService {
     public List<JCamera> findCamerasByTbmId(Integer id){
         return CameraQuery.me().findCamerasByTbmId(id);
     }
+
+    public boolean delCameraById(Integer id){
+        return CameraQuery.me().delCameraById(id);
+    }
 }

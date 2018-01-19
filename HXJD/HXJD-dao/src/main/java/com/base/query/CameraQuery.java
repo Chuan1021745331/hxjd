@@ -1,6 +1,7 @@
 package com.base.query;
 
 import com.base.model.JCamera;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.List;
 
@@ -28,5 +29,14 @@ public class CameraQuery {
      */
     public List<JCamera> findCamerasByTbmId(int id){
         return DAO.find("select * from j_camera where tbmid="+id);
+    }
+
+    /**
+     * 通过摄像头id删除
+     * @param id
+     * @return
+     */
+    public boolean delCameraById(Integer id){
+        return DAO.deleteById(id);
     }
 }

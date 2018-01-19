@@ -1,5 +1,6 @@
 package com.base.query;
 
+import com.base.model.JCamera;
 import com.base.model.JTbm;
 import com.jfinal.plugin.activerecord.Db;
 
@@ -48,4 +49,5 @@ public class TbmQuery {
     public List<JTbm> findByWorkSiteId(int id){
         return DAO.find("select * from j_tbm where worksiteid="+id);
     }
+
 }
