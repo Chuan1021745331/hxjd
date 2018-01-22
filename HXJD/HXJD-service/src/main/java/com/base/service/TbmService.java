@@ -71,4 +71,8 @@ public class TbmService {
         }
         return true;
     }
+
+    public List<JTbm> findTbmByWorkSiteId(int workSiteid){
+        return TbmQuery.me().findByWorkSiteId(workSiteid);
+    }
 }

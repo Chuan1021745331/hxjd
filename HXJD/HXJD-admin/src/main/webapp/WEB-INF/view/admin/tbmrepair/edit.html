@@ -1,0 +1,228 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<script src="${CPATH}/plus/jquery.form.min.js"></script>
+
+<form class="layui-form" id="myForm" action="" style="margin: 10px 10px 0px 10px;">
+	<input type="hidden" name="jTbmrepair.id" value="${tbmrepair.id!}">
+	<div id="selector" class="layui-form-item">
+		<label class="layui-form-label">盾构机</label>
+		<div class="layui-input-inline" style="width: 120px">
+			<select id="select_circuit"  lay-filter="select_route" lay-verify="">
+			</select>
+		</div>
+		<div class="layui-input-inline" style="width: 120px">
+			<select id="select_worksite"  lay-filter="select_worksite" lay-verify="">
+			</select>
+		</div>
+		<div class="layui-input-inline" style="width: 120px">
+			<select id="select_tbm"  name="jTbmrepair.tbmId" lay-filter="select_tbm" lay-verify="">
+			</select>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">维修人</label>
+			<div class="layui-input-inline">
+				<input type="text" name="jTbmrepair.repairman" value="${tbmrepair.repairman!}" required  lay-verify="required" placeholder="请输入维修人" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">维修时间</label>
+			<div class="layui-input-inline" >
+				<input type="text" id="repairtime" name="jTbmrepair.repairtime" value="${tbmrepair.repairtime!}" readonly required  lay-verify="required"  class="layui-input choose-time">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label" style="width: 100px">下次维修时间</label>
+			<div class="layui-input-inline" >
+				<input type="text" id="cycle" name="jTbmrepair.cycle" value="${tbmrepair.cycle!}" readonly required  lay-verify="required"  class="layui-input choose-time">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">维修内容</label>
+		<div class="layui-input-inline" style="width:62%; height:30%;">
+			<textarea name="jTbmrepair.content" id="content" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea">${tbmrepair.content}</textarea>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+
+	</div>
+</form>
+
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script>
+    layui.use(['form','common','laydate'], function() {
+        var form = layui.form,
+            common = layui.common;
+        var layer=layui.layer;
+        var laydate = layui.laydate;
+
+        //初始化日期控件
+        laydate.render({
+            elem: '#repairtime' //指定元素
+            ,type:"datetime"
+            ,max: new Date().toLocaleDateString()
+        });
+        laydate.render({
+            elem: '#cycle' //指定元素
+            ,type:"datetime"
+            ,min:new Date().toLocaleDateString()
+        });
+
+        //kindeditor富文本编辑器
+        var editor = null;
+        editor = KindEditor;
+        editor.create('#content',{
+            cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
+            uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
+            fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
+            width:'100%',
+            height:'330px',
+            resizeType: 0,
+            autoHeightMode : false,
+            allowFileManager : true,
+            afterBlur: function(){this.sync();}
+        });
+        initSelectCircuit();
+
+        //表单提交
+        form.on('submit(formDemo)', function(data){
+            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            // var tbmId=data.field.jTbmrepair.tbmId;
+            var tbmId=$("#select_tbm").val();
+            if(tbmId==null||tbmId==""){
+                layer.msg('盾构机不能为空', {icon: 5});
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            }
+            $.ajax({
+                url:bpath+'/admin/tbmrepair/editSave',
+                type:"POST",
+                data:data.field,
+                dataType:"json",
+                success:function(json){
+                    if(json.errorCode==0){
+                        top.parent.MSG(4,  json.message);
+                        if(typeof(parent.t) != "undefined"){
+                            parent.t.reload({
+                                page: {
+                                    curr: page //重新从第 1 页开始
+                                },
+                                where: { //设定异步数据接口的额外参数，任意设
+                                    menuId: where
+                                }
+                            })
+                        }
+                        if(parent.treeNode_ != null){
+                            if(parent.treeType==1){
+                                parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+                            }else if(parent.treeType==2){
+                                var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+                                node.name=json.data.name;
+                                parent.zTree.updateNode(node);
+                            }
+
+                            parent.treeNode_ =null;
+                            parent.treeType = 0;
+                        }
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        top.parent.MSG(3,  json.message);
+                    }
+
+                },
+                error:function(res){
+                    top.parent.MSG(3, "数据提交异常");
+                }
+            });
+            return false;
+        });
+        form.render();
+
+        //select改变事件
+        var circuitWorksiteDtos=[];
+        form.on('select(select_route)', function(data){
+            /*console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象*!/*/
+            var circuitId=data.value;
+            initSelectWorkSite(circuitId);
+        });
+        form.on('select(select_worksite)', function(data){
+            var worksiteId=data.value;
+            initSelectTbm(worksiteId);
+        });
+
+        //初始化
+        function initSelectCircuit() {
+            $.ajax({
+                url : bpath + "/admin/route/getAllCircuit",
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    circuitWorksiteDtos=data.data;
+                    for(var i in circuitWorksiteDtos){
+                        var circuit=circuitWorksiteDtos[i];
+                        $("#select_circuit").append('<option  value="'+ circuit.id +'">'+circuit.name+'</option>');
+                    }
+                    initSelectWorkSite($("#select_circuit").val());
+                    form.render();
+                }
+            });
+        }
+        function initSelectWorkSite(circuitId) {
+            $("#select_worksite").html("");
+            var circuit=null;
+            for(var i in circuitWorksiteDtos){
+                if(circuitWorksiteDtos[i].id==circuitId){
+                    circuit=circuitWorksiteDtos[i];
+                    break;
+                }
+            }
+            //如果没有工点退出
+            if(circuit.worksites==null){
+                return ;
+            }
+            for(var k in circuit.worksites){
+                var worksite=circuit.worksites[k];
+                console.log("worksite");
+                console.log(worksite);
+                $("#select_worksite").append('<option  value="'+ worksite.id +'">'+worksite.name+'</option>');
+            }
+            initSelectTbm($("#select_worksite").val());
+            form.render();
+        }
+        function initSelectTbm(worksiteId){
+            $("#select_tbm").html("");
+            if(worksiteId==null)
+                return;
+            $.ajax({
+                url : bpath + "/admin/route/getTbmByWorkSite?worksiteId="+worksiteId,
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    console.log(data);
+                    var tbms=data.data;
+                    for(var i in tbms){
+                        var tbm=tbms[i];
+                        $("#select_tbm").append('<option  value="'+ tbm.id +'">'+tbm.name+'</option>');
+                    }
+                    form.render();
+                }
+            });
+        }
+    });
+
+</script>
+</@layout>

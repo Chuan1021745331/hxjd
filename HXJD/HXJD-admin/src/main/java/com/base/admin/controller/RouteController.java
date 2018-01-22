@@ -4,6 +4,7 @@ import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.*;
+import com.base.model.dto.CircuitWorksiteDto;
 import com.base.model.dto.MenuSimpDto;
 import com.base.model.dto.TreeSimpDto;
 import com.base.query.CircuitQuery;
@@ -247,7 +248,15 @@ public class RouteController extends BaseController {
         }
     }
 
+    public void getAllCircuit(){
+        List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
+        renderAjaxResult("",0,circuitWorksiteDtos);
+    }
 
-
+    public void getTbmByWorkSite(){
+        Integer worksiteId = getParaToInt("worksiteId");
+        List<JTbm> tbms = TbmService.me().findTbmByWorkSiteId(worksiteId);
+        renderAjaxResult("",0,tbms);
+    }
 
 }
