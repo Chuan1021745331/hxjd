@@ -1,4 +1,12 @@
 //运行环境
+
+var firstItem ;
+var lastItem ;
+var itemIndex;
+var flag=true;
+
+
+
 var type = 0 ;
 layui.use(['jquery', 'layer', 'element'], function() {
 	var $ = layui.jquery,
@@ -21,6 +29,9 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#left-menu").css("bottom","52px");
 		$("right-user").css("bottom","52px");
 		resizeSize(0,112,0);
+		
+		$("#items").css("display","none");
+		
 	}else{
 		type = 0;
 		$("#left-menu").removeClass("displayNone");
@@ -142,6 +153,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 			window.location.href=bpath+'/logout';
         });
     });
+    
 });
 function drawChart() {
 	if(type==1){
@@ -232,4 +244,27 @@ function drawChart() {
     myChart.setOption(option);
     myChart1.setOption(option);
     myChart2.setOption(option2);
+}
+
+
+function newsScroll(){
+	if(flag){//向上滚动
+		if(itemIndex == 1){
+			flag = false;
+			itemIndex = $("#items").children().size();
+		} else {
+			console.log("else");
+			firstItem.animate({marginTop:"-=19px"});			
+			itemIndex = itemIndex - 1;
+		}
+	} else {//向下滚动
+ 		if(itemIndex == 1){
+			flag = true;
+			itemIndex = $("#items").children().size();
+		} else {
+			firstItem.animate({marginTop:"+=19px"});			
+			itemIndex = itemIndex - 1;
+		}
+ 		
+	} 
 }

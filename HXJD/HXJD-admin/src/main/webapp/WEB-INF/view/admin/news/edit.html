@@ -1,7 +1,7 @@
 <#include "../../_include/_layout.inc.tag"/> 
 <@layout active_id="dashboard">
 <form class="layui-form" id="form" action="" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
-
+  <input type="hidden" name="jNews.id" value="${news.id!}">
   <div class="layui-form-item">
     <label class="layui-form-label">标题</label>
     <div class="layui-input-inline" style="width:40%;">
@@ -29,19 +29,6 @@
       <input type="file" id="attachment" name="attachment">
     </div>
   </div>
-<!--   <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline" >
-      <textarea name="jOption.remark" placeholder="请输入参数说明" class="layui-textarea"></textarea>
-    </div>
-  </div> -->
-  
-<!--   <div class="layui-form-item">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline">
-      <input type="text" name="jOption.remark" placeholder="请输入参数说明" autocomplete="off" class="layui-input">
-    </div>
-  </div> -->
   <div class="layui-form-item">
     <div class="layui-input-block">
       <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>

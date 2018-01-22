@@ -33,10 +33,12 @@ active_id="dashboard">
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">图标</label>
-		<div class="layui-input-inline">
-			<input type="text" name="jMenu.ico" required lay-verify="required"
-				placeholder="请输入图标" autocomplete="off" class="layui-input">
+			<div class="layui-input-inline">
+			<i class="icon iconfont icon-liulan" style="font-size: 25px;" id="iconShow"></i>
+			<input type="hidden" name="jButton.icon" required lay-verify="required" value="" id="iconId" 
+				placeholder="请选择图标" autocomplete="off" class="layui-input">
 		</div>
+		<div class="layui-form-mid layui-word-aux"><a id="iconBtn" href="#">选择</a></div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">排序</label>
@@ -62,6 +64,17 @@ active_id="dashboard">
 		var form = layui.form,
 			common = layui.common;
 		common.formSubmit('formDemo',bpath+'/admin/menu/saveOrUpdataForMenu');
+		$('#iconBtn').on('click', function(){  
+			layer.open({
+		      	type: 2 ,
+		      	title: '图标选择',
+		      	content: bpath+'/admin/menu/icon',
+		      	resize: false,
+		      	area: ['914px', '600px'],
+		      	anim: Math.ceil(Math.random() * 6)
+		   	});
+		});
+		
 	});
 </script>
 </@layout>
