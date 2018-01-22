@@ -100,7 +100,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	$("#user-sel").click(function (){
 		var area=['30%', '86%'];
         if(device.android || device.ios){
-        	area=['90%', '80%'];
+        	area=['90%', '534px'];
 		}
         var index = layer.open({
             type: 2 ,
