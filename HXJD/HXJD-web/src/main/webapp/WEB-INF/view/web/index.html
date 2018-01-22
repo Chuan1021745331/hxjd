@@ -25,7 +25,10 @@
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<div class="layui-header">
-			<div id="logoDiv" class="layui-logo"><!--盾构机监控-->${sys_title}</div>
+			<div id="logoDiv" class="layui-logo"><!--盾构机监控-->
+				<img id="tbm-logo" style="width: 45px;height: 45px" src="<#if tbm_logo??>${tbm_logo!}<#else>/attachment/avatar/astronaut.png</#if>">
+				<#if tbm_title??>${tbm_title}</#if>
+			</div>
 			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
 		<!-- 左侧导航区域S -->
@@ -73,23 +76,23 @@
 		<div id="right-user" class="layui-side-right displayNone">
 			<div class="layui-row paddingDiv">
 				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-						<span>用户名:</span>
-					<span><strong>${_visitor.visitorname}</strong></span>
-						<hr class="layui-bg-green">
+					<span>用户名:</span>
+					<span><strong><#if (_visitor.visitorname)??>${_visitor.visitorname}</#if></strong></span>
+					<hr class="layui-bg-green">
 				</div>
 				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
 					<span>职位:</span>
-					<span><strong>${position.name}</strong></span>
+					<span><strong><#if (position.name)??>${position.name}</#if></strong></span>
 					<hr class="layui-bg-green">
 				</div>
 				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
 					<p>所属部门:</p><br>
 					<#list parents as department>
-					<span><strong>${department.name}</strong></span>
-					</#list>
+					<span><strong><#if (department.name)??>${department.name}</#if></strong></span>
+				</#list>
 				<hr class="layui-bg-green">
-				</div>
 			</div>
+		</div>
 			<div>
 				<button id ="user-sel" class="layui-btn layui-btn-primary">个人详情</button>
 			    <button id="user-edit" class="layui-btn layui-btn-primary">修改密码</button>
