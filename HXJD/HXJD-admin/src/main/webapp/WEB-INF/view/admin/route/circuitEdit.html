@@ -1,47 +1,268 @@
 <#include "../../_include/_layout.inc.tag"/> <@layout
 active_id="dashboard">
-<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
-    <input type="hidden" name="jCircuit.id" value="<#if route??>${route.id}</#if>">
-    <div class="layui-form-item">
-        <label class="layui-form-label">所属节点</label>
-        <div class="layui-input-inline">
-            <input type="text" required lay-verify="required"
-                   placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
-                   value="根节点"
-                   id="routeSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea">
+
+</script>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=RoL3hZIsElGUgvnGtCNXQvf5MXCIqesw">
+    //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
+</script>-->
+<div class="layui-row ">
+    <div class="layui-col-md6">
+        <form class="layui-form ms-layout-nowrap-vertical " action="" style="margin: 10px 10px 0px 10px;">
+            <input type="hidden" name="jCircuit.id" value="<#if route??>${route.id}</#if>">
+            <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">所属节点</label>
+                <div class="sm-width-80-per">
+                    <input type="text" required lay-verify="required"
+                           placeholder="点击右边选择所属菜单" autocomplete="off" class="layui-input"
+                           value="根节点"
+                           id="routeSel" disabled="disabled" style="color: #009688;font-weight: bolder;">
+                </div>
+            </div>
+            <div class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">线路名称</label>
+                <div class="sm-width-80-per">
+                    <input type="text" name="jCircuit.name" required lay-verify="required"
+                           placeholder="请输入线路名称" autocomplete="off" class="layui-input"
+                           value="<#if route??>${route.name!}</#if>">
+                </div>
+            </div>
+            <div class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">详细坐标</label>
+                <div class="sm-width-80-per">
+                    <textarea id="editpoints"  name="jCircuit.points" readonly class="layui-textarea"><#if route??>${route.points!}</#if></textarea>
+                </div>
+            </div>
+            <div class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">详细描述</label>
+                <div class="sm-width-80-per">
+                    <textarea  id="editgeneral" name="jCircuit.general" placeholder="请输入内容" class="layui-textarea"><#if route??>${route.general!}</#if></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item ms-margin-top-1rem">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="restPoints layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <!--map-->
+    <div class="layui-col-md6  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
+        <div id="container" class="ms-height-100-per ms-width-100-per ">
+
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">线路名称</label>
-        <div class="layui-input-inline">
-            <input type="text" name="jCircuit.name" required lay-verify="required"
-                   placeholder="请输入线路名称" autocomplete="off" class="layui-input"
-                   value="<#if route??>${route.name!}</#if>">
-        </div>
+    <div class="button-group" >
+        <input type="button" class="clearXY layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" value="清空坐标" onClick="editor.startEditLine()"/>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">详细描述</label>
-        <div class="layui-input-inline">
-            <textarea  name="jCircuit.general" placeholder="请输入内容" class="layui-textarea"><#if route??>${route.general!}</#if></textarea>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
-</form>
+
+</div>
 
 <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
     <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
 
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
 <script>
-    layui.use(['form','common'], function() {
+    layui.use(['form','common','layer'], function() {
         var form = layui.form,
             common = layui.common;
         common.formSubmit('formDemo',bpath+'/admin/route/saveAndUpdateCicuit');
+        var layer = layui.layer
+
+        /*富文本框*/
+        var editor = null;
+        editor = KindEditor;
+        editor.create('#editgeneral',{
+            cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
+            uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
+            fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
+            width:'100%',
+            height:'450px',
+            resizeType: 0,
+            autoHeightMode : false,
+            allowFileManager : true,
+            afterBlur: function(){this.sync();}
+        });
+
+        /*清除坐标*/
+        $(".clearXY").on('click',function(){
+            restPoints();
+            $("#editpoints").val("");
+        })
+
+        function clearXY() {
+            restPoints();
+            $("#editpoints").val("");
+        }
+
+        /*初始化地图上的线*/
+        function initLine() {
+            var content = $("#editpoints").text();
+            var lineStr = new Array();
+            lineStr = content.split("#");
+
+            var items = new Array();
+            for(var j = 0;j<lineStr.length;j++){
+
+                var str = lineStr[j].split(",");
+                var x = str[0];
+                var y = str[1];
+                items[j]= [x,y];
+            }
+            creatLine(items,"init");
+        }
+
+        /*gaodei Map*/
+        var map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom:11,
+            center: [106.545474,29.601621]
+//                [116.397428, 39.90923]//北京
+//
+        });
+
+        /*所需的全局变量*/
+        var points = new Array();
+        var i = 0;
+        var lines = new Array();
+        var a = 0;
+        var init = "NULL";
+
+        map.on('click', function(e) {
+//            alert('您在[ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ]的位置点击了地图！');
+            if(init == "NULL"){
+                clearXY();
+            }
+            init = "init";
+            var x = e.lnglat.getLng();
+            var y = e.lnglat.getLat();
+
+            if(i == 0){
+                points[i] = [x,y];
+                setAddPoints(x,y,"NULL");
+            }else {
+                points[i] = [x,y];
+                creatLine(points,"NULL");
+                setAddPoints(x,y,"#");
+            }
+            i++;
+
+        });
+        /*线的样式*/
+        function creatLine(points,init) {
+//            alert(points);
+            console.log(points);
+            var polyline = new AMap.Polyline({
+                path: points,          //设置线覆盖物路径
+                strokeColor: "#6cff0e", //线颜色
+                strokeOpacity: 1,       //线透明度
+                strokeWeight: 5,        //线宽
+                strokeStyle: "solid",   //线样式
+                strokeDasharray: [10, 5] //补充线样式
+            });
+            console.log("-----")
+//            if(init != 'init'){
+                lines[a] = polyline;
+                a++
+//            }
+            polyline.setMap(map);
+
+        }
+        /*初始化画线*/
+        initLine();
+        /*重置线路*/
+        $('.restPoints').on('click',function(){
+            restPoints();
+        })
+        function restPoints() {
+            map.remove(lines);
+            i = 0;
+            a = 0;
+            lines.splice(0,lines.length);
+            points.splice(0,points.length);
+        }
+
+        /*Baidu map*/
+        /*var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],anchor: BMAP_ANCHOR_TOP_LEFT});
+
+         var map = new BMap.Map("container");
+         var point = new BMap.Point(106.545474,29.601621);
+
+         map.enableScrollWheelZoom(true);
+         map.centerAndZoom(point, 13);
+
+         map.addControl(mapType1);          //2D图，卫星图
+
+         /!*所需全局变量*!/
+         var points = new Array();
+         var i = 0;
+         var marker2;
+         var polylines = new Array();
+         var line = 0;
+
+         /!*监听地图点击事件*!/
+         map.addEventListener("click", function(e){
+         //        alert(e.point.lng + ", " + e.point.lat);
+         //            creatLine(e.point.lng, e.point.lat)
+         points[i] = new BMap.Point(e.point.lng,e.point.lat)
+         var x = e.point.lng;
+         var y = e.point.lat;
+
+         if(points.length > 1){
+         setAddPoints(x,y,"#")
+         creatLine(points)
+         }else {
+         var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
+         //                var myIcon = new BMap.color("#00FF00")
+         marker2 = new BMap.Marker(points[i],{icon:myIcon});
+         //                var marker = new BMap.Marker(points[i]);
+         map.addOverlay(marker2);
+         setAddPoints(x,y,"NULL")
+         }
+         i++;
+
+         });
+         */
+        /*将点添加到表单*/
+        function setAddPoints(x,y,oth) {
+            var data ;
+            if(oth == "NULL"){
+                data = x+","+y;
+            }else {
+                data = oth+x+","+y;
+            }
+            $("#editpoints").val($("#editpoints").val()+data)
+        }
+        /*
+         /!*创建线*!/
+         function creatLine(points) {
+         //            alert("??")
+         var polyline = new BMap.Polyline(points, {strokeColor:"#00FF00", strokeWeight:8, strokeOpacity:1});   //创建折线
+         map.addOverlay(polyline);   //增加折线
+         polylines[line] = polyline;
+         line++;
+         }
+
+         /!*重置点事件*!/
+         $('.restPoints').on('click',function(){
+         map.removeOverlay(marker2)
+         for(var a = 0;a<polylines.length;a++){
+         map.removeOverlay(polylines[a])
+         }
+         line = 0;
+         i = 0;
+         points.splice(0,points.length);
+         polylines.splice(0,polylines.length);
+         })*/
+
     });
+
 </script>
 </@layout>
