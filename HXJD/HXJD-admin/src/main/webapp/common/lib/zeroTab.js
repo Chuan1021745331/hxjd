@@ -178,6 +178,7 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	            	}
 	            });
 	            $("#zero_left_menu dd").removeClass("layui-this");
+	            $("#zero_left_menu li").removeClass("layui-this");
 	            $("#zero_left_menu li").removeClass("layui-nav-itemed");
 	            
 	            $('#zero_left_menu a').each(function(){
@@ -187,7 +188,7 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 		            　　		}
 		            　　	});
 	    	}
-	        /** tab栏与菜单栏联动---介绍 **/
+	        /** tab栏与菜单栏联动---结束 **/
 	    	
 	    });
 	    /** 点击隐藏与显示 **/
