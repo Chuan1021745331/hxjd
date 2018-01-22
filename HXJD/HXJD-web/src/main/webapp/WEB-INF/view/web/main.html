@@ -11,15 +11,18 @@
 <title>导调服务端 --v1.0</title>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
 <script type="text/javascript">
 	ctx = '${CPATH}';
 	cty = '127.0.0.1:8088/${BPATH}';
 </script>
 <style type="text/css">  
-html{height:100%}  
-body{height:100%;margin:0px;padding:0px}  
-#container{height:100%}  
+	html{height:100%}  
+	body{height:100%;margin:0px;padding:0px}  
+	#container{height:100%}
+	.amap-logo{display: none!important;}
+	.amap-copyright{display: none!important;}
 </style>  
 </head>
 <body style="background-color: #E9ECF1 !important">
@@ -28,34 +31,39 @@ body{height:100%;margin:0px;padding:0px}
 	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 	<script type="text/javascript" src="${CPATH}/js/main1.js"></script>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=RoL3hZIsElGUgvnGtCNXQvf5MXCIqesw">
-	//v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
-	</script>
+	
+    <script src="http://webapi.amap.com/maps?v=1.4.3&key=26ecc95817c92712831cb73b1c84ccb5"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
 	
 	<script type="text/javascript">
-		var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],anchor: BMAP_ANCHOR_TOP_LEFT});
-
-		var map = new BMap.Map("container");
-		var point = new BMap.Point(106.545474,29.601621);
 		
-		map.enableScrollWheelZoom(true);
-		map.centerAndZoom(point, 13);
-
-		map.addControl(mapType1);          //2D图，卫星图
-		
-		var polyline = new BMap.Polyline([
-			new BMap.Point(106.55562,29.60744),
-			new BMap.Point(106.555624,29.606738),
-			new BMap.Point(106.555615,29.606724),
-			new BMap.Point(106.555571,29.606182),
-			new BMap.Point(106.55531,29.605499),
-			new BMap.Point(106.55531,29.605499),
-			new BMap.Point(106.554376,29.604997),
-			new BMap.Point(106.55063,29.604989),
-			new BMap.Point(106.548645,29.605154),
-			new BMap.Point(106.542051,29.606284)
-		], {strokeColor:"#00FF00", strokeWeight:8, strokeOpacity:1});   //创建折线
-		map.addOverlay(polyline);   //增加折线
+		var map = new AMap.Map('container', {
+	        center: [106.545474,29.601621],
+	        layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+	        zoom: 13
+	    });
+		var roadNet = new AMap.TileLayer.RoadNet({zIndex:10});
+		roadNet.setMap(map);
+		var lineArr = [
+            [106.55562,29.60744],
+            [106.555624,29.606738],
+            [106.555615,29.606724],
+            [106.555571,29.606182],
+            [106.55531,29.605499],
+            [106.554376,29.604997],
+            [106.55063,29.604989],
+            [106.548645,29.605154],
+            [106.542051,29.606284]
+        ];
+        var polyline = new AMap.Polyline({
+            path: lineArr,          //设置线覆盖物路径
+            strokeColor: "#3366FF", //线颜色
+            strokeOpacity: 1,       //线透明度
+            strokeWeight: 5,        //线宽
+            strokeStyle: "solid",   //线样式
+            strokeDasharray: [10, 5] //补充线样式
+        });
+        polyline.setMap(map);
 	</script>  
 </body>
 </html>
