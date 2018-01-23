@@ -46,6 +46,11 @@ public class NewsService {
 		return NewsQuery.me().getIndexNews();
 	}
 	
+	public Record getNewsById(int id){
+		return NewsQuery.me().getById(id);
+	}
+	
+	
 	@Before(Tx.class)
 	public boolean addSave(JNews news){
 		return news.save();

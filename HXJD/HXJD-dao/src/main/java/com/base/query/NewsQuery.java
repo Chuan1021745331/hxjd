@@ -56,4 +56,6 @@ public class NewsQuery {
 	public Record getById(Integer id){
 		return Db.findFirst("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.type, n.attachment, nt.name from j_news n join j_newsType nt on nt.id = n.type where n.id =  ? ", id);
 	}
+	
+	
 }

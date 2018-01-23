@@ -28,16 +28,17 @@ import com.jfinal.plugin.activerecord.Record;
  * @版权: 2018 hxjd Inc. All rights reserved. 
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
-@RouterMapping(url = "/news", viewPath = "/view/news")
+@RouterMapping(url = "/news", viewPath = "/view/web/news")
 @RouterNotAllowConvert
 public class NewsController extends BaseController {
 
 	public void index() {
-		
+		List<Record> list =  NewsService.me().getIndexNews();
+		setAttr("news",list);
 		render("news.html");
 	}
 	
-	public void newsData(){
+/*	public void newsData(){
 		Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
 		String where = getPara("id");
@@ -46,13 +47,20 @@ public class NewsController extends BaseController {
 		List<Record> list = NewsService.me().findListNews(page, limit, where, count);
 
 		renderPageResult(0, "", (int)count, list);
-	}
+	}*/
 	
 	public void getIndexNews(){
 		List<Record> list =  NewsService.me().getIndexNews();
 		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		renderText(str);
 		
+	}
+	
+	public void getNewsById(){
+		int id = getParaToInt("id");
+		Record news = NewsService.me().getNewsById(id);
+		setAttr("news", news);
+		render("");
 	}
 	
 }

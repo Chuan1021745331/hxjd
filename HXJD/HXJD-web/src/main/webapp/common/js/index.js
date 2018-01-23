@@ -253,7 +253,6 @@ function newsScroll(){
 			flag = false;
 			itemIndex = $("#items").children().size();
 		} else {
-			console.log("else");
 			firstItem.animate({marginTop:"-=19px"});			
 			itemIndex = itemIndex - 1;
 		}

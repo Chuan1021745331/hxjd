@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    <title>华夏九鼎军民融合科学技术研究院|</title>
+    <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/common.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/backstage.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/base.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+    <link rel="stylesheet" type="text/css"
+          href="${CPATH}/plus/toastr/toastr.min.css" media="all">
+    <script type="text/javascript">
+        var bpath = "${BPATH}";
+        var cpath = "${CPATH}";
+        var apath = "${APATH}";
+    </script>
+</head>
+<body style="overflow:auto">
+<div id="mobile" >
+	<div class="layui-row" style="overflow-x:hidden;">
+	   <#if news??>
+	   		<#list news as bean>
+	   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">
+			    	<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
+			   		 	<div class="id" style="display:none">${bean.id!}</div>
+			   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【${bean.name!}】${bean.title!}</div>
+			    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" >${bean.content!}</div>
+			    		<br>
+			    		${bean.postMan!} 发布于 ${bean.postTime!}
+			    		<hr class="layui-bg-blue">
+			    	</div>	    	
+			    </div>
+	   		</#list>
+	   </#if> 	    
+	</div> 	
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+console.log($(".item").size());
+	console.log($(".colHeader").size());
+ 
+  	$(".colHeader").unbind('click').click(function(){
+		var id = $(this).prev().text();
+  		//console.log($(this).prev().text());
+		
+	})  
+	
+	
+</script>
+</html>
