@@ -109,4 +109,12 @@ public abstract class BaseJWorksite<M extends BaseJWorksite<M>> extends JModel<M
 		return get("circuitid");
 	}
 
+	public void setCoord(java.lang.String coord) {
+		set("coord", coord);
+	}
+
+	public java.lang.String getCoord() {
+		return get("coord");
+	}
+
 }
