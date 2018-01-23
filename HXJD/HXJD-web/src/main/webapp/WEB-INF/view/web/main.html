@@ -11,7 +11,7 @@
 <title>导调服务端 --v1.0</title>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
-<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
 
 <script type="text/javascript">
@@ -27,7 +27,7 @@
 </style>  
 </head>
 <body style="background-color: #E9ECF1 !important">
-  	<div id="container"></div> 
+  	<div id="container"></div>
 	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
@@ -44,6 +44,22 @@
         var a = 0;
 		
 		var map = new AMap.Map('container', {
+            /*layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+            zoom: 13,*/
+            /*resizeEnable: true,
+            rotateEnable:true,
+            pitchEnable:true,
+            zoom: 17,
+            pitch:80,
+            rotation:-15,
+            viewMode:'3D',//开启3D视图,默认为关闭
+            buildingAnimation:true,//楼块出现是否带动画
+
+            expandZoomRange:true,
+            zooms:[3,20],
+            center: [106.545474,29.601621]*/
+
+
             layers: [new AMap.TileLayer.Satellite({zIndex:10})],
             zoom: 13,
             center: [106.545474,29.601621]
@@ -55,14 +71,15 @@
             clearLineAndTag();
             var points = $(this).find(".points").val();
             var coord = $(this).find(".coord");
+            var wname = $(this).find(".wname");
             console.log(coord);
             creadController(points);
-            creatTagController(coord);
+            creatTagController(coord,wname);
 
             
         });
 
-        function creatTagController(coord) {
+        function creatTagController(coord,wname) {
 
 			for(var tag = 0;tag<coord.length;tag++){
 			    var coordStr = $(coord[tag]).val();
@@ -72,20 +89,48 @@
                     var tagStrs = coordStr.split(",");
                     var x = tagStrs[0];
                     var y = tagStrs[1];
-                    creatTag(x,y);
+                    var wnameStr = $(wname[tag]).text();
+                    creatTag(x,y,wnameStr);
                 }
 			}
         }
+        var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+        /*信息框*/
+        function infoWindowOpen(e) {
+            infoWindow.setContent(e.target.content);
+            infoWindow.open(map, e.target.getPosition());
+        }
+        /*关闭*/
+        function infoWindowClose(e) {
+            map.clearInfoWindow();
+        }
 		/*在地图上标记点*/
-        function creatTag(x, y) {
+        function creatTag(x, y,wname) {
             marker = new AMap.Marker({
+//                icon: "http://lbsyun.baidu.com/jsdemo/img/fox.gif",
                 icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                 position: [x, y]
             });
+            marker.content = wname;
+            marker.on('mouseover', infoWindowOpen);
+            marker.on('mouseout', infoWindowClose);
+            marker.on('click', markerClick);
+//            marker.emit('click', {target: marker});
             tags[ta] = marker;
             ta++;
             marker.setMap(map);
+            map.setFitView();
         }
+
+        /*点击标记事件*/
+        function markerClick() {
+			alert("你点击了。。。还没开始挖……")
+        }
+
+        //点击地图空白地方，清除所有的弹出窗体
+        AMap.event.addListener(map, 'click', function (e) {
+            map.clearInfoWindow();
+        });
         /*初始化lu线*/
 		function init() {
 			console.log("init");
@@ -94,9 +139,10 @@
             console.log(li)
            var points = $(li).find(".points").val();
            var coord = $(li).find(".coord");
+            var wname = $(li).find(".wname");
 
             creadController(points);
-            creatTagController(coord);
+            creatTagController(coord,wname);
         }
 
         /*绘制路线*/

@@ -59,7 +59,7 @@
 								<dl class="layui-nav-child">
 									<#if item.worksites??>
 										<#list item.worksites as worksite>
-										<dd><a href="http://www.baidu.com" target="ifr_0">${worksite.name}</a></dd>
+										<dd><a class="wname" href="http://www.baidu.com" target="ifr_0">${worksite.name}</a></dd>
 											<input class="coord" type="hidden" value="${worksite.coord!}"/>
 										</#list>
 									</#if>

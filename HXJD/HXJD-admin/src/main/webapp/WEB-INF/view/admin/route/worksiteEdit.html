@@ -7,7 +7,7 @@ active_id="dashboard">
 
 </script>
 <div class="layui-row">
-    <div class="layui-col-md3 ">
+    <div class="layui-col-md3">
         <form class="layui-form ms-layout-nowrap-vertical" action="" style="margin: 10px 10px 0px 10px;">
             <input type="hidden" name="jWorksite.id" value="<#if route??>${route.id}</#if>">
             <input type="hidden" name="jWorksite.circuitid" value="<#if route??>${route.circuitid}</#if>">
@@ -134,6 +134,7 @@ active_id="dashboard">
             layers: [new AMap.TileLayer.Satellite({zIndex:10})],
             zoom: 13,
             center: [106.545474,29.601621]
+//                [116.397428, 39.90923]//北京
 //
         });
 
