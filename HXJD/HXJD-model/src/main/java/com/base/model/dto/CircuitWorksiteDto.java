@@ -16,7 +16,16 @@ import java.util.List;
 public class CircuitWorksiteDto {
     private int id;
     private String name;
+    private String points;
     private List<JWorksite> worksites;
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
 
     public int getId() {
         return id;

@@ -121,8 +121,8 @@ active_id="dashboard">
 
         /*gaodei Map*/
         var map = new AMap.Map('container', {
-            resizeEnable: true,
-            zoom:11,
+            layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+            zoom: 13,
             center: [106.545474,29.601621]
 //                [116.397428, 39.90923]//北京
 //

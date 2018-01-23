@@ -74,6 +74,7 @@ public class CircuitService {
         for(JCircuit circuit:circuits){
             CircuitWorksiteDto circuitWorksiteDto = new CircuitWorksiteDto();
             circuitWorksiteDto.setId(circuit.getId());
+            circuitWorksiteDto.setPoints(circuit.getPoints());
             circuitWorksiteDto.setName(circuit.getName());
             List<JWorksite> cworksites = new ArrayList<>();
             for(JWorksite worksite:worksites){

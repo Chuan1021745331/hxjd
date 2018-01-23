@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
 <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+
 <script type="text/javascript">
 	ctx = '${CPATH}';
 	cty = '127.0.0.1:8088/${BPATH}';
@@ -31,18 +32,121 @@
 	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 	<script type="text/javascript" src="${CPATH}/js/main1.js"></script>
-	
+
     <script src="http://webapi.amap.com/maps?v=1.4.3&key=26ecc95817c92712831cb73b1c84ccb5"></script>
     <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
 	
 	<script type="text/javascript">
+
+        var lines = new Array();
+        var tags = new Array();
+        var ta = 0;
+        var a = 0;
 		
 		var map = new AMap.Map('container', {
-	        center: [106.545474,29.601621],
-	        layers: [new AMap.TileLayer.Satellite({zIndex:10})],
-	        zoom: 13
+            layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+            zoom: 13,
+            center: [106.545474,29.601621]
 	    });
-		var roadNet = new AMap.TileLayer.RoadNet({zIndex:10});
+
+        init();
+		/*点击li的出发事件*/
+        $('#left-menu > div > ul > li', parent.document).click(function(){
+            clearLineAndTag();
+            var points = $(this).find(".points").val();
+            var coord = $(this).find(".coord");
+            console.log(coord);
+            creadController(points);
+            creatTagController(coord);
+
+            
+        });
+
+        function creatTagController(coord) {
+
+			for(var tag = 0;tag<coord.length;tag++){
+			    var coordStr = $(coord[tag]).val();
+                if(coordStr ===''){
+
+                }else {
+                    var tagStrs = coordStr.split(",");
+                    var x = tagStrs[0];
+                    var y = tagStrs[1];
+                    creatTag(x,y);
+                }
+			}
+        }
+		/*在地图上标记点*/
+        function creatTag(x, y) {
+            marker = new AMap.Marker({
+                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [x, y]
+            });
+            tags[ta] = marker;
+            ta++;
+            marker.setMap(map);
+        }
+        /*初始化lu线*/
+		function init() {
+			console.log("init");
+           var li = window.parent.document.getElementsByClassName("layui-nav-itemed")[0];
+            console.log("--------------="+li)
+            console.log(li)
+           var points = $(li).find(".points").val();
+           var coord = $(li).find(".coord");
+
+            creadController(points);
+            creatTagController(coord);
+        }
+
+        /*绘制路线*/
+        function creadController(points) {
+            var lineStr = new Array();
+            lineStr = points.split("#");
+
+            var items = new Array();
+            for(var j = 0;j<lineStr.length;j++){
+
+                var str = lineStr[j].split(",");
+                var x = str[0];
+                var y = str[1];
+                items[j]= [x,y];
+            }
+            creatLine(items,"init");
+        }
+
+
+		/*线的样式*/
+        function creatLine(points,init) {
+            console.log(points);
+            var polyline = new AMap.Polyline({
+                path: points,          //设置线覆盖物路径
+                strokeColor: "#6cff0e", //线颜色
+                strokeOpacity: 1,       //线透明度
+                strokeWeight: 5,        //线宽
+                strokeStyle: "solid",   //线样式
+                strokeDasharray: [10, 5] //补充线样式
+            });
+            console.log("-----"+polyline)
+            console.log(polyline)
+//            if(init != 'init'){
+            lines[a] = polyline;
+            a++
+//            }
+			console.log(polyline);
+            polyline.setMap(map);
+
+        }
+        /*清除线点*/
+        function clearLineAndTag() {
+			map.remove(lines);
+			map.remove(tags);
+			ta = 0;
+			a = 0;
+			lines.splice(0,lines.length);
+            tags.splice(0,tags.length);
+        }
+		/*var roadNet = new AMap.TileLayer.RoadNet({zIndex:10});
 		roadNet.setMap(map);
 		var lineArr = [
             [106.55562,29.60744],
@@ -63,7 +167,7 @@
             strokeStyle: "solid",   //线样式
             strokeDasharray: [10, 5] //补充线样式
         });
-        polyline.setMap(map);
+        polyline.setMap(map);*/
 	</script>  
 </body>
 </html>
