@@ -7,7 +7,7 @@ active_id="dashboard">
 		<label class="layui-form-label">所属部门</label>
 		<#list parents as pdepartment>
 		<div class="layui-input-inline" style="width: 100px;">
-			<input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+			<input type="text" class="layui-input" value="${pdepartment.name!}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
 
 		</div>
 			<#if (pdepartment_index!=parents.size()-1)>

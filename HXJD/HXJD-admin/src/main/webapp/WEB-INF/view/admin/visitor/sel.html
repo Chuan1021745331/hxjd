@@ -51,7 +51,7 @@
         </#if>
         <#list parents as pdepartment>
             <div class="layui-input-inline" style="width: 70px;">
-                <input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+                <input type="text" class="layui-input" value="${pdepartment.name!}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
             </div>
             <#if (pdepartment_index!=parents.size()-1)>
              <div class="layui-form-mid">——></div>
@@ -62,7 +62,7 @@
       <label class="layui-form-label">职称</label>
       <div class="layui-input-inline">
           <#if department??>
-             <input type="text" class="layui-input inputNone" style="color: #009688;font-weight: bolder;" value="${department.name}" readonly = "readonly">
+             <input type="text" class="layui-input inputNone" style="color: #009688;font-weight: bolder;" value="${department.name!}" readonly = "readonly">
           <#else>
              <input type="text" class="layui-input inputNone" style="color: #009688;font-weight: bolder;" value="暂无职称" readonly = "readonly">
           </#if>

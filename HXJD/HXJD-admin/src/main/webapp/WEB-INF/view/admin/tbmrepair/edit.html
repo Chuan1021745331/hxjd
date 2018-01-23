@@ -45,7 +45,7 @@ active_id="dashboard">
 	<div class="layui-form-item">
 		<label class="layui-form-label">维修内容</label>
 		<div class="layui-input-inline" style="width:62%; height:30%;">
-			<textarea name="jTbmrepair.content" id="content" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea">${tbmrepair.content}</textarea>
+			<textarea name="jTbmrepair.content" id="content" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea">${tbmrepair.content!}</textarea>
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -92,7 +92,6 @@ active_id="dashboard">
             allowFileManager : true,
             afterBlur: function(){this.sync();}
         });
-        initSelectCircuit();
 
         //表单提交
         form.on('submit(formDemo)', function(data){
@@ -151,8 +150,7 @@ active_id="dashboard">
         });
         form.render();
 
-        //select改变事件
-        var circuitWorksiteDtos=[];
+
         form.on('select(select_route)', function(data){
             /*console.log(data.value); //得到被选中的值
             console.log(data.othis); //得到美化后的DOM对象*!/*/
@@ -164,6 +162,12 @@ active_id="dashboard">
             initSelectTbm(worksiteId);
         });
 
+//s		//elect改变事件
+        var circuitWorksiteDtos=[];
+        var selectedTbmId='${tbm.id!}';
+        var selectedCircuitId='${circuit.id!}';
+        var selectedWorksiteId='${worksite.id!}';
+        initSelectCircuit();
         //初始化
         function initSelectCircuit() {
             $.ajax({
@@ -176,6 +180,11 @@ active_id="dashboard">
                         var circuit=circuitWorksiteDtos[i];
                         $("#select_circuit").append('<option  value="'+ circuit.id +'">'+circuit.name+'</option>');
                     }
+                    //初始化选中
+					if(selectedCircuitId!=null){
+                        $("#select_circuit").find("option[value='"+selectedCircuitId+"']").attr("selected","selected");
+                        selectedCircuitId==null;
+                    }
                     initSelectWorkSite($("#select_circuit").val());
                     form.render();
                 }
@@ -183,6 +192,8 @@ active_id="dashboard">
         }
         function initSelectWorkSite(circuitId) {
             $("#select_worksite").html("");
+            if(circuitId==null)
+                return;
             var circuit=null;
             for(var i in circuitWorksiteDtos){
                 if(circuitWorksiteDtos[i].id==circuitId){
@@ -191,7 +202,7 @@ active_id="dashboard">
                 }
             }
             //如果没有工点退出
-            if(circuit.worksites==null){
+            if(circuit==null||circuit.worksites==null){
                 return ;
             }
             for(var k in circuit.worksites){
@@ -200,6 +211,13 @@ active_id="dashboard">
                 console.log(worksite);
                 $("#select_worksite").append('<option  value="'+ worksite.id +'">'+worksite.name+'</option>');
             }
+
+            //初始化选中
+			if(selectedWorksiteId!=null){
+                $("#select_worksite").find("option[value='"+selectedWorksiteId+"']").attr("selected","selected");
+                selectedWorksiteId=null;
+            }
+
             initSelectTbm($("#select_worksite").val());
             form.render();
         }
@@ -217,6 +235,11 @@ active_id="dashboard">
                     for(var i in tbms){
                         var tbm=tbms[i];
                         $("#select_tbm").append('<option  value="'+ tbm.id +'">'+tbm.name+'</option>');
+                    }
+                    //初始化选中
+					if(selectedTbmId!=null){
+                        $("#select_tbm").find("option[value='"+selectedTbmId+"']").attr("selected","selected");
+                        selectedTbmId==null;
                     }
                     form.render();
                 }

@@ -3,6 +3,7 @@ package com.base.query;
 import com.base.model.JCamera;
 import com.base.model.JTbm;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -50,4 +51,16 @@ public class TbmQuery {
         return DAO.find("select * from j_tbm where worksiteid="+id);
     }
 
+    public List<Record> findTbmTbmrepairByWorkSiteId(int page, int limit, int workSiteId){
+        //连表查询维修记录最近的一次
+        StringBuilder sql=new StringBuilder("select t.*,tb.repairtime,tb.repairman,tb.cycle");
+        sql.append(" from j_tbm t left join (select * from j_tbmrepair group by tbmId having max(repairtime)) tb on t.id=tb.tbmId");
+        sql.append(" where t.worksiteid=?");
+        sql.append(" order by id asc limit ?,?");
+        LinkedList<Object> params = new LinkedList<Object>();
+        params.add(workSiteId);
+        params.add(limit*page-limit);
+        params.add(limit);
+        return Db.find(sql.toString(),params.toArray());
+    }
 }

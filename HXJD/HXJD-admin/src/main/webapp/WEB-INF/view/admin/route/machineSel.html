@@ -2,6 +2,11 @@
 active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
+<style type="text/css">
+   .layui-form-label{
+       width:90px;
+   }
+</style>
 <form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
     <input type="hidden" name="jTbm.worksiteid" value="<#if worksite??>${worksite.id}</#if>">
     <input type="hidden" name="jTbm.id" value="<#if tbm??>${tbm.id}</#if>">
@@ -42,6 +47,31 @@ active_id="dashboard">
         <label class="layui-form-label">客户端Mac地址</label>
         <div class="layui-input-inline">
             <input type="text" readonly value="<#if tbm??>${tbm.mac!}</#if>"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">最近一次维修</label>
+            <div class="layui-input-inline">
+                <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">维修人</label>
+            <div class="layui-input-inline">
+                <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">下次维修时间</label>
+            <div class="layui-input-inline" >
+                <input type="text" id="cycle"  value="${tbmrepair.cycle!}" readonly  class="layui-input choose-time">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <p id="selTbmrepair" class="layui-btn layui-btn-sm"><i class="icon iconfont"></i><cite>查看所有记录</p>
         </div>
     </div>
 </form>
@@ -139,6 +169,12 @@ active_id="dashboard">
         var index;
         var cameraID="NULL";
         var addIndex;
+
+        $("#selTbmrepair").click(function () {
+            var id='<#if tbm??>${tbm.id}</#if>';
+            common.tableOpenLayer('${tbm.name}维修记录','icon-xiangqing',bpath+'/admin/route/tbmrepair?id='+id);
+        });
+
         /*打开添加摄像头模态框*/
         $("#addCamera").click(function () {
             addIndex = layer.open({
@@ -275,7 +311,6 @@ active_id="dashboard">
                 return false;
             });
         }
-
 
     });
 

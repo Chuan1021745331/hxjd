@@ -4,6 +4,7 @@ import com.base.model.JCamera;
 import com.base.model.JTbm;
 import com.base.query.CameraQuery;
 import com.base.query.TbmQuery;
+import com.jfinal.plugin.activerecord.Record;
 import org.quartz.ee.jta.JTAAnnotationAwareJobRunShellFactory;
 
 import java.util.ArrayList;
@@ -48,6 +49,23 @@ public class TbmService {
     }
 
     /**
+     * 分页查询盾构机外加最近的一次维修记录
+     * @param page
+     * @param limit
+     * @param workSiteId
+     * @param count
+     * @return
+     */
+    public List<Record> findTbmTbmrepairByworkSiteId(int page, int limit, int workSiteId, long count){
+        List<Record> routeList=new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            routeList = TbmQuery.me().findTbmTbmrepairByWorkSiteId(page, limit, workSiteId);
+        }
+        return routeList;
+    }
+
+    /**
      * 保存或更新盾构机
      * @param tbm
      * @return
@@ -74,5 +92,8 @@ public class TbmService {
 
     public List<JTbm> findTbmByWorkSiteId(int workSiteid){
         return TbmQuery.me().findByWorkSiteId(workSiteid);
+    }
+    public JTbm findTbmById(int tbmId){
+        return TbmQuery.me().findTbmById(tbmId);
     }
 }

@@ -220,8 +220,10 @@
             ,cols: [[
             {${thBase},title:'ID',field:'id', width:80, sort: true},
         {${thBase},title:'盾构机名称',field:'name'},
-        {${thBase},title:'盾构机编码',field:'code'}
-
+        {${thBase},title:'盾构机编码',field:'code'},
+        {${thBase},title:'上次维修时间',field:'repairtime'},
+        {${thBase},title:'维修人',field:'repairman'},
+        {${thBase},title:'下次维修时间',field:'cycle'}
         ]],
         done: function(res, curr, count){
             page = curr;

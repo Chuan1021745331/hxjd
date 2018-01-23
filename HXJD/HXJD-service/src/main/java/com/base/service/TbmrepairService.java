@@ -36,17 +36,21 @@ public class TbmrepairService {
         return TbmrepairQuery.me().findByTbmrepairId(tbmrepairId);
     }
 
-    public List<JTbmrepair> findTbmrepairByTbmId(Integer page,Integer limit,Integer tbmId,long count){
-        List<JTbmrepair> list = new ArrayList<>();
+    public List<Record> findListTbmrepairByTbmId(Integer page,Integer limit,Integer tbmId,long count){
+        List<Record> list = new ArrayList<>();
         if(count!=0) {
             page = (page > count / limit && count % limit == 0) ? page - 1 : page;
-            list=TbmrepairQuery.me().findByTbmId(page,limit,tbmId);
+            list=TbmrepairQuery.me().findListTbmrepairTbmUser(page,limit,tbmId);
         }
         return list;
     }
 
-    public long findCountTbmrepairTbmUser(){
-        return TbmrepairQuery.me().findCountTbmrepairTbmUser();
+    public long findCountTbmrepairByTbmId(Integer tbmId){
+        return TbmrepairQuery.me().findCountByTbmId(tbmId);
+    }
+
+    public long findCountTbmrepairTbmUser(String search){
+        return TbmrepairQuery.me().findCountTbmrepairTbmUser(search);
     }
 
     public List<Record> findListTbmrepairTbmUser(Integer page, Integer limit, String where, long count){
@@ -67,5 +71,15 @@ public class TbmrepairService {
         tempTbmrepair.setCycle(tbmrepair.getCycle());
 
         return tempTbmrepair.saveOrUpdate();
+    }
+
+    /**
+     * @MethodName: findLatestByTbmId
+     * @Description: 根据盾构机id查询最近一次维修记录
+     * @param tbmId
+     * @return: com.base.model.JTbmrepair
+     */
+    public JTbmrepair findLatestByTbmId(Integer tbmId){
+        return TbmrepairQuery.me().findLatestByTbmId(tbmId);
     }
 }

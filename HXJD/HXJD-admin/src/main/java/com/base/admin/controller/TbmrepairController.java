@@ -2,10 +2,15 @@ package com.base.admin.controller;
 
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
-import com.base.model.JTbmrepair;
+import com.base.model.*;
+import com.base.query.CircuitQuery;
+import com.base.query.WorkSiteQuery;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
+import com.base.service.CameraService;
+import com.base.service.TbmService;
 import com.base.service.TbmrepairService;
+import com.base.service.UserService;
 import com.base.utils.CookieUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
@@ -37,12 +42,21 @@ public class TbmrepairController extends BaseController {
     public void tbmrepairData(){
         Integer page = getParaToInt("page");
         Integer limit = getParaToInt("limit");
-        String where = getPara("id");
-        long count = TbmrepairService.me().findCountTbmrepairTbmUser();
+        String where = getPara("keyword");
+
+        long count = TbmrepairService.me().findCountTbmrepairTbmUser(where);
         List<Record> list = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, where, count);
         renderPageResult(0,"",(int)count,list);
     }
 
+    public void tbmrepairDataByTbmId() {
+        Integer page = getParaToInt("page");
+        Integer limit = getParaToInt("limit");
+        Integer id=getParaToInt("tbmId");
+        long count = TbmrepairService.me().findCountTbmrepairByTbmId(id);
+        List<Record> tbmrepair = TbmrepairService.me().findListTbmrepairByTbmId(page, limit, id, count);
+        renderPageResult(0,"",(int)count,tbmrepair);
+    }
     public void del(){
         Integer id = getParaToInt("id");
         boolean b = TbmrepairService.me().delByTbmrepairId(id);
@@ -60,7 +74,26 @@ public class TbmrepairController extends BaseController {
     public void edit(){
         Integer id = getParaToInt("id");
         JTbmrepair tbmrepair = TbmrepairService.me().findTbmrepairByTbmrepairId(id);
+
+        //盾构机详情
+        JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
+        JWorksite worksite=null;
+        JCircuit circuit=null;
+        if(tbm!=null){
+            worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
+            circuit = CircuitQuery.me().findById(worksite.getCircuitid());
+        }else{
+            tbm=new JTbm();
+        }
+        if(worksite==null)
+            worksite=new JWorksite();
+        if(circuit==null)
+            circuit=new JCircuit();
+
         setAttr("tbmrepair",tbmrepair);
+        setAttr("tbm",tbm);
+        setAttr("worksite",worksite);
+        setAttr("circuit",circuit);
         render("edit.html");
     }
 
@@ -82,6 +115,34 @@ public class TbmrepairController extends BaseController {
         }else{
             renderAjaxResultForError();
         }
+    }
+
+    public void sel(){
+        Integer id = getParaToInt("id");
+        JTbmrepair tbmrepair = TbmrepairService.me().findTbmrepairByTbmrepairId(id);
+        JUser user= UserService.me().findById(tbmrepair.getUserId());
+
+        //盾构机详情
+        JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
+        JWorksite worksite=null;
+        JCircuit circuit=null;
+        if(tbm!=null){
+            worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
+            circuit = CircuitQuery.me().findById(worksite.getCircuitid());
+        }else{
+            tbm=new JTbm();
+        }
+        if(worksite==null)
+            worksite=new JWorksite();
+        if(circuit==null)
+            circuit=new JCircuit();
+
+        setAttr("tbmrepair",tbmrepair);
+        setAttr("user",user);
+        setAttr("tbm",tbm);
+        setAttr("worksite",worksite);
+        setAttr("circuit",circuit);
+        render("sel.html");
     }
 
 }

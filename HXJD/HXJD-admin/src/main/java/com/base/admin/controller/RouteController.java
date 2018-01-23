@@ -15,6 +15,7 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.*;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Record;
 
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class RouteController extends BaseController {
         }
 
         long count = TbmService.me().findTbmCountByWorkSiteId(workSiteId);
-        List<JTbm> tbmList = TbmService.me().findTbmsByworkSiteId(page, limit, workSiteId, count);
+        List<Record> tbmList = TbmService.me().findTbmTbmrepairByworkSiteId(page, limit, workSiteId, count);
         renderPageResult(0, "", (int)count, tbmList);
     }
 
@@ -159,10 +160,14 @@ public class RouteController extends BaseController {
         JWorksite worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
         JCircuit circuit = CircuitQuery.me().findById(worksite.getCircuitid());
         List<JCamera> cameras = CameraService.me().findCamerasByTbmId(id);
+        JTbmrepair tbmrepair = TbmrepairService.me().findLatestByTbmId(id);
+        if(null==tbmrepair)
+            tbmrepair=new JTbmrepair();
         setAttr("worksite",worksite);
         setAttr("circuit",circuit);
         setAttr("tbm",tbm);
         setAttr("cameras",cameras);
+        setAttr("tbmrepair",tbmrepair);
 
         renderTable("machineSel.html");
     }
@@ -259,4 +264,14 @@ public class RouteController extends BaseController {
         renderAjaxResult("",0,tbms);
     }
 
+    /**
+     * 查看盾构机维修记录
+     */
+    @Before(NewButtonInterceptor.class)
+    public void tbmrepair(){
+        Integer id = getParaToInt("id");
+        JTbm tbm = TbmQuery.me().findTbmById(id);
+        setAttr("tbm",tbm);
+        renderTable("tbmrepair.html");
+    }
 }
