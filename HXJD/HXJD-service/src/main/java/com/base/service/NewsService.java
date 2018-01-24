@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.base.model.JNews;
+import com.base.model.JNewstype;
 import com.base.query.NewsQuery;
+import com.base.query.NewsTypeQuery;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
@@ -69,4 +71,8 @@ public class NewsService {
 		return news.saveOrUpdate(); 
 	}
 		
+	
+	public List<JNewstype> getNewsType(){
+		return NewsTypeQuery.me().getAll();
+	}
 }

@@ -10,30 +10,40 @@
     <title>华夏九鼎军民融合科学技术研究院|</title>
     <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/common.css">
-    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/backstage.css">
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/base.css">
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
-    <link rel="stylesheet" type="text/css"
-          href="${CPATH}/plus/toastr/toastr.min.css" media="all">
     <script type="text/javascript">
         var bpath = "${BPATH}";
         var cpath = "${CPATH}";
         var apath = "${APATH}";
     </script>
+    	<style type="text/css">  
+		 img{
+		 	width:100% !important;
+		 	height:100% !important;
+		 	}
+
+	</style>  
 </head>
 <body style="overflow:auto">
 <div id="mobile" >
+	<div id="tag" style="margin-left: 1%;margin-top:1%;">
+		<#if newsType??>
+			<#list newsType as bean>
+				<button class="layui-btn layui-btn-sm layui-btn-radius tag" style="background-color: #3F51B5;">${bean.name!}</button>
+			</#list>
+		</#if> 
+	
+	</div> 
 	<div class="layui-row" style="overflow-x:hidden;">
 	   <#if news??>
 	   		<#list news as bean>
-	   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">
+	   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item ${bean.name}" style="margin: 0px;white-space:normal;">
 			    	<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 			   		 	<div class="id" style="display:none">${bean.id!}</div>
 			   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【${bean.name!}】${bean.title!}</div>
-			    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" >${bean.content!}</div>
-			    		<br>
-			    		${bean.postMan!} 发布于 ${bean.postTime!}
+			    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.con!}</div>
+			    		<div >${bean.postMan!} 发布于 ${bean.postTime!}</div>
 			    		<hr class="layui-bg-blue">
 			    	</div>	    	
 			    </div>
@@ -46,15 +56,26 @@
 
 </body>
 <script type="text/javascript">
-console.log($(".item").size());
-	console.log($(".colHeader").size());
- 
+	//console.log($(".tag").size());
   	$(".colHeader").unbind('click').click(function(){
 		var id = $(this).prev().text();
-  		//console.log($(this).prev().text());
-		
-	})  
+		window.location = "${BPATH}/news/getNewsById?id="+id;
+	}),
 	
+	$(".tag").unbind('click').click(function(){
+		if($(this).hasClass("selected")){
+			$(this).removeClass("selected");
+			$(this).css("background-color","#3F51B5");
+			$(".item").show();
+		}else{
+			$(this).addClass("selected");
+			$(this).css("background-color","#3CB371");
+			$(this).siblings().css("background-color","#3F51B5");
+			$(this).siblings().removeClass("selected");
+			$(".item").hide();
+			$("."+$(this).text()).show();
+		}
+	})
 	
 </script>
 </html>
