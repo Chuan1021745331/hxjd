@@ -37,7 +37,8 @@ public class IndexController extends BaseController {
 		render("index.html");
 	}
 	public void main() {
-		
+		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
+		setAttr("circuitWorksiteDtos",circuitWorksiteDtos);
 		render("main.html");
 	}
 	

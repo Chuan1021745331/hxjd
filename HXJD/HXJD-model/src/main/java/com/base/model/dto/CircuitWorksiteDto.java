@@ -17,7 +17,16 @@ public class CircuitWorksiteDto {
     private int id;
     private String name;
     private String points;
+    private String color;
     private List<JWorksite> worksites;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getPoints() {
         return points;
