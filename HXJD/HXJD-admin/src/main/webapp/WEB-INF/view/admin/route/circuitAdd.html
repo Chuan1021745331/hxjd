@@ -2,7 +2,8 @@
 active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
-<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/cxColor/jquery.cxcolor.css"/>
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea">
 
 </script>
@@ -11,7 +12,7 @@ active_id="dashboard">
     //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
 </script>-->
 <div class="layui-row ">
-    <div class="layui-col-md6">
+    <div class="layui-col-md5">
         <form class="layui-form ms-layout-nowrap-vertical" action="" style="margin: 10px 10px 0px 10px;">
             <!--<input type="hidden" name="jRoute.parent" value="<#if route??>${route.id}</#if>">-->
             <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
@@ -30,7 +31,14 @@ active_id="dashboard">
                            placeholder="请输入线路名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+            <div style="display: none" class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">线路颜色</label>
+                <div class="sm-width-80-per">
+                    <input id="addCircuitColor" type="text" name="jCircuit.color" readonly lay-verify="required"
+                           placeholder="请输入线路颜色" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div style="display: none" class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
                 <label class="layui-form-label">详细坐标</label>
                 <div class="sm-width-80-per">
                     <textarea id="addpoints"  name="jCircuit.points" readonly  class="layui-textarea"></textarea>
@@ -51,8 +59,19 @@ active_id="dashboard">
         </form>
     </div>
     <!--map-->
-    <div class="layui-col-md6  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
+    <div class="layui-col-md7  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
         <div id="container" class="ms-height-100-per ms-width-100-per ">
+
+        </div>
+
+    </div>
+    <!--地图悬浮框-->
+    <div class="button-group" >
+        <div class=" ms-div-orange-bgcolor sm-layout-center-vertical sm-text-color-white" style="height: 100px;width: 50px;background: rgba(0, 0, 0, 0.36)">
+            <div class="sm-width-100-per sm-height-50-per  sm-layout-center-horizontal-with-wrap">颜色</div>
+            <div class="sm-width-100-per sm-height-0-per  sm-layout-center-horizontal-with-wrap ">
+                <input id="color_c" class="input_cxcolor"readonly="" value="#6cff0e" style="background-color: rgb(255, 0, 0);" type="text" />
+            </div>
 
         </div>
     </div>
@@ -65,12 +84,17 @@ active_id="dashboard">
 </div>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
 <script>
     layui.use(['form','common','layer'], function() {
         var form = layui.form,
             common = layui.common;
         common.formSubmit('formDemo',bpath+'/admin/route/saveAndUpdateCicuit');
         var layer = layui.layer
+
+
+        /*颜色选择器*/
+        $('#color_c').cxColor();
 
         /*富文本框*/
         var editor = null;
@@ -102,6 +126,8 @@ active_id="dashboard">
 
         map.on('click', function(e) {
 //            alert('您在[ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ]的位置点击了地图！');
+            var colorStr = $('#color_c').css("background-color");
+            $("#addCircuitColor").val(colorStr);
             var x = e.lnglat.getLng();
             var y = e.lnglat.getLat();
 
@@ -110,18 +136,18 @@ active_id="dashboard">
                 setAddPoints(x,y,"NULL")
             }else {
                 points[i] = [x,y];
-                creatLine(points)
+                creatLine(points,colorStr);
                 setAddPoints(x,y,"#")
             }
             i++;
 
         });
         /*线的样式*/
-        function creatLine(points) {
+        function creatLine(points,color) {
             console.log(points)
             var polyline = new AMap.Polyline({
                 path: points,          //设置线覆盖物路径
-                strokeColor: "#6cff0e", //线颜色
+                strokeColor: color, //线颜色
                 strokeOpacity: 1,       //线透明度
                 strokeWeight: 5,        //线宽
                 strokeStyle: "solid",   //线样式

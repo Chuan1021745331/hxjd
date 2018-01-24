@@ -2,7 +2,8 @@
 active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
-<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/cxColor/jquery.cxcolor.css"/>
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea">
 
 </script>
@@ -26,7 +27,14 @@ active_id="dashboard">
                            placeholder="请输入线路名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+            <div  style="display: none" class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">工点颜色</label>
+                <div class="sm-width-80-per">
+                    <input id="addWorksiteColor" type="text" name="jWorksite.color" required lay-verify="required"
+                           placeholder="请选择工点颜色" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div  style="display: none" class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
                 <label class="layui-form-label">工点坐标</label>
                 <div class="sm-width-80-per">
                     <textarea id="addWorkSiteCoord" type="text" name="jWorksite.coord" readonly lay-verify="required"
@@ -43,7 +51,7 @@ active_id="dashboard">
             <div class="layui-form-item  ms-margin-top-1rem">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" class="restPoints layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
@@ -51,10 +59,24 @@ active_id="dashboard">
 
     <!--隐藏的线路坐标数据-->
     <input id="hiddenPoints" type="hidden" value="<#if route??>${route.points}</#if>" />
+    <input id="hiddenCircuitColor" type="hidden" value="<#if route??>${route.color}</#if>"/>
 
     <!--map-->
     <div class="layui-col-md9  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
         <div id="container" class="ms-height-100-per ms-width-100-per ">
+
+        </div>
+    </div>
+    <!--地图悬浮框-->
+    <div class="button-group" >
+        <div class=" ms-div-orange-bgcolor sm-layout-center-vertical sm-text-color-white" style="height: 150px;width: 60px;background: rgba(0, 0, 0, 0.36)">
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">
+                <input type="button" class="clearXY layui-btn layui-btn-xs" value="清空坐标" onClick="editor.startEditLine()"/>
+            </div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">颜色</div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap ">
+                <input id="color_c" class="input_cxcolor"readonly="" value="#6cff0e" style="background-color: rgb(255, 0, 0);" type="text" />
+            </div>
 
         </div>
     </div>
@@ -66,6 +88,7 @@ active_id="dashboard">
 </div>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
 <script>
     layui.use(['form','common','layer'], function() {
         var form = layui.form,
@@ -73,30 +96,18 @@ active_id="dashboard">
         common.formSubmit('formDemo',bpath+'/admin/route/saveAndUpdateWorksite');
         var layer = layui.layer
 
-        /*富文本框*/
-        /*var editor = null;
-        editor = KindEditor;
-        editor.create('#addgeneral',{
-            cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
-            uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
-            fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
-            width:'100%',
-            height:'450px',
-            resizeType: 0,
-            autoHeightMode : false,
-            allowFileManager : true,
-            afterBlur: function(){this.sync();}
-        });*/
+        /*颜色选择器*/
+        $('#color_c').cxColor();
 
         /*清除坐标*/
         $(".clearXY").on('click',function(){
             restPoints();
-            $("#editpoints").val("");
+            $("#addWorkSiteCoord").val("");
         })
 
         function clearXY() {
             restPoints();
-            $("#editpoints").val("");
+            $("#addWorkSiteCoord").val("");
         }
 
         /*初始化地图上的线*/
@@ -113,7 +124,8 @@ active_id="dashboard">
                 var y = str[1];
                 items[j]= [x,y];
             }
-            creatLine(items,"init");
+            var colorStr = $('#hiddenCircuitColor').val();
+            creatLine(items,"init",colorStr,3);
         }
 
         /*gaodei Map*/
@@ -133,7 +145,7 @@ active_id="dashboard">
         var tag = 0;
         var marker = "NULL";
         /*标记点*/
-        map.on('click',function (e) {
+       /* map.on('click',function (e) {
             if(marker != "NULL"){
                 clearTag();
             }
@@ -146,7 +158,7 @@ active_id="dashboard">
             marker.setMap(map);
             var coord = x+","+y;
             setAddWorkSiteCoord(coord);
-        })
+        })*/
 
         /*给teaxtArea设置值*/
         function setAddWorkSiteCoord(coord) {
@@ -159,12 +171,12 @@ active_id="dashboard">
             marker = "NULL";
         }
 
-       /* map.on('click', function(e) {
+        map.on('click', function(e) {
 //            alert('您在[ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ]的位置点击了地图！');
             if(init == "NULL"){
-                clearXY();
+                //clearXY();
             }
-            init = "init";
+            init = "noinit";
             var x = e.lnglat.getLng();
             var y = e.lnglat.getLat();
 
@@ -173,29 +185,34 @@ active_id="dashboard">
                 setAddPoints(x,y,"NULL");
             }else {
                 points[i] = [x,y];
-                creatLine(points,"NULL");
+                var colorStr = $('#color_c').css("background-color");
+                $("#addWorksiteColor").val(colorStr);
+                creatLine(points,"NULL",colorStr,8);
                 setAddPoints(x,y,"#");
             }
             i++;
 
-        });*/
+        });
         /*线的样式*/
-        function creatLine(points,init) {
+        function creatLine(points,init,color,lineWidth) {
+            if(lineWidth == 'NULL'){
+                lineWidth = 3;
+            }
 //            alert(points);
             console.log(points);
             var polyline = new AMap.Polyline({
                 path: points,          //设置线覆盖物路径
-                strokeColor: "#6cff0e", //线颜色
+                strokeColor: color, //线颜色
                 strokeOpacity: 1,       //线透明度
-                strokeWeight: 5,        //线宽
+                strokeWeight: lineWidth,        //线宽
                 strokeStyle: "solid",   //线样式
                 strokeDasharray: [10, 5] //补充线样式
             });
             console.log("-----")
-//            if(init != 'init'){
+            if(init != 'init'){
             lines[a] = polyline;
             a++
-//            }
+            }
             polyline.setMap(map);
 
         }
@@ -220,7 +237,7 @@ active_id="dashboard">
             }else {
                 data = oth+x+","+y;
             }
-            $("#editpoints").val($("#editpoints").val()+data)
+            $("#addWorkSiteCoord").val($("#addWorkSiteCoord").val()+data)
         }
     });
 </script>

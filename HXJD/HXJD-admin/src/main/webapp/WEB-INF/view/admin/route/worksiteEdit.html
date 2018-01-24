@@ -2,7 +2,8 @@
 active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
-<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/cxColor/jquery.cxcolor.css"/>
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea">
 
 </script>
@@ -28,10 +29,19 @@ active_id="dashboard">
                            value="<#if route??>${route.name!}</#if>">
                 </div>
             </div>
-            <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+            <div  style="display: none" class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">工点颜色</label>
+                <div class="sm-width-80-per">
+                    <input id="editWorksiteColor" type="text" name="jWorksite.color" required lay-verify="required"
+                           placeholder="请选择工点颜色" value="<#if route??>${route.color!}</#if>" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div  style="display: none" class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
                 <label class="layui-form-label">工点坐标</label>
                 <div class="sm-width-80-per">
-                            <textarea id="editWorkSiteCoord" type="text" name="jWorksite.coord" readonly placeholder="点击地图获取工点坐标"  class="layui-input"><#if route??>${route.coord!}</#if></textarea>
+                    <textarea id="editWorkSiteCoord" type="text" name="jWorksite.coord" readonly
+                              placeholder="点击地图获取工点坐标" class="layui-input"><#if route??>${route.coord!}</#if></textarea>
                 </div>
             </div>
             <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
@@ -43,7 +53,7 @@ active_id="dashboard">
             <div class="layui-form-item ms-margin-top-1rem">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" class=" restPoints layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
@@ -51,10 +61,30 @@ active_id="dashboard">
 
     <!--隐藏的线路坐标数据-->
     <input id="hiddenPoints" type="hidden" value="<#if circuit??>${circuit.points}</#if>"/>
+    <input id="hiddenCircuitColor" type="hidden" value="<#if circuit??>${circuit.color}</#if>"/>
+    <!--隐藏的工点坐标-->
+    <input id="hiddenWorkSiteCoord" type="hidden" value="<#if route??>${route.coord!}</#if>"/>
+    <input id="hiddenWorkSiteColor" type="hidden" value="<#if route??>${route.color!}</#if>"/>
 
     <!--map-->
     <div class="layui-col-md9  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
         <div id="container" class="ms-height-100-per ms-width-100-per ">
+
+        </div>
+    </div>
+    <!--地图悬浮框-->
+    <div class="button-group">
+        <div class=" ms-div-orange-bgcolor sm-layout-center-vertical sm-text-color-white"
+             style="height: 150px;width: 60px;background: rgba(0, 0, 0, 0.36)">
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">
+                <input type="button" class="clearXY layui-btn layui-btn-xs" value="清空坐标"
+                       onClick="editor.startEditLine()"/>
+            </div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">颜色</div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap ">
+                <input id="color_c" class="input_cxcolor" readonly="" value="<#if route??>${route.color!}</#if>"
+                       style="background-color: <#if route??>${route.color!}</#if>;" type="text"/>
+            </div>
 
         </div>
     </div>
@@ -69,44 +99,31 @@ active_id="dashboard">
 <!-- UI组件库 1.0 -->
 <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
 <script>
     layui.use(['form', 'common', 'layer'], function () {
         var form = layui.form,
             common = layui.common;
         common.formSubmit('formDemo', bpath + '/admin/route/saveAndUpdateWorksite');
         var layer = layui.layer
-
-        /*富文本框*/
-        /*var editor = null;
-         editor = KindEditor;
-         editor.create('#addgeneral',{
-         cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
-         uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
-         fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
-         width:'100%',
-         height:'450px',
-         resizeType: 0,
-         autoHeightMode : false,
-         allowFileManager : true,
-         afterBlur: function(){this.sync();}
-         });*/
+        /*颜色选择器*/
+        $('#color_c').cxColor();
 
         /*清除坐标*/
         $(".clearXY").on('click', function () {
-            restPoints();
-            $("#editpoints").val("");
+            restPoints("NULL");
+            $("#editWorkSiteCoord").val("");
         })
 
         function clearXY() {
-            restPoints();
-            $("#editpoints").val("");
+            restPoints("NULL");
+            $("#editWorkSiteCoord").val("");
         }
 
-        /*初始化地图上的线*/
-        function initLine() {
-            var content = $("#hiddenPoints").val();
+        /*解析坐标为数组*/
+        function analysisPoints(points) {
             var lineStr = new Array();
-            lineStr = content.split("#");
+            lineStr = points.split("#");
 
             var items = new Array();
             for (var j = 0; j < lineStr.length; j++) {
@@ -116,11 +133,24 @@ active_id="dashboard">
                 var y = str[1];
                 items[j] = [x, y];
             }
-            creatLine(items, "init");
-            initTag();
+            return items;
         }
 
-        function initTag() {
+        /*初始化地图上的线*/
+        function initLine() {
+            var content = $("#hiddenPoints").val();
+            var circults = analysisPoints(content);
+            var colorStr = $('#hiddenCircuitColor').val();
+            creatLine(circults, "init", colorStr, 3);
+
+            var colorWorkSite = $("#editWorksiteColor").val();
+            var workSites = $("#editWorkSiteCoord").val();
+            var items = analysisPoints(workSites);
+            creatLine(items, "NULL", colorWorkSite, 8);
+//            initTag();
+        }
+
+        /*function initTag() {
             var m = "NULL";
             m = $("#editWorkSiteCoord").val();
             if (m != "NULL") {
@@ -129,18 +159,16 @@ active_id="dashboard">
                 var y = strs[1];
                 creatTag(x, y);
             }
-        }
+        }*/
 
         /*gaodei Map*/
         var map = new AMap.Map('container', {
-            layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+            layers: [new AMap.TileLayer.Satellite({zIndex: 10})],
             zoom: 13,
-            center: [106.545474,29.601621]
+            center: [106.545474, 29.601621]
 //                [116.397428, 39.90923]//北京
 //
         });
-
-
 
         /*所需的全局变量*/
         var points = new Array();
@@ -152,43 +180,26 @@ active_id="dashboard">
         var marker = "NULL";
 
 
-
-
-
         /*标记点*/
-        map.on('click', function (e) {
-            if (marker != "NULL") {
-                clearTag();
-            }
-            var x = e.lnglat.getLng();
-            var y = e.lnglat.getLat();
-            creatTag(x, y);
-            var coord = x + "," + y;
-            setAddWorkSiteCoord(coord);
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        /* map.on('click', function (e) {
+         if (marker != "NULL") {
+         clearTag();
+         }
+         var x = e.lnglat.getLng();
+         var y = e.lnglat.getLat();
+         creatTag(x, y);
+         var coord = x + "," + y;
+         setAddWorkSiteCoord(coord);
+         })
+         */
         /*在地图上标记点*/
-        function creatTag(x, y) {
+        /*function creatTag(x, y) {
             marker = new AMap.Marker({
                 icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
                 position: [x, y]
             });
             marker.setMap(map);
-        }
+        }*/
 
         /*给teaxtArea设置值*/
         function setAddWorkSiteCoord(coord) {
@@ -202,43 +213,49 @@ active_id="dashboard">
             marker = "NULL";
         }
 
-        /* map.on('click', function(e) {
-         //            alert('您在[ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ]的位置点击了地图！');
-         if(init == "NULL"){
-         clearXY();
-         }
-         init = "init";
-         var x = e.lnglat.getLng();
-         var y = e.lnglat.getLat();
+        map.on('click', function (e) {
+            //            alert('您在[ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ]的位置点击了地图！');
+            if (init == "NULL") {
+                clearXY();
+            }
+            init = "init";
+            var x = e.lnglat.getLng();
+            var y = e.lnglat.getLat();
 
-         if(i == 0){
-         points[i] = [x,y];
-         setAddPoints(x,y,"NULL");
-         }else {
-         points[i] = [x,y];
-         creatLine(points,"NULL");
-         setAddPoints(x,y,"#");
-         }
-         i++;
+            if (i == 0) {
+                points[i] = [x, y];
+                setAddPoints(x, y, "NULL");
+            } else {
+                points[i] = [x, y];
+                var colorStr = $('#color_c').css("background-color");
+                $("#editWorksiteColor").val(colorStr);
+                creatLine(points,"NULL",colorStr,8);
+                setAddPoints(x, y, "#");
+            }
+            i++;
 
-         });*/
+        });
         /*线的样式*/
-        function creatLine(points, init) {
+        function creatLine(points,init,color,lineWidth) {
+//            alert(points);
+            if(lineWidth == 'NULL'){
+                lineWidth = 3;
+            }
 //            alert(points);
             console.log(points);
             var polyline = new AMap.Polyline({
                 path: points,          //设置线覆盖物路径
-                strokeColor: "#6cff0e", //线颜色
+                strokeColor: color, //线颜色
                 strokeOpacity: 1,       //线透明度
-                strokeWeight: 5,        //线宽
+                strokeWeight: lineWidth,        //线宽
                 strokeStyle: "solid",   //线样式
                 strokeDasharray: [10, 5] //补充线样式
             });
             console.log("-----")
-//            if(init != 'init'){
-            lines[a] = polyline;
-            a++
-//            }
+            if(init != 'init'){
+                lines[a] = polyline;
+                a++
+            }
             polyline.setMap(map);
 
         }
@@ -247,14 +264,22 @@ active_id="dashboard">
         initLine();
         /*重置线路*/
         $('.restPoints').on('click', function () {
-            restPoints();
+            restPoints("RESET");
         })
-        function restPoints() {
+        function restPoints(tag) {
             map.remove(lines);
             i = 0;
             a = 0;
             lines.splice(0, lines.length);
             points.splice(0, points.length);
+            if(tag == "RESET"){
+                init = "NULL";
+                var re = $("#hiddenWorkSiteCoord").val();
+                var items = analysisPoints(re);
+                var resetColor = $("#hiddenWorkSiteColor").val();
+                creatLine(items,"NULL",resetColor,8);
+            }
+
         }
 
         /*将点添加到表单*/
@@ -265,111 +290,10 @@ active_id="dashboard">
             } else {
                 data = oth + x + "," + y;
             }
-            $("#editpoints").val($("#editpoints").val() + data)
+            $("#editWorkSiteCoord").val($("#editWorkSiteCoord").val() + data)
         }
 
-        var pathSimplifierIns ="NULL";
-        /*移动动画测试*/
-        /*AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
 
-            if (!PathSimplifier.supportCanvas) {
-                alert('当前环境不支持 Canvas！');
-                return;
-            }
-
-            pathSimplifierIns = new PathSimplifier({
-                zIndex: 100,
-                autoSetFitView:false,
-                map: map, //所属的地图实例
-
-                getPath: function(pathData, pathIndex) {
-
-                    return pathData.path;
-                },
-                /!*getHoverTitle: function(pathData, pathIndex, pointIndex) {
-
-                    if (pointIndex >= 0) {
-                        //point
-                        return pathData.name + '，点：' + pointIndex + '/' + pathData.path.length;
-                    }
-
-                    return pathData.name + '，点数量' + pathData.path.length;
-                },*!/
-                renderOptions: {
-
-                    renderAllPointsIfNumberBelow: -1 //绘制路线节点，如不需要可设置为-1
-                }
-            });
-
-            window.pathSimplifierIns = pathSimplifierIns;
-
-
-            /!*标记点*!/
-           /!* map.on('click', function (e) {
-                if (marker != "NULL") {
-                    clearTag();
-                }
-                var x = e.lnglat.getLng();
-                var y = e.lnglat.getLat();
-                creatTag(x, y);
-                var coord = x + "," + y;
-                setAddWorkSiteCoord(coord);
-            })*!/
-
-            //设置数据
-            pathSimplifierIns.setData([{
-                name: 'Test',
-                path: PathSimplifier.getGeodesicPath([116.405289, 39.904987], [106.578262,29.555939], 300)
-            }]);
-            /!*pathSimplifierIns.setData([{
-                name: '路线0',
-                path: [
-                    [116.405289, 39.904987],
-                    [113.964458, 40.54664],
-                    [111.47836, 41.135964],
-                    [108.949297, 41.670904],
-                    [106.380111, 42.149509],
-                    [103.774185, 42.56996],
-                    [101.135432, 42.930601],
-                    [98.46826, 43.229964],
-                    [95.777529, 43.466798],
-                    [93.068486, 43.64009],
-                    [90.34669, 43.749086],
-                    [87.61792, 43.793308]
-                ]
-            }]);*!/
-            function onload() {
-                pathSimplifierIns.renderLater();
-            }
-
-            function onerror(e) {
-                alert('图片加载失败！');
-            }
-            //对第一条线路（即索引 0）创建一个巡航器
-            var navg1 = pathSimplifierIns.createPathNavigator(0, {
-                loop: true, //循环播放
-                speed: 1000, //巡航速度，单位千米/小时
-                pathNavigatorStyle: {
-                    width: 24,
-                    height: 24,
-                    //使用图片
-                    content: PathSimplifier.Render.Canvas.getImageContent('http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png', onload, onerror),
-                    strokeStyle: null,
-                    fillStyle: null,
-                    //经过路径的样式
-                    pathLinePassedStyle: null
-                        /!*{
-                        lineWidth: 6,
-                        strokeStyle: 'black',
-                        dirArrowStyle: {
-                            stepSpace: 15,
-                            strokeStyle: 'red'
-                        }*!/
-                    }
-            });
-            alert("start");
-            navg1.start();
-        });*/
     });
 </script>
 </@layout>

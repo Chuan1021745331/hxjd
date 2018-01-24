@@ -47,6 +47,13 @@ html, body {
 	margin-bottom: 4px;
 	cursor: pointer;
 }
+.smleftbottomtip{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-size: 12px;
+	padding: 10px;
+}
  /*
 .tip {
 	position: absolute;

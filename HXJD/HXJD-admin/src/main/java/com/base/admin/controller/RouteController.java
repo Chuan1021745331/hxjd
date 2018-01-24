@@ -121,7 +121,9 @@ public class RouteController extends BaseController {
     public void addTbm(){
         String pid = getPara("workSiteId");
         JWorksite worksite = WorkSiteQuery.me().findById(Integer.parseInt(pid));
+        JCircuit circuit = CircuitQuery.me().findById(worksite.getCircuitid());
         this.setAttr("worksite",worksite);
+        this.setAttr("circuit",circuit);
         render("machineAdd.html");
     }
 
@@ -146,6 +148,8 @@ public class RouteController extends BaseController {
         int tid = Integer.parseInt(id);
         JTbm tbm = TbmQuery.me().findTbmById(tid);
         JWorksite worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
+        JCircuit circuit = CircuitQuery.me().findById(worksite.getCircuitid());
+        this.setAttr("circuit",circuit);
         setAttr("worksite",worksite);
         setAttr("tbm",tbm);
         renderTable("machineEdit.html");

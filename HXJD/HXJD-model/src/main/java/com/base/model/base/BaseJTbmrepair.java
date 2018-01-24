@@ -93,6 +93,30 @@ public abstract class BaseJTbmrepair<M extends BaseJTbmrepair<M>> extends JModel
 		return get("tbmId");
 	}
 
+	public void setTbmname(java.lang.String tbmname) {
+		set("tbmname", tbmname);
+	}
+
+	public java.lang.String getTbmname() {
+		return get("tbmname");
+	}
+
+	public void setWorksitename(java.lang.String worksitename) {
+		set("worksitename", worksitename);
+	}
+
+	public java.lang.String getWorksitename() {
+		return get("worksitename");
+	}
+
+	public void setCircuitname(java.lang.String circuitname) {
+		set("circuitname", circuitname);
+	}
+
+	public java.lang.String getCircuitname() {
+		return get("circuitname");
+	}
+
 	public void setRepairman(java.lang.String repairman) {
 		set("repairman", repairman);
 	}

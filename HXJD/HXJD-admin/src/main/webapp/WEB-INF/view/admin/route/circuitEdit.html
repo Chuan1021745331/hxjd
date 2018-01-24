@@ -3,6 +3,7 @@ active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
 <link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/cxColor/jquery.cxcolor.css"/>
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea">
 
 </script>
@@ -10,7 +11,7 @@ active_id="dashboard">
     //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
 </script>-->
 <div class="layui-row ">
-    <div class="layui-col-md6">
+    <div class="layui-col-md5">
         <form class="layui-form ms-layout-nowrap-vertical " action="" style="margin: 10px 10px 0px 10px;">
             <input type="hidden" name="jCircuit.id" value="<#if route??>${route.id}</#if>">
             <div class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
@@ -30,7 +31,14 @@ active_id="dashboard">
                            value="<#if route??>${route.name!}</#if>">
                 </div>
             </div>
-            <div class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
+            <div style="display: none" class="sm-width-100-per  sm-layout-center-horizontal ms-margin-top-1rem">
+                <label class="layui-form-label">线路颜色</label>
+                <div class="sm-width-80-per">
+                    <input id="editCircuitColor" type="text" name="jCircuit.color" readonly lay-verify="required"
+                           placeholder="请输入线路颜色" value="<#if route??>${route.color!}</#if>" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div style="display: none" class="sm-width-100-per sm-layout-center-horizontal ms-margin-top-1rem">
                 <label class="layui-form-label">详细坐标</label>
                 <div class="sm-width-80-per">
                     <textarea id="editpoints"  name="jCircuit.points" readonly class="layui-textarea"><#if route??>${route.points!}</#if></textarea>
@@ -52,13 +60,26 @@ active_id="dashboard">
 
     </div>
     <!--map-->
-    <div class="layui-col-md6  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
+    <div class="layui-col-md7  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
         <div id="container" class="ms-height-100-per ms-width-100-per ">
 
         </div>
     </div>
-    <div class="button-group" >
+    <!--<div class="button-group" >
         <input type="button" class="clearXY layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" value="清空坐标" onClick="editor.startEditLine()"/>
+    </div>-->
+    <!--地图悬浮框-->
+    <div class="button-group" >
+        <div class=" ms-div-orange-bgcolor sm-layout-center-vertical sm-text-color-white" style="height: 150px;width: 60px;background: rgba(0, 0, 0, 0.36)">
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">
+                <input type="button" class="clearXY layui-btn layui-btn-xs" value="清空坐标" onClick="editor.startEditLine()"/>
+            </div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap">颜色</div>
+            <div class="sm-width-100-per sm-height-30-per  sm-layout-center-horizontal-with-wrap ">
+                <input id="color_c" class="input_cxcolor"readonly="" value="<#if route??>${route.color!}</#if>" style="background-color: <#if route??>${route.color!}</#if>" type="text" />
+            </div>
+
+        </div>
     </div>
 
 </div>
@@ -69,6 +90,7 @@ active_id="dashboard">
 
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
 <script>
     layui.use(['form','common','layer'], function() {
         var form = layui.form,
@@ -90,6 +112,9 @@ active_id="dashboard">
             allowFileManager : true,
             afterBlur: function(){this.sync();}
         });
+
+        /*颜色选择器*/
+        $('#color_c').cxColor();
 
         /*清除坐标*/
         $(".clearXY").on('click',function(){
@@ -116,7 +141,8 @@ active_id="dashboard">
                 var y = str[1];
                 items[j]= [x,y];
             }
-            creatLine(items,"init");
+            var colorStr = $('#color_c').css("background-color");
+            creatLine(items,"init",colorStr);
         }
 
         /*gaodei Map*/
@@ -149,29 +175,34 @@ active_id="dashboard">
                 setAddPoints(x,y,"NULL");
             }else {
                 points[i] = [x,y];
-                creatLine(points,"NULL");
+                var colorStr = $('#color_c').css("background-color");
+                $("#editCircuitColor").val(colorStr);
+                creatLine(points,"NULL",colorStr);
                 setAddPoints(x,y,"#");
             }
             i++;
 
         });
         /*线的样式*/
-        function creatLine(points,init) {
+        function creatLine(points,init,color,lineWidth) {
+            if(lineWidth == 'NULL'){
+                lineWidth = 3;
+            }
 //            alert(points);
             console.log(points);
             var polyline = new AMap.Polyline({
                 path: points,          //设置线覆盖物路径
-                strokeColor: "#6cff0e", //线颜色
+                strokeColor: color, //线颜色
                 strokeOpacity: 1,       //线透明度
-                strokeWeight: 5,        //线宽
+                strokeWeight: lineWidth,        //线宽
                 strokeStyle: "solid",   //线样式
                 strokeDasharray: [10, 5] //补充线样式
             });
             console.log("-----")
-//            if(init != 'init'){
+            if(init != 'init'){
                 lines[a] = polyline;
                 a++
-//            }
+            }
             polyline.setMap(map);
 
         }
@@ -189,47 +220,7 @@ active_id="dashboard">
             points.splice(0,points.length);
         }
 
-        /*Baidu map*/
-        /*var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],anchor: BMAP_ANCHOR_TOP_LEFT});
 
-         var map = new BMap.Map("container");
-         var point = new BMap.Point(106.545474,29.601621);
-
-         map.enableScrollWheelZoom(true);
-         map.centerAndZoom(point, 13);
-
-         map.addControl(mapType1);          //2D图，卫星图
-
-         /!*所需全局变量*!/
-         var points = new Array();
-         var i = 0;
-         var marker2;
-         var polylines = new Array();
-         var line = 0;
-
-         /!*监听地图点击事件*!/
-         map.addEventListener("click", function(e){
-         //        alert(e.point.lng + ", " + e.point.lat);
-         //            creatLine(e.point.lng, e.point.lat)
-         points[i] = new BMap.Point(e.point.lng,e.point.lat)
-         var x = e.point.lng;
-         var y = e.point.lat;
-
-         if(points.length > 1){
-         setAddPoints(x,y,"#")
-         creatLine(points)
-         }else {
-         var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
-         //                var myIcon = new BMap.color("#00FF00")
-         marker2 = new BMap.Marker(points[i],{icon:myIcon});
-         //                var marker = new BMap.Marker(points[i]);
-         map.addOverlay(marker2);
-         setAddPoints(x,y,"NULL")
-         }
-         i++;
-
-         });
-         */
         /*将点添加到表单*/
         function setAddPoints(x,y,oth) {
             var data ;
@@ -240,27 +231,7 @@ active_id="dashboard">
             }
             $("#editpoints").val($("#editpoints").val()+data)
         }
-        /*
-         /!*创建线*!/
-         function creatLine(points) {
-         //            alert("??")
-         var polyline = new BMap.Polyline(points, {strokeColor:"#00FF00", strokeWeight:8, strokeOpacity:1});   //创建折线
-         map.addOverlay(polyline);   //增加折线
-         polylines[line] = polyline;
-         line++;
-         }
 
-         /!*重置点事件*!/
-         $('.restPoints').on('click',function(){
-         map.removeOverlay(marker2)
-         for(var a = 0;a<polylines.length;a++){
-         map.removeOverlay(polylines[a])
-         }
-         line = 0;
-         i = 0;
-         points.splice(0,points.length);
-         polylines.splice(0,polylines.length);
-         })*/
 
     });
 

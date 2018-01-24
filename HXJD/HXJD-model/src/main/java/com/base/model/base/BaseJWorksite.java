@@ -117,4 +117,12 @@ public abstract class BaseJWorksite<M extends BaseJWorksite<M>> extends JModel<M
 		return get("coord");
 	}
 
+	public void setColor(java.lang.String color) {
+		set("color", color);
+	}
+
+	public java.lang.String getColor() {
+		return get("color");
+	}
+
 }

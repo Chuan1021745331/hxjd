@@ -109,4 +109,12 @@ public abstract class BaseJCircuit<M extends BaseJCircuit<M>> extends JModel<M> 
 		return get("points");
 	}
 
+	public void setColor(java.lang.String color) {
+		set("color", color);
+	}
+
+	public java.lang.String getColor() {
+		return get("color");
+	}
+
 }

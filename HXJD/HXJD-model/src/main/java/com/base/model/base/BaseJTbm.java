@@ -117,4 +117,12 @@ public abstract class BaseJTbm<M extends BaseJTbm<M>> extends JModel<M> implemen
 		return get("mac");
 	}
 
+	public void setCoord(java.lang.String coord) {
+		set("coord", coord);
+	}
+
+	public java.lang.String getCoord() {
+		return get("coord");
+	}
+
 }
