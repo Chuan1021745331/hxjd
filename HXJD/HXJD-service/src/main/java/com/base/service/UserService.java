@@ -9,6 +9,7 @@ import com.base.query.DepartmentUserQuery;
 import org.joda.time.DateTime;
 
 import com.base.constants.Consts;
+import com.base.constants.MagicValueConstants;
 import com.base.constants.MessageConstants;
 import com.base.message.Actions;
 import com.base.message.MessageKit;
@@ -105,7 +106,7 @@ public class UserService {
 
 		CacheKit.remove("user", u.getId());
 		if(a){
-			if("administrator".equals(user.getRole())){
+			if(MagicValueConstants.ADMINISTRATOR.equals(user.getRole())){
 				return true;
 			}else{				
 				UserRoleQuery.me().delByUserId(user.getId());

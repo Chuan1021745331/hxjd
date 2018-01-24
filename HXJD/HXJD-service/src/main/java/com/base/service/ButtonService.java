@@ -3,6 +3,7 @@ package com.base.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.base.constants.MagicValueConstants;
 import com.base.model.JButton;
 import com.base.model.JMenu;
 import com.base.query.ButtonQuery;
@@ -36,14 +37,14 @@ public class ButtonService {
 	public boolean saveOrUpdate(JButton button){
 		button.setIsModal(null==button.getIsModal()?false:true);
 		button.setIsRight(null==button.getIsRight()?false:true);
-		if(button.getUrl().startsWith("/")){
+		if(button.getUrl().startsWith(MagicValueConstants.FORWARD_SLASH)){
 			button.setUrl(button.getUrl().substring(1, button.getUrl().length()));
 		}
 		return button.saveOrUpdate();		
 	}
 	
 	@Before(Tx.class)
-	public void JButtonE(Integer id, String name, String code){
+	public void jButtonE(Integer id, String name, String code){
 		JButton button = new JButton();
 		button.setMenuId(id);
 		button.setName(name);

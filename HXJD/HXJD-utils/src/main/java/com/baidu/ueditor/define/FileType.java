@@ -8,14 +8,14 @@ public class FileType {
 	public static final String JPG = "JPG";
 	
 	@SuppressWarnings("serial")
-	private static final Map<String, String> types = new HashMap<String, String>(){{
+	private static final Map<String, String> TYPES = new HashMap<String, String>(){{
 		
 		put( FileType.JPG, ".jpg" );
 		
 	}};
 	
 	public static String getSuffix ( String key ) {
-		return FileType.types.get( key );
+		return FileType.TYPES.get( key );
 	}
 	
 	/**

@@ -38,10 +38,10 @@ import com.jfinal.core.JFinal;
 public class HttpUtils {
 
 	private static final String TAG = "HttpUtils";
-	private static final int mReadTimeOut = 1000 * 10; // 10秒
-	private static final int mConnectTimeOut = 1000 * 5; // 5秒
+	private static final int MREADTIMEOUT = 1000 * 10; // 10秒
+	private static final int MCONNECTTIMEOUT = 1000 * 5; // 5秒
 	private static final String CHAR_SET = JFinal.me().getConstants().getEncoding();
-	private static final int mRetry = 2; // 默认尝试访问次数
+	private static final int MRETRY = 2; // 默认尝试访问次数
 
 	public static String get(String url) throws Exception {
 		return get(url, null);
@@ -95,7 +95,7 @@ public class HttpUtils {
 	private static String tryToGet(String url, Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
-		while (tryTime < mRetry) {
+		while (tryTime < MRETRY) {
 			try {
 				return doGet(url, headers);
 			} catch (Exception e) {
@@ -177,7 +177,7 @@ public class HttpUtils {
 	private static String tryToPost(String url, String postContent, Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
-		while (tryTime < mRetry) {
+		while (tryTime < MRETRY) {
 			try {
 				return doPost(url, postContent, headers);
 			} catch (Exception e) {
@@ -242,8 +242,8 @@ public class HttpUtils {
 		if (connection == null) {
 			return;
 		}
-		connection.setReadTimeout(mReadTimeOut);
-		connection.setConnectTimeout(mConnectTimeOut);
+		connection.setReadTimeout(MREADTIMEOUT);
+		connection.setConnectTimeout(MCONNECTTIMEOUT);
 
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		connection.setRequestProperty("User-Agent",

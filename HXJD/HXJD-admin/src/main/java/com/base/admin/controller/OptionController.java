@@ -12,6 +12,7 @@ import com.jfinal.plugin.ehcache.CacheKit;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.base.constants.MagicValueConstants;
 import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
@@ -53,7 +54,7 @@ public class OptionController extends BaseController {
 	public void details() {
 		Integer id = getParaToInt("id");
 		JOption option = OptionService.me().findById(id);
-		if("map_center".equals(option.getOptionKey())){
+		if(MagicValueConstants.MAP_CENTER.equals(option.getOptionKey())){
 			String optionXY =option.getOptionValue();
 			String[] optionXYS = optionXY.split("\\|");
 			setAttr("optionX", optionXYS[0]);
@@ -79,7 +80,7 @@ public class OptionController extends BaseController {
 	public void edit() {
 		Integer id = getParaToInt("id");
 		JOption option = OptionService.me().findById(id);
-		if("map_center".equals(option.getOptionKey())){
+		if(MagicValueConstants.MAP_CENTER.equals(option.getOptionKey())){
 			String optionXY =option.getOptionValue();
 			String[] optionXYS = optionXY.split("\\|");
 			setAttr("optionX", optionXYS[0]);

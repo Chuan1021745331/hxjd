@@ -53,7 +53,7 @@ public class ActionEnter {
 	
 	public String invoke() {
 		
-		if ( actionType == null || !ActionMap.mapping.containsKey( actionType ) ) {
+		if ( actionType == null || !ActionMap.MAPPING.containsKey( actionType ) ) {
 			return new BaseState( false, AppInfo.INVALID_ACTION ).toJSONString();
 		}
 		
@@ -92,6 +92,7 @@ public class ActionEnter {
 				int start = this.getStartIndex();
 				state = new FileManager( conf ).listFile(request, start );
 				break;
+			default:
 				
 		}
 		

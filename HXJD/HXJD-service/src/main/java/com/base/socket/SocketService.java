@@ -20,7 +20,7 @@ public class SocketService {
 		String[] s = socket.getOptionValue().split("\\|");
 		
 		String ip = s[0].toString();
-		int port_ = Integer.parseInt(s[1].toString());
+		int port = Integer.parseInt(s[1].toString());
 		int timeOut = Integer.parseInt(s[2].toString());
 		String encoder = s[3].toString();
 		try {
@@ -30,7 +30,6 @@ public class SocketService {
 			String sendSrt = "dddd";
 			byte[] sendBuf  = sendSrt.getBytes(encoder);
 			InetAddress addr =  InetAddress.getByName(ip);
-			int port = port_;
 			DatagramPacket sendPacket = new DatagramPacket(sendBuf,sendBuf.length,addr,port);
 			client.send(sendPacket);
 			

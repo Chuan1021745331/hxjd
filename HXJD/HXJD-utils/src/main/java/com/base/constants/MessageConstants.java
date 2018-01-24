@@ -29,7 +29,7 @@ public class MessageConstants {
 	
 	public static final String PASS_ERROR="用户名和密码无法匹配!";
 
-	public static final String DEPARTMENt_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";
+	public static final String DEPARTMENT_DEL_DEFEAT="该部门下还有用户关联,请先删除或修改用户!!!";
 
 	public static final String TBM__DEL_DEFEAT="该盾构机下还有摄像头关联,请先删除摄像头!!!";
 

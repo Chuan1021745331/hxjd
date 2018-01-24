@@ -10,12 +10,15 @@ import java.util.zip.GZIPOutputStream;
 public class CompressUtils {
 private static final int BUFFER_LENGTH = 400;
     
-    
-    //压缩字节最小长度，小于这个长度的字节数组不适合压缩，压缩完会更大
+	/**
+	 * 压缩字节最小长度，小于这个长度的字节数组不适合压缩，压缩完会更大
+	 */
     public static final int BYTE_MIN_LENGTH = 50;
     
     
-    //字节数组是否压缩标志位
+    /**
+     * 字节数组是否压缩标志位
+     */
     public static final byte FLAG_GBK_STRING_UNCOMPRESSED_BYTEARRAY = 0;
     public static final byte FLAG_GBK_STRING_COMPRESSED_BYTEARRAY = 1;
     public static final byte FLAG_UTF8_STRING_COMPRESSED_BYTEARRAY = 2;

@@ -10,6 +10,7 @@ import org.quartz.SchedulerFactory;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.base.constants.MagicValueConstants;
 import com.base.constants.MessageConstants;
 import com.base.cron.QuartzJob;
 import com.base.cron.QuartzJobFactory;
@@ -130,7 +131,7 @@ public class ScheduleService {
     public String coreJonit(String str){
         String [] arr = str.split(" ");
         String b = "0 ";
-        if ("*".equals(arr[0])){
+        if (MagicValueConstants.ASTERISK.equals(arr[0])){
             arr[0] = "0/1";
         }
         b += arr[0].concat(" ").concat(arr[1]).concat(" ").concat(arr[2]).concat(" ").concat(arr[3]).concat(" ").concat("?").concat(" ").concat(arr[4]);
@@ -146,7 +147,7 @@ public class ScheduleService {
         String [] analy = str.split(" ");
         String[] crons = {"每","分","时","日","月","年","运行一次"};
         String join = "每";
-        if ("0/1".equals(analy[1])){
+        if (MagicValueConstants.SCHEDULE_TIME.equals(analy[1])){
             return  crons[0]+crons[1]+"钟"+crons[6];
         }
         int j = 0;

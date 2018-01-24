@@ -191,6 +191,7 @@ public class IndexController extends BaseController {
 	
 	public void test(){
 		ThreadUtil.excAsync(new Runnable() {
+			@Override
 			public void run() {
 				while (true) {
 					MongoQuery query = new MongoQuery();

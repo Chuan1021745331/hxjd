@@ -19,17 +19,17 @@ public class IndexService {
 	public List<Map<String, Object>> getMenuss(List<Map<String, Object>> um, JUser user){
 		List<MenuDto> m = CacheKit.get("menu", user.getUsername());
 		um = new ArrayList<Map<String,Object>>();
-		for (MenuDto m_:m) {
-			JMenu m__ = m_.getM();
-			Map<String, Object> mp = new HashMap<String, Object>();
-			mp.put("id", m__.getId());
-			mp.put("pid", m__.getParent());
-			mp.put("title", m__.getName());
-			mp.put("icon", m__.getIco());
-			mp.put("url", m__.getUrl());
+		for (MenuDto m1:m) {
+			JMenu m11 = m1.getM();
+			Map<String, Object> mp = new HashMap<String, Object>(6);
+			mp.put("id", m11.getId());
+			mp.put("pid", m11.getParent());
+			mp.put("title", m11.getName());
+			mp.put("icon", m11.getIco());
+			mp.put("url", m11.getUrl());
 			mp.put("spread", false);
-			if(m_.getN()>0){
-				mp.put("children",getChild(m_.getChildren()));
+			if(m1.getN()>0){
+				mp.put("children",getChild(m1.getChildren()));
 			}
 			
 			um.add(mp);
@@ -41,7 +41,7 @@ public class IndexService {
 	private List<Map<String, Object>> getChild(List<MenuDto> ms){
 		List<Map<String, Object>> mts = new ArrayList<Map<String, Object>>();
 		for (MenuDto m:ms) {
-			Map<String, Object> mp = new HashMap<String, Object>();
+			Map<String, Object> mp = new HashMap<String, Object>(6);
 			mp.put("id", m.getM().getId());
 			mp.put("pid", m.getM().getParent());
 			mp.put("title", m.getM().getName());

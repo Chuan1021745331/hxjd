@@ -26,7 +26,7 @@ public final class ConfigManager {
 	private final String rootPath;
 	private final String originalPath;
 	private final String contextPath;
-	private static final String configFileName = "config.json";
+	private static final String CONFIG_FILE_NAME = "config.json";
 	private String parentPath = null;
 	private JSONObject jsonConfig = null;
 	// 涂鸦上传filename定义
@@ -95,58 +95,58 @@ public final class ConfigManager {
 				
 			switch (type) {
 	
-			case ActionMap.UPLOAD_FILE:
-				conf.put("isBase64", "false");
-				conf.put("maxSize", this.jsonConfig.getLong("fileMaxSize"));
-				conf.put("allowFiles", this.getArray("fileAllowFiles"));
-				conf.put("fieldName", this.jsonConfig.getString("fileFieldName"));
-				savePath = this.jsonConfig.getString("filePathFormat");
-				break;
-	
-			case ActionMap.UPLOAD_IMAGE:
-				conf.put("isBase64", "false");
-				conf.put("maxSize", this.jsonConfig.getLong("imageMaxSize"));
-				conf.put("allowFiles", this.getArray("imageAllowFiles"));
-				conf.put("fieldName", this.jsonConfig.getString("imageFieldName"));
-				savePath = this.jsonConfig.getString("imagePathFormat");
-				break;
-	
-			case ActionMap.UPLOAD_VIDEO:
-				conf.put("maxSize", this.jsonConfig.getLong("videoMaxSize"));
-				conf.put("allowFiles", this.getArray("videoAllowFiles"));
-				conf.put("fieldName", this.jsonConfig.getString("videoFieldName"));
-				savePath = this.jsonConfig.getString("videoPathFormat");
-				break;
-	
-			case ActionMap.UPLOAD_SCRAWL:
-				conf.put("filename", ConfigManager.SCRAWL_FILE_NAME);
-				conf.put("maxSize", this.jsonConfig.getLong("scrawlMaxSize"));
-				conf.put("fieldName", this.jsonConfig.getString("scrawlFieldName"));
-				conf.put("isBase64", "true");
-				savePath = this.jsonConfig.getString("scrawlPathFormat");
-				break;
-	
-			case ActionMap.CATCH_IMAGE:
-				conf.put("filename", ConfigManager.REMOTE_FILE_NAME);
-				conf.put("filter", this.getArray("catcherLocalDomain"));
-				conf.put("maxSize", this.jsonConfig.getLong("catcherMaxSize"));
-				conf.put("allowFiles", this.getArray("catcherAllowFiles"));
-				conf.put("fieldName", this.jsonConfig.getString("catcherFieldName") + "[]");
-				savePath = this.jsonConfig.getString("catcherPathFormat");
-				break;
-	
-			case ActionMap.LIST_IMAGE:
-				conf.put("allowFiles", this.getArray("imageManagerAllowFiles"));
-				conf.put("dir", this.jsonConfig.getString("imageManagerListPath"));
-				conf.put("count", this.jsonConfig.getInt("imageManagerListSize"));
-				break;
-	
-			case ActionMap.LIST_FILE:
-				conf.put("allowFiles", this.getArray("fileManagerAllowFiles"));
-				conf.put("dir", this.jsonConfig.getString("fileManagerListPath"));
-				conf.put("count", this.jsonConfig.getInt("fileManagerListSize"));
-				break;
-	
+				case ActionMap.UPLOAD_FILE:
+					conf.put("isBase64", "false");
+					conf.put("maxSize", this.jsonConfig.getLong("fileMaxSize"));
+					conf.put("allowFiles", this.getArray("fileAllowFiles"));
+					conf.put("fieldName", this.jsonConfig.getString("fileFieldName"));
+					savePath = this.jsonConfig.getString("filePathFormat");
+					break;
+		
+				case ActionMap.UPLOAD_IMAGE:
+					conf.put("isBase64", "false");
+					conf.put("maxSize", this.jsonConfig.getLong("imageMaxSize"));
+					conf.put("allowFiles", this.getArray("imageAllowFiles"));
+					conf.put("fieldName", this.jsonConfig.getString("imageFieldName"));
+					savePath = this.jsonConfig.getString("imagePathFormat");
+					break;
+		
+				case ActionMap.UPLOAD_VIDEO:
+					conf.put("maxSize", this.jsonConfig.getLong("videoMaxSize"));
+					conf.put("allowFiles", this.getArray("videoAllowFiles"));
+					conf.put("fieldName", this.jsonConfig.getString("videoFieldName"));
+					savePath = this.jsonConfig.getString("videoPathFormat");
+					break;
+		
+				case ActionMap.UPLOAD_SCRAWL:
+					conf.put("filename", ConfigManager.SCRAWL_FILE_NAME);
+					conf.put("maxSize", this.jsonConfig.getLong("scrawlMaxSize"));
+					conf.put("fieldName", this.jsonConfig.getString("scrawlFieldName"));
+					conf.put("isBase64", "true");
+					savePath = this.jsonConfig.getString("scrawlPathFormat");
+					break;
+		
+				case ActionMap.CATCH_IMAGE:
+					conf.put("filename", ConfigManager.REMOTE_FILE_NAME);
+					conf.put("filter", this.getArray("catcherLocalDomain"));
+					conf.put("maxSize", this.jsonConfig.getLong("catcherMaxSize"));
+					conf.put("allowFiles", this.getArray("catcherAllowFiles"));
+					conf.put("fieldName", this.jsonConfig.getString("catcherFieldName") + "[]");
+					savePath = this.jsonConfig.getString("catcherPathFormat");
+					break;
+		
+				case ActionMap.LIST_IMAGE:
+					conf.put("allowFiles", this.getArray("imageManagerAllowFiles"));
+					conf.put("dir", this.jsonConfig.getString("imageManagerListPath"));
+					conf.put("count", this.jsonConfig.getInt("imageManagerListSize"));
+					break;
+		
+				case ActionMap.LIST_FILE:
+					conf.put("allowFiles", this.getArray("fileManagerAllowFiles"));
+					conf.put("dir", this.jsonConfig.getString("fileManagerListPath"));
+					conf.put("count", this.jsonConfig.getInt("fileManagerListSize"));
+					break;
+				default:
 			}
 
 		}catch(Exception e) {
@@ -181,7 +181,7 @@ public final class ConfigManager {
 	}
 
 	private String getConfigPath() {
-		return this.parentPath + File.separator + ConfigManager.configFileName;
+		return this.parentPath + File.separator + ConfigManager.CONFIG_FILE_NAME;
 	}
 
 	private String[] getArray(String key) {

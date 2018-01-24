@@ -16,13 +16,13 @@ public class PathFormat {
 	private static final String MINUTE = "ii";
 	private static final String SECOND = "ss";
 	private static final String RAND = "rand";
-	final static Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}", Pattern.CASE_INSENSITIVE);
+	final static Pattern PATTERN = Pattern.compile("\\{([^\\}]+)\\}", Pattern.CASE_INSENSITIVE);
 
 	private static Date currentDate = null;
 
 	public static String parse(String input) {
 
-		Matcher matcher = pattern.matcher(input);
+		Matcher matcher = PATTERN.matcher(input);
 
 		PathFormat.currentDate = new Date();
 
@@ -54,7 +54,7 @@ public class PathFormat {
 
 	public static String parse(String input, String filename) {
 
-		Matcher matcher = pattern.matcher(input);
+		Matcher matcher = PATTERN.matcher(input);
 		String matchStr = null;
 
 		PathFormat.currentDate = new Date();

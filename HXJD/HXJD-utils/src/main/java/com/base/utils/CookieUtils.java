@@ -70,7 +70,7 @@ public class CookieUtils {
 		String cookieValue = ctr.getCookie(key);
 
 		if (StringUtils.isNotBlank(cookieValue)) {
-			String cookieStrings[] = cookieValue.split(COOKIE_SEPARATOR);
+			String[] cookieStrings = cookieValue.split(COOKIE_SEPARATOR);
 			if (null != cookieStrings && 4 == cookieStrings.length) {
 				String encrypt_value = cookieStrings[0];
 				String saveTime = cookieStrings[1];

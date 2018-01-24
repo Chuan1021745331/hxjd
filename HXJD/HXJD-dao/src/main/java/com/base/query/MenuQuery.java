@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
+import com.base.constants.MagicValueConstants;
 import com.base.model.JMenu;
 import com.base.model.JUser;
 import com.base.model.dto.MenuDto;
@@ -51,7 +52,7 @@ public class MenuQuery {
 	
 	public List<JMenu> getMenus(JUser user){
 		List<JMenu> menus = null;
-		if("administrator".equals(user.getRole())){
+		if(MagicValueConstants.ADMINISTRATOR.equals(user.getRole())){
 			menus = this.getAll();
 		}else{
 			menus = DAO.find("SELECT m.* FROM j_userrole u INNER JOIN j_rolemenubutton r ON r.roleId=u.roleId INNER JOIN  j_menu m ON m.id=r.menuId WHERE u.userId=?",user.getId());

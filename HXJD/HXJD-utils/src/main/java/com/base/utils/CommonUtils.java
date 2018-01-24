@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class CommonUtils {
 	/** 默认的格式化方式 */
-	private static final String defaultFormat = "yyyy-MM-dd HH:mm:ss";
+	private static final String DEFAULTFORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	public static String getDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -20,7 +20,7 @@ public class CommonUtils {
 		Date date = new Date();
 		date.setTime(System.currentTimeMillis());
 		if (format == null || "".equals(format.trim())) {
-			format = defaultFormat;
+			format = DEFAULTFORMAT;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(date);
@@ -31,7 +31,7 @@ public class CommonUtils {
 		Date date = new Date();
 		date.setTime(System.currentTimeMillis());
 		if (format == null || "".equals(format.trim())) {
-			format = defaultFormat;
+			format = DEFAULTFORMAT;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(date);

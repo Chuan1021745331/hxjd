@@ -91,8 +91,8 @@ public class MenuService {
 				md.setId(m.getId()+"");
 				md.setName(m.getName());
 				Integer n = 0 ;
-				for (JMenu m_ : menus) {
-					if(m.getId().intValue()==m_.getParent().intValue()){
+				for (JMenu m1 : menus) {
+					if(m.getId().intValue()==m1.getParent().intValue()){
 						n++;
 					}
 				}
@@ -115,8 +115,8 @@ public class MenuService {
 				MenuDto md = new MenuDto();
 				md.setM(m);
 				Integer n = 0 ;
-				for (JMenu m_ : ms) {
-					if(m.getId().intValue()==m_.getParent().intValue()){
+				for (JMenu m1 : ms) {
+					if(m.getId().intValue()==m1.getParent().intValue()){
 						n++;
 					}
 				}
@@ -141,8 +141,8 @@ public class MenuService {
 				md.setId(m.getId()+"");
 				md.setName(m.getName());
 				Integer n = 0 ;
-				for (JMenu m_ : ms) {
-					if(m.getId().intValue()==m_.getParent().intValue()){
+				for (JMenu m1 : ms) {
+					if(m.getId().intValue()==m1.getParent().intValue()){
 						n++;
 					}
 				}
@@ -165,8 +165,8 @@ public class MenuService {
 				MenuDto md = new MenuDto();
 				md.setM(m);
 				Integer n = 0 ;
-				for (JMenu m_ : menus) {
-					if(m.getId().intValue()==m_.getParent().intValue()){
+				for (JMenu m1 : menus) {
+					if(m.getId().intValue()==m1.getParent().intValue()){
 						n++;
 					}
 				}

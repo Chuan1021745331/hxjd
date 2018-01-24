@@ -150,10 +150,10 @@ public class MenuController extends BaseController {
 		boolean b = menu.save();
 		CacheKit.removeAll("menu");*/
 		if(null != menu){
-			ButtonService.me().JButtonE(menu.getId(), "新增", "add");
-			ButtonService.me().JButtonE(menu.getId(), "删除", "del");
-			ButtonService.me().JButtonE(menu.getId(), "修改", "edit");
-			ButtonService.me().JButtonE(menu.getId(), "详情", "sel");
+			ButtonService.me().jButtonE(menu.getId(), "新增", "add");
+			ButtonService.me().jButtonE(menu.getId(), "删除", "del");
+			ButtonService.me().jButtonE(menu.getId(), "修改", "edit");
+			ButtonService.me().jButtonE(menu.getId(), "详情", "sel");
 			renderJson(menu);
 		}else{
 			renderAjaxResultForError();

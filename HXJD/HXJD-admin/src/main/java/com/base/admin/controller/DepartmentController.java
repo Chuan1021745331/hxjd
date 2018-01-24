@@ -50,7 +50,7 @@ public class DepartmentController extends BaseController{
         boolean canDel = DepartmentService.me().isCanDel(Integer.parseInt(id));
         //不能删除
         if(!canDel){
-            renderAjaxResultForError(MessageConstants.DEPARTMENt_DEL_DEFEAT);
+            renderAjaxResultForError(MessageConstants.DEPARTMENT_DEL_DEFEAT);
             return;
         }
         boolean flag = DepartmentService.me().delTree(Integer.parseInt(id));

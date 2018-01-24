@@ -134,7 +134,7 @@ public class ClassUtils {
 	}
 
 	private static void scanClass(List<File> fileList, String path) {
-		File files[] = new File(path).listFiles();
+		File[] files = new File(path).listFiles();
 		if (null == files || files.length == 0) {
 			return;
 		}

@@ -92,10 +92,10 @@ public class ImageHunter {
 			State state = StorageManager.saveFileByInputStream( connection.getInputStream(), physicalPath );
 			
 			if ( state.isSuccess() ) {
-				String   url_  = request.getScheme()+"://"; //请求协议 http 或 https    
-				url_+=request.getHeader("host");  // 请求服务器    
-				url_+=request.getContextPath();     // 工程名
-				state.putInfo( "url", url_+PathFormat.format( savePath ) );
+				String   url1  = request.getScheme()+"://"; //请求协议 http 或 https    
+				url1+=request.getHeader("host");  // 请求服务器    
+				url1+=request.getContextPath();     // 工程名
+				state.putInfo( "url", url1+PathFormat.format( savePath ) );
 				state.putInfo( "source", urlStr );
 			}
 			

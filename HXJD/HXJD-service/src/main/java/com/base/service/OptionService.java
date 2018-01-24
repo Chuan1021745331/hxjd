@@ -3,6 +3,7 @@ package com.base.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.base.constants.MagicValueConstants;
 import com.base.model.JOption;
 import com.base.query.OptionQuery;
 import com.jfinal.aop.Before;
@@ -27,7 +28,7 @@ public class OptionService {
 	
 	@Before(Tx.class)
 	public boolean editSave(JOption jo, String optionX, String optionY){
-		if("map_center".equals(jo.getOptionKey())){
+		if(MagicValueConstants.MAP_CENTER.equals(jo.getOptionKey())){
 			
 			String oXY=optionX+"|"+optionY;
 			jo.setOptionValue(oXY);
