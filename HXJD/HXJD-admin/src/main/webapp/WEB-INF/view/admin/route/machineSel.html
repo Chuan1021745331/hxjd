@@ -172,7 +172,7 @@ active_id="dashboard">
 
         $("#selTbmrepair").click(function () {
             var id='<#if tbm??>${tbm.id}</#if>';
-            common.tableOpenLayer('${tbm.name}维修记录','icon-xiangqing',bpath+'/admin/route/tbmrepair?id='+id);
+            parent.layui.common.tableOpenLayer('${tbm.name}维修记录','icon-xiangqing',bpath+'/admin/route/tbmrepair?id='+id);
         });
 
         /*打开添加摄像头模态框*/

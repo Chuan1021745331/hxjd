@@ -184,7 +184,7 @@ function getPath(obj) {
         var parents=eval('('+p+')');
         console.log("parents*****"+p);
         console.log(parents);
-        parents.shift();	//移除根节点
+        //parents.shift();	//移除根节点
         onSelectChange($("#select_department_parent"),parents);
 
         function onSelectChange($this,parents){

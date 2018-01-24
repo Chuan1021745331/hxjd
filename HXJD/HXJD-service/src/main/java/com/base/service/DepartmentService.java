@@ -148,10 +148,10 @@ public class DepartmentService {
     public void getParents(int departmentId,List<JDepartment> parents){
         JDepartment department =null;
         if(departmentId==0){
-            department =new JDepartment();
+            /*department =new JDepartment();
             department.setId(0);
             department.setName("根节点");
-            parents.add(department);
+            parents.add(department);*/
             return;
         }
         department=DepartmentQuery.me().findById(departmentId);
@@ -192,8 +192,9 @@ public class DepartmentService {
         }
         else{
             for(JDepartment d:departmentList){
-                if(!isCanDel(d.getId()))
+                if(!isCanDel(d.getId())) {
                     return false;
+                }
             }
             return true;
         }

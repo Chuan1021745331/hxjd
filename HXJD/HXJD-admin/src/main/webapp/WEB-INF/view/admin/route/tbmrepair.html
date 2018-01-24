@@ -27,10 +27,10 @@
     ,cols: [[
             {type:'numbers'},
             {${thBase},title:'ID',field:'id', width:80, sort: true},
-        {${thBase},title:'维修人',field:'repairman'},
-        {${thBase},title:'维修时间',field:'repairtime'},
-        {${thBase},title:'下次维修时间',field:'cycle'},
-        {${thBase},title:'填写人',field:'writer'}
+        {${thBase},title:'维修人',field:'repairman', width:200},
+        {${thBase},title:'维修时间',field:'repairtime', width:200},
+        {${thBase},title:'下次维修时间',field:'cycle', width:200},
+        {${thBase},title:'填写人',field:'writer', width:200},
     ]]
     });
         table.on('tool(tbmrepairData)', function(obj){
@@ -42,7 +42,7 @@
                     top.parent.MSG(2, "请选择一条数据");
                     return false;
                 }
-                common.tableOpenLayer('维修详情','icon-xiangqing',bpath+'/admin/tbmrepair/sel?id='+tempData.id);
+                parent.layui.common.tableOpenLayer('维修详情','icon-xiangqing',bpath+'/admin/tbmrepair/sel?id='+tempData.id);
             }
         };
         $('#btn_group .layui-btn').on('click',function(){

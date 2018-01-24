@@ -99,6 +99,11 @@ public class TbmrepairController extends BaseController {
 
     public void addSave(){
         JTbmrepair tbmrepair = getModel(JTbmrepair.class);
+
+        //补全盾构机信息
+        JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
+        TbmrepairService.me().addTbmInfo(tbmrepair,tbm);
+
         boolean b = tbmrepair.save();
         if(b){
             renderAjaxResultForSuccess("添加成功");
@@ -124,24 +129,10 @@ public class TbmrepairController extends BaseController {
 
         //盾构机详情
         JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
-        JWorksite worksite=null;
-        JCircuit circuit=null;
-        if(tbm!=null){
-            worksite = WorkSiteQuery.me().findById(tbm.getWorksiteid());
-            circuit = CircuitQuery.me().findById(worksite.getCircuitid());
-        }else{
-            tbm=new JTbm();
-        }
-        if(worksite==null)
-            worksite=new JWorksite();
-        if(circuit==null)
-            circuit=new JCircuit();
 
         setAttr("tbmrepair",tbmrepair);
         setAttr("user",user);
         setAttr("tbm",tbm);
-        setAttr("worksite",worksite);
-        setAttr("circuit",circuit);
         render("sel.html");
     }
 
