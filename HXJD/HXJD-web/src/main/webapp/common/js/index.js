@@ -19,6 +19,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		type = 1;
 		$("#pcDiv").remove();
 		$("#left-menu-chart").remove();
+        $("#more-news").remove();
 		$("#logoDiv").removeClass("layui-logo");
 		$("#logoDiv").addClass("layui-logo-p");
 		$("#menuDiv").removeClass("displayNone");
@@ -97,6 +98,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 			}
 		}
 	});
+
 	$("#user-sel").click(function (){
 		var area=['30%', '86%'];
         if(device.android || device.ios){
@@ -151,6 +153,33 @@ layui.use(['jquery', 'layer', 'element'], function() {
             btn: ['确定', '取消']
 		},function () {
 			window.location.href=bpath+'/logout';
+        });
+    });
+
+    $("#more-news").click(function () {
+    	var width=$("#left-menu-chart").width();
+    	var height=$("#left-menu-chart").height();
+    	console.log("width"+width);
+    	console.log("height"+height);
+        var area=[width+'px', height+'px'];
+        var index = layer.open({
+            id:"more-news-list",
+            type: 2 ,
+            title: '今日头条',
+            content: bpath+"/news",
+            resize: false,
+            area: area,
+            offset:'rb'	,
+            move: false,
+            shade:0,
+            anim: Math.ceil(Math.random() * 6),
+            success : function(layero, index){
+                setTimeout(function(){
+                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                },500)
+            }
         });
     });
     
