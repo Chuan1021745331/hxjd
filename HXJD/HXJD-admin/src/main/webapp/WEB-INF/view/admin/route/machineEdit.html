@@ -212,6 +212,7 @@ active_id="dashboard">
         function creatMaker(x,y,order) {
             marker = new AMap.Marker({
                 icon: "${CPATH}/images/tbm/tbm.gif",
+                draggable:true,
                 position: [x, y]
             });
             marker.setMap(map);

@@ -18,7 +18,7 @@ public class CircuitWorksiteDto {
     private String name;
     private String points;
     private String color;
-    private List<JWorksite> worksites;
+    private List<WorkSiteDto> worksites;
 
     public String getColor() {
         return color;
@@ -52,11 +52,11 @@ public class CircuitWorksiteDto {
         this.name = name;
     }
 
-    public List<JWorksite> getWorksites() {
+    public List<WorkSiteDto> getWorksites() {
         return worksites;
     }
 
-    public void setWorksites(List<JWorksite> worksites) {
+    public void setWorksites(List<WorkSiteDto> worksites) {
         this.worksites = worksites;
     }
 }

@@ -1,8 +1,10 @@
 package com.base.service;
 
 import com.base.model.JCircuit;
+import com.base.model.JTbm;
 import com.base.model.JWorksite;
 import com.base.model.dto.CircuitWorksiteDto;
+import com.base.model.dto.WorkSiteDto;
 import com.base.query.CameraQuery;
 import com.base.query.CircuitQuery;
 import com.base.query.WorkSiteQuery;
@@ -70,6 +72,7 @@ public class CircuitService {
     public List<CircuitWorksiteDto> getCircuitWorksiteDtos(){
         List<JWorksite> worksites = WorkSiteQuery.me().findAllWorksite();
         List<JCircuit> circuits = getAllCircuit();
+        List<JTbm> tbms = TbmService.me().findAllTbm();
         List<CircuitWorksiteDto> circuitWorksiteDtos = new ArrayList<>();
         for(JCircuit circuit:circuits){
             CircuitWorksiteDto circuitWorksiteDto = new CircuitWorksiteDto();
@@ -77,13 +80,26 @@ public class CircuitService {
             circuitWorksiteDto.setPoints(circuit.getPoints());
             circuitWorksiteDto.setColor(circuit.getColor());
             circuitWorksiteDto.setName(circuit.getName());
-            List<JWorksite> cworksites = new ArrayList<>();
+            List<WorkSiteDto> workSiteDtos = new ArrayList<>();
             for(JWorksite worksite:worksites){
                 if(circuit.getId().intValue() == worksite.getCircuitid().intValue()){
-                    cworksites.add(worksite);
+                    WorkSiteDto workSiteDto = new WorkSiteDto();
+                    workSiteDto.setColor(worksite.getColor());
+                    workSiteDto.setCoord(worksite.getCoord());
+                    workSiteDto.setGeneral(worksite.getGeneral());
+                    workSiteDto.setName(worksite.getName());
+                    workSiteDto.setCircuitid(worksite.getCircuitid());
+                    List<JTbm> tbms1 = new ArrayList<>();
+                    for (JTbm tbm:tbms){
+                        if(tbm.getWorksiteid().intValue() == worksite.getId()){
+                            tbms1.add(tbm);
+                        }
+                    }
+                    workSiteDto.setTbms(tbms1);
+                    workSiteDtos.add(workSiteDto);
                 }
             }
-            circuitWorksiteDto.setWorksites(cworksites);
+            circuitWorksiteDto.setWorksites(workSiteDtos);
             circuitWorksiteDtos.add(circuitWorksiteDto);
         }
         return circuitWorksiteDtos;

@@ -14,11 +14,120 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
+/*动画*/
+@keyframes myfirst
+{
+	from {left:0px;}
+	to {left:-190px;}
+}
+@-moz-keyframes myfirst /* Firefox */
+{
+	from {left:0px;}
+	to {left:-190px;}
+}
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+	from {left:0px;}
+	to {left:-190px;}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+	from {left:0px;}
+	to {left:-190px;}
+}
+/*动画myfirst2*/
+@keyframes myfirst2
+{
+	from {left:-190px;}
+	to {left:00px;}
+}
+@-moz-keyframes myfirst2 /* Firefox */
+{
+	from {left:-190px;}
+	to {left:00px;}
+}
+@-webkit-keyframes myfirst2 /* Safari and Chrome */
+{
+	from {left:-190px;}
+	to {left:00px;}
+}
+
+@-o-keyframes myfirst2 /* Opera */
+{
+	from {left:-190px;}
+	to {left:00px;}
+}
+/*动画2*/
+@keyframes myBorder
+{
+	from {left:-70px;}
+	to {left:-45px;}
+}
+@-moz-keyframes myBorder /* Firefox */
+{
+	from {left:-70px;}
+	to {left:-45px;}
+}
+@-webkit-keyframes myBorder /* Safari and Chrome */
+{
+	from {left:-70px;}
+	to {left:-45px;}
+}
+
+@-o-keyframes myBorder /* Opera */
+{
+	from {left:-70px;}
+	to {left:-45px;}
+}
+/*动画myBorder2*/
+@keyframes myBorder2
+{
+	from {left:-45px;}
+	to {left:-70px;}
+}
+@-moz-keyframes myBorder2 /* Firefox */
+{
+	from {left:-45px;}
+	to {left:-70px;}
+}
+@-webkit-keyframes myBorder2 /* Safari and Chrome */
+{
+	from {left:-45px;}
+	to {left:-70px;}
+}
+
+@-o-keyframes myBorder2 /* Opera */
+{
+	from {left:-45px;}
+	to {left:-70px;}
+}
 
 .button-group {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
+	font-size: 12px;
+	padding: 10px;
+}
+.button-group-70-left {
+	position: absolute;
+	bottom: 30px;
+	left: -70px;
+	font-size: 12px;
+	padding: 10px;
+}
+.button-group-45-left {
+	position: absolute;
+	bottom: 30px;
+	left: -45px;
+	font-size: 12px;
+	padding: 10px;
+}
+.button-group-190-left {
+	position: absolute;
+	bottom: 0px;
+	left: -190px;
 	font-size: 12px;
 	padding: 10px;
 }

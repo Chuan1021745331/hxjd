@@ -66,6 +66,14 @@ public class TbmService {
     }
 
     /**
+     * 查询所有盾构机
+     * @return
+     */
+    public List<JTbm> findAllTbm(){
+        return TbmQuery.me().findAllTbm();
+    }
+
+    /**
      * 保存或更新盾构机
      * @param tbm
      * @return

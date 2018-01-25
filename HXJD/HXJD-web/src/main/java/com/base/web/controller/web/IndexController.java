@@ -1,5 +1,6 @@
 package com.base.web.controller.web;
 
+import com.alibaba.fastjson.JSON;
 import com.base.model.JCircuit;
 import com.base.model.JVisitor;
 import com.base.model.dto.CircuitWorksiteDto;
@@ -38,7 +39,8 @@ public class IndexController extends BaseController {
 	}
 	public void main() {
 		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
-		setAttr("circuitWorksiteDtos",circuitWorksiteDtos);
+		String json = JSON.toJSONString(circuitWorksiteDtos);
+		setAttr("circuitWorksiteDtos",json);
 		render("main.html");
 	}
 	

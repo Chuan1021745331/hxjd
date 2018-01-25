@@ -63,4 +63,12 @@ public class TbmQuery {
         params.add(limit);
         return Db.find(sql.toString(),params.toArray());
     }
+
+    /**
+     * 查询所有盾构机
+     * @return
+     */
+    public List<JTbm> findAllTbm(){
+        return DAO.find("SELECT * FROM j_tbm");
+    }
 }
