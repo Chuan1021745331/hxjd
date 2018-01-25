@@ -194,6 +194,12 @@
 .ms-width-70-per{
     width: 70%;
 }
+.ms-width-75-per{
+    width: 75%;
+}
+.ms-width-25-per{
+    width: 25%;
+}
 .ms-width-40-per{
     width: 40%;
 }
@@ -314,6 +320,10 @@
 {
     border-top: 2px solid rgb(221, 222, 227);
 }
+.ms-bottom-border-2px-black
+{
+    border-bottom: 2px solid rgb(221, 222, 227);
+}
 .ms-top-border-2px-red
 {
     border-top: 2px solid rgb(255, 0, 0);
@@ -321,6 +331,10 @@
 .ms-left-border-2px-red
 {
     border-left: 2px solid rgb(255, 0, 0);
+}
+.ms-left-border-2px-black
+{
+    border-left: 2px solid rgb(221, 222, 227);
 }
 .ms-left-border-2px-black
 {

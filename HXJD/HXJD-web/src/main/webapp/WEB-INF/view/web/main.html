@@ -40,29 +40,26 @@
 
 	<div id="cutline" class="button-group" >
 		<div class=" ms-div-orange-bgcolor ms-layout-center-horizontal sm-text-color-white" style="height: 320px;width: 180px;background: rgba(0, 0, 0, 0.36)">
-			<div class="ms-width-80-per ms-height-100-per ms-layout-nowrap-vertical debug ">
-				<div class="sm-width-100-per sm-height-10-per  sm-layout-center-horizontal-with-wrap">
+			<div class="ms-width-80-per ms-height-100-per ms-layout-nowrap-vertical  ">
+				<div class="sm-width-100-per sm-height-10-per  sm-layout-center-horizontal-with-wrap ms-bottom-border-2px-black">
 					图例说明
 				</div>
-				<div class="sm-width-100-per sm-height-90-per debug ms-scrollbar-black" style="overflow: scroll">
+				<div class="sm-width-100-per sm-height-90-per  ms-scrollbar-black" style="overflow: scroll">
 					<ul class="sm-width-100-per sm-height-90-per">
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
-						<li class="sm-height-20-per">1</li>
+						<#if dtos??>
+							<#list dtos as itemm>
+								<li class="sm-height-20-per ms-layout-center-horizontal">
+									<div class=" ms-width-25-per ms-height-50-per" style="background-color: ${itemm.color!};"></div>
+									<div class=" ms-width-70-per ms-height-100-per sm-layout-center-horizontal-with-wrap" >${itemm.name!}</div>
+								</li>
+							</#list>
+						</#if>
 
 					</ul>
 				</div>
 
 			</div>
-			<div class=" animationHide ms-width-20-per ms-height-100-per sm-layout-center-horizontal-with-wrap debug">
+			<div class="ms-left-border-2px-black animationHide ms-width-20-per ms-height-100-per sm-layout-center-horizontal-with-wrap ">
 				<i class="layui-icon">&#xe65a;</i>
 			</div>
 

@@ -40,6 +40,7 @@ public class IndexController extends BaseController {
 	public void main() {
 		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
 		String json = JSON.toJSONString(circuitWorksiteDtos);
+		setAttr("dtos",circuitWorksiteDtos);
 		setAttr("circuitWorksiteDtos",json);
 		render("main.html");
 	}
