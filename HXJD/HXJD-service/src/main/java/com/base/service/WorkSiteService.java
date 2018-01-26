@@ -4,12 +4,10 @@ import com.base.model.JCamera;
 import com.base.model.JTbm;
 import com.base.model.JWorksite;
 import com.base.model.dto.TbmDto;
-import com.base.model.dto.WorkSiteDto;
 import com.base.model.dto.WorkSiteDto2;
 import com.base.query.CameraQuery;
 import com.base.query.TbmQuery;
 import com.base.query.WorkSiteQuery;
-import javafx.scene.Camera;
 
 import java.util.ArrayList;
 import java.util.List;
