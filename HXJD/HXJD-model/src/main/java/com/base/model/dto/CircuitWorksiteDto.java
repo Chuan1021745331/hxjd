@@ -18,7 +18,16 @@ public class CircuitWorksiteDto {
     private String name;
     private String points;
     private String color;
+    private String general;
     private List<WorkSiteDto> worksites;
+
+    public String getGeneral() {
+        return general;
+    }
+
+    public void setGeneral(String general) {
+        this.general = general;
+    }
 
     public String getColor() {
         return color;

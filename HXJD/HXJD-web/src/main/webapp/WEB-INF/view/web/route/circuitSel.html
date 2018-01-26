@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Type"
+      content="multipart/form-data; charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<head>
+
+    <title>盾构机web端 --v1.0</title>
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
+
+    <script type="text/javascript">
+        ctx = '${CPATH}';
+        cty = '127.0.0.1:8088/${BPATH}';
+    </script>
+<body>
+<div id="circuit_root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
+    <div class="ms-width-100-per ms-height-10-per ms-layout-wrap-vertical ">
+        <#if circuitWorksiteDto??>
+            ${circuitWorksiteDto.name}
+        </#if>
+    </div>
+    <div class="layui-colla-item ms-width-100-per layui-collapse debug" lay-filter="test">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title ms-height-10-per ms-width-100-per" >详细说明</h2>
+            <div class="detail-show layui-colla-content ms-width-100-per ms-height-90-per ">
+                <#if circuitWorksiteDto??>
+                    ${circuitWorksiteDto.general}
+                </#if>
+            </div>
+        </div>
+    </div>
+    <div class="ms-width-100-per ms-margin-top-1rem ms-layout-left-center-wrap-horizontal ">
+        <#if circuitWorksiteDto??>
+            <#list circuitWorksiteDto.worksites as item>
+                <button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
+            </#list>
+        </#if>
+    </div>
+</div>
+
+<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+<script type="text/javascript" src="${CPATH}/js/index.js"></script>
+<script type="text/javascript" src="${CPATH}/plus/echarts.min.js"></script>
+<script type="text/javascript" src="${CPATH}/plus/shine.js"></script>
+<script type="text/javascript" src="${CPATH}/js/route/iframe_util.js"></script>
+<script type="text/javascript" src="${CPATH}/js/route/circuitSel.js"></script>
+<script type="text/javascript">
+    $().ready(function () {
+        initSizeHeight($("#circuit_root_div"))
+    })
+</script>
+
+</body>
+</html>

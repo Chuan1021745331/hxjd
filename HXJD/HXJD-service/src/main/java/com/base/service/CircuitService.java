@@ -79,12 +79,14 @@ public class CircuitService {
             circuitWorksiteDto.setId(circuit.getId());
             circuitWorksiteDto.setPoints(circuit.getPoints());
             circuitWorksiteDto.setColor(circuit.getColor());
+            circuitWorksiteDto.setGeneral(circuit.getGeneral());
             circuitWorksiteDto.setName(circuit.getName());
             List<WorkSiteDto> workSiteDtos = new ArrayList<>();
             for(JWorksite worksite:worksites){
                 if(circuit.getId().intValue() == worksite.getCircuitid().intValue()){
                     WorkSiteDto workSiteDto = new WorkSiteDto();
                     workSiteDto.setColor(worksite.getColor());
+                    workSiteDto.setId(worksite.getId());
                     workSiteDto.setCoord(worksite.getCoord());
                     workSiteDto.setGeneral(worksite.getGeneral());
                     workSiteDto.setName(worksite.getName());
