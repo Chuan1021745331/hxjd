@@ -40,4 +40,12 @@ public class CameraQuery {
     public boolean delCameraById(Integer id){
         return DAO.deleteById(id);
     }
+
+    /**
+     * 查询所有摄像头
+     * @return
+     */
+    public List<JCamera> getAllCameras(){
+        return DAO.find("select * from j_camera");
+    }
 }

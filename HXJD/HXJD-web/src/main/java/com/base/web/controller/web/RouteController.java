@@ -2,10 +2,15 @@ package com.base.web.controller.web;
 
 import com.alibaba.fastjson.JSON;
 import com.base.core.BaseController;
+import com.base.model.JWorksite;
 import com.base.model.dto.CircuitWorksiteDto;
+import com.base.model.dto.WorkSiteDto;
+import com.base.model.dto.WorkSiteDto2;
+import com.base.query.WorkSiteQuery;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.CircuitService;
+import com.base.service.WorkSiteService;
 
 import java.util.List;
 
@@ -23,6 +28,9 @@ import static com.xiaoleilu.hutool.extra.template.RythmUtil.render;
 @RouterMapping(url = "/route", viewPath = "/view/web/route")
 @RouterNotAllowConvert
 public class RouteController extends BaseController {
+    /**
+     * 左侧菜单线路
+     */
     public void index(){
         int cid = getParaToInt("cid");
         List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
@@ -47,5 +55,15 @@ public class RouteController extends BaseController {
             }
         }
         return null;
+    }
+
+    /**
+     * 进入工点
+     */
+    public void workSiteSel(){
+        int wid = getParaToInt("wid");
+        WorkSiteDto2 workSiteDto2 = WorkSiteService.me().getWorkSiteAndTbmAndCamera(wid);
+        setAttr("worksite",workSiteDto2);
+        render("worksiteSel.html");
     }
 }

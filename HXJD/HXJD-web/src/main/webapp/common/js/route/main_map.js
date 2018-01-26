@@ -211,7 +211,7 @@ function drawText(text,coord) {
 /*绘制tag*/
 function creatMaker(x,y,tname) {
     marker = new AMap.Marker({
-        icon:ctx+"/images/tbm/tbm.gif",
+        icon:ctx+"/images/tbm/tbm2.png",
 //                draggable:true,//拖拽
         position: [x, y]
     });

@@ -19,25 +19,25 @@
         cty = '127.0.0.1:8088/${BPATH}';
     </script>
 <body>
-<div id="circuit_root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
+<div id="root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
     <div class="ms-width-100-per ms-height-10-per ms-layout-wrap-vertical ">
-        <#if circuitWorksiteDto??>
-            ${circuitWorksiteDto.name}
+        <#if worksite??>
+            ${worksite.name!}
         </#if>
     </div>
     <div class="layui-colla-item ms-width-100-per layui-collapse debug" lay-filter="test">
         <div class="layui-colla-item">
             <h2 class="layui-colla-title ms-height-10-per ms-width-100-per" >详细说明</h2>
             <div class="detail-show layui-colla-content ms-width-100-per ms-height-90-per ">
-                <#if circuitWorksiteDto??>
-                    ${circuitWorksiteDto.general}
+                <#if worksite??>
+                    ${worksite.general!}
                 </#if>
             </div>
         </div>
     </div>
     <div class="ms-width-100-per ms-margin-top-1rem ms-layout-left-center-wrap-horizontal ">
-        <#if circuitWorksiteDto??>
-            <#list circuitWorksiteDto.worksites as item>
+        <#if worksite??>
+            <#list worksite.tbmDtos as item>
                 <button class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
             </#list>
         </#if>
@@ -54,7 +54,7 @@
 <script type="text/javascript" src="${CPATH}/js/route/circuitSel.js"></script>
 <script type="text/javascript">
     $().ready(function () {
-        initSizeHeight($("#circuit_root_div"))
+        initSizeHeight($("#root_div"))
     })
 </script>
 

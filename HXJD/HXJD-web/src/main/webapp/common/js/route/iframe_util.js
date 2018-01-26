@@ -12,7 +12,14 @@ layui.use(['form','layer'], function() {
     $(".aclick").on("click", function () {
         var atype = $(this).attr("atype");
         var adata = $(this).attr("adata");
-        var url = bpath+"/route/index?cid=" + adata;
+        var url;
+        if(atype == 1){
+            url = bpath+"/route/index?cid=" + adata;
+        }else {
+            url = bpath+"/route/workSiteSel?wid=" + adata;
+        }
+
+
         $(".tbmiframe").attr("src", url);
     })
 })
