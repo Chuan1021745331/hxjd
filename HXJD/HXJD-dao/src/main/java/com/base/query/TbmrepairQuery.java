@@ -2,6 +2,7 @@ package com.base.query;
 
 
 import com.base.model.JTbmrepair;
+import com.base.model.dto.TbmrepairSearchDto;
 import com.base.utils.StringUtils;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -119,5 +120,84 @@ public class TbmrepairQuery {
         return Db.find(sql.toString(), params.toArray());
     }
 
+    /**
+     * 多条件查询结果总数
+     * @param searchDto
+     * @return
+     */
+    public long findCountTbmrepairTbmUser(TbmrepairSearchDto searchDto){
+        StringBuilder sql=new StringBuilder("select count(*)");
+        sql.append(" from j_tbmrepair tr left join j_tbm t on tr.tbmId=t.id left join j_user u on tr.userId=u.id where 1=1 ");
+        if(searchDto!=null){
+            //盾构机名不为空
+            if(StringUtils.isNotBlank(searchDto.getTbmname())){
+                sql.append(" and (t.name like '%"+searchDto.getTbmname()+"%' or tr.tbmname like '%"+searchDto.getTbmname()+"%')");
+            }
+            //维保人
+            if(StringUtils.isNotBlank(searchDto.getRepairman())){
+                sql.append(" and tr.repairman like '%"+searchDto.getRepairman()+"%' ");
+            }
+            //维保开始时间
+            if(StringUtils.isNotBlank(searchDto.getRepairtimeStart())){
+                sql.append(" and tr.repairtime > '"+searchDto.getRepairtimeStart()+"'");
+            }
+            //维保结束时间
+            if(StringUtils.isNotBlank(searchDto.getRepairtimeEnd())){
+                sql.append(" and tr.repairtime < '"+searchDto.getRepairtimeEnd()+"'");
+            }
+            //下次维保开始时间
+            if(StringUtils.isNotBlank(searchDto.getCycleStart())){
+                sql.append(" and tr.cycle > '"+searchDto.getCycleStart()+"'");
+            }
+            //下次维保结束时间
+            if(StringUtils.isNotBlank(searchDto.getCycleEnd())){
+                sql.append(" and tr.cycle < '"+searchDto.getCycleEnd()+"'");
+            }
+        }
+        return Db.queryLong(sql.toString());
+    }
 
+    /**
+     *多条件查询结果
+     * @param page
+     * @param limit
+     * @param searchDto
+     * @return
+     */
+    public List<Record> findListTbmrepairTbmUser(int page, int limit, TbmrepairSearchDto searchDto){
+        StringBuilder sql=new StringBuilder("select tr.*,t.name as tbmName,u.relname as writer");
+        sql.append(" from j_tbmrepair tr left join j_tbm t on tr.tbmId=t.id left join j_user u on tr.userId=u.id where 1=1");
+        if(searchDto!=null){
+            //盾构机名
+            if(StringUtils.isNotBlank(searchDto.getTbmname())){
+                sql.append(" and (t.name like '%"+searchDto.getTbmname()+"%' or tr.tbmname like '%"+searchDto.getTbmname()+"%')");
+            }
+            //维保人
+            if(StringUtils.isNotBlank(searchDto.getRepairman())){
+                sql.append(" and tr.repairman like '%"+searchDto.getRepairman()+"%' ");
+            }
+            //维保开始时间
+            if(StringUtils.isNotBlank(searchDto.getRepairtimeStart())){
+                sql.append(" and tr.repairtime > '"+searchDto.getRepairtimeStart()+"'");
+            }
+            //维保结束时间
+            if(StringUtils.isNotBlank(searchDto.getRepairtimeEnd())){
+                sql.append(" and tr.repairtime < '"+searchDto.getRepairtimeEnd()+"'");
+            }
+            //下次维保开始时间
+            if(StringUtils.isNotBlank(searchDto.getCycleStart())){
+                sql.append(" and tr.cycle > '"+searchDto.getCycleStart()+"'");
+            }
+            //下次维保结束时间
+            if(StringUtils.isNotBlank(searchDto.getCycleEnd())){
+                sql.append(" and tr.cycle < '"+searchDto.getCycleEnd()+"'");
+            }
+        }
+        sql.append(" order by tr.id desc LIMIT ?, ? ");
+        LinkedList<Object> params = new LinkedList<Object>();
+        params.add(limit*page-limit);
+        params.add(limit);
+
+        return Db.find(sql.toString(), params.toArray());
+    }
 }

@@ -3,6 +3,7 @@ package com.base.admin.controller;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.*;
+import com.base.model.dto.TbmrepairSearchDto;
 import com.base.query.CircuitQuery;
 import com.base.query.WorkSiteQuery;
 import com.base.router.RouterMapping;
@@ -134,6 +135,20 @@ public class TbmrepairController extends BaseController {
         setAttr("user",user);
         setAttr("tbm",tbm);
         render("sel.html");
+    }
+
+    public void search(){
+        render("search.html");
+    }
+
+    public void searchData(){
+        Integer page = getParaToInt("page");
+        Integer limit = getParaToInt("limit");
+        TbmrepairSearchDto searchDto = getBean(TbmrepairSearchDto.class,"tbmrepairSearchDto");
+
+        long count = TbmrepairService.me().findCountTbmrepairTbmUser(searchDto);
+        List<Record> list = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, searchDto, count);
+        renderPageResult(0,"",(int)count,list);
     }
 
 }

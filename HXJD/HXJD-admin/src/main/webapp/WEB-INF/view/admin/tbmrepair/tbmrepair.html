@@ -3,11 +3,11 @@
 <blockquote class="layui-elem-quote tableTool">
     <div class="layui-inline float_right">
         <div class="layui-input-inline">
-            <input type="text" name="keyword" id="idReload" placeholder="请输入关键字" class="layui-input layui-input-small search_input">
+            <input type="text" id="idReload" name="keyword"  required  lay-verify="required"  class="layui-input layui-input-small">
         </div>
         <div class="layui-btn-group">
             <button class="layui-btn layui-btn-sm search_btn" data-type="reload"><i class="icon iconfont icon-chaxun"></i><cite>查询</button>
-            <!--<button class="layui-btn layui-btn-sm search_btn" data-type="reloadAll"><i class="icon iconfont icon-adsearch2"></i><cite>高级查询</button>-->
+            <button class="layui-btn layui-btn-sm search_btn" data-type="moreSearch"><i class="icon iconfont icon-adsearch2"></i><cite>高级查询</button>
         </div>
     </div>
     <div class="layui-btn-group" id="btn_group">
@@ -15,10 +15,20 @@
 </blockquote>
 <table class="layui-hide" id="tbmrepairData" lay-filter="tbmrepairData"></table>
 <script>
-    layui.use( ['table','common'], function(){
+    layui.use( ['table','common','laydate'], function(){
         var $ = layui.$,
             table = layui.table,
             common = layui.common;
+            laydate=layui.laydate;
+
+        //初始化日期控件
+        /*laydate.render({
+            elem: '#repairtime' //指定元素
+            ,type:"datetime"
+            ,range: true
+            ,max: new Date().toLocaleDateString()
+        });*/
+
         //表格渲染
         t = table.render({
                 id:'tbmrepairTable'
@@ -46,18 +56,33 @@
             <!-- 查询操作 -->
             reload: function(){
                 t.reload({
+                    url:'${BPATH}/admin/tbmrepair/tbmrepairData',
                     where: {
                         keyword: $('#idReload').val()
                     }
                 });
             },
-            /*reloadAll: function(){
-                t.reload({
-                    where: {
-                        keyword: $('#idReload').val()
+            moreSearch: function(){
+                var area=['600px', '500px'];
+                var index = layer.open({
+                    id:"more-search",
+                    type: 2 ,
+                    title: '维保记录查询',
+                    content: bpath+"/admin/tbmrepair/search",
+                    resize: false,
+                    area: area,
+                    move: false,
+                    shade:0.3,
+                    anim: Math.ceil(Math.random() * 6),
+                    success : function(layero, index){
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500)
                     }
                 });
-            }*/
+            }
         };
     <#include "../../_include/tag/button.tag"/>
     });

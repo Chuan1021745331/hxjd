@@ -1,0 +1,108 @@
+<#include "../../_include/_layout.inc.tag"/> <@layout
+active_id="dashboard">
+<script src="${CPATH}/plus/jquery.form.min.js"></script>
+<style>
+    .layui-form-label{
+        width: 100px;
+    }
+</style>
+<form class="layui-form" id="myForm" action="" style="margin: 10px 10px 0px 10px;">
+    <div id="selector" class="layui-form-item">
+        <label class="layui-form-label">盾构机名称</label>
+        <div class="layui-input-inline" >
+            <input type="text" name="tbmrepairSearchDto.tbmname"   placeholder="请输入要查询的盾构机名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">维保人</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="tbmrepairSearchDto.repairman"  placeholder="请输入要查询的维保人" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">填写人</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tbmrepairSearchDto.writer" placeholder="请输入要查询的填写人" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">维保时间段</label>
+            <div class="layui-input-inline" >
+                <input type="text" id="repairtime-start" name="tbmrepairSearchDto.repairtimeStart"  readonly     class="layui-input choose-time">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" >
+                <input type="text" id="repairtime-end" name="tbmrepairSearchDto.repairtimeEnd"  readonly   class="layui-input choose-time">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">下次维保时间段</label>
+            <div class="layui-input-inline" >
+                <input type="text" id="cycle-start" name="tbmrepairSearchDto.cycleStart" readonly  class="layui-input choose-time">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" >
+                <input type="text" id="cycle-end"  name="tbmrepairSearchDto.cycleEnd" readonly  class="layui-input choose-time">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+
+    </div>
+</form>
+<script>
+    layui.use(['form','common','laydate'], function() {
+            var form = layui.form,
+                common = layui.common;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //初始化日期控件
+            laydate.render({
+                elem: '#repairtime-start' //指定元素
+                , type: "datetime"
+                , max: new Date().toLocaleDateString()
+            });
+            laydate.render({
+                elem: '#repairtime-end' //指定元素
+                , type: "datetime"
+                , max: new Date().toLocaleDateString()
+            });
+            laydate.render({
+                elem: '#cycle-start' //指定元素
+                , type: "datetime"
+                // , min: new Date().toLocaleDateString()
+            });
+            laydate.render({
+                elem: '#cycle-end' //指定元素
+                , type: "datetime"
+                // , min: new Date().toLocaleDateString()
+            });
+
+            form.on("submit(formDemo)",function (data) {
+                if(typeof(parent.t) != "undefined"){
+                    parent.t.reload({
+                        url:'${BPATH}/admin/tbmrepair/searchData',
+                        where: data.field
+                    })
+                }
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+                return false;
+            });
+    });
+</script>
+</@layout>

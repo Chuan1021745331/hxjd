@@ -32,7 +32,8 @@
 			<#list newsType as bean>
 				<button class="layui-btn layui-btn-sm layui-btn-radius tag" style="background-color: #3F51B5;">${bean.name!}</button>
 			</#list>
-		</#if> 
+		</#if>
+        <button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag" style="background-color: #3F51B5;">维保记录</button>
 
 	</div>
 	<div class="layui-row" style="overflow-x:hidden;">
@@ -49,8 +50,7 @@
 			    </div>
 	   		</#list>
 	   </#if> 	    
-	</div> 	
-
+	</div>
 </div>
 
 
@@ -63,6 +63,7 @@
 	}),
 	
 	$(".tag").unbind('click').click(function(){
+        $(".tbmrepair-content").hide();
 		if($(this).hasClass("selected")){
 			$(this).removeClass("selected");
 			$(this).css("background-color","#3F51B5");
@@ -75,7 +76,10 @@
 			$(".item").hide();
 			$("."+$(this).text()).show();
 		}
-	})
+	});
+
+  	$(".tbmrepair-tag").unbind('click').click(function(){
+	});
 	
 </script>
 </html>

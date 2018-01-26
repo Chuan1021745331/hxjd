@@ -4,6 +4,7 @@ import com.base.model.JCircuit;
 import com.base.model.JTbm;
 import com.base.model.JTbmrepair;
 import com.base.model.JWorksite;
+import com.base.model.dto.TbmrepairSearchDto;
 import com.base.query.CircuitQuery;
 import com.base.query.TbmrepairQuery;
 import com.base.query.WorkSiteQuery;
@@ -60,15 +61,59 @@ public class TbmrepairService {
         return TbmrepairQuery.me().findCountByTbmId(tbmId);
     }
 
+    /**
+     * 关键字查询结果数
+     * @param search
+     * @return
+     */
     public long findCountTbmrepairTbmUser(String search){
         return TbmrepairQuery.me().findCountTbmrepairTbmUser(search);
     }
 
+    /**
+     * 关键字分页查询
+     * @param page
+     * @param limit
+     * @param where
+     * @param count
+     * @return
+     */
     public List<Record> findListTbmrepairTbmUser(Integer page, Integer limit, String where, long count){
         List<Record> list = new ArrayList<>();
         if(count!=0){
             page = (page>count/limit && count%limit==0)?page-1:page ;
             list = TbmrepairQuery.me().findListTbmrepairTbmUser(page, limit, where);
+        }
+        for(Record record:list){
+            if(StringUtils.isEmpty(record.getStr("tbmName"))){
+                record.set("tbmName",record.getStr("tbmname"));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 多条件查询结果数
+     * @param searchDto
+     * @return
+     */
+    public long findCountTbmrepairTbmUser(TbmrepairSearchDto searchDto){
+        return TbmrepairQuery.me().findCountTbmrepairTbmUser(searchDto);
+    }
+
+    /**
+     * 多条件分页查询结果
+     * @param page
+     * @param limit
+     * @param searchDto
+     * @param count
+     * @return
+     */
+    public List<Record> findListTbmrepairTbmUser(Integer page, Integer limit, TbmrepairSearchDto searchDto, long count){
+        List<Record> list = new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            list = TbmrepairQuery.me().findListTbmrepairTbmUser(page, limit, searchDto);
         }
         for(Record record:list){
             if(StringUtils.isEmpty(record.getStr("tbmName"))){
@@ -104,6 +149,13 @@ public class TbmrepairService {
         return TbmrepairQuery.me().findLatestByTbmId(tbmId);
     }
 
+    /**
+     * @MethodName: addTbmInfo
+     * @Description: (将盾构机信息添加到维保记录里面)
+     * @param tbmrepair
+     * @param tbm
+     * @return: void
+     */
     public void addTbmInfo(JTbmrepair tbmrepair,JTbm tbm){
         JWorksite worksite=null;
         JCircuit circuit=null;
@@ -119,4 +171,5 @@ public class TbmrepairService {
             tbmrepair.setCircuitname(circuit.getName());
         }
     }
+
 }

@@ -177,6 +177,8 @@
                         $("#select_circuit").append('<option  value="'+ circuit.id +'">'+circuit.name+'</option>');
                     }
                     initSelectWorkSite($("#select_circuit").val());
+                    console.log("circuitWorksiteDtos:");
+                    console.log(circuitWorksiteDtos);
                     form.render();
                 }
             });
