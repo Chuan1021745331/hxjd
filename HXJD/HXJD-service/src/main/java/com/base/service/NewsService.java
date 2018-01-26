@@ -62,6 +62,7 @@ public class NewsService {
 	public boolean delById(Integer id){
 		return NewsQuery.me().deleteById(id);
 	}
+	
 	public Record getById(Integer id){
 		return NewsQuery.me().getById(id);
 	}
@@ -71,8 +72,15 @@ public class NewsService {
 		return news.saveOrUpdate(); 
 	}
 		
-	
 	public List<JNewstype> getNewsType(){
 		return NewsTypeQuery.me().getAll();
+	}
+	
+	public void getNewsByPage(Integer page){
+		NewsQuery.me().getNewsByPage((page-1)*10);
+	}
+	
+	public List<Record> getNewsAll(){
+		return NewsQuery.me().getAll();
 	}
 }

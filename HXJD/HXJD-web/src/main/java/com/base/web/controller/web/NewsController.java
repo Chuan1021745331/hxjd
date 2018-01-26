@@ -38,7 +38,7 @@ import com.jfinal.plugin.activerecord.Record;
 public class NewsController extends BaseController {
 
 	public void index() {
-		List<Record> list =  NewsService.me().getIndexNews();
+		List<Record> list =  NewsService.me().getNewsAll();;
 		
 		List<JNewstype> newsType = NewsService.me().getNewsType();
 		for (Record news : list) {
@@ -48,9 +48,17 @@ public class NewsController extends BaseController {
 				news.set("con", con);
 			}			
 		}
+		//System.out.println(list.get(0).getStr("con"));
 		setAttr("newsType", newsType);
 		setAttr("news",list);
 		render("news.html");
+	}
+	
+	public void getNewsBypage(){
+		Integer page = getParaToInt("page");
+		page = null==page?1:page;
+		NewsService.me().getNewsByPage(page);
+		
 	}
 	
 /*	public void newsData(){
@@ -83,18 +91,26 @@ public class NewsController extends BaseController {
 		render("sel.html");
 	}
 	
-	/** 按字节长度截取字符串(支持截取带HTML代码样式的字符串)
-	* @param param 将要截取的字符串参数
-	* @param length 截取的字节长度
-	* @param end 字符串末尾补上的字符串
-	* @return 返回截取后的字符串
-	*/
+	/**
+	 * 
+	 * subStringHTML 
+	 * 按字节长度截取字符串(支持截取带HTML代码样式的字符串)    
+	 *void  
+	 * @exception   
+	 * @since  1.0.0
+	 * @param param 将要截取的字符串参数
+	 * @param length 截取的字节长度
+	 * @param end 字符串末尾补上的字符串
+	 * @return 返回截取后的字符串
+	 */
 	 public String subStringHTML(String param,int length,String end) {
          StringBuffer result = new StringBuffer();
          int n = 0;
          char temp;
-         boolean isCode = false; //是不是HTML代码
-         boolean isHTML = false; //是不是HTML特殊字符,如 
+         //是不是HTML代码
+         boolean isCode = false;
+         //是不是HTML特殊字符
+         boolean isHTML = false; 
          for (int i = 0; i < param.length(); i++) {
            temp = param.charAt(i);
            if (temp == '<') {
