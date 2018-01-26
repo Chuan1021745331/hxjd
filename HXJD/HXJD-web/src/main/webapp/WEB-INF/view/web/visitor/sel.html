@@ -26,7 +26,7 @@
   <div class="layui-form-item">
 	<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
 		<div class="layui-input-inline">
-			<img src="${BPATH}<#if (visitor.avatar)??>${visitor.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
+			<img src="${BPATH}<#if (visitor.avatar)??>${visitor.avatar!}</#if>" onerror="this.src='/attachment/avatar/astronaut.png';this.onerror=null" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
 		</div>
   </div>
   
@@ -79,7 +79,7 @@
             <!--</#if>-->
         <!--</#list>-->
     <div class="layui-input-inline" >
-        <div class="layui-form-mid"><span style="color: #009688;font-weight: bolder;">
+        <div class="layui-form-mid"><span style="color: #009688;font-weight: bolder;">&nbsp;
         <#list parents as pdepartment>
                 <!--<input type="text" class="layui-input" value="${pdepartment.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">-->
             ${pdepartment.name}

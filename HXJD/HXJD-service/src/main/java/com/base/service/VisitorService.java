@@ -1,5 +1,6 @@
 package com.base.service;
 
+import com.base.model.JDepartment;
 import com.base.model.JDepartmentvisitor;
 import com.base.model.JVisitor;
 import com.base.query.DepartmentQuery;
@@ -55,6 +56,13 @@ public class VisitorService {
         if(count!=0){
             page = (page>count/limit && count%limit==0)?page-1:page ;
             list=VisitorQuery.me().findListVisitorDepartment(page,limit,search);
+            for(Record record:list){
+                JDepartment department = DepartmentService.me().findDepartmentByVisitorId(record.getInt("id"));
+                if(department!=null)
+                    record.set("departmentName",department.getName());
+                else
+                    record.set("departmentName","暂无职称");
+            }
         }
         return list;
     }
@@ -118,6 +126,12 @@ public class VisitorService {
         //修改新的关联关系
         if(b){
             JDepartmentvisitor departmentvisitor = DepartmentVisitorQuery.me().findByVisitorId(visitor.getId());
+            if(departmentvisitor==null){
+                departmentvisitor=new JDepartmentvisitor();
+                departmentvisitor.setVisitorId(temp.getId());
+                departmentvisitor.setDepartmentId(departmentId);
+                return departmentvisitor.save();
+            }
             departmentvisitor.setDepartmentId(departmentId);
             return  departmentvisitor.update();
         }
