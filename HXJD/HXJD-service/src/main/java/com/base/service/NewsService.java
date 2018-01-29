@@ -76,11 +76,15 @@ public class NewsService {
 		return NewsTypeQuery.me().getAll();
 	}
 	
-	public List<Record> getNewsByPage(Integer page){
-		return NewsQuery.me().getNewsByPage((page-1)*10);
+	public List<Record> getNewsByPageTag(Integer page, Integer tag){
+		return NewsQuery.me().getNewsByPageTag((page-1)*10, tag);
 	}
 	
 	public List<Record> getNewsAll(){
 		return NewsQuery.me().getAll();
+	}
+	
+	public List<Record> getByTag(Integer id){
+		return NewsQuery.me().getByTag(id);
 	}
 }

@@ -56,13 +56,6 @@ public class NewsController extends BaseController {
 		render("news.html");
 	}
 	
-	public void getNewsBypage(){
-		Integer page = getParaToInt("page");
-		page = null==page?1:page;
-		NewsService.me().getNewsByPage(page);
-		
-	}
-	
 /*	public void newsData(){
 		Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
@@ -93,11 +86,34 @@ public class NewsController extends BaseController {
 		render("sel.html");
 	}
 	
-	public void getNewsByPage(){
+	public void getNewsByPageTag(){
 		Integer page = getParaToInt("page");
-		List<Record> list =  NewsService.me().getNewsByPage(page);
+		Integer tag= getParaToInt("tag");
+		List<Record> list =  NewsService.me().getNewsByPageTag(page,tag);
+		for (Record news : list) {
+			String content =  news.getStr("content");
+			if(StringUtils.isNotEmpty(content)){
+				String con = subStringHTML(content, 140, "……");
+				news.set("con", con);
+			}			
+		}
 		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		renderText(str);
+	}
+	
+	public void getByTag(){
+		Integer tag= getParaToInt("tag");
+		List<Record> list = NewsService.me().getByTag(tag);
+		for (Record news : list) {
+			String content =  news.getStr("content");
+			if(StringUtils.isNotEmpty(content)){
+				String con = subStringHTML(content, 140, "……");
+				news.set("con", con);
+			}			
+		}
+		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		renderText(str);
+		
 	}
 	
 	/**
