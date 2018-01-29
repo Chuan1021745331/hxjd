@@ -12,6 +12,7 @@ import com.base.constants.MessageConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JNews;
+import com.base.model.JNewstype;
 import com.base.model.JUser;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
@@ -62,6 +63,8 @@ public class NewsController extends BaseController {
 	}
 	
 	public void add(){		
+		List<JNewstype> list = NewsService.me().getNewsType();
+		setAttr("newsType", list);
 		render("add.html");
 	}
 	
@@ -69,6 +72,18 @@ public class NewsController extends BaseController {
 		//UploadFile upfile = getFile("attachment");
 		//upfile.getFile();
 		JNews news = getBean(JNews.class);
+		
+		String typeName = getPara("typeName");
+		if(StringUtils.isNotEmpty(typeName)){			
+			JNewstype newsType =  NewsService.me().saveNewsType(typeName);
+			if(null != newsType){
+				news.setType(newsType.getId());
+			} else {
+				renderAjaxResultForError(MessageConstants.ADD_DEFEAT);
+				return;
+			}
+		}
+		
 		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
 		JUser user = UserService.me().findById(new Integer(userId));
 		if(StringUtils.isNotEmpty(user.getRelname())){

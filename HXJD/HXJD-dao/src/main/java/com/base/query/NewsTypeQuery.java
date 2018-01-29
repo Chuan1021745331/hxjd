@@ -15,4 +15,11 @@ public class NewsTypeQuery {
 	public List<JNewstype> getAll(){
 		return DAO.find("SELECT nt.id , nt.name, nt.type FROM j_newstype nt ");
 	}
+	
+	public JNewstype saveByName(String name){
+		JNewstype newstype = new JNewstype();
+		newstype.setName(name);
+		newstype.saveOrUpdate();
+		return newstype;
+	}
 }

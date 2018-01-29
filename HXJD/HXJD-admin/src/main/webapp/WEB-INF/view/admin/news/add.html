@@ -15,12 +15,17 @@
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">类型</label>
-    <div class="layui-input-inline" style="width:40%;">
-      <select name="jNews.type" lay-verify="" required  lay-verify="required">
-      	<option value="1">新闻</option>
-      	<option value="2">公告</option>
-      </select>	
+    <div id="type">
+    	<#if newsType??>
+    		<#list newsType as bean>
+    			<input type="radio" name="jNews.type" value="${bean.id!}" title="${bean.name!}">
+    		</#list>    	
+    	</#if>
+		
+		<!-- <input type="radio" name="typeName" value="" title=" "><input id="addItem" type="text" class="layui-input" style="width:5%;"> -->
     </div>
+<!--     <button id="addType" class="layui-icon layui-btn layui-btn-sm layui-btn-primary">&#xe608; 添加</button> -->
+<i id="addType" class="layui-icon">&#xe608; 添加</i>   
   </div>
     <div class="layui-form-item">
     <label class="layui-form-label">附件</label>
@@ -47,6 +52,11 @@
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
+  
+
+  
+  
+  
 </form>
 <!-- ///HXJD-web/src/main/webapp/common/plus/kindeditor/kindeditor-all-min.js -->
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
@@ -55,6 +65,7 @@
 	layui.use(['form','common'], function() {
 		var form = layui.form,
 			common = layui.common;
+		form.render();
 		common.formAjaxSubmit('formDemo','form',bpath+'/admin/news/addSave');
 		
 		var editor = null;
@@ -70,6 +81,29 @@
 			allowFileManager : true,
 			afterBlur: function(){this.sync();}
 		});
+		$("#addType").unbind("click").click(function(){
+			//alert("click");
+			var type;
+			layer.open({
+				  title: '新增类型'
+				  ,content: '<form class="layui-form" id="form"><div class="layui-form-item"><label class="layui-form-label">类型名称</label><div class="layui-input-inline"><input id="addItem" type="text" class="layui-input" style="width:50%;"></div></div>'
+				  ,yes: function(index, layero){
+						 type=$("#addItem").val();						 
+						 console.log("type: " + type);
+						 if(null!=type && typeof(type) != "undefined" && type!="" ){
+							 $("#type").append('<input type="radio" name="typeName" value="'+type+'" title="'+type+'">'); 
+								form.render();
+								layer.close(index); //如果设定了yes回调，需进行手工关闭
+						 } else {
+							 layer.alert('类型不能为空!');
+						 }
+						 
+				   }	
+			});   
+			
+			
+		}) 
+		
 	});
 	
 </script>

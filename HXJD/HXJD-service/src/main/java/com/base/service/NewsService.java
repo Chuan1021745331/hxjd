@@ -100,6 +100,10 @@ public class NewsService {
 	public List<Record> getByTag(Integer id){
 		return NewsQuery.me().getByTag(id);
 	}
+	public JNewstype saveNewsType(String name){		
+		return NewsTypeQuery.me().saveByName(name);
+	}
+	
 
 	/**
 	 * 将新闻集合和维保记录集合进行排序,并不超过10条记录
