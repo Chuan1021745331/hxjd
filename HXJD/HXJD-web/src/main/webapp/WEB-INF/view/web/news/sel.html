@@ -42,13 +42,31 @@
  </div>
 	
 </form>
-<script>
-/* 	layui.use(['form','common'], function() {
-		var form = layui.form,
-			common = layui.common;
-	}); */
-		
-</script>
+<!-- 侧边按钮 -->
+	<div style="">
+		<ul class="layui-fixbar">
+			<!-- 返回 -->
+			<li id="back"  class="layui-icon" lay-type="bar1" style="">&#xe65c;</li> 
+			<!-- 分享 -->
+			<li id="share" class="layui-icon" lay-type="bar1" style="">&#xe641;</li> 
+			<!-- 回到顶部 -->
+			<li id="top" class="layui-icon layui-fixbar-top" lay-type="top" style="display: list-item;">&#xe604;</li>
+		</ul>
+	</div>
+
+	<script>
+	/* 	layui.use(['form','common'], function() {
+			var form = layui.form,
+				common = layui.common;
+		}); */
+	    $("#top").unbind('click').click(function(){
+	    	$(window).scrollTop(0);
+	    })	
+		$("#back").unbind('click').click(function(){
+			history.go(-1);
+	    })
+	    
+	</script>
 
  	</body>
 	</html>
