@@ -102,17 +102,38 @@ public class RouteController extends BaseController {
      * 分页查询盾构机
      */
     public void tbmData(){
-        Integer workSiteId = getParaToInt("menuId");
+        Integer zid = getParaToInt("menuId");
+        Integer type = getParaToInt("type");
         Integer page = getParaToInt("page");
         Integer limit = getParaToInt("limit");
         //默认为根节点
-        if(null == workSiteId){
-            workSiteId = new Integer(0);
+        if(null == zid){
+            zid = new Integer(0);
+        }
+        long count = 0;
+        List<Record> tbmList = null;
+        if(type == null){
+            /*查詢所有*/
+            count = TbmService.me().findAllTbmCount();
+            tbmList = TbmService.me().findAllTbmTbmrepair(page, limit, count);
+            renderPageResult(0, "", (int)count, tbmList);
+            return;
+        }
+        if(type == 1){
+            //zid表示線路id
+            count = TbmService.me().findTbmCountByCircuitId(zid);
+            tbmList = TbmService.me().findTbmTbmrepairByCircuitId(page, limit, zid, count);
+            renderPageResult(0, "", (int)count, tbmList);
+            return;
+        }
+        if(type == 2){
+            //zid表示工點id
+            count = TbmService.me().findTbmCountByWorkSiteId(zid);
+            tbmList = TbmService.me().findTbmTbmrepairByworkSiteId(page, limit, zid, count);
+            renderPageResult(0, "", (int)count, tbmList);
+            return;
         }
 
-        long count = TbmService.me().findTbmCountByWorkSiteId(workSiteId);
-        List<Record> tbmList = TbmService.me().findTbmTbmrepairByworkSiteId(page, limit, workSiteId, count);
-        renderPageResult(0, "", (int)count, tbmList);
     }
 
     /**

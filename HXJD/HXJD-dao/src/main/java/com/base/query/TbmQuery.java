@@ -29,9 +29,25 @@ public class TbmQuery {
         return DAO.findById(id);
     }
     public long findTbmCountByWorkSiteId(int workSiteId){
+        return Db.queryLong("select count(*) from j_tbm where worksiteid="+workSiteId);
+    }
+
+    /**
+     * 查詢所有盾构机数量
+     * @return
+     */
+    public long findAllTbmCount(){
         return Db.queryLong("select count(*) from j_tbm");
     }
 
+    /**
+     * 查询该线路下所有盾构机数量
+     * @param circuitid
+     * @return
+     */
+    public long findTbmCountByCircuitId(int circuitid){
+        return Db.queryLong("select count(*) from j_worksite jw join j_tbm jb on jw.id = jb.worksiteid where jw.circuitid="+circuitid);
+    }
     public List<JTbm> findTbmByWorkSiteId(int page, int limit, int workSiteId){
         StringBuilder sql=new StringBuilder("select * from j_tbm");
         sql.append(" where worksiteid = ? order by id asc limit ?,?");
@@ -59,6 +75,44 @@ public class TbmQuery {
         sql.append(" order by id asc limit ?,?");
         LinkedList<Object> params = new LinkedList<Object>();
         params.add(workSiteId);
+        params.add(limit*page-limit);
+        params.add(limit);
+        return Db.find(sql.toString(),params.toArray());
+    }
+
+
+    /**
+     * tong
+     * @param page
+     * @param limit
+     * @param circutid
+     * @return
+     */
+    public List<Record> findTbmTbmrepairByCircuitId(int page, int limit, int circutid){
+        //连表查询维修记录最近的一次
+        StringBuilder sql=new StringBuilder("select t.*,tb.repairtime,tb.repairman,tb.cycle");
+        sql.append(" from j_worksite jw join j_tbm t on jw.id = t.worksiteid left join (select * from j_tbmrepair group by tbmId having max(repairtime)) tb on t.id=tb.tbmId");
+        sql.append(" where jw.circuitid=?");
+        sql.append(" order by id asc limit ?,?");
+        LinkedList<Object> params = new LinkedList<Object>();
+        params.add(circutid);
+        params.add(limit*page-limit);
+        params.add(limit);
+        return Db.find(sql.toString(),params.toArray());
+    }
+
+    /**
+     * 分页查询所有盾构机
+     * @param page
+     * @param limit
+     * @return
+     */
+    public List<Record> findAllTbmTbmrepair(int page, int limit){
+        //连表查询维修记录最近的一次
+        StringBuilder sql=new StringBuilder("select t.*,tb.repairtime,tb.repairman,tb.cycle");
+        sql.append(" from j_tbm t left join (select * from j_tbmrepair group by tbmId having max(repairtime)) tb on t.id=tb.tbmId");
+        sql.append(" order by id asc limit ?,?");
+        LinkedList<Object> params = new LinkedList<Object>();
         params.add(limit*page-limit);
         params.add(limit);
         return Db.find(sql.toString(),params.toArray());

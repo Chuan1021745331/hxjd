@@ -31,6 +31,17 @@ public class TbmService {
         return TbmQuery.me().findTbmCountByWorkSiteId(id);
     }
 
+    public long findAllTbmCount(){
+        return TbmQuery.me().findAllTbmCount();
+    }
+    /**
+     * 查询该线路下所有盾构机数量
+     * @param circuitid
+     * @return
+     */
+    public long findTbmCountByCircuitId(int circuitid){
+        return TbmQuery.me().findTbmCountByCircuitId(circuitid);
+    }
     /**
      * 分页查询盾构机
      * @param page
@@ -61,6 +72,38 @@ public class TbmService {
         if(count!=0){
             page = (page>count/limit && count%limit==0)?page-1:page ;
             routeList = TbmQuery.me().findTbmTbmrepairByWorkSiteId(page, limit, workSiteId);
+        }
+        return routeList;
+    }
+    /**
+     * 分页查询盾构机外加最近的一次维修记录
+     * @param page
+     * @param limit
+     * @param circuitid
+     * @param count
+     * @return
+     */
+    public List<Record> findTbmTbmrepairByCircuitId(int page, int limit, int circuitid, long count){
+        List<Record> routeList=new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            routeList = TbmQuery.me().findTbmTbmrepairByCircuitId(page, limit, circuitid);
+        }
+        return routeList;
+    }
+
+    /**
+     * 分页查询所有盾构机
+     * @param page
+     * @param limit
+     * @param count
+     * @return
+     */
+    public List<Record> findAllTbmTbmrepair(int page, int limit, long count){
+        List<Record> routeList=new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            routeList = TbmQuery.me().findAllTbmTbmrepair(page, limit);
         }
         return routeList;
     }
