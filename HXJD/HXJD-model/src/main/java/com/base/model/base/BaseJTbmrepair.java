@@ -22,7 +22,9 @@ public abstract class BaseJTbmrepair<M extends BaseJTbmrepair<M>> extends JModel
 	public static final String ACTION_UPDATE = "tbmrepair:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

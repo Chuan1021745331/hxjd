@@ -36,4 +36,8 @@ public class MagicValueConstants {
 	 * administrator
 	 */
 	public static String ADMINISTRATOR = "administrator";
+	/**
+	 * id
+	 */
+	public static String ID = "id";
 }

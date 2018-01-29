@@ -22,13 +22,21 @@ import org.slf4j.LoggerFactory;
 public class MessageManager {
 	private final static Logger logger= LoggerFactory.getLogger(MessageManager.class);
 
-	//池中所保存的线程数，包括空闲线程。  
+	/**
+	 * 池中所保存的线程数，包括空闲线程。  
+	 */
 	private final static int COREPOOLSIZE = 5;  
-    //池中允许的最大线程数。  
+    /**
+     * 池中允许的最大线程数。  
+     */
 	private final static int MAXIMUMPOOLSIZE = 10;  
-    //当线程数大于核心线程时，此为终止前多余的空闲线程等待新任务的最长时间  
+    /**
+     * 当线程数大于核心线程时，此为终止前多余的空闲线程等待新任务的最长时间  
+     */
 	private final static long KEEPALIVETIME = 200;  
-    //执行前用于保持任务的队列5，即任务缓存队列  
+    /**
+     * 执行前用于保持任务的队列5，即任务缓存队列  
+     */
 	private final static ArrayBlockingQueue<Runnable> WORK_QUEUE =new ArrayBlockingQueue<Runnable>(5);
 	
 	private final ThreadPoolExecutor threadPoolExecutor;

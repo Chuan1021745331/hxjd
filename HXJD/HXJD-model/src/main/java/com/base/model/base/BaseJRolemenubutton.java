@@ -22,7 +22,9 @@ public abstract class BaseJRolemenubutton<M extends BaseJRolemenubutton<M>> exte
 	public static final String ACTION_UPDATE = "rolemenubutton:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

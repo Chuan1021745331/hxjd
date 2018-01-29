@@ -22,7 +22,9 @@ public abstract class BaseJCamera<M extends BaseJCamera<M>> extends JModel<M> im
 	public static final String ACTION_UPDATE = "camera:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

@@ -22,7 +22,9 @@ public abstract class BaseJNews<M extends BaseJNews<M>> extends JModel<M> implem
 	public static final String ACTION_UPDATE = "news:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

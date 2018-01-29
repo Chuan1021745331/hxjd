@@ -1,18 +1,3 @@
-/**
- * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
- *
- * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.base.code.generator;
 
 import java.util.List;
@@ -25,7 +10,20 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.plugin.druid.DruidPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 
+ * All rights Reserved, Designed By hxjd
+ * @类名: JGenerator.java   
+ * @包名: com.base.code.generator   
+ * @描述: 类-数据库连接
+ * @所属: 华夏九鼎     
+ * @日期: 2018年1月29日 上午9:37:13   
+ * @版本: V1.0 
+ * @创建人：Administrator 
+ * @修改人：Administrator
+ * @版权: 2018 hxjd Inc. All rights reserved. 
+ * @注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
+ */
 public class JGenerator {
 	private final static Logger logger= LoggerFactory.getLogger(JGenerator.class);
 
@@ -76,9 +74,9 @@ public class JGenerator {
 	
 	public DataSource getDataSource() {
 
-		String jdbc_url = "jdbc:mysql://" + dbHost + "/" + dbName;
+		String jdbcUrl = "jdbc:mysql://" + dbHost + "/" + dbName;
 		
-		DruidPlugin druidPlugin = new DruidPlugin(jdbc_url, dbUser,dbPassword);
+		DruidPlugin druidPlugin = new DruidPlugin(jdbcUrl, dbUser,dbPassword);
 		druidPlugin.start();
 		return druidPlugin.getDataSource();
 	}

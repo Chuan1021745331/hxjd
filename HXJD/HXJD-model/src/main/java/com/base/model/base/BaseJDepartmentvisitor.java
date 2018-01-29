@@ -22,7 +22,9 @@ public abstract class BaseJDepartmentvisitor<M extends BaseJDepartmentvisitor<M>
 	public static final String ACTION_UPDATE = "departmentvisitor:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

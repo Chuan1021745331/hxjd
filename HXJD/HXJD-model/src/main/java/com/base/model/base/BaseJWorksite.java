@@ -22,7 +22,9 @@ public abstract class BaseJWorksite<M extends BaseJWorksite<M>> extends JModel<M
 	public static final String ACTION_UPDATE = "worksite:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

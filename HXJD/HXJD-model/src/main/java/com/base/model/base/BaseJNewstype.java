@@ -22,7 +22,9 @@ public abstract class BaseJNewstype<M extends BaseJNewstype<M>> extends JModel<M
 	public static final String ACTION_UPDATE = "newstype:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

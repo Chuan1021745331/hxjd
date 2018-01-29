@@ -1,23 +1,21 @@
-/**
- * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
- *
- * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.base.code.generator;
 
 import com.jfinal.plugin.activerecord.generator.ModelGenerator;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
-
+/**
+ * 
+ * All rights Reserved, Designed By hxjd
+ * @类名: JModelGenerator.java   
+ * @包名: com.base.code.generator   
+ * @描述: TODO(用一句话描述该文件做什么)   
+ * @所属: 华夏九鼎     
+ * @日期: 2018年1月29日 上午9:37:41   
+ * @版本: V1.0 
+ * @创建人：Administrator 
+ * @修改人：Administrator
+ * @版权: 2018 hxjd Inc. All rights reserved. 
+ * @注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
+ */
 public class JModelGenerator extends ModelGenerator {
 
 	public JModelGenerator(String modelPackageName,

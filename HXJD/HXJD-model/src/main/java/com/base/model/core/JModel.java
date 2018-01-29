@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
+import com.base.constants.MagicValueConstants;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -194,7 +195,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		if (!(o instanceof JModel<?>)){
 			return false;
 		}
-		if (((JModel<?>) o).get("id") == null){
+		if (null == ((JModel<?>) o).get(MagicValueConstants.ID)){
 			return false;
 		}
 		return ((JModel<?>) o).get("id").equals(get("id"));

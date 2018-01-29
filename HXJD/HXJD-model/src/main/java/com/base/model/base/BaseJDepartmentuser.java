@@ -22,7 +22,9 @@ public abstract class BaseJDepartmentuser<M extends BaseJDepartmentuser<M>> exte
 	public static final String ACTION_UPDATE = "departmentuser:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

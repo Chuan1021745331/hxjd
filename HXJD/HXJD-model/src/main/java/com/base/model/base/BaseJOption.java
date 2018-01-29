@@ -22,7 +22,9 @@ public abstract class BaseJOption<M extends BaseJOption<M>> extends JModel<M> im
 	public static final String ACTION_UPDATE = "option:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 

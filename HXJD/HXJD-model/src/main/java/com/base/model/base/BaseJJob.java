@@ -22,7 +22,9 @@ public abstract class BaseJJob<M extends BaseJJob<M>> extends JModel<M> implemen
 	public static final String ACTION_UPDATE = "job:update";
 
 	public void removeCache(Object key){
-		if(key == null) return;
+		if(null == key) {
+			return;
+		}
 		CacheKit.remove(CACHE_NAME, key);
 	}
 
