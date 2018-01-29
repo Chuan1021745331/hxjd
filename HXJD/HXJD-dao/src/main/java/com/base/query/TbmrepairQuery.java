@@ -112,7 +112,7 @@ public class TbmrepairQuery {
         if(StringUtils.isNotBlank(where)){
             sql.append(" where CONCAT( IFNULL(tr.id, ''),IFNULL(tr.repairman, ''),IFNULL(tr.content, ''),IFNULL(t.name, ''),IFNULL(u.relname, ''),IFNULL(u.username, '')) LIKE '%"+where+"%' ");
         }
-        sql.append(" order by tr.id desc LIMIT ?, ? ");
+        sql.append(" order by tr.createtime desc LIMIT ?, ? ");
         LinkedList<Object> params = new LinkedList<Object>();
         params.add(limit*page-limit);
         params.add(limit);

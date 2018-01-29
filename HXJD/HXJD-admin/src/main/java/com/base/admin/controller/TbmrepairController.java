@@ -15,6 +15,7 @@ import com.base.service.UserService;
 import com.base.utils.CookieUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaoleilu.hutool.date.DateTime;
 
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class TbmrepairController extends BaseController {
     public void addSave(){
         JTbmrepair tbmrepair = getModel(JTbmrepair.class);
 
+        tbmrepair.setCreatetime(DateTime.now());
         //补全盾构机信息
         JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
         TbmrepairService.me().addTbmInfo(tbmrepair,tbm);

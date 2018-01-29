@@ -22,9 +22,7 @@ public abstract class BaseJTbmrepair<M extends BaseJTbmrepair<M>> extends JModel
 	public static final String ACTION_UPDATE = "tbmrepair:update";
 
 	public void removeCache(Object key){
-		if(null == key) {
-			return;
-		}
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 
@@ -125,6 +123,14 @@ public abstract class BaseJTbmrepair<M extends BaseJTbmrepair<M>> extends JModel
 
 	public java.lang.String getRepairman() {
 		return get("repairman");
+	}
+
+	public void setCreatetime(java.util.Date createtime) {
+		set("createtime", createtime);
+	}
+
+	public java.util.Date getCreatetime() {
+		return get("createtime");
 	}
 
 	public void setRepairtime(java.util.Date repairtime) {

@@ -1,12 +1,14 @@
 package com.base.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.base.model.JNews;
 import com.base.model.JNewstype;
 import com.base.query.NewsQuery;
 import com.base.query.NewsTypeQuery;
+import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
@@ -86,5 +88,39 @@ public class NewsService {
 	
 	public List<Record> getByTag(Integer id){
 		return NewsQuery.me().getByTag(id);
+	}
+
+	/**
+	 * 将新闻集合和维保记录集合进行排序,并不超过10条记录
+	 * @param newlist
+	 * @param trlist
+	 * @return
+	 */
+	public List<Record> getSortResult(List<Record> newlist,List<Record> trlist){
+		List<Record> results = new ArrayList<>();
+		final int RESULTS_MAX_SIZE=10;
+		int listIndex=0,trListIndex=0;
+		while(true){
+			if(newlist.size()==0){
+				results.addAll(trlist);
+				break;
+
+			}
+			if(trlist.size()==0){
+				results.addAll(newlist);
+				break;
+			}
+			Date postTime = newlist.get(listIndex).getDate("postTime");
+			Date createtime = trlist.get(trListIndex).getDate("createtime");
+			//选择时间大的
+			if(postTime.compareTo(createtime)==1){
+				results.add(newlist.get(0));
+				newlist.remove(listIndex);
+			}else{
+				results.add(trlist.get(0));
+				trlist.remove(0);
+			}
+		}
+		return results;
 	}
 }

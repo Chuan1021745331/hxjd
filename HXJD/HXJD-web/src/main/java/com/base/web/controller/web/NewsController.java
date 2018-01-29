@@ -1,6 +1,7 @@
 package com.base.web.controller.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +14,7 @@ import com.base.model.JNewstype;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.NewsService;
+import com.base.service.TbmrepairService;
 import com.base.service.UserService;
 import com.base.utils.StringUtils;
 import com.jfinal.json.FastJson;
@@ -40,21 +42,55 @@ public class NewsController extends BaseController {
 	public void index() {
 		//前十条
 		List<Record> list =  NewsService.me().getIndexNews();
-		
+
+		String where="";
+		//初始化页面
+		int page=1;
+		//分页大小
+		int limit=10;
+		long count = TbmrepairService.me().findCountTbmrepairTbmUser(where);
+		//按创建时间排序并分页取出
+		List<Record> trlist = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, where, count);
+
+
 		List<JNewstype> newsType = NewsService.me().getNewsType();
 		for (Record news : list) {
 			String content =  news.getStr("content");
 			if(StringUtils.isNotEmpty(content)){
 				String con = subStringHTML(content, 140, "……");
 				news.set("con", con);
-			}			
+			}
 		}
 
-		//System.out.println(list.get(0).getStr("con"));
+        List<Record> results = NewsService.me().getSortResult(list, trlist);
+        //System.out.println(list.get(0).getStr("con"));
 		setAttr("newsType", newsType);
-		setAttr("news",list);
+		setAttr("news",results);
 		render("news.html");
 	}
+
+	public void allData(){
+        Integer page = getParaToInt("page");
+        Integer limit = getParaToInt("limit");
+
+        //前十条
+        List<Record> list =  NewsService.me().getIndexNews();
+        for (Record news : list) {
+            String content =  news.getStr("content");
+            if(StringUtils.isNotEmpty(content)){
+                String con = subStringHTML(content, 140, "……");
+                news.set("con", con);
+            }
+        }
+
+        String where="";
+        long count = TbmrepairService.me().findCountTbmrepairTbmUser(where);
+        //按创建时间排序并分页取出
+        List<Record> trlist = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, where, count);
+        List<Record> results = NewsService.me().getSortResult(list, trlist);
+        renderPageResult(0,"",(int)count,results);
+
+    }
 	
 /*	public void newsData(){
 		Integer page = getParaToInt("page");
