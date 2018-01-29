@@ -17,6 +17,7 @@
     <script type="text/javascript">
         ctx = '${CPATH}';
         cty = '127.0.0.1:8088/${BPATH}';
+        bpath='${BPATH}';
     </script>
 <body>
 <div id="circuit_root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
@@ -31,6 +32,7 @@
             <div class="detail-show layui-colla-content ms-width-100-per ms-height-90-per ">
                 <#if circuitWorksiteDto??>
                     ${circuitWorksiteDto.general}
+                    <#else>暂无数据
                 </#if>
             </div>
         </div>
@@ -38,7 +40,7 @@
     <div class="ms-width-100-per ms-margin-top-1rem ms-layout-left-center-wrap-horizontal ">
         <#if circuitWorksiteDto??>
             <#list circuitWorksiteDto.worksites as item>
-                <button class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
+                <button wdata="${item.id!}" class="wbutton layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
             </#list>
         </#if>
     </div>
@@ -50,12 +52,9 @@
 <script type="text/javascript" src="${CPATH}/js/index.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/echarts.min.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/shine.js"></script>
-<script type="text/javascript" src="${CPATH}/js/route/iframe_util.js"></script>
+<!--<script type="text/javascript" src="${CPATH}/js/route/iframe_util.js"></script>-->
 <script type="text/javascript" src="${CPATH}/js/route/circuitSel.js"></script>
 <script type="text/javascript">
-    $().ready(function () {
-        initSizeHeight($("#circuit_root_div"))
-    })
 </script>
 
 </body>

@@ -55,14 +55,12 @@
 					<#if circuitWorksiteDtos??>
 						<#list circuitWorksiteDtos as item>
 
-							<li class="layui-nav-item <#if item_index == 0>layui-nav-itemed </#if>">
-								<input class="points" hidden value="${item.points!}"/>
-								<a adata="${item.id!}" atype="1" class="aclick">${item.name!}</a>
+							<li class="layui-nav-item">
+								<a><span  adata="${item.id!}" atype="1"  class="aclick">${item.name!}</span></a>
 								<dl class="layui-nav-child">
 									<#if item.worksites??>
 										<#list item.worksites as worksite>
 										<dd><a adata="${worksite.id!}" atype="2" class="aclick wname" target="ifr_0">${worksite.name}</a></dd>
-											<input class="coord" type="hidden" value="${worksite.coord!}"/>
 										</#list>
 									</#if>
 								</dl>
