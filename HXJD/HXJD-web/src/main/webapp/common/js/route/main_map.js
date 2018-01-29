@@ -61,28 +61,19 @@ $("#bordercutline").on("click",function () {
 /*初始化所有建筑*/
 function initDraw() {
     for(var a = 0;jsonObj.length;a++){
-        console.log(jsonObj[a].name);
-        console.log(jsonObj[a].points);
-        console.log("dian:"+jsonObj[a].worksites[0].name);
         var items = analysisPoints(jsonObj[a].points);
         var color = jsonObj[a].color;
         var workSites = jsonObj[a].worksites;
         draw(items,"init",color,3);
-        console.log(workSites);
         for(var b = 0;b<workSites.length;b++){
             var witems = analysisPoints(workSites[b].coord);
             var wcolor = workSites[b].color;
             var tbms = workSites[b].tbms;
             var wname = workSites[b].name;
-            console.log(workSites[b].color+"--------"+workSites[b].name);
-            console.log("wcolor:"+wcolor);
             draw(witems,"init",wcolor,8);
-
             var z = parseInt(witems.length/2);
             var contentCoord = witems[z];
             drawText(wname,contentCoord);
-            console.log("======"+contentCoord);
-            console.log(contentCoord.toString().split(",")[0]);
             for(var c = 0;c<tbms.length;c++){
                 var coord = tbms[c].coord;
                 var tname = tbms[c].name;

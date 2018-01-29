@@ -15,10 +15,11 @@ layui.use(['form','layer'], function() {
         var url;
         if(atype == 1){
             url = bpath+"/route/index?cid=" + adata;
-        }else {
+        }else if(atype == 2) {
             url = bpath+"/route/workSiteSel?wid=" + adata;
+        }else {
+            url = bpath+"/main";
         }
-
 
         $(".tbmiframe").attr("src", url);
     })

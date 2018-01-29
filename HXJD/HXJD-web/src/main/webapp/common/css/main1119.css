@@ -17,23 +17,23 @@ html, body {
 /*动画*/
 @keyframes myfirst
 {
-	from {left:0px;}
+	from {left:-10px;}
 	to {left:-190px;}
 }
 @-moz-keyframes myfirst /* Firefox */
 {
-	from {left:0px;}
+	from {left:-10px;}
 	to {left:-190px;}
 }
 @-webkit-keyframes myfirst /* Safari and Chrome */
 {
-	from {left:0px;}
+	from {left:-10px;}
 	to {left:-190px;}
 }
 
 @-o-keyframes myfirst /* Opera */
 {
-	from {left:0px;}
+	from {left:-10px;}
 	to {left:-190px;}
 }
 /*动画myfirst2*/
@@ -106,7 +106,7 @@ html, body {
 .button-group {
 	position: absolute;
 	bottom: 0px;
-	left: 0px;
+	left: -10px;
 	font-size: 12px;
 	padding: 10px;
 }

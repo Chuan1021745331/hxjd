@@ -10,11 +10,9 @@ layui.use(['form','layer','element'], function(){
     });
     /*工点按钮事件*/
     $(".wbutton").on("click",function () {
-        alert("wbutton")
         var adata = $(this).attr("wdata");
          var iframe = window.parent.document.getElementsByClassName("tbmiframe")[0];
          var url = bpath+"/route/workSiteSel?wid=" + adata;
-         console.log("--------------="+iframe);
          $(iframe).attr("src", url);
     });
     /**

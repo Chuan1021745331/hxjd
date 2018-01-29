@@ -44,6 +44,9 @@
 .black{
     background-color: black;
 }
+.transparency-0{
+    background-color: rgba(255, 255, 255, 0);
+}
 .a-black{
     background-color: rgba(0, 0, 0, 0.81);
 }
@@ -221,8 +224,14 @@
 .ms-width-80-per{
     width: 80%;
 }
+.ms-width-85-per{
+    width: 85%;
+}
 .ms-width-20-per{
     width: 20%;
+}
+.ms-width-15-per{
+    width: 15%;
 }
 .ms-width-95-per{
     width: 95%;
