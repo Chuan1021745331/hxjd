@@ -38,7 +38,8 @@ import com.jfinal.plugin.activerecord.Record;
 public class NewsController extends BaseController {
 
 	public void index() {
-		List<Record> list =  NewsService.me().getNewsAll();;
+		//前十条
+		List<Record> list =  NewsService.me().getIndexNews();
 		
 		List<JNewstype> newsType = NewsService.me().getNewsType();
 		for (Record news : list) {
@@ -48,6 +49,7 @@ public class NewsController extends BaseController {
 				news.set("con", con);
 			}			
 		}
+
 		//System.out.println(list.get(0).getStr("con"));
 		setAttr("newsType", newsType);
 		setAttr("news",list);
@@ -89,6 +91,13 @@ public class NewsController extends BaseController {
 		news.set("con", con);*/
 		setAttr("news", news);
 		render("sel.html");
+	}
+	
+	public void getNewsByPage(){
+		Integer page = getParaToInt("page");
+		List<Record> list =  NewsService.me().getNewsByPage(page);
+		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		renderText(str);
 	}
 	
 	/**

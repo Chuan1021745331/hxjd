@@ -31,17 +31,16 @@
 		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="background-color: #3F51B5;">全部</button>
 		<#if newsType??>
 			<#list newsType as bean>
-				<button class="layui-btn layui-btn-sm layui-btn-radius tag" style="background-color: #3F51B5;">${bean.name!}</button>
+				<button class="layui-btn layui-btn-sm layui-btn-radius tag" id="${bean.id!}" style="background-color: #3F51B5;">${bean.name!}</button>
 			</#list>
-		</#if>
-        <button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag" style="background-color: #3F51B5;">维保记录</button>
+		</#if> 
 
 	</div>
 	<div id="newsCard" class="layui-row" style="overflow-x:hidden;">
 	   <#if news??>
 	   		<#list news as bean>
 	   			<#if bean_index lt 9 >
-		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item ${bean.name}" style="margin: 0px;white-space:normal;">
+		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item ${bean.type}" style="margin: 0px;white-space:normal;">
 				    	<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 				   		 	<div class="id" style="display:none">${bean.id!}</div>
 				   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【${bean.name!}】${bean.title!}</div>
@@ -50,16 +49,18 @@
 				    		<hr class="layui-bg-blue">
 				    	</div>	    	
 				    </div>
-				</#if>	    
+			    </#if>
 	   		</#list>
 	   </#if> 	    
-	</div>
+	</div> 	
+
 </div>
 
 
 </body>
 <script type="text/javascript">
-	$(".colHeader").unbind('click').click(function(){
+	//console.log($(".tag").size());
+  	$(".colHeader").unbind('click').click(function(){
 		var id = $(this).prev().text();
 		window.location = "${BPATH}/news/getNewsById?id="+id;
 	}),
@@ -75,7 +76,7 @@
 			$(this).siblings().css("background-color","#3F51B5");
 			$(this).siblings().removeClass("selected");
 			$(".item").hide();
-			//console.log($(this).attr("id"));
+			console.log($(this).attr("id"));
 			$("."+$(this).attr("id")).show();
 		}
 	})
@@ -86,38 +87,33 @@
 	})
 	
 	var page = 1;
-	$(window).scroll(function(){
-		//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
-		var scrollTop = $(this).scrollTop();  
-	    //整个文档的高度
-	    var scrollHeight = $(document).height(); 
-	    //当前可见区域的大小
-	    var windowHeight = $(this).height(); 
-	    //滚动到底部
-	    if(scrollTop + windowHeight == scrollHeight){
-	        page += 1;
-	        showMore(page);
-	    }
-	})
-	
-	function showMore(page){
-		//alert("加载");
-		<#if news??>
-				<#list news as bean>
-	   			var index = ${bean_index}	;
-	   			
-				//console.log(index);
-			    if(index > (page-1)*10  && index < page*10-1){
-					 $("#newsCard").append(
-						'<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item ${bean.type}" style="margin: 0px;white-space:normal;"><div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll"><div class="id" style="display:none">${bean.id!}</div><div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【${bean.name!}】${bean.title!}</div><div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">            </div><div >${bean.postMan!} 发布于 ${bean.postTime!}</div><hr class="layui-bg-blue"></div>	</div>'						
-					); 					
-				}					 
-				</#list> 
-			</#if>
-	}
+    $(window).scroll(function(){
+    	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
+    	var scrollTop = $(this).scrollTop();  
+        //整个文档的高度
+        var scrollHeight = $(document).height(); 
+        //当前可见区域的大小
+        var windowHeight = $(this).height(); 
+        //滚动到底部
+        if(scrollTop + windowHeight == scrollHeight){
+            page += 1;
+            
+            
+            showMore(page);
+        }
+    })
+    
+    function showMore(page){
+    	alert("加载");
+    	$.ajax({
+    		url:"${BPATH}" + "/news/getNewsByPage?page="+page,
+    			success:function(result){
+    				var data = eval('('+result+')');
+        			//console.log(data);
 
-  	$(".tbmrepair-tag").unbind('click').click(function(){
-	});
+    			}
+    	   });
+    }
 	
 </script>
 </html>

@@ -76,8 +76,8 @@ public class NewsService {
 		return NewsTypeQuery.me().getAll();
 	}
 	
-	public void getNewsByPage(Integer page){
-		NewsQuery.me().getNewsByPage((page-1)*10);
+	public List<Record> getNewsByPage(Integer page){
+		return NewsQuery.me().getNewsByPage((page-1)*10);
 	}
 	
 	public List<Record> getNewsAll(){
