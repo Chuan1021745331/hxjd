@@ -10,6 +10,7 @@ import com.base.query.NewsQuery;
 import com.base.query.NewsTypeQuery;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 
@@ -48,6 +49,16 @@ public class NewsService {
 	
 	public List<Record> getIndexNews(){
 		return NewsQuery.me().getIndexNews();
+	}
+
+	/**
+	 * 查询发布时间小于time的limit条数据
+	 * @param time
+	 * @param limit
+	 * @return
+	 */
+	public List<Record> getLtTimeNews(String time,int limit){
+		return NewsQuery.me().getLtTimeNews(time,limit);
 	}
 	
 	public Record getNewsById(int id){

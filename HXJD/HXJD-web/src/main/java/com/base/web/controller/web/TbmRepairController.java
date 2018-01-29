@@ -28,7 +28,7 @@ import java.util.List;
  * 注意：本内容仅限于华夏九鼎内部传阅，禁止外泄以及用于其他的商业目的
  */
 
-@RouterMapping(url = "/web/tbmrepair", viewPath = "view/web/tbmrepair")
+@RouterMapping(url = "/web/tbmrepair", viewPath = "/view/web/tbmrepair")
 @RouterNotAllowConvert
 public class TbmRepairController extends BaseController{
     public void tbmrepairData(){

@@ -1,8 +1,6 @@
 package com.base.web.controller.web;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,21 +38,18 @@ import com.jfinal.plugin.activerecord.Record;
 public class NewsController extends BaseController {
 
 	public void index() {
-		//前十条
-		List<Record> list =  NewsService.me().getIndexNews();
-
-		String where="";
 		//初始化页面
 		int page=1;
 		//分页大小
 		int limit=10;
-		long count = TbmrepairService.me().findCountTbmrepairTbmUser(where);
+		//前十条
+		List<Record> newlist =  NewsService.me().getLtTimeNews("",limit);
 		//按创建时间排序并分页取出
-		List<Record> trlist = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, where, count);
+		List<Record> trlist = TbmrepairService.me().findTbmrepairltTime("",limit);
 
 
 		List<JNewstype> newsType = NewsService.me().getNewsType();
-		for (Record news : list) {
+		for (Record news : newlist) {
 			String content =  news.getStr("content");
 			if(StringUtils.isNotEmpty(content)){
 				String con = subStringHTML(content, 140, "……");
@@ -62,20 +57,62 @@ public class NewsController extends BaseController {
 			}
 		}
 
-        List<Record> results = NewsService.me().getSortResult(list, trlist);
-        //System.out.println(list.get(0).getStr("con"));
+		List<Record> results = new ArrayList<>();
+
+		String lastTbmrepair="";
+		String lastNews="";
+		while(true){
+			if(results.size()>=limit){
+				break;
+			}
+			if(newlist.size()==0){
+				if(trlist.size()>0){
+					results.add(trlist.get(0));
+					lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+					trlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
+			}
+			if(trlist.size()==0){
+				if(newlist.size()>0){
+					results.add(newlist.get(0));
+					lastNews=newlist.get(0).getDate("postTime").toString();
+					newlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
+			}
+			Date postTime = newlist.get(0).getDate("postTime");
+			Date createtime = trlist.get(0).getDate("createtime");
+			//选择时间大的
+			if(postTime.compareTo(createtime)==1){
+				results.add(newlist.get(0));
+				lastNews=newlist.get(0).getDate("postTime").toString();
+				newlist.remove(0);
+			}else{
+				results.add(trlist.get(0));
+				lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+				trlist.remove(0);
+			}
+		}
+
 		setAttr("newsType", newsType);
 		setAttr("news",results);
+		setAttr("lastNews",lastNews);
+		setAttr("lastTbmrepair",lastTbmrepair);
 		render("news.html");
 	}
 
 	public void allData(){
-        Integer page = getParaToInt("page");
         Integer limit = getParaToInt("limit");
-
-        //前十条
-        List<Record> list =  NewsService.me().getIndexNews();
-        for (Record news : list) {
+		String lastNews = getPara("lastNews");
+		String lastTbmrepair = getPara("lastTbmrepair");
+		//前十条
+        List<Record> newlist =  NewsService.me().getLtTimeNews(lastNews,limit);
+        for (Record news : newlist) {
             String content =  news.getStr("content");
             if(StringUtils.isNotEmpty(content)){
                 String con = subStringHTML(content, 140, "……");
@@ -83,13 +120,52 @@ public class NewsController extends BaseController {
             }
         }
 
-        String where="";
-        long count = TbmrepairService.me().findCountTbmrepairTbmUser(where);
         //按创建时间排序并分页取出
-        List<Record> trlist = TbmrepairService.me().findListTbmrepairTbmUser(page, limit, where, count);
-        List<Record> results = NewsService.me().getSortResult(list, trlist);
-        renderPageResult(0,"",(int)count,results);
+        List<Record> trlist = TbmrepairService.me().findTbmrepairltTime(lastTbmrepair,limit);
+		List<Record> results = new ArrayList<>();
 
+		while(true){
+			if(results.size()>=limit){
+				break;
+			}
+			if(newlist.size()==0){
+				if(trlist.size()>0){
+					results.add(trlist.get(0));
+					lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+					trlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
+			}
+			if(trlist.size()==0){
+				if(newlist.size()>0){
+					results.add(newlist.get(0));
+					lastNews=newlist.get(0).getDate("postTime").toString();
+					newlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
+			}
+			Date postTime = newlist.get(0).getDate("postTime");
+			Date createtime = trlist.get(0).getDate("createtime");
+			//选择时间大的
+			if(postTime.compareTo(createtime)==1){
+				results.add(newlist.get(0));
+				lastNews=newlist.get(0).getDate("postTime").toString();
+				newlist.remove(0);
+			}else{
+				results.add(trlist.get(0));
+				lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+				trlist.remove(0);
+			}
+		}
+		Map map=new HashMap();
+		map.put("results",results);
+		map.put("lastNews",lastNews);
+		map.put("lastTbmrepair",lastTbmrepair);
+		renderAjaxResult("",0,map);
     }
 	
 /*	public void newsData(){

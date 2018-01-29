@@ -7,6 +7,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.base.model.JNews;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import jodd.util.StringUtil;
 
 public class NewsQuery {
 	protected static final JNews DAO = new JNews();
@@ -49,6 +50,22 @@ public class NewsQuery {
 		StringBuilder sqlBuilder = new StringBuilder("SELECT n.id, n.title, n.postTime, n.postMan, n.content,n.attachment, n.type, nt.name  ");
 		sqlBuilder.append(" from j_news n join j_newsType nt on nt.id = n.type ");
 		sqlBuilder.append(" order by n.postTime DESC limit 0, 10 ");
+		return Db.find(sqlBuilder.toString());
+	}
+
+	/**
+	 * 查询发布时间小于time的limit条数据
+	 * @param time
+	 * @param limit
+	 * @return
+	 */
+	public List<Record> getLtTimeNews(String time,int limit){
+		StringBuilder sqlBuilder = new StringBuilder("SELECT n.id, n.title, n.postTime, n.postMan, n.content,n.attachment, n.type, nt.name  ");
+		sqlBuilder.append(" from j_news n join j_newsType nt on nt.id = n.type ");
+		if(StringUtil.isNotBlank(time)){
+			sqlBuilder.append(" where n.postTime<'"+time+"'");
+		}
+		sqlBuilder.append(" order by n.postTime DESC limit 0,"+limit);
 		return Db.find(sqlBuilder.toString());
 	}
 	

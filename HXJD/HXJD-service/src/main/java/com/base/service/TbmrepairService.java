@@ -12,6 +12,7 @@ import com.jfinal.plugin.activerecord.Record;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -170,6 +171,11 @@ public class TbmrepairService {
         if(null!=circuit) {
             tbmrepair.setCircuitname(circuit.getName());
         }
+    }
+
+
+    public List<Record> findTbmrepairltTime(String date,Integer limit){
+        return TbmrepairQuery.me().findListLtTime(date,limit);
     }
 
 }

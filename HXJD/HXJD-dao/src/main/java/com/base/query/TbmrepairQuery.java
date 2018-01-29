@@ -6,7 +6,9 @@ import com.base.model.dto.TbmrepairSearchDto;
 import com.base.utils.StringUtils;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import jodd.util.StringUtil;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -196,6 +198,25 @@ public class TbmrepairQuery {
         sql.append(" order by tr.id desc LIMIT ?, ? ");
         LinkedList<Object> params = new LinkedList<Object>();
         params.add(limit*page-limit);
+        params.add(limit);
+
+        return Db.find(sql.toString(), params.toArray());
+    }
+
+    /**
+     * 找出创建时间小于date的limit条数据
+     * @param date
+     * @param limit
+     * @return
+     */
+    public List<Record> findListLtTime(String date,int limit){
+        StringBuilder sql=new StringBuilder("select tr.*,t.name as tbmName,u.relname as writer");
+        sql.append(" from j_tbmrepair tr left join j_tbm t on tr.tbmId=t.id left join j_user u on tr.userId=u.id ");
+        if(StringUtil.isNotBlank(date)){
+            sql.append(" where tr.createtime<'"+date+"' ");
+        }
+        sql.append(" order by tr.createtime desc LIMIT 0, ? ");
+        LinkedList<Object> params = new LinkedList<Object>();
         params.add(limit);
 
         return Db.find(sql.toString(), params.toArray());
