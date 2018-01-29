@@ -41,12 +41,12 @@
 	   <#if news??>
 	   		<#list news as bean>
 	   			<#if bean.tbmId?? >
-		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">
+		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">
 				    	<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 				   		 	<div class="id" style="display:none">${bean.id!}</div>
 				   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】${bean.circuitname!}${bean.worksitename!}${bean.tbmname!}</div>
 				    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.content!}</div>
-				    		<div >${bean.repairman!} 维保于 ${bean.repairtime!}</div>
+				    		<div >${bean.repairman!} 维保于 ${bean.createtime!}</div>
 				    		<hr class="layui-bg-blue">
 				    	</div>	    	
 				    </div>
@@ -81,9 +81,13 @@
 
 
 </body>
+<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 <script type="text/javascript">
   	var page = 1;
     var limit=10;
+    var lastTbmrepair="${lastTbmrepair}";
+    var lastNews="${lastNews}";
+    console.log(lastTbmrepair+"       "+lastNews);
     $(window).scroll(function(){
     	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
     	var scrollTop = $(this).scrollTop();  
@@ -99,14 +103,35 @@
     })
 	
     //新闻类详情
-	$("#newsCard").on("click",".colHeader",function(){ 
+	$("#newsCard").on("click",".colHeader",function(){
 		if($(this).hasClass("newsTitle")){
 			var id = $(this).prev().text();
 			window.location = "${BPATH}/news/getNewsById?id="+id;
 		}
 		
 	}),
-	
+	$("#newsCard").on("click",".tbmrepair-item",function () {
+		var id=$($(this).find(".id")[0]).html();
+		var area=['700px', '400px'];
+		var index = parent.layer.open({
+			id:"tbmrepair-sel",
+			type: 2 ,
+			title: '维保记录详情',
+			content: bpath+"/web/tbmrepair/sel?id="+id,
+			resize: false,
+			area: area,
+			move: false,
+			shade:0,
+			anim: Math.ceil(Math.random() * 6),
+			success : function(layero, index){
+				setTimeout(function(){
+					layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+						tips: 3
+					});
+				},500)
+			}
+		});
+	});
 	$(".tag").unbind('click').click(function(){	
 		$(this).css("background-color","#3CB371");
 		$(this).siblings().css("background-color","#3F51B5");
@@ -160,45 +185,53 @@
 	})
 	$(".all").unbind('click').click(function(){
 		//页数复位
-		page = 1;
+        lastNews="";
+        lastTbmrepair="";
 		$(".tag").removeClass("selected");
 		$(".tag").css("background-color","#3F51B5");
         $("#newsCard").empty();
+        getAllData(lastNews,lastTbmrepair,limit);
+		$(".item").show();
+	});
+
+	function getAllData(mylastNews,mylastTbmrepair,limit){
+        console.log("3333lastNews"+lastNews+"     lastTbmrepair "+lastTbmrepair);
         $.ajax({
-            url:"${BPATH}" + "/news/allData?page="+page+"&limit="+limit,
+            url:"${BPATH}" + "/news/allData?lastNews="+mylastNews+"&lastTbmrepair="+mylastTbmrepair+"&limit="+limit,
             success:function(result){
-                var data=result.data;
+                var data=result.data.results;
+                lastNews=result.data.lastNews;
+                lastTbmrepair=result.data.lastTbmrepair;
+                console.log("lastNews"+result.data.lastNews+"     lastTbmrepair "+result.data.lastNews);
                 console.log("news/allData?");
                 console.log(data);
                 $.each(data,function(index,value,array){
                     if(typeof(value.tbmId) != "undefined"){
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;">');
-                        $("#newsCard").append('<div class="id" style="display:none">'+value.id+'</div>');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>');
-                        $("#newsCard").append('<div >'+value.repairman+' 维保于 '+value.repairtime+'</div>');
-                        $("#newsCard").append('<hr class="layui-bg-blue">');
-                        $("#newsCard").append('</div>');
-                        $("#newsCard").append('</div>');
-					}else{
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+value.type+'" style="margin: 0px;white-space:normal;">');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;">');
-                        $("#newsCard").append('<div class="id" style="display:none">'+value.id+'</div>');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+value.name+'】'+value.title+'</div>');
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.con+'</div>');
-                        $("#newsCard").append('<div >'+value.postMan+' 发布于 '+value.postTime+'</div>');
-                        $("#newsCard").append('<hr class="layui-bg-blue">');
-                        $("#newsCard").append('</div>');
-                        $("#newsCard").append('</div>');
-					}
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                            '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                            '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                            '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                            '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
+                            '\t\t\t\t    \t\t<div >'+value.repairman+' 维保于 '+value.createtime+'</div>\n' +
+                            '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t    \t</div>\t    \t\n' +
+                            '\t\t\t\t    </div>');
+                    }else{
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
+                            '\t\t\t\t\t\t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                            '\t\t\t\t\t\t\t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.con+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div >'+value.postMan+' 发布于 '+value.postTime+'</div>\n' +
+                            '\t\t\t\t\t\t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t\t</div>');
+                    }
                 });
 
             }
         });
-		$(".item").show();
-	});
-
+	}
     function getTbmrepairData(page,limit) {
         $.ajax({
             url:"${BPATH}" + "/web/tbmrepair/tbmrepairData?page="+page+"&limit="+limit,
@@ -207,38 +240,15 @@
                 console.log("tbmrepairData");
                 console.log(data);
                 $.each(data,function(index,value,array){
-                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">');
-                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;">');
-                    $("#newsCard").append('<div class="id" style="display:none">'+value.id+'</div>');
-                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>');
-                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>');
-                    $("#newsCard").append('<div >'+value.repairman+' 维保于 '+value.repairtime+'</div>');
-                    $("#newsCard").append('<hr class="layui-bg-blue">');
-                    $("#newsCard").append('</div>');
-                    $("#newsCard").append('</div>');
-                });
-				$(".tbmrepair-item").click(function () {
-				    alert("tbmrepair-item");
-				    var id=$($(this).find(".id")[0]).val();
-                    var area=['400px', '600px'];
-                    var index = parent.layer.open({
-                        id:"more-news-list",
-                        type: 2 ,
-                        title: '维保记录详情',
-                        content: bpath+"/web/tbmrepair?id="+id,
-                        resize: false,
-                        area: area,
-                        move: false,
-                        shade:0,
-                        anim: Math.ceil(Math.random() * 6),
-                        success : function(layero, index){
-                            setTimeout(function(){
-                                layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
-                                    tips: 3
-                                });
-                            },500)
-                        }
-                    });
+                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                        '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                        '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                        '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
+                        '\t\t\t\t    \t\t<div >'+value.repairman+' 维保于 '+value.createtime+'</div>\n' +
+                        '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                        '\t\t\t\t    \t</div>\t    \t\n' +
+                        '\t\t\t\t    </div>');
                 });
             }
         });
@@ -247,8 +257,10 @@
 
     
     function showMore(page){
-    	//alert("加载");    	
-    	if(null!=$(".selected") && typeof($(".selected")) != undefined){
+    	//alert("加载");
+        console.log("showMorepage"+$(".selected").length);
+        console.log($(".selected"));
+    	if(null!=$(".selected") && typeof($(".selected")) != "undefined"&&$(".selected").length>0){
     		//新闻类的Tag
     		if($(".selected").hasClass("newsTag")){
         		var tag = $(".selected").attr("id");
@@ -274,7 +286,10 @@
 
 				getTbmrepairData(page,limit);
 			}
-    	}
+    	}else{
+            console.log("222lastNews"+lastNews+"     lastTbmrepair "+lastTbmrepair);
+            getAllData(lastNews,lastTbmrepair,limit);
+		}
 
     }
     $("#top").unbind('click').click(function(){
