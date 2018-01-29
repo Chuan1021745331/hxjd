@@ -1,19 +1,23 @@
-package com.base.admin.service;
+package com.base.web.service;
 
 import com.base.im.common.SenMsg;
 import com.base.model.JTbm;
+import com.base.model.dto.TbmDto;
 import com.base.service.TbmService;
 import com.jfinal.aop.Clear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.websocket.Session;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
@@ -60,7 +64,7 @@ public class CameraAliveHeartBeat {
     }
 
     /**
-     * 浏览器异常关闭，从map中清除该链接
+     * 浏览器异常关闭，从map中清除该链接?关闭推流没有呢？
      */
     public void removeSessionByBrowserExceptionClose(){
         for (Map.Entry<String,List<CameraAliveHeartBeat>> entry:sessionMaps.entrySet()){
@@ -96,7 +100,7 @@ public class CameraAliveHeartBeat {
                 if(oldSessionList.size() == 0){
                 /*没有人观看此盾构机的摄像头*/
                     sessionMaps.remove(megs[2]);
-                    //此处要从数据库中通过megs[2]查出该盾构机摄像头推流程序所属电脑的ip
+                    //todo c此处要从数据库中通过megs[2]查出该盾构机摄像头推流程序所属电脑的mac
                     int tid = Integer.parseInt(megs[2]);
                     JTbm tbm = TbmService.me().findTbmById(tid);
                     SenMsg.sendMsg(0,megs[2],tbm.getMac());
@@ -109,7 +113,7 @@ public class CameraAliveHeartBeat {
                 yangSessionList = new ArrayList<>();
                 yangSessionList.add(this);
                 sessionMaps.put(megs[3],yangSessionList);
-                //此处要从数据库中通过megs[3]查出该盾构机摄像头推流程序所属电脑的ip
+                //todo c此处要从数据库中通过megs[3]查出该盾构机摄像头推流程序所属电脑的ip
                 int tid = Integer.parseInt(megs[3]);
                 JTbm tbm = TbmService.me().findTbmById(tid);
                 SenMsg.sendMsg(1,megs[3],tbm.getMac());

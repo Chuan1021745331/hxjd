@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<meta http-equiv="Content-Type"
+	content="multipart/form-data; charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<head>
+
+<title>导调服务端 --v1.0</title>
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+<script type="text/javascript">
+	ctx = '${CPATH}';
+	cty = '127.0.0.1:8088/${BPATH}';
+    bpath='${BPATH}';
+</script>
+<style>
+</style>
+</head>
+<body style="background-color: #EDF0F5;">
+  	<div class="layui-row">
+  		<div id="anchorI"></div>
+	    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-space10" style="margin: 0px;">
+	    	<div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll">
+	   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >刀盘监控</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">转速：0.0r/min</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">扭矩：0KN.m</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">刀盘压力：0bar</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">补油压力：0bar</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">刀盘磨压：126bar</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">刀盘角度：315°</div>
+    				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">控制油压：0bar</div>
+	    		</div>
+	    	</div>
+	    	<div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader">铰链位移</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">左上位移：0.0mm</div>
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">左下位移：0mm</div>
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">右上位移：0mm</div>
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">右下位移：0mm</div>
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">铰链压力：0bar</div>
+	    			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">铰链泵压力：0bar</div>
+	    		</div>
+	    	</div>
+	    	<div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >HBV</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">120</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">次数</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">马达压力</div>
+	    			
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">内密封</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0次</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">4bar</div>
+	    			
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">外密封</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0次</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">6bar</div>
+	    			
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">外密封</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0次</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">7bar</div>
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >膨润土</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"></div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">压力</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">流量</div>
+	    			
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">膨润土</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0.0bar</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0.0m³/h</div>
+	    			
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">盾膨</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0.0bar</div>
+	    			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">0.0m³/h</div>
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >HBV压力</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >EP2压力</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >注浆压力</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
+	    			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll colAll_">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader orange" >其他</div>
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText" id="test">
+	    dfsf
+	    		</div>
+		    </div>
+		    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
+	    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText"></div>
+		    </div>
+	    </div>
+	    <div id="bigDiv" class="layui-col-xs12 layui-col-sm12 layui-col-md6 c">
+	    	<canvas id="circleData" class="c1">
+			
+			</canvas>
+	    	<canvas id="circleDiv" class="c1">
+				您的浏览器不支持canvas标签。
+			</canvas>
+			
+	    </div>
+	</div>
+	<div id ="phoneDiv" class="layui-phone displayNone icon iconfont icon-fenlei">
+		</div>
+		<div class="UlDiv">
+			<ul class="phoneUl" style=" border-right: 1px dashed #ccc;">
+				<li><a href="">主监控</a></li>
+				<li><a href="">泡沫系统</a></li>
+				<li><a href="">注浆系统</a></li>
+				<li><a href="">电力参数</a></li>
+				<li><a href="">辅助系统</a></li>
+				<li style="border: none;"><a href="">盾尾密封</a></li>
+			</ul>
+			<ul class="phoneUl" style="margin-left: 1px;">
+				<li><a href="">启动条</a></li>
+				<li><a href="">导向仪</a></li>
+				<li><a href="">报警状态</a></li>
+				<li><a href="">累计量</a></li>
+				<li><a href="">历史记录</a></li>
+			</ul>
+		</div>
+		
+		<div id ="pcDiv" class="layui-footer">
+			<ul class="layui-row pcUl">
+				<li class="layui-col-sm1 layui-col-md1"><a href="">主监控</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">泡沫系统</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">注浆系统</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">电力参数</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">辅助系统</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">盾尾密封</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">启动条</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">导向仪</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">报警状态</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="" adata="${tbmid!}" atype="camera" class="tbmClick">摄像头</a></li>
+			</ul>
+		</div>
+	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+	
+	<script type="text/javascript" src="${CPATH}/js/main.js"></script>
+	
+	<script type="text/javascript">
+        layui.use(['form','layer','element'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var element = layui.element;
+            /**
+			 * 底部菜单按钮
+             */
+            $(".tbmClick").on("click",function () {
+				var adata = $(this).attr("adata");
+				var atype = $(this).attr("atype");
+                var url;
+				if(atype == 'camera'){
+                    url = bpath+"/route/camera?tid=" + adata;
+				}
+                var index = top.layer.open({
+                    type: 2,
+                    resize: false,
+                    anim: Math.ceil(Math.random() * 6),
+                    content: [url, 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                });
+                top.layer.full(index);
+            })
+		})
+	    
+	</script>
+	
+</body>
+</html>

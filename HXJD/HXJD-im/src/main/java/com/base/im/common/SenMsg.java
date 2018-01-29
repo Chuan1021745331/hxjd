@@ -23,14 +23,14 @@ public class SenMsg {
      * @param num：表示盾构机编号
      * @throws UnsupportedEncodingException
      */
-    public static void sendMsg(int order,String num) throws UnsupportedEncodingException {
+    public static void sendMsg(int order,String num,String mac) throws UnsupportedEncodingException {
         String orderStr = null;
         if(order == 1){
             orderStr = MsgProtocol.START_PUSH+num;
         }else {
             orderStr = MsgProtocol.STOP_PUSH+num;
         }
-        ChannelContext<Object, IMPacket, Object> channelContext = (ChannelContext<Object, IMPacket, Object>) IMcacheMap.cacheMap.get("127.0.0.1");
+        ChannelContext<Object, IMPacket, Object> channelContext = (ChannelContext<Object, IMPacket, Object>) IMcacheMap.cacheMap.get(mac);
         IMPacket imPacket = new IMPacket();
         imPacket.setBody(orderStr.getBytes("utf-8"));
         Aio.send(channelContext,imPacket);

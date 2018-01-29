@@ -17,6 +17,7 @@
     <script type="text/javascript">
         ctx = '${CPATH}';
         cty = '127.0.0.1:8088/${BPATH}';
+        bpath='${BPATH}';
     </script>
 <body>
 <div id="root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
@@ -38,7 +39,7 @@
     <div class="ms-width-100-per ms-margin-top-1rem ms-layout-left-center-wrap-horizontal ">
         <#if worksite??>
             <#list worksite.tbmDtos as item>
-                <button class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
+                <button tdata ="${item.id!}" class="tbutton layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
             </#list>
         </#if>
     </div>
@@ -51,12 +52,8 @@
 <script type="text/javascript" src="${CPATH}/plus/echarts.min.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/shine.js"></script>
 <script type="text/javascript" src="${CPATH}/js/route/iframe_util.js"></script>
-<script type="text/javascript" src="${CPATH}/js/route/circuitSel.js"></script>
-<script type="text/javascript">
-    $().ready(function () {
-        initSizeHeight($("#root_div"))
-    })
-</script>
+<script type="text/javascript" src="${CPATH}/js/route/worksiteSel.js"></script>
+
 
 </body>
 </html>

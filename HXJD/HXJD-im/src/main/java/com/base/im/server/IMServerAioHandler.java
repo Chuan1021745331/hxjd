@@ -50,11 +50,12 @@ public class IMServerAioHandler extends IMAbsAioHandler implements ServerAioHand
 				return null;
 			}
 			String msg = new String(body,"utf-8");
-			boolean initMsgBool = MsgProtocol.isInitMsg(msg);
+			String[] msgs = msg.split("#");
+			boolean initMsgBool = MsgProtocol.isInitMsg(msgs[0]);
 			if(initMsgBool){
 				//注册信息
 				//todo 解析出mac地址当做key
-				IMcacheMap.cacheMap.put(channelContext.getClientNode().getIp(),channelContext);
+				IMcacheMap.cacheMap.put(msgs[1],channelContext);
 				IMPacket imPacket = new IMPacket();
 				imPacket.setBody(MsgProtocol.INIT_MSG.getBytes("utf-8"));
 				Aio.send(channelContext,imPacket);
