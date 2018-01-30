@@ -66,14 +66,6 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">维保人</label>
-            <div class="layui-input-inline">
-                <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
             <label class="layui-form-label">维保时间</label>
             <div class="layui-input-inline">
                 <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
@@ -89,10 +81,16 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">维保内容</label>
         <div class="layui-input-block">
-            <textarea  id="content" readonly style="height: 200px" class="layui-textarea">${tbmrepair.content!}</textarea>
+            <textarea  id="content" readonly style="height: 250px" class="layui-textarea">${tbmrepair.content!}</textarea>
         </div>
     </div>
     <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">维保人</label>
+            <div class="layui-input-inline">
+                <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
+            </div>
+        </div>
         <div class="layui-inline">
             <label class="layui-form-label">填写人</label>
             <div class="layui-input-inline">
@@ -101,6 +99,17 @@
         </div>
     </div>
 </form>
+<!-- 侧边按钮 -->
+<div  style=""  class="right-btn-group displayNone">
+    <ul class="layui-fixbar">
+        <!-- 返回 -->
+        <li id="back" style="width:40px;height:40px;line-height:40px;font-size: 100%">返回</li>
+        <!-- 分享 -->
+        <li id="share" class="layui-icon" lay-type="bar1" style="width:40px;height:40px;line-height:40px;font-size:25px;">&#xe641;</li>
+        <!-- 回到顶部 -->
+        <li id="top" class="layui-icon layui-fixbar-top" lay-type="top" style="width:40px;height:40px;line-height:45px;display: list-item;">&#xe604;</li>
+    </ul>
+</div>
 
 <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
@@ -111,8 +120,15 @@
     //适配
     if(device.android || device.ios){
         $(".mobile").removeClass("displayNone");
+        $(".right-btn-group").removeClass("displayNone");
         $(".pc").addClass("displayNone");
     }
+    $("#top").unbind('click').click(function(){
+        $(window).scrollTop(0);
+    })
+    $("#back").unbind('click').click(function(){
+        history.go(-1);
+    })
 </script>
 
 </body>

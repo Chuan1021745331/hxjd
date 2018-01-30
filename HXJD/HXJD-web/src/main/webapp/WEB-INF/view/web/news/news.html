@@ -142,14 +142,16 @@
 	}),
 	$("#newsCard").on("click",".tbmrepair-item",function () {
         var id=$($(this).find(".id")[0]).html();
-        var area=['700px', '500px'];
+        var area=['700px', '550px'];
         var device = layui.device();
         // var scrollTop = $(window).height();
         var scrollTop = window.screen.availHeight;
         var height=Math.ceil(scrollTop*0.8);
 
         if(device.android || device.ios){
-            area=['90%', height+'px']
+            // area=['90%', height+'px'];
+            window.location.href=bpath+"/web/tbmrepair/sel?id="+id;
+            return;
         }
         var index = parent.layer.open({
             id:"tbmrepair-sel",
@@ -159,7 +161,7 @@
             resize: false,
             area: area,
             move: false,
-            shade:0,
+            shade:0.3,
             anim: Math.ceil(Math.random() * 6),
             success : function(layero, index){
                 setTimeout(function(){
@@ -169,6 +171,7 @@
                 },500)
             }
         });
+
 	});
 	$(".tag").unbind('click').click(function(){	
 		$(this).css("background-color","#3CB371");

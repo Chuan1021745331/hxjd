@@ -105,10 +105,12 @@ layui.use(['jquery', 'layer', 'element'], function() {
         	area=['90%', '534px'];
 		}
         var index = layer.open({
+			id:'visitor-sel',
             type: 2 ,
             title: '访客详情',
             content: bpath+"/visitor/sel?id="+visitorId,
             resize: false,
+            zIndex:99999,
             area: area,
             anim: Math.ceil(Math.random() * 6),
             success : function(layero, index){
@@ -168,6 +170,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
             title: '今日头条',
             content: bpath+"/news",
             resize: false,
+            zIndex:999,
             area: area,
             offset:'rb'	,
             move: false,
@@ -179,10 +182,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
                         tips: 3
                     });
                 },500)
-            },
-            cancel: function(index, layero){
-                layer.closeAll('iframe');
-                return true;
             }
         });
     });
