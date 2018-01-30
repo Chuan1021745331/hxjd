@@ -60,8 +60,7 @@ $("#bordercutline").on("click",function () {
 
 /*初始化所有建筑*/
 function initDraw() {
-    for(var a = 0;jsonObj.length;a++){
-        console.log("jsonObj[a].points="+jsonObj[a].points);
+    for(var a = 0;a<jsonObj.length;a++){
         var items = analysisPoints(jsonObj[a].points);
         var color = jsonObj[a].color;
         var workSites = jsonObj[a].worksites;

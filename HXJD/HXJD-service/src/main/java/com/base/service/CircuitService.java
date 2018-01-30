@@ -79,10 +79,46 @@ public class CircuitService {
             circuitWorksiteDto.setId(circuit.getId());
             circuitWorksiteDto.setPoints(circuit.getPoints());
             circuitWorksiteDto.setColor(circuit.getColor());
-            circuitWorksiteDto.setGeneral(circuit.getGeneral());
+//            circuitWorksiteDto.setGeneral(circuit.getGeneral());
             circuitWorksiteDto.setName(circuit.getName());
-            List<WorkSiteDto> workSiteDtos = new ArrayList<>();
-            for(JWorksite worksite:worksites){
+            List<WorkSiteDto> workSiteDtos = getWorkSiteDtos(circuit,worksites,tbms);
+
+            circuitWorksiteDto.setWorksites(workSiteDtos);
+            circuitWorksiteDtos.add(circuitWorksiteDto);
+        }
+        return circuitWorksiteDtos;
+    }
+
+    /**
+     * 获取WorkSiteDto
+     * @param circuit
+     * @param worksites
+     * @param tbms
+     * @return
+     */
+    public List<WorkSiteDto> getWorkSiteDtos(JCircuit circuit,List<JWorksite> worksites,List<JTbm> tbms){
+        List<WorkSiteDto> workSiteDtos = new ArrayList<>();
+        for(JWorksite worksite:worksites){
+            if(circuit.getId().intValue() == worksite.getCircuitid().intValue()){
+                WorkSiteDto workSiteDto = new WorkSiteDto();
+                workSiteDto.setColor(worksite.getColor());
+                workSiteDto.setId(worksite.getId());
+                workSiteDto.setCoord(worksite.getCoord());
+                workSiteDto.setGeneral(worksite.getGeneral());
+                workSiteDto.setName(worksite.getName());
+                workSiteDto.setCircuitid(worksite.getCircuitid());
+                List<JTbm> tbms1 = new ArrayList<>();
+                for (JTbm tbm:tbms){
+                    if(tbm.getWorksiteid().intValue() == worksite.getId()){
+                        tbms1.add(tbm);
+                    }
+                }
+                workSiteDto.setTbms(tbms1);
+                workSiteDtos.add(workSiteDto);
+            }
+        }
+        return workSiteDtos;
+                /*for(JWorksite worksite:worksites){
                 if(circuit.getId().intValue() == worksite.getCircuitid().intValue()){
                     WorkSiteDto workSiteDto = new WorkSiteDto();
                     workSiteDto.setColor(worksite.getColor());
@@ -100,10 +136,6 @@ public class CircuitService {
                     workSiteDto.setTbms(tbms1);
                     workSiteDtos.add(workSiteDto);
                 }
-            }
-            circuitWorksiteDto.setWorksites(workSiteDtos);
-            circuitWorksiteDtos.add(circuitWorksiteDto);
-        }
-        return circuitWorksiteDtos;
+            }*/
     }
 }

@@ -88,6 +88,11 @@ public class RouteController extends BaseController {
         String json = JSON.toJSONString(cameras);
 
         setAttr("tid",tid);
+        int hs = 1;
+        if(cameras == null || cameras.size() ==0){
+            hs = 0;
+        }
+        setAttr("hs",hs);
         setAttr("cameras",cameras);
         setAttr("camerasjson",json);
         render("camera.html");

@@ -24,7 +24,7 @@
 <body>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div id="root_div">
-    <div id="root_div_2" class="ms-width-100-per ms-height-100-per black ms-layout-center-wrap-horizontal ms-scrollbar-black" style="overflow: scroll">
+    <div id="root_div_2" class="ms-width-100-per ms-height-100-per <#if cameras??> black </#if>  ms-layout-center-wrap-horizontal ms-scrollbar-black" style="overflow: scroll">
         <div id="cameras" class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal ">
             <#if cameras??>
                 <#list cameras as item>
@@ -52,7 +52,14 @@
         var element = layui.element;
         var layer = layui.layer;
         var tbmid = ${tid};
+//        var hs = ${hs};
         var device = layui.device();
+//        if(hs == 0){
+//            layer.open({
+//                type: 2,
+//                resize: false,
+//                content: "该盾构机没有添加摄像头！"});
+//        }
 
         if(device.android || device.ios){
 
