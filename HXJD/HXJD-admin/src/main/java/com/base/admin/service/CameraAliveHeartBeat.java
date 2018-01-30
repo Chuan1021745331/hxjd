@@ -99,7 +99,9 @@ public class CameraAliveHeartBeat {
                     //此处要从数据库中通过megs[2]查出该盾构机摄像头推流程序所属电脑的ip
                     int tid = Integer.parseInt(megs[2]);
                     JTbm tbm = TbmService.me().findTbmById(tid);
-                    SenMsg.sendMsg(0,megs[2],tbm.getMac());
+                    if(tbm != null){
+                        SenMsg.sendMsg(0,megs[2],tbm.getMac());
+                    }
                 }
             }
 
@@ -112,7 +114,9 @@ public class CameraAliveHeartBeat {
                 //此处要从数据库中通过megs[3]查出该盾构机摄像头推流程序所属电脑的ip
                 int tid = Integer.parseInt(megs[3]);
                 JTbm tbm = TbmService.me().findTbmById(tid);
-                SenMsg.sendMsg(1,megs[3],tbm.getMac());
+                if(tbm != null){
+                    SenMsg.sendMsg(1,megs[3],tbm.getMac());
+                }
             } else {
                 yangSessionList.add(this);
             }

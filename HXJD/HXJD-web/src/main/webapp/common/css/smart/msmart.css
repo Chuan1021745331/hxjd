@@ -11,6 +11,12 @@
 .ms-padding-1rem{
     padding: 1rem;
 }
+.ms-padding-top-1rem{
+    padding-top: 1rem;
+}
+.ms-padding-bottom-1rem{
+    padding-bottom: 1rem;
+}
 
 
 
@@ -266,6 +272,9 @@
 }
 .ms-height-50-per{
     height:50%;
+}
+.ms-height-45-per{
+    height:45%;
 }
 .ms-height-10-per{
     height:10%;

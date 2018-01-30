@@ -24,11 +24,11 @@
 <body>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div id="root_div">
-    <div class="ms-width-100-per ms-height-100-per debug ms-layout-center-wrap-horizontal ms-scrollbar-black" style="overflow: scroll">
-        <div class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal">
+    <div class="ms-width-100-per ms-height-100-per black ms-layout-center-wrap-horizontal ms-scrollbar-black" style="overflow: scroll">
+        <div class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal ">
             <#if cameras??>
                 <#list cameras as item>
-                    <div id="a${item.id!}" class="ms-width-45-per ms-height-50-per debug"></div>
+                    <div id="a${item.id!}" class="ms-width-45-per ms-height-45-per"></div>
                 </#list>
                 <#else><h2>暂无摄像头</h2>
             </#if>
@@ -94,7 +94,6 @@
         }
         /*ckplayer播放*/
         function playCamera(rtmp,num) {
-            alert(num)
             var width = $("#a"+num).width()*1;
             var height = $("#a"+num).height()*1;
 //            var width = $("#a"+num).width()*0.8;
