@@ -84,7 +84,7 @@ active_id="dashboard">
         var form = layui.form,
             common = layui.common;
         common.formSubmit('formDemo', bpath + '/admin/route/saveAndUpdateTbm');
-        
+
         /*创建高德地图*/
         var map = new AMap.Map('container', {
             layers: [new AMap.TileLayer.Satellite({zIndex:10})],
@@ -191,8 +191,11 @@ active_id="dashboard">
             marker = new AMap.Marker({
                 icon: "${CPATH}/images/tbm/tbm2.png",
                 draggable:true,
+                cursor: 'move',
+                raiseOnDrag: true,
                 position: [x, y]
             });
+//            marker.on('mouseover', infoWindowOpen);
             marker.setMap(map);
             setAddPoints(x,y,"NULL");
         }

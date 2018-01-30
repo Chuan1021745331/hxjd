@@ -35,6 +35,16 @@
 			<div id="items" style="overflow:hidden;margin-left:68%;margin-top:18px;width:400px;height:20px;" >
 			
 			</div>
+			<!-- <div class="layui-carousel" id="test1" style="margin-left:68%;margin-top:10px;">
+  				<div carousel-item id="items">
+   					<div style="">条目1</div>
+    				<div style="">条目2</div>
+    				<div style="">条目3</div>
+   					<div style="">条目4</div>
+    				<div style="">条目5</div>
+  				</div>
+			</div> -->
+
 
 			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}</#if>" onerror="this.src='/attachment/avatar/astronaut.png';this.onerror=null" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
@@ -42,7 +52,7 @@
 		<div id="left-menu" class="layui-side layui-bg-black displayNone">
 		    <div class="layui-side-scroll">
 				<ul class="layui-nav layui-nav-tree"  lay-filter="test">
-					<li class="layui-nav-item">
+					<li class="layui-nav-item layui-this">
 						<a><span adata="00" atype="0"  class="aclick">首页</span></a>
 					</li>
 					<#if circuitWorksiteDtos??>

@@ -61,6 +61,7 @@ $("#bordercutline").on("click",function () {
 /*初始化所有建筑*/
 function initDraw() {
     for(var a = 0;jsonObj.length;a++){
+        console.log("jsonObj[a].points="+jsonObj[a].points);
         var items = analysisPoints(jsonObj[a].points);
         var color = jsonObj[a].color;
         var workSites = jsonObj[a].worksites;
@@ -186,9 +187,9 @@ function drawText(text,coord) {
         text:text,
         textAlign:'center', // 'left' 'right', 'center',
         verticalAlign:'middle', //middle 、bottom
-        draggable:true,
+        // draggable:true,
         cursor:'pointer',
-        angle:10,
+        angle:0,
         style:{
             'background-color':'rgba(0, 0, 0, 0.36)',
             'border':'solid 1px red',

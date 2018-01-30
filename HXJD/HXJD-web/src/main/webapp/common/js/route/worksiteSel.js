@@ -13,12 +13,12 @@ layui.use(['form','layer','element'], function(){
     $(".tbutton").on("click",function () {
         var tdata = $(this).attr("tdata");
         var iframe = window.parent.document.getElementsByClassName("tbmiframe")[0];
-        var url = bpath+"/route/main2?tid=" + tdata;
+        var url = bpath+"/route/tbm?tid=" + tdata;
         var index = top.layer.open({
             type: 2,
             resize: false,
             anim: Math.ceil(Math.random() * 6),
-            content: [url, 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            content: [url] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
         });
         top.layer.full(index);
     });

@@ -66,10 +66,17 @@ public class RouteController extends BaseController {
     /**
      * 进入盾构机页面
      */
-    public void main2(){
+    public void tbm(){
         Integer tid = getParaToInt("tid");
         setAttr("tbmid",tid);
         render("tbm.html");
+    }
+
+    /**
+     * 主监控
+     */
+    public void tbmMain(){
+        render("tbmMain.html");
     }
 
     /**

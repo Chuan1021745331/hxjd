@@ -212,7 +212,8 @@ active_id="dashboard">
         function creatMaker(x,y,order) {
             marker = new AMap.Marker({
                 icon: "${CPATH}/images/tbm/tbm2.png",
-                draggable:true,
+                draggable:false,
+//                raiseOnDrag: true,
                 position: [x, y]
             });
             marker.setMap(map);
@@ -220,6 +221,7 @@ active_id="dashboard">
                 setAddPoints(x,y,"NULL");
             }
         }
+
     });
 </script>
 </@layout>
