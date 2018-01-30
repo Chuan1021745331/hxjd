@@ -179,6 +179,10 @@ layui.use(['jquery', 'layer', 'element'], function() {
                         tips: 3
                     });
                 },500)
+            },
+            cancel: function(index, layero){
+                layer.closeAll('iframe');
+                return true;
             }
         });
     });

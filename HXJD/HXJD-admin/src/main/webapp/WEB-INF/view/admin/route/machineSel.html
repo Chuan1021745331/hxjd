@@ -51,29 +51,37 @@ active_id="dashboard">
     </div>
     <div class="layui-form-item">
     </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">最近一次维修</label>
-            <div class="layui-input-inline">
-                <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
+    <#if tbmrepair??>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">最近一次维修</label>
+                <div class="layui-input-inline">
+                    <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">维修人</label>
+                <div class="layui-input-inline">
+                    <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">下次维修时间</label>
+                <div class="layui-input-inline" >
+                    <input type="text" id="cycle"  value="${tbmrepair.cycle!}" readonly  class="layui-input choose-time">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <p id="selTbmrepair" class="layui-btn layui-btn-sm"><i class="icon iconfont"></i><cite>查看所有记录</p>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">维修人</label>
-            <div class="layui-input-inline">
-                <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
+    <#else>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">暂无维保记录</label>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label" style="width: 100px">下次维修时间</label>
-            <div class="layui-input-inline" >
-                <input type="text" id="cycle"  value="${tbmrepair.cycle!}" readonly  class="layui-input choose-time">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <p id="selTbmrepair" class="layui-btn layui-btn-sm"><i class="icon iconfont"></i><cite>查看所有记录</p>
-        </div>
-    </div>
+    </#if>
 </form>
 <!--添加摄像头-->
 <div class="layui-row ms-margin-left-2rem ">

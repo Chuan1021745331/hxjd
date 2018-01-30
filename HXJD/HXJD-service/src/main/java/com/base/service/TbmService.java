@@ -9,6 +9,8 @@ import org.quartz.ee.jta.JTAAnnotationAwareJobRunShellFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @类名: TbmService
@@ -56,6 +58,7 @@ public class TbmService {
             page = (page>count/limit && count%limit==0)?page-1:page ;
             routeList = TbmQuery.me().findTbmByWorkSiteId(page, limit, workSiteId);
         }
+
         return routeList;
     }
 
@@ -73,6 +76,9 @@ public class TbmService {
             page = (page>count/limit && count%limit==0)?page-1:page ;
             routeList = TbmQuery.me().findTbmTbmrepairByWorkSiteId(page, limit, workSiteId);
         }
+        for(Record record:routeList){
+            checkRecordData(record);
+        }
         return routeList;
     }
     /**
@@ -88,6 +94,9 @@ public class TbmService {
         if(count!=0){
             page = (page>count/limit && count%limit==0)?page-1:page ;
             routeList = TbmQuery.me().findTbmTbmrepairByCircuitId(page, limit, circuitid);
+        }
+        for(Record record:routeList){
+            checkRecordData(record);
         }
         return routeList;
     }
@@ -105,7 +114,19 @@ public class TbmService {
             page = (page>count/limit && count%limit==0)?page-1:page ;
             routeList = TbmQuery.me().findAllTbmTbmrepair(page, limit);
         }
+        for(Record record:routeList){
+            checkRecordData(record);
+        }
         return routeList;
+    }
+
+    public void checkRecordData(Record record){
+        Map<String, Object> columns = record.getColumns();
+        for(Map.Entry<String, Object> entry:columns.entrySet()){
+            if(entry.getValue()==null){
+                columns.put(entry.getKey(),"暂无记录");
+            }
+        }
     }
 
     /**

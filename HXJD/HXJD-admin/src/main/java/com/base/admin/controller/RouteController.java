@@ -186,8 +186,7 @@ public class RouteController extends BaseController {
         JCircuit circuit = CircuitQuery.me().findById(worksite.getCircuitid());
         List<JCamera> cameras = CameraService.me().findCamerasByTbmId(id);
         JTbmrepair tbmrepair = TbmrepairService.me().findLatestByTbmId(id);
-        if(null==tbmrepair)
-            tbmrepair=new JTbmrepair();
+
         setAttr("worksite",worksite);
         setAttr("circuit",circuit);
         setAttr("tbm",tbm);

@@ -46,7 +46,7 @@
 				   		 	<div class="id" style="display:none">${bean.id!}</div>
 				   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】${bean.circuitname!}${bean.worksitename!}${bean.tbmname!}</div>
 				    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.content!}</div>
-				    		<div >${bean.repairman!} 维保于 ${bean.createtime!}</div>
+				    		<div >${bean.writer!} 填写于 ${bean.createtime!}</div>
 				    		<hr class="layui-bg-blue">
 				    	</div>	    	
 				    </div>
@@ -87,7 +87,6 @@
     var limit=10;
     var lastTbmrepair="${lastTbmrepair}";
     var lastNews="${lastNews}";
-    console.log(lastTbmrepair+"       "+lastNews);
     $(window).scroll(function(){
     	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
     	var scrollTop = $(this).scrollTop();  
@@ -111,26 +110,34 @@
 		
 	}),
 	$("#newsCard").on("click",".tbmrepair-item",function () {
-		var id=$($(this).find(".id")[0]).html();
-		var area=['700px', '400px'];
-		var index = parent.layer.open({
-			id:"tbmrepair-sel",
-			type: 2 ,
-			title: '维保记录详情',
-			content: bpath+"/web/tbmrepair/sel?id="+id,
-			resize: false,
-			area: area,
-			move: false,
-			shade:0,
-			anim: Math.ceil(Math.random() * 6),
-			success : function(layero, index){
-				setTimeout(function(){
-					layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
-						tips: 3
-					});
-				},500)
-			}
-		});
+        var id=$($(this).find(".id")[0]).html();
+        var area=['700px', '500px'];
+        var device = layui.device();
+        // var scrollTop = $(window).height();
+        var scrollTop = window.screen.availHeight;
+        var height=Math.ceil(scrollTop*0.8);
+
+        if(device.android || device.ios){
+            area=['90%', height+'px']
+        }
+        var index = parent.layer.open({
+            id:"tbmrepair-sel",
+            type: 2 ,
+            title: '维保记录详情',
+            content: bpath+"/web/tbmrepair/sel?id="+id,
+            resize: false,
+            area: area,
+            move: false,
+            shade:0,
+            anim: Math.ceil(Math.random() * 6),
+            success : function(layero, index){
+                setTimeout(function(){
+                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                },500)
+            }
+        });
 	});
 	$(".tag").unbind('click').click(function(){	
 		$(this).css("background-color","#3CB371");
@@ -146,7 +153,6 @@
 	    		url:"${BPATH}" + "/news/getByTag?tag="+tag,
 	    			success:function(result){
 	    				var data = eval('('+result+')');
-	        			//console.log(data);
 	        			$("#newsCard").empty();
 						$.each(data, function(i, val){						
 							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
@@ -185,6 +191,7 @@
 	})
 	$(".all").unbind('click').click(function(){
 		//页数复位
+        page=1;
         lastNews="";
         lastTbmrepair="";
 		$(".tag").removeClass("selected");
@@ -195,16 +202,12 @@
 	});
 
 	function getAllData(mylastNews,mylastTbmrepair,limit){
-        console.log("3333lastNews"+lastNews+"     lastTbmrepair "+lastTbmrepair);
         $.ajax({
             url:"${BPATH}" + "/news/allData?lastNews="+mylastNews+"&lastTbmrepair="+mylastTbmrepair+"&limit="+limit,
             success:function(result){
                 var data=result.data.results;
                 lastNews=result.data.lastNews;
                 lastTbmrepair=result.data.lastTbmrepair;
-                console.log("lastNews"+result.data.lastNews+"     lastTbmrepair "+result.data.lastNews);
-                console.log("news/allData?");
-                console.log(data);
                 $.each(data,function(index,value,array){
                     if(typeof(value.tbmId) != "undefined"){
                         $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
@@ -212,7 +215,7 @@
                             '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
                             '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
                             '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
-                            '\t\t\t\t    \t\t<div >'+value.repairman+' 维保于 '+value.createtime+'</div>\n' +
+                            '\t\t\t\t    \t\t<div >'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
                             '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
                             '\t\t\t\t    \t</div>\t    \t\n' +
                             '\t\t\t\t    </div>');
@@ -237,15 +240,13 @@
             url:"${BPATH}" + "/web/tbmrepair/tbmrepairData?page="+page+"&limit="+limit,
             success:function(result){
                 var data=result.data;
-                console.log("tbmrepairData");
-                console.log(data);
                 $.each(data,function(index,value,array){
                     $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
                         '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                         '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
                         '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
                         '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
-                        '\t\t\t\t    \t\t<div >'+value.repairman+' 维保于 '+value.createtime+'</div>\n' +
+                        '\t\t\t\t    \t\t<div >'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
                         '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
                         '\t\t\t\t    \t</div>\t    \t\n' +
                         '\t\t\t\t    </div>');
@@ -258,13 +259,10 @@
     
     function showMore(page){
     	//alert("加载");
-        console.log("showMorepage"+$(".selected").length);
-        console.log($(".selected"));
     	if(null!=$(".selected") && typeof($(".selected")) != "undefined"&&$(".selected").length>0){
     		//新闻类的Tag
     		if($(".selected").hasClass("newsTag")){
         		var tag = $(".selected").attr("id");
-        		//console.log($(this));
     			$.ajax({
     	    		url:"${BPATH}" + "/news/getNewsByPageTag?tag="+tag+"&page="+page,
     	    			success:function(result){
@@ -287,7 +285,6 @@
 				getTbmrepairData(page,limit);
 			}
     	}else{
-            console.log("222lastNews"+lastNews+"     lastTbmrepair "+lastTbmrepair);
             getAllData(lastNews,lastTbmrepair,limit);
 		}
 

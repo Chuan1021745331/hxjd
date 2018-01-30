@@ -17,6 +17,8 @@ import com.base.service.UserService;
 import com.base.utils.StringUtils;
 import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaoleilu.hutool.date.DateTime;
+import com.xiaoleilu.hutool.date.DateUtil;
 
 
 /**
@@ -68,7 +70,8 @@ public class NewsController extends BaseController {
 			if(newlist.size()==0){
 				if(trlist.size()>0){
 					results.add(trlist.get(0));
-					lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+					lastTbmrepair=DateUtil.format(newlist.get(0).getDate("createtime"),"yyyy-MM-dd HH:mm:ss");
+
 					trlist.remove(0);
 					continue;
 				}else{
@@ -78,7 +81,7 @@ public class NewsController extends BaseController {
 			if(trlist.size()==0){
 				if(newlist.size()>0){
 					results.add(newlist.get(0));
-					lastNews=newlist.get(0).getDate("postTime").toString();
+					lastNews=DateUtil.format(newlist.get(0).getDate("postTime"),"yyyy-MM-dd HH:mm:ss");
 					newlist.remove(0);
 					continue;
 				}else{
@@ -90,11 +93,11 @@ public class NewsController extends BaseController {
 			//选择时间大的
 			if(postTime.compareTo(createtime)==1){
 				results.add(newlist.get(0));
-				lastNews=newlist.get(0).getDate("postTime").toString();
+				lastNews=DateUtil.format(postTime,"yyyy-MM-dd HH:mm:ss");
 				newlist.remove(0);
 			}else{
 				results.add(trlist.get(0));
-				lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+				lastTbmrepair=DateUtil.format(createtime,"yyyy-MM-dd HH:mm:ss");
 				trlist.remove(0);
 			}
 		}
@@ -131,7 +134,7 @@ public class NewsController extends BaseController {
 			if(newlist.size()==0){
 				if(trlist.size()>0){
 					results.add(trlist.get(0));
-					lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+					lastTbmrepair=DateUtil.format(newlist.get(0).getDate("createtime"),"yyyy-MM-dd HH:mm:ss");
 					trlist.remove(0);
 					continue;
 				}else{
@@ -141,7 +144,7 @@ public class NewsController extends BaseController {
 			if(trlist.size()==0){
 				if(newlist.size()>0){
 					results.add(newlist.get(0));
-					lastNews=newlist.get(0).getDate("postTime").toString();
+					lastNews=DateUtil.format(newlist.get(0).getDate("postTime"),"yyyy-MM-dd HH:mm:ss");
 					newlist.remove(0);
 					continue;
 				}else{
@@ -153,11 +156,11 @@ public class NewsController extends BaseController {
 			//选择时间大的
 			if(postTime.compareTo(createtime)==1){
 				results.add(newlist.get(0));
-				lastNews=newlist.get(0).getDate("postTime").toString();
+				lastNews=DateUtil.format(postTime,"yyyy-MM-dd HH:mm:ss");
 				newlist.remove(0);
 			}else{
 				results.add(trlist.get(0));
-				lastTbmrepair=trlist.get(0).getDate("createtime").toString();
+				lastTbmrepair=DateUtil.format(createtime,"yyyy-MM-dd HH:mm:ss");
 				trlist.remove(0);
 			}
 		}
