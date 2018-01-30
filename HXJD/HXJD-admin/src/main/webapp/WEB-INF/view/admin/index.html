@@ -68,7 +68,7 @@
             <!-- 管理员信息      -->
             <div class="user-info">
                 <div class="photo">
-                    <img src="${BPATH}<#if _user.avatar??>${_user.avatar!}</#if>" onerror="this.src='/attachment/avatar/256.png';this.onerror=null" alt="">
+                    <img src="${BPATH}<#if _user.avatar??>${_user.avatar!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/256.png';this.onerror=null" alt="">
                 </div>
                 <p>${_user.nickname!}</p><p style="margin-top: 5px;">您好！欢迎登录</p>
             </div>

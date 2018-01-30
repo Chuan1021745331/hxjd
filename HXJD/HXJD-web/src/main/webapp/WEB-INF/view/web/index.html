@@ -26,7 +26,7 @@
 	<div class="layui-layout layui-layout-admin">
 		<div class="layui-header" style="overflow:hidden;">
 			<div id="logoDiv" class="layui-logo"><!--盾构机监控-->
-				<img id="tbm-logo" style="width: 45px;height: 45px" src="<#if tbm_logo??>${tbm_logo!}</#if>" onerror="this.src='/attachment/avatar/256.png';this.onerror=null">
+				<img id="tbm-logo" style="width: 45px;height: 45px" src="<#if tbm_logo??>${tbm_logo!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/256.png';this.onerror=null">
 				<#if tbm_title??>${tbm_title}</#if>
 			</div>
 			<div style="float: left;margin-left:65%;margin-top:18px;width:50px;height:20px;">
@@ -46,7 +46,7 @@
 			</div> -->
 
 
-			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}</#if>" onerror="this.src='/attachment/avatar/astronaut.png';this.onerror=null" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
+			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/astronaut.png';this.onerror=null" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
 		<!-- 左侧导航区域S -->
 		<div id="left-menu" class="layui-side layui-bg-black displayNone">
