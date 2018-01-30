@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<meta http-equiv="Content-Type"
+	content="multipart/form-data; charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<head>
+
+<title>导调服务端 --v1.0</title>
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
+<link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+<script type="text/javascript">
+	ctx = '${CPATH}';
+	cty = '127.0.0.1:8088/${BPATH}';
+    bpath='${BPATH}';
+</script>
+<style>
+</style>
+</head>
+<body style="background-color: #EDF0F5;">
+  	<iframe id="zero_tab_content" width='100%' height='100%' frameborder='0' src="http://www.baidu.com" style="position: absolute;top: 0px;bottom: 41px;"></iframe>
+	<div id ="phoneDiv" class="layui-phone displayNone icon iconfont icon-fenlei"></div>
+	<div class="UlDiv">
+		<ul class="phoneUl" style=" border-right: 1px dashed #ccc;">
+			<li><a href="">主监控</a></li>
+			<li><a href="">泡沫系统</a></li>
+			<li><a href="">注浆系统</a></li>
+			<li><a href="">电力参数</a></li>
+			<li><a href="">辅助系统</a></li>
+			<li style="border: none;"><a href="">盾尾密封</a></li>
+		</ul>
+		<ul class="phoneUl" style="margin-left: 1px;">
+			<li><a href="">启动条</a></li>
+			<li><a href="">导向仪</a></li>
+			<li><a href="">报警状态</a></li>
+			<li><a href="">累计量</a></li>
+			<li><a href="">历史记录</a></li>
+			<li style="border: none;"><a href="">摄像头</a></li>
+		</ul>
+	</div>
+		
+	<div id ="pcDiv" class="layui-footer">
+		<ul class="layui-row pcUl">
+			<li class="layui-col-sm1 layui-col-md1"><a href="">主监控</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">泡沫系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">注浆系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">电力参数</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">辅助系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">盾尾密封</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">启动条</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">导向仪</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">报警状态</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" adata="${tbmid!}" atype="camera" class="tbmClick">摄像头</a></li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
+	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+	
+	<script type="text/javascript" src="${CPATH}/js/tbm.js"></script>
+</body>
+</html>

@@ -69,7 +69,7 @@ public class RouteController extends BaseController {
     public void main2(){
         Integer tid = getParaToInt("tid");
         setAttr("tbmid",tid);
-        render("main2.html");
+        render("tbm.html");
     }
 
     /**
