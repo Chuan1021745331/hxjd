@@ -18,10 +18,10 @@
 	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 <!-- 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>  -->
 	<style type="text/css">  
-		 img{
+/* 		 img{
 		 	width:100% !important;
 		 	height:100% !important;
-		 	} 
+		 	}  */
 		 iconButton {
 		 	width:40px;
 		 	height:40px;
@@ -60,12 +60,16 @@
 			<li id="top" class="layui-icon layui-fixbar-top" lay-type="top" style="width:40px;height:40px;line-height:45px;display: list-item;">&#xe604;</li>
 		</ul>
 	</div>
-
+<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 	<script>
-	/* 	layui.use(['form','common'], function() {
-			var form = layui.form,
-				common = layui.common;
-		}); */
+		var device = layui.device();
+		console.log(device);
+		 if(device.android || device.ios){
+			 $("img").css("cssText","width:100% !important;height:100% !important");			 
+		 } else {
+			 $("#back").hide();
+		 }	
+		
 	    $("#top").unbind('click').click(function(){
 	    	$(window).scrollTop(0);
 	    })	

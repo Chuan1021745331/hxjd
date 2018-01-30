@@ -83,6 +83,9 @@
 </body>
 <script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 <script type="text/javascript">
+
+  	
+  	
   	var page = 1;
     var limit=10;
     var lastTbmrepair="${lastTbmrepair}";
@@ -104,8 +107,36 @@
     //新闻类详情
 	$("#newsCard").on("click",".colHeader",function(){
 		if($(this).hasClass("newsTitle")){
-			var id = $(this).prev().text();
-			window.location = "${BPATH}/news/getNewsById?id="+id;
+			var device = layui.device();
+			var id = $(this).prev().text();			
+			if(device.android || device.ios){				
+				//手机页面
+				window.location = "${BPATH}/news/getNewsById?id="+id;
+			} else {
+				var scrollTop = window.screen.availHeight;
+				var area=['1366px', '768px'];
+				var height=Math.ceil(scrollTop*0.8);
+				var index = parent.layer.open({
+		            id:"news-sel",
+		            type: 2 ,
+		            title: '新闻详情',
+		            content: "${BPATH}/news/getNewsById?id="+id,
+		            resize: false,
+		            area: area,
+		            move: false,
+		            shade:0,
+		            anim: Math.ceil(Math.random() * 6),
+		            success : function(layero, index){
+/* 		                setTimeout(function(){
+		                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+		                        tips: 3
+		                    });
+		                },500) */
+		            }
+		        });
+			}
+			
+			
 		}
 		
 	}),
@@ -223,7 +254,7 @@
                         $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
                             '\t\t\t\t\t\t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                             '\t\t\t\t\t\t\t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
                             '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.con+'</div>\n' +
                             '\t\t\t\t\t\t\t<div >'+value.postMan+' 发布于 '+value.postTime+'</div>\n' +
                             '\t\t\t\t\t\t\t<hr class="layui-bg-blue">\n' +
@@ -292,6 +323,6 @@
     $("#top").unbind('click').click(function(){
     	$(window).scrollTop(0);
     })
-    
+  
 </script>
 </html>

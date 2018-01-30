@@ -35,17 +35,7 @@
 			<div id="items" style="overflow:hidden;margin-left:68%;margin-top:18px;width:400px;height:20px;" >
 			
 			</div>
-			<!-- <div class="layui-carousel" id="test1" style="margin-left:68%;margin-top:10px;">
-  				<div carousel-item id="items">
-   					<div style="">条目1</div>
-    				<div style="">条目2</div>
-    				<div style="">条目3</div>
-   					<div style="">条目4</div>
-    				<div style="">条目5</div>
-  				</div>
-			</div> -->
-			
-			
+
 			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}</#if>" onerror="this.src='/attachment/avatar/astronaut.png';this.onerror=null" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
 		<!-- 左侧导航区域S -->
@@ -149,7 +139,7 @@
 			success:function(result){
 				var data = eval('('+result+')');
     			$.each(data, function(i, val){
-    				$("#items").append('<li style="color:white;">'+"【"+val.columns.name+"】 "+ val.columns.title + " " +val.columns.postMan +" " + val.columns.postTime +'</li>');  
+    				$("#items").append('<li style="color:white;">'+"【"+val.columns.name+"】 "+ val.columns.title +'</li>');  
     			})
     			firstItem = $("#items").children().first();
     			lastItem = $("#items").children().last();
