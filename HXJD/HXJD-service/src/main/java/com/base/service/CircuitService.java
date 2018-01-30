@@ -104,7 +104,7 @@ public class CircuitService {
                 workSiteDto.setColor(worksite.getColor());
                 workSiteDto.setId(worksite.getId());
                 workSiteDto.setCoord(worksite.getCoord());
-                workSiteDto.setGeneral(worksite.getGeneral());
+//                workSiteDto.setGeneral(worksite.getGeneral());
                 workSiteDto.setName(worksite.getName());
                 workSiteDto.setCircuitid(worksite.getCircuitid());
                 List<JTbm> tbms1 = new ArrayList<>();
