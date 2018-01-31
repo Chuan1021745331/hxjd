@@ -89,9 +89,9 @@
 //                resize: false,
 //                content: "该盾构机没有添加摄像头！"});
 //        }
-        var b = 1;
+        var b = 0.95;
         if(device.android || device.ios){
-            b = 0.95;
+            b = 1;
             var height = $(window).height()-112;
             $("#root_div_2").removeClass("ms-layout-center-horizontal");
             $("#root_div_2").removeClass("ms-layout-nowrap-vertical");
@@ -185,7 +185,7 @@
         /*ckplayer播放*/
         function playCamera(rtmp,num) {
             var width = $("#a"+num).width()*1;
-            var height = $("#a"+num).height()*1;//todo手機和電腦噸適配
+            var height = $("#a"+num).height()*b;//todo手機和電腦噸適配
 //            var width = $("#a"+num).width()*0.8;
 //            var height = $("#a"+num).height()*0.95;
             /*alert(width)*/
