@@ -6,7 +6,7 @@
   <div class="layui-form-item">
 	<label class="layui-form-label" style="line-height: 70px;">用户头像</label>
 		<div class="layui-input-inline">
-			<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}<#else>/attachment/avatar/astronaut.png</#if>" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
+			<img src="${BPATH}<#if (user.avatar)??>${user.avatar!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/astronaut.png';this.onerror=null" style="width: 80px;height:80px; margin-top: 0px;margin-left: 0px;"/>
 		</div>
   </div>
   
