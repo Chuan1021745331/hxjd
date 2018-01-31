@@ -41,8 +41,13 @@ public class IndexController extends BaseController {
 		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
 		String json = JSON.toJSONString(circuitWorksiteDtos);
 		setAttr("dtos",circuitWorksiteDtos);
-		setAttr("circuitWorksiteDtos",json);
+//		setAttr("circuitWorksiteDtos",json);
 		render("main.html");
+	}
+	public void mainData(){
+		List<CircuitWorksiteDto> circuitWorksiteDtos = CircuitService.me().getCircuitWorksiteDtos();
+//		renderAjaxResult("获取数据==");
+		renderJson(circuitWorksiteDtos);
 	}
 	
 	@Clear(WebInterceptor.class)

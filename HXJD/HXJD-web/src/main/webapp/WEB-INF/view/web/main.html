@@ -19,6 +19,7 @@
 <script type="text/javascript">
 	ctx = '${CPATH}';
 	cty = '127.0.0.1:8088/${BPATH}';
+    bpath='${BPATH}';
 </script>
 <style type="text/css">  
 	html{height:100%}  
@@ -74,13 +75,6 @@
 
     <script src="http://webapi.amap.com/maps?v=1.4.3&key=26ecc95817c92712831cb73b1c84ccb5"></script>
     <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
-	<script type="text/javascript">
-		/*此块不能删除*/
-            var dto = '${circuitWorksiteDtos}';
-            var jsonObj = $.parseJSON(dto);
-            console.log(jsonObj);
-
-	</script>
 	<script type="text/javascript" src="${CPATH}/js/route/main_map.js"></script>
 </body>
 </html>

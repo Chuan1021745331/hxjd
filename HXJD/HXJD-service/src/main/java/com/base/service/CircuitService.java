@@ -79,7 +79,7 @@ public class CircuitService {
             circuitWorksiteDto.setId(circuit.getId());
             circuitWorksiteDto.setPoints(circuit.getPoints());
             circuitWorksiteDto.setColor(circuit.getColor());
-//            circuitWorksiteDto.setGeneral(circuit.getGeneral());
+            circuitWorksiteDto.setGeneral(circuit.getGeneral());
             circuitWorksiteDto.setName(circuit.getName());
             List<WorkSiteDto> workSiteDtos = getWorkSiteDtos(circuit,worksites,tbms);
 
