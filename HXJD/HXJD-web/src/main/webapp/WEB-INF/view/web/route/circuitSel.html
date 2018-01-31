@@ -21,15 +21,15 @@
     </script>
 <body>
 <div id="circuit_root_div" class="ms-width-100-per ms-height-100-per ms-scrollbar-black" style="overflow: scroll">
-    <div class="ms-width-100-per ms-height-10-per ms-layout-wrap-vertical ">
+    <div class="ms-height-5-per ms-layout-wrap-vertical " style="font-size: 16px;font-weight: bolder;">
         <#if circuitWorksiteDto??>
             ${circuitWorksiteDto.name}
         </#if>
     </div>
     <div class="layui-colla-item ms-width-100-per layui-collapse debug" lay-filter="test">
         <div class="layui-colla-item">
-            <h2 class="layui-colla-title ms-height-10-per ms-width-100-per" >线路概述</h2>
-            <div class="detail-show layui-colla-content ms-width-100-per ms-height-90-per ">
+            <h2 class="layui-colla-title" >线路概述</h2>
+            <div class="detail-show layui-colla-content layui-show">
                 <#if circuitWorksiteDto??>
                     ${circuitWorksiteDto.general}
                     <#else>暂无数据
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="ms-width-100-per ms-margin-top-1rem ms-layout-left-center-wrap-horizontal ">
+    <div class="ms-layout-left-center-wrap-horizontal ">
         <#if circuitWorksiteDto??>
             <#list circuitWorksiteDto.worksites as item>
                 <button wdata="${item.id!}" class="wbutton layui-btn layui-btn-sm layui-btn-primary layui-btn-radius ms-margin-left-1rem ms-margin-top-1rem">${item.name}</button>
