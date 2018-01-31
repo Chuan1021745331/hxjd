@@ -24,15 +24,29 @@
 <body>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div id="root_div">
-    <div id="root_div_2" class="ms-width-100-per ms-height-100-per <#if cameras??> black </#if>  ms-layout-center-wrap-horizontal ms-scrollbar-black" style="overflow: scroll">
-        <div id="cameras" class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal ">
+    <div id="root_div_2" class="ms-width-100-per ms-height-100-per  ms-layout-center-horizontal ms-scrollbar-black" style="overflow: scroll">
+        <div id="a1_div" class="ms-width-85-per ms-height-100-per">
+            <div id="a1" class="cameraDiv ms-width-100-per ms-height-100-per"></div>
+        </div>
+        <div id="cameras" class="ms-width-15-per ms-height-40-per ms-margin-left-1rem ms-layout-wrap-vertical z-depth-2">
+            <#if cameras??>
+                <#list cameras as item>
+                    <button class="<#if item_index==0>layui-btn-warm</#if> layui-btn layui-btn-primary cameraButton" cdata = "${item.rtsp!}" >摄像头${item_index+1}（${item.name!}）</button>
+                </#list>
+                <#else><h2>暂无摄像头</h2>
+            </#if>
+        </div>
+
+
+
+        <!--<div id="cameras" class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal ">
             <#if cameras??>
                 <#list cameras as item>
                     <div id="a${item.id!}" class="cameraDiv c${item_index} ms-width-45-per ms-height-45-per"></div>
                 </#list>
                 <#else><h2>暂无摄像头</h2>
             </#if>
-        </div>
+        </div>-->
     </div>
 </div>
 </body>
@@ -64,7 +78,26 @@
         if(device.android || device.ios){
 
             var height = $(window).height()-112;
-            $("#cameras").removeClass("ms-layout-center-wrap-horizontal");
+            $("#root_div_2").removeClass("ms-layout-center-horizontal");
+            $("#a1_div").removeClass("ms-width-85-per");
+            $("#a1_div").removeClass("ms-height-100-per");
+            $("#a1_div").addClass("ms-width-100-per");
+            $("#a1_div").addClass("ms-height-40-per");
+            $("#cameras").removeClass("ms-width-15-per");
+            $("#cameras").removeClass("ms-margin-left-1rem");
+            $("#cameras").removeClass("ms-layout-wrap-vertical");
+            $("#cameras").removeClass("z-depth-2");
+            $("#cameras").removeClass("ms-height-40-per");
+
+            $("#cameras").addClass("ms-height-40-per");
+//            $("#cameras").addClass("debug");
+            $("#cameras").addClass("ms-width-100-per");
+            $("#cameras").addClass("ms-margin-top-1rem");
+            $("#cameras").addClass("ms-layout-center-wrap-horizontal");
+
+
+
+            /*$("#cameras").removeClass("ms-layout-center-wrap-horizontal");
             $("#cameras").removeClass("ms-height-100-per");
             $("#root_div_2").removeClass("black");
 //            $("#cameras").addClass("ms-margin-top-8rem");
@@ -75,7 +108,7 @@
             $(".cameraDiv").removeClass("ms-height-45-per");
             $(".cameraDiv").css("height",height/2);
             $(".cameraDiv").addClass("ms-margin-top-2rem");
-            $(".cameraDiv").addClass("ms-width-100-per");
+            $(".cameraDiv").addClass("ms-width-100-per");*/
 //            $(".c0").addClass("ms-margin-top-4rem");
         }
 
@@ -90,15 +123,24 @@
         element.on('test', function(data){
             layer.msg('展开状态：'+ data.show);
         });
-
-        var cameras = '${camerasjson}';
+        var pdata = $(".layui-btn-warm").attr("cdata");
+        playCamera(pdata,1);
+        /*var cameras = '${camerasjson}';
         var camerasJson = $.parseJSON(cameras);
         for(var i = 0;i<camerasJson.length;i++){
             var rtmp = camerasJson[i].rtsp;
             var rtmpName = camerasJson[i].name;
             var num = camerasJson[i].id;
-            playCamera(rtmp,num);
-        }
+            playCamera(rtmp,1);
+        }*/
+
+        /*摄像头按钮事件*/
+        $(".cameraButton").on("click",function () {
+            var rtmp = $(this).attr("cdata");
+            $(this).siblings(".cameraButton").removeClass("layui-btn-warm");
+            $(this).addClass("layui-btn-warm");
+            playCamera(rtmp,1);
+        })
 
         /**
          * 初始化页面大小
@@ -121,7 +163,7 @@
         /*ckplayer播放*/
         function playCamera(rtmp,num) {
             var width = $("#a"+num).width()*1;
-            var height = $("#a"+num).height()*1;
+            var height = $("#a"+num).height()*0.95;
 //            var width = $("#a"+num).width()*0.8;
 //            var height = $("#a"+num).height()*0.95;
             /*alert(width)*/
