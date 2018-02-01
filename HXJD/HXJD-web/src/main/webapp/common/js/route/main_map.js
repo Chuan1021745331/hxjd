@@ -244,10 +244,8 @@ layui.use(['form','layer','element'], function() {
         map.clearInfoWindow();
     }
 
-
     /*点击标记事件*/
     function markerClick(tid) {
-        // alert("你点击了。。。还没开始挖……"+tid)
         // var tdata = $(this).attr("tdata");
         var iframe = window.parent.document.getElementsByClassName("tbmiframe")[0];
         var url = bpath+"/route/tbm?tid=" + tid;

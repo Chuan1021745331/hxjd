@@ -52,16 +52,6 @@
             </#if>
         </div>
 
-
-
-        <!--<div id="cameras" class="ms-width-100-per ms-height-100-per  ms-layout-center-wrap-horizontal ">
-            <#if cameras??>
-                <#list cameras as item>
-                    <div id="a${item.id!}" class="cameraDiv c${item_index} ms-width-45-per ms-height-45-per"></div>
-                </#list>
-                <#else><h2>暂无摄像头</h2>
-            </#if>
-        </div>-->
     </div>
 </div>
 </body>
@@ -118,20 +108,6 @@
             $(".ccdiv").addClass("ms-width-50-per");
             $(".ccdiv").addClass("ms-height-100-per");
 
-
-            /*$("#cameras").removeClass("ms-layout-center-wrap-horizontal");
-            $("#cameras").removeClass("ms-height-100-per");
-            $("#root_div_2").removeClass("black");
-//            $("#cameras").addClass("ms-margin-top-8rem");
-            $("#cameras").css("margin-top",336);
-
-//            $("#cameras").addClass("ms-layout-nowrap-vertical");
-            $(".cameraDiv").removeClass("ms-width-45-per");
-            $(".cameraDiv").removeClass("ms-height-45-per");
-            $(".cameraDiv").css("height",height/2);
-            $(".cameraDiv").addClass("ms-margin-top-2rem");
-            $(".cameraDiv").addClass("ms-width-100-per");*/
-//            $(".c0").addClass("ms-margin-top-4rem");
         }
 
         if(oldTbmid == "NULL"){
@@ -243,7 +219,7 @@
 
             //when browser window closed, close the socket, to prevent server exception
             window.onbeforeunload = function () {
-                webSocket.close();
+//                webSocket.close();
                 // alert("onbeforeunload")
             }
         }

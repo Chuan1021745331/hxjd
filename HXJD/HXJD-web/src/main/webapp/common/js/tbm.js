@@ -22,7 +22,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	$("#phoneDiv").on("click",function () {
 		$(".UlDiv").toggle();
 	});
-	
 	/**
 	 * 底部菜单按钮
      */
@@ -31,7 +30,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		var atype = $(this).attr("atype");
         var url;
 		if(atype == 'camera'){
-			alert(atype);
             url = bpath+"/route/camera?tid=" + adata;
 		}
 		if(atype == 'main'){
