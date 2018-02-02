@@ -149,7 +149,12 @@
 			success:function(result){
 				var data = eval('('+result+')');
     			$.each(data, function(i, val){
-    				$("#items").append('<li style="color:white;">'+"【"+val.columns.name+"】 "+ val.columns.title +'</li>');  
+    			    //表示为news
+    			    if(val.columns.title!=null){
+                        $("#items").append('<li style="color:white;">'+"【"+val.columns.name+"】 "+ val.columns.title +'</li>');
+                    }else{
+                        $("#items").append('<li style="color:white;">'+"【维保记录】 "+ val.columns.circuitname+val.columns.worksitename+val.columns.tbmname +'</li>');
+					}
     			})
     			firstItem = $("#items").children().first();
     			lastItem = $("#items").children().last();

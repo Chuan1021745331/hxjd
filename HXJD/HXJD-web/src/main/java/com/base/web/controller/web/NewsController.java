@@ -63,43 +63,16 @@ public class NewsController extends BaseController {
 
 		String lastTbmrepair="";
 		String lastNews="";
-		while(true){
-			if(results.size()>=limit){
-				break;
-			}
-			if(newlist.size()==0){
-				if(trlist.size()>0){
-					results.add(trlist.get(0));
-					lastTbmrepair=DateUtil.format(newlist.get(0).getDate("createtime"),"yyyy-MM-dd HH:mm:ss");
 
-					trlist.remove(0);
-					continue;
-				}else{
-					break;
-				}
-			}
-			if(trlist.size()==0){
-				if(newlist.size()>0){
-					results.add(newlist.get(0));
-					lastNews=DateUtil.format(newlist.get(0).getDate("postTime"),"yyyy-MM-dd HH:mm:ss");
-					newlist.remove(0);
-					continue;
-				}else{
-					break;
-				}
-			}
-			Date postTime = newlist.get(0).getDate("postTime");
-			Date createtime = trlist.get(0).getDate("createtime");
-			//选择时间大的
-			if(postTime.compareTo(createtime)==1){
-				results.add(newlist.get(0));
-				lastNews=DateUtil.format(postTime,"yyyy-MM-dd HH:mm:ss");
-				newlist.remove(0);
-			}else{
-				results.add(trlist.get(0));
-				lastTbmrepair=DateUtil.format(createtime,"yyyy-MM-dd HH:mm:ss");
-				trlist.remove(0);
-			}
+		results=NewsService.me().getSortResult(newlist,trlist,limit);
+		Date lastChooseTbmrepair = NewsService.me().getLastChooseTbmrepair(results);
+		Date lastChooseNews = NewsService.me().getLastChooseNews(results);
+
+		if(lastChooseTbmrepair!=null){
+			lastTbmrepair=DateUtil.format(lastChooseTbmrepair,"yyyy-MM-dd HH:mm:ss");
+		}
+		if(lastChooseNews!=null){
+			lastNews=DateUtil.format(lastChooseNews,"yyyy-MM-dd HH:mm:ss");
 		}
 
 		setAttr("newsType", newsType);
@@ -125,45 +98,18 @@ public class NewsController extends BaseController {
 
         //按创建时间排序并分页取出
         List<Record> trlist = TbmrepairService.me().findTbmrepairltTime(lastTbmrepair,limit);
-		List<Record> results = new ArrayList<>();
 
-		while(true){
-			if(results.size()>=limit){
-				break;
-			}
-			if(newlist.size()==0){
-				if(trlist.size()>0){
-					results.add(trlist.get(0));
-					lastTbmrepair=DateUtil.format(newlist.get(0).getDate("createtime"),"yyyy-MM-dd HH:mm:ss");
-					trlist.remove(0);
-					continue;
-				}else{
-					break;
-				}
-			}
-			if(trlist.size()==0){
-				if(newlist.size()>0){
-					results.add(newlist.get(0));
-					lastNews=DateUtil.format(newlist.get(0).getDate("postTime"),"yyyy-MM-dd HH:mm:ss");
-					newlist.remove(0);
-					continue;
-				}else{
-					break;
-				}
-			}
-			Date postTime = newlist.get(0).getDate("postTime");
-			Date createtime = trlist.get(0).getDate("createtime");
-			//选择时间大的
-			if(postTime.compareTo(createtime)==1){
-				results.add(newlist.get(0));
-				lastNews=DateUtil.format(postTime,"yyyy-MM-dd HH:mm:ss");
-				newlist.remove(0);
-			}else{
-				results.add(trlist.get(0));
-				lastTbmrepair=DateUtil.format(createtime,"yyyy-MM-dd HH:mm:ss");
-				trlist.remove(0);
-			}
+		List<Record> results=NewsService.me().getSortResult(newlist,trlist,limit);
+		Date lastChooseTbmrepair = NewsService.me().getLastChooseTbmrepair(results);
+		Date lastChooseNews = NewsService.me().getLastChooseNews(results);
+
+		if(lastChooseTbmrepair!=null){
+			lastTbmrepair=DateUtil.format(lastChooseTbmrepair,"yyyy-MM-dd HH:mm:ss");
 		}
+		if(lastChooseNews!=null){
+			lastNews=DateUtil.format(lastChooseNews,"yyyy-MM-dd HH:mm:ss");
+		}
+
 		Map map=new HashMap();
 		map.put("results",results);
 		map.put("lastNews",lastNews);
@@ -183,8 +129,14 @@ public class NewsController extends BaseController {
 	}*/
 	
 	public void getIndexNews(){
-		List<Record> list =  NewsService.me().getIndexNews();
-		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+		List<Record> newlist =  NewsService.me().getIndexNews();
+		Integer limit=10;
+		//按创建时间排序并分页取出
+		List<Record> trlist = TbmrepairService.me().findTbmrepairltTime("",limit);
+
+		List<Record> results=NewsService.me().getSortResult(newlist,trlist,limit);
+
+		String str = JSON.toJSONStringWithDateFormat(results, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
 		renderText(str);
 		
 	}

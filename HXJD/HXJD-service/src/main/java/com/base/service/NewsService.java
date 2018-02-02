@@ -109,28 +109,40 @@ public class NewsService {
 	 * 将新闻集合和维保记录集合进行排序,并不超过10条记录
 	 * @param newlist
 	 * @param trlist
+	 * @param size
 	 * @return
 	 */
-	public List<Record> getSortResult(List<Record> newlist,List<Record> trlist){
+	public List<Record> getSortResult(List<Record> newlist,List<Record> trlist,Integer size){
 		List<Record> results = new ArrayList<>();
-		final int RESULTS_MAX_SIZE=10;
-		int listIndex=0,trListIndex=0;
-		while(true){
-			if(newlist.size()==0){
-				results.addAll(trlist);
-				break;
 
+		while(true){
+			if(results.size()>=size){
+				break;
+			}
+			if(newlist.size()==0){
+				if(trlist.size()>0){
+					results.add(trlist.get(0));
+					trlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
 			}
 			if(trlist.size()==0){
-				results.addAll(newlist);
-				break;
+				if(newlist.size()>0){
+					results.add(newlist.get(0));
+					newlist.remove(0);
+					continue;
+				}else{
+					break;
+				}
 			}
-			Date postTime = newlist.get(listIndex).getDate("postTime");
-			Date createtime = trlist.get(trListIndex).getDate("createtime");
+			Date postTime = newlist.get(0).getDate("postTime");
+			Date createtime = trlist.get(0).getDate("createtime");
 			//选择时间大的
 			if(postTime.compareTo(createtime)==1){
 				results.add(newlist.get(0));
-				newlist.remove(listIndex);
+				newlist.remove(0);
 			}else{
 				results.add(trlist.get(0));
 				trlist.remove(0);
@@ -138,4 +150,38 @@ public class NewsService {
 		}
 		return results;
 	}
+
+	/**
+	 * 取到选取的最后新闻
+	 * @param recordList
+	 * @return
+	 */
+	public Date getLastChooseNews(List<Record> recordList){
+		for(int i=recordList.size()-1;i>=0;i--){
+			Record record = recordList.get(i);
+			Date postTime = record.getDate("postTime");
+			if(postTime!=null){
+				return postTime;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 取到选取的最后维保记录
+	 * @param recordList
+	 * @return
+	 */
+	public Date getLastChooseTbmrepair(List<Record> recordList){
+		for(int i=recordList.size()-1;i>=0;i--){
+			Record record = recordList.get(i);
+			Date createtime = record.getDate("createtime");
+			if(createtime!=null){
+				return createtime;
+			}
+		}
+		return null;
+	}
+
+
 }
