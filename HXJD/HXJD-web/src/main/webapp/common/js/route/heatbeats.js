@@ -11,11 +11,6 @@ $().ready(function(){
 })
 
 
-// function choosenCam(id)
-// {
-//     camId = id;
-// }
-
 function initWebSocket(url) {
     if ('WebSocket' in window) {
         webSocket = new WebSocket(url);
@@ -30,7 +25,6 @@ function initWebSocket(url) {
 
     //socket opened callback
     webSocket.onopen = function (event) {
-        alert("open");
         initSend();
         // webSocket.send("#init#" + camId);
        /* sendActivedCam2Server("#init#");
@@ -48,7 +42,6 @@ function initWebSocket(url) {
     };
 
     webSocket.onclose = function () {
-        alert("onclose")
     };
 
     //when browser window closed, close the socket, to prevent server exception

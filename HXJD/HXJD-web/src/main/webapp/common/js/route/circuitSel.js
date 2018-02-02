@@ -8,6 +8,7 @@ layui.use(['form','layer','element'], function(){
     element.on('test', function(data){
         layer.msg('展开状态：'+ data.show);
     });
+
     /*工点按钮事件*/
     $(".wbutton").on("click",function () {
         var adata = $(this).attr("wdata");

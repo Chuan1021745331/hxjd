@@ -58,6 +58,9 @@ layui.use(['form','layer','element'], function() {
 
     var jsonObj = "NULL";
 
+    /**
+     * 初始化获取数据
+     */
     function initAjax() {
         $.ajax({
             url: bpath + "/mainData",
