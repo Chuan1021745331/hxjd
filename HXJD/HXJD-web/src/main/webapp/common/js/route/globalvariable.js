@@ -3,4 +3,8 @@
  * 公共变量
  */
 var oldTbmid="NULL";
-var newTbmid="NULL"
+//摄像头websocket地址
+var webSocketAddress = {
+    cameraAddress:"192.168.0.192:28080",
+    tbmAddress:""
+};

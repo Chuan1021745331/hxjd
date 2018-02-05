@@ -1,6 +1,7 @@
 var webSocket = null;
-// var webSocketUrl = "ws://localhost:10105/videoPlayCheck";
-var webSocketUrl = "ws://192.168.0.192:28080/HeartBeat.ws";
+// var webSocketHost = window.location.host;//todo 部署的时候改为这个
+var webSocketHost = webSocketAddress.cameraAddress;
+var webSocketUrl = "ws://"+webSocketHost+"/HeartBeat.ws";
 var camId = "001";
 
 $().ready(function(){
