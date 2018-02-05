@@ -25,7 +25,7 @@
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div id="root_div">
     <div id="root_div_2" class="ms-width-100-per ms-height-100-per  ms-layout-center-horizontal ms-scrollbar-black" style="overflow: scroll">
-        <div id="a1_div" class="ms-width-85-per ms-height-100-per">
+        <div id="a1_div" class="ms-width-85-per ms-height-90-per">
             <div id="a1" class="cameraDiv ms-width-100-per ms-height-100-per"></div>
         </div>
         <div id="cameras" class="ms-width-15-per ms-height-40-per ms-margin-left-1rem ms-layout-nowrap-vertical z-depth-2">
@@ -160,8 +160,9 @@
         }
         /*ckplayer播放*/
         function playCamera(rtmp,num) {
+//            alert(b)
             var width = $("#a"+num).width()*1;
-            var height = $("#a"+num).height()*b;//todo手機和電腦噸適配
+            var height = $("#a"+num).height()*1;//todo手機和電腦噸適配
 //            var width = $("#a"+num).width()*0.8;
 //            var height = $("#a"+num).height()*0.95;
             /*alert(width)*/
