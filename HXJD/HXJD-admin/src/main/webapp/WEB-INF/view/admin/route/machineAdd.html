@@ -189,13 +189,32 @@ active_id="dashboard">
         /*绘制tag*/
         function creatMaker(x,y) {
             marker = new AMap.Marker({
-                icon: "${CPATH}/images/tbm/tbm2.png",
+                /*icon: new AMap.Icon({
+                    size: new AMap.Size(40, 50),  //图标大小
+                    image: "${CPATH}/images/tbm/tbm2.png",
+                    imageOffset: new AMap.Pixel(0, -60)
+                }),*/
+                icon: "${CPATH}/images/tbm/tbm02.png",
+//                offset: new AMap.Pixel(-8,0),
                 draggable:true,
                 cursor: 'move',
-                raiseOnDrag: true,
+//                raiseOnDrag: true,
                 position: [x, y]
+
+
+//                map: map,
+//                position: [x, y],
+//                icon: new AMap.Icon({
+//                    size: new AMap.Size(40, 50),  //图标大小
+//                    image: "http://webapi.amap.com/theme/v1.3/images/newpc/way_btn2.png",
+//                    imageOffset: new AMap.Pixel(-20, -40)
+//                })
             });
-//            marker.on('mouseover', infoWindowOpen);
+            marker.on("dragend", function (e) {
+                var x = e.lnglat.getLng();
+                var y = e.lnglat.getLat();
+                setAddPoints(x,y,"NULL");
+            });
             marker.setMap(map);
             setAddPoints(x,y,"NULL");
         }

@@ -22,6 +22,7 @@ layui.use(['form','layer'], function() {
         }
 
         $(".tbmiframe").attr("src", url);
+        return false;
     })
 })
 /**

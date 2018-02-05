@@ -211,10 +211,17 @@ active_id="dashboard">
         /*绘制tag*/
         function creatMaker(x,y,order) {
             marker = new AMap.Marker({
-                icon: "${CPATH}/images/tbm/tbm2.png",
-                draggable:false,
+                icon: "${CPATH}/images/tbm/tbm02.png",
+                draggable:true,
+                cursor: 'move',
+//                offset: new AMap.Pixel(3,-6),
 //                raiseOnDrag: true,
                 position: [x, y]
+            });
+            marker.on("dragend", function (e) {
+                var x = e.lnglat.getLng();
+                var y = e.lnglat.getLat();
+                setAddPoints(x,y,"NULL");
             });
             marker.setMap(map);
             if(order != "init"){

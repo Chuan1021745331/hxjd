@@ -100,6 +100,7 @@ layui.use(['form','layer','element'], function() {
                 }
             }
         }
+        map.setFitView();
     }
 
 
@@ -222,8 +223,8 @@ layui.use(['form','layer','element'], function() {
     /*绘制tag*/
     function creatMaker(x, y, tname,tid) {
         marker = new AMap.Marker({
-            icon: ctx + "/images/tbm/tbm2.png",
-//                draggable:true,//拖拽
+            icon: ctx + "/images/tbm/tbm02.png",
+               draggable:true,//拖拽
             position: [x, y]
         });
         marker.content = tname;
@@ -232,6 +233,10 @@ layui.use(['form','layer','element'], function() {
         marker.on('click', function(){
             markerClick(tid);
         });
+        /*marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+            offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+            content: tname
+        });*/
         marker.setMap(map);
         setAddPoints(x, y, "NULL");
     }
