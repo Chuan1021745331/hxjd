@@ -18,6 +18,7 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.NewsService;
 import com.base.service.UserService;
+import com.base.utils.AttachmentUtils;
 import com.base.utils.CookieUtils;
 import com.base.utils.DateUtils;
 import com.base.utils.StringUtils;
@@ -69,13 +70,20 @@ public class NewsController extends BaseController {
 	}
 	
 	public void addSave(){
-		//UploadFile upfile = getFile("attachment");
+		UploadFile upfile = getFile("attachment");
 		//upfile.getFile();
 		JNews news = getBean(JNews.class);
+		if(null != upfile){
+			String prefix = "news";
+			String path = AttachmentUtils.moveFile(upfile,prefix);
+			news.setAttachment(path);
+		}
+		
+		
 		
 		String typeName = getPara("typeName");
 		if(StringUtils.isNotEmpty(typeName)){			
-			JNewstype newsType =  NewsService.me().saveNewsType(typeName);
+			JNewstype newsType =  NewsService.me().saveNewsType(typeName, new Integer(1));
 			if(null != newsType){
 				news.setType(newsType.getId());
 			} else {
@@ -102,7 +110,9 @@ public class NewsController extends BaseController {
 	public void edit(){
 		Integer id =  getParaToInt("id");
 		Record news = NewsService.me().getById(id);
+		List<JNewstype> type =  NewsService.me().getNewsType();
 		setAttr("news", news);
+		setAttr("type", type);
 		render("edit.html");
 	}
 	

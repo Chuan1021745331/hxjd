@@ -18,8 +18,11 @@
     <label class="layui-form-label">类型</label>
     <div class="layui-input-inline" style="width:40%;">
       <select name="jNews.type" lay-verify="" required  lay-verify="required">
-      	<option value="1" <#if news.type == 1>selected</#if> >新闻</option>
-      	<option value="2" <#if news.type == 2>selected</#if> >公告</option>
+      	<#if type??>		
+    		<#list type as bean>
+    			<option value="${bean.id!}" <#if bean.id=news.type>selected</#if>>${bean.name!}</option>   
+    		</#list>    	
+    	</#if>
       </select>	
     </div>
   </div>
@@ -44,6 +47,7 @@
 		var form = layui.form,
 			common = layui.common;
 		common.formAjaxSubmit('formDemo','form',bpath+'/admin/news/editSave');
+		form.render();
 		
 		var editor = null;
 		editor = KindEditor;

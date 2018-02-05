@@ -100,8 +100,8 @@ public class NewsService {
 	public List<Record> getByTag(Integer id){
 		return NewsQuery.me().getByTag(id);
 	}
-	public JNewstype saveNewsType(String name){		
-		return NewsTypeQuery.me().saveByName(name);
+	public JNewstype saveNewsType(String name, Integer type){		
+		return NewsTypeQuery.me().saveByName(name, type);
 	}
 	
 

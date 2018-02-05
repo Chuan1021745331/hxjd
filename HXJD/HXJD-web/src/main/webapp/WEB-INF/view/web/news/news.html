@@ -113,9 +113,12 @@
 				//手机页面
 				window.location = "${BPATH}/news/getNewsById?id="+id;
 			} else {
-				var scrollTop = window.screen.availHeight;
-				var area=['1366px', '768px'];
-				var height=Math.ceil(scrollTop*0.8);
+				var windowHeight = window.screen.availHeight;
+				var windowWidth = window.screen.availWidth;
+
+				var height = Math.ceil(windowHeight*0.71);
+				var width = Math.ceil(windowWidth*0.71);
+				var area = [width+'px',height+"px"];
 				var index = parent.layer.open({
 		            id:"news-sel",
 		            type: 2 ,
@@ -142,7 +145,8 @@
 	}),
 	$("#newsCard").on("click",".tbmrepair-item",function () {
         var id=$($(this).find(".id")[0]).html();
-        var area=['700px', '550px'];
+        //var area=['700px', '550px'];
+        var area = [Math.ceil(window.screen.availWidth*0.71)+'px',Math.ceil(window.screen.availHeight*0.71)+'px']
         var device = layui.device();
         // var scrollTop = $(window).height();
         var scrollTop = window.screen.availHeight;

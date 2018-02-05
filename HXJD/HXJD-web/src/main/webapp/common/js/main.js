@@ -19,7 +19,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		client = "phone";
 		$("#bigDiv").insertAfter($("#anchorI"));
 		bigDivW = parent.$("#zero_tab_content").outerWidth();
-		drawCircle(0,bigDivW,zero_tab_contentH);
+		console.log("bigDivW: "+bigDivW);
+		drawCircle(0,bigDivW-10,zero_tab_contentH);
 	}else{
 		client = "pc";
 		if(zero_tab_contentW<1024){
@@ -241,7 +242,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	//console.log(path);
 	ws1 = new WebSocket("ws://" + window.location.host + "/web/IndexWebsocketTest.ws");
 	ws1.onopen = function(event) {
-     		console.log("websocket ws1 has been opened!");  
+     		console.log("websocket ws1 has been opened!");
      		ws1.send("1");
      		
     };

@@ -1,6 +1,6 @@
 <#include "../../_include/_layout.inc.tag"/> 
 <@layout active_id="dashboard">
-<form class="layui-form" id="form" action="" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+<form class="layui-form" id="newsform" action="" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
   <div class="layui-form-item">
     <label class="layui-form-label">标题</label>
     <div class="layui-input-inline" style="width:40%;">
@@ -18,7 +18,7 @@
     <div id="type">
     	<#if newsType??>
     		<#list newsType as bean>
-    			<input type="radio" name="jNews.type" value="${bean.id!}" title="${bean.name!}">
+    			<input class="newsType" type="radio" name="jNews.type" value="${bean.id!}" title="${bean.name!}" lay-filter="newsType">
     		</#list>    	
     	</#if>
 		
@@ -33,29 +33,12 @@
       <input type="file" id="attachment" name="attachment">
     </div>
   </div>
-<!--   <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline" >
-      <textarea name="jOption.remark" placeholder="请输入参数说明" class="layui-textarea"></textarea>
-    </div>
-  </div> -->
-  
-<!--   <div class="layui-form-item">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline">
-      <input type="text" name="jOption.remark" placeholder="请输入参数说明" autocomplete="off" class="layui-input">
-    </div>
-  </div> -->
   <div class="layui-form-item">
     <div class="layui-input-block">
-      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button id="sub" class="layui-btn" type="" lay-submit lay-filter="formDemo">立即提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
-  
-
-  
-  
   
 </form>
 <!-- ///HXJD-web/src/main/webapp/common/plus/kindeditor/kindeditor-all-min.js -->
@@ -65,8 +48,7 @@
 	layui.use(['form','common'], function() {
 		var form = layui.form,
 			common = layui.common;
-		form.render();
-		common.formAjaxSubmit('formDemo','form',bpath+'/admin/news/addSave');
+		form.render();		
 		
 		var editor = null;
 		editor = KindEditor;
@@ -81,30 +63,102 @@
 			allowFileManager : true,
 			afterBlur: function(){this.sync();}
 		});
+		//新增类型弹出框
 		$("#addType").unbind("click").click(function(){
-			//alert("click");
 			var type;
 			layer.open({
 				  title: '新增类型'
 				  ,content: '<form class="layui-form" id="form"><div class="layui-form-item"><label class="layui-form-label">类型名称</label><div class="layui-input-inline"><input id="addItem" type="text" class="layui-input" style="width:50%;"></div></div>'
 				  ,yes: function(index, layero){
 						 type=$("#addItem").val();						 
-						 console.log("type: " + type);
+						 //console.log("type: " + type);
 						 if(null!=type && typeof(type) != "undefined" && type!="" ){
-							 $("#type").append('<input type="radio" name="typeName" value="'+type+'" title="'+type+'">'); 
+							 $("#type").append('<input type="radio" name="typeName" lay-filter="addType" value="'+type+'" title="'+type+'">'); 
 								form.render();
 								layer.close(index); //如果设定了yes回调，需进行手工关闭
 						 } else {
 							 layer.alert('类型不能为空!');
-						 }
-						 
+						 }						 
 				   }	
-			});   
-			
-			
+			});   			
 		}) 
 		
-	});
-	
+		//type,type不能多选
+		form.on('radio(newsType)', function(data){
+			if($('input:radio[name=typeName]').length>0){
+				$('input:radio[name=typeName]').each(function(index, el){
+					el.checked = false;
+				})
+				form.render('radio');
+			}
+			
+		})
+		form.on('radio(addType)', function(data){
+			$('input:radio[name="jNews.type"]').each(function(index, el){
+				el.checked = false;
+			})
+			form.render('radio');
+		})
+		
+		//FormData上传文件
+		form.on('submit(formDemo)', function(data) { 
+			//验证数据
+			//type,typeName
+			var type = $('input:radio[name="type"]:checked').val();
+			var typeName = $('input:radio[name="typeName"]:checked').val();
+			if((null == type || typeof(type) == "undefined") && (null == typeName || typeof(typeName) == "undefined")){
+				top.parent.MSG(3, "请选择或新建类型！！");
+				return false; 
+			}
+			
+			$.ajax({ 
+				url : '${BPATH}/admin/news/addSave/', 
+				type : 'POST', 
+				data : new FormData($('#newsform')[0]),
+				// 告诉jQuery不要去处理发送的数据
+				processData : false, 
+				// 告诉jQuery不要去设置Content-Type请求头
+				contentType : false,
+				dataType: "json",
+				success: function(json) {
+					if(json.errorCode==0){
+						top.parent.MSG(4,  json.message);
+						if(typeof(parent.t) != "undefined"){
+							parent.t.reload({
+				   	     			page: {
+				   	     		        curr: page //重新从第 1 页开始
+				   	     		    },
+				   	     			where: { //设定异步数据接口的额外参数，任意设
+				   	     				menuId: where
+				   	     			}
+			   	        		})
+						}
+						if(parent.treeNode_ != null){
+							if(parent.treeType==1){
+								parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+							}else if(parent.treeType==2){
+								var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+								node.name=json.data.name;
+								parent.zTree.updateNode(node);
+							}
+							
+							parent.treeNode_ = null;
+							parent.treeType = 0;
+						}
+						
+							var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			   				parent.layer.close(index); //再执行关闭
+					}else{
+						top.parent.MSG(3,  json.message);
+					}
+	    		},
+	    		error: function (json){
+	    			top.parent.MSG(3, "数据提交异常");
+	    		}					    		
+			})
+			return false;
+		})		
+ 	 });		
+		
 </script>
 </@layout>
