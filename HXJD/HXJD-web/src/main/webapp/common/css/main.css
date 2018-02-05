@@ -77,7 +77,20 @@
 	color: #000 !important;
 	font-size: 13px;
 }
-
+#fold-chart{
+	top: 60px;
+	width: 20px;
+	right: 360px;
+	padding: 6px;
+	overflow-x: hidden;
+	position: fixed;
+	z-index: 998;
+	background-color: #E9ECF1 !important;
+	border-left: 1px solid #ccc !important;
+	color: #000 !important;
+	font-size: 13px;
+	box-shadow: 0px 0px 10px #000
+}
 .layui-side-chart {
 	top: 60px;
 	width: 360px;

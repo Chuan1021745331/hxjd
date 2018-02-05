@@ -159,7 +159,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
     });
 
     $("#more-news").click(function () {
-    	var width=$("#left-menu-chart").width();
+    	// var width=$("#left-menu-chart").width();
+    	var width=360;
     	var height=$("#left-menu-chart").height();
     	console.log("width"+width);
     	console.log("height"+height);
@@ -184,6 +185,24 @@ layui.use(['jquery', 'layer', 'element'], function() {
                 },500)
             }
         });
+    });
+    $("#fold-chart").click(function () {
+        var chartRight=0;
+        var floadRight=360;
+        console.log("右侧"+$("#left-menu-chart").css("right"));
+        if($("#left-menu-chart").css("right")=='0px'){
+            chartRight=-360;
+            floadRight=0;
+            $(this).find("i").html("&#xe65a;")
+        }else{
+            $(this).find("i").html("&#xe65b;")
+        }
+        $("#left-menu-chart").animate({
+            right:chartRight+"px"
+        },1000);
+        $(this).animate({
+            right:floadRight+"px"
+        },1000);
     });
     
 });
