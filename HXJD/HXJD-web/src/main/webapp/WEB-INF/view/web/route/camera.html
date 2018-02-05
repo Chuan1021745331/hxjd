@@ -24,33 +24,36 @@
 <body>
 <input id="ckpalyer_swf" type="hidden" value="${CPATH}/ckplayer/ckplayer.swf"/>
 <div id="root_div">
-    <div id="root_div_2" class="ms-width-100-per ms-height-100-per  ms-layout-center-horizontal ms-scrollbar-black" style="overflow: scroll">
-        <div id="a1_div" class="ms-width-85-per ms-height-90-per">
-            <div id="a1" class="cameraDiv ms-width-100-per ms-height-100-per"></div>
+    <div id="root_div_2" class="ms-width-100-per ms-height-100-per ms-layout-nowrap-vertical  ms-scrollbar-black" style="overflow: scroll">
+        <div class="ms-layout-wrap-vertical-no-justify-content">
+            <div id="a1_div" class="ms-width-85-per ms-height-90-per " style="width: 600px;height: 400px;">
+                <div id="a1" class="cameraDiv ms-width-100-per ms-height-100-per" style="width: 600px;height: 400px;"></div>
+            </div>
+            <div id="cameras" class="ms-width-15-per ms-height-40-per  ms-layout-center-horizontal z-depth-2 " style="width: 600px;height: 200px;">
+                <#if cameras??>
+                    <div id="cdiv1" class="cdiv ms-width-100-per ms-height-50-per  ms-layout-nowrap-vertical">
+                        <#list cameras as item>
+                            <#if item_index lt 2>
+                                <div id="ccdiv${item_index}" class=" ccdiv ms-width-60-per ms-height-30-per ">
+                                    <button id="b1${item_index}" class="<#if item_index==0>layui-btn-warm</#if>  layui-btn-primary ms-width-100-per ms-height-100-per  cameraButton" cdata = "${item.rtsp!}" >摄像头${item_index+1}（${item.name!}）</button>
+                                </div>
+                            </#if>
+                        </#list>
+                    </div>
+                    <div id="cdiv2" class="cdiv ms-width-100-per ms-height-50-per ms-layout-nowrap-vertical">
+                        <#list cameras as item>
+                            <#if item_index gt 1>
+                                <div id="ccdiv2${item_index}" class=" ccdiv ms-width-60-per ms-height-30-per  ">
+                                    <button id="b2${item_index}" class="<#if item_index==0>layui-btn-warm</#if>  layui-btn-primary ms-width-100-per ms-height-100-per  cameraButton" cdata = "${item.rtsp!}" >摄像头${item_index+1}（${item.name!}）</button>
+                                </div>
+                            </#if>
+                        </#list>
+                    </div>
+                    <#else><h2>暂无摄像头</h2>
+                </#if>
+            </div>
         </div>
-        <div id="cameras" class="ms-width-15-per ms-height-40-per ms-margin-left-1rem ms-layout-nowrap-vertical z-depth-2">
-            <#if cameras??>
-                <div id="cdiv1" class="cdiv ms-width-100-per ms-height-50-per  ms-layout-nowrap-vertical">
-                <#list cameras as item>
-                    <#if item_index lt 2>
-                        <div id="ccdiv${item_index}" class=" ccdiv ms-width-60-per ms-height-25-per ">
-                            <button class="<#if item_index==0>layui-btn-warm</#if>  layui-btn-primary ms-width-100-per ms-height-100-per  cameraButton" cdata = "${item.rtsp!}" >摄像头${item_index+1}（${item.name!}）</button>
-                        </div>
-                    </#if>
-                </#list>
-                </div>
-                <div id="cdiv2" class="cdiv ms-width-100-per ms-height-50-per  ms-layout-nowrap-vertical">
-                    <#list cameras as item>
-                        <#if item_index gt 1>
-                            <div id="ccdiv2${item_index}" class=" ccdiv ms-width-60-per ms-height-25-per  ">
-                                <button class="<#if item_index==0>layui-btn-warm</#if>  layui-btn-primary ms-width-100-per ms-height-100-per  cameraButton" cdata = "${item.rtsp!}" >摄像头${item_index+1}（${item.name!}）</button>
-                            </div>
-                        </#if>
-                    </#list>
-                </div>
-                <#else><h2>暂无摄像头</h2>
-            </#if>
-        </div>
+
 
     </div>
 </div>
@@ -82,31 +85,51 @@
         var b = 0.95;
         if(device.android || device.ios){
             b = 1;
-            var height = $(window).height()-112;
+//            var height = $(window).height()-112;
+            var height = $(window).height();
+            var width = $(window).width();
             $("#root_div_2").removeClass("ms-layout-center-horizontal");
             $("#root_div_2").removeClass("ms-layout-nowrap-vertical");
             $("#a1_div").removeClass("ms-width-85-per");
             $("#a1_div").removeClass("ms-height-100-per");
+            $("#a1_div").css("width",width);
+            $("#a1_div").css("height",width);
             $("#a1_div").addClass("ms-width-100-per");
             $("#a1_div").addClass("ms-height-60-per");
+
+            $("#a1").css("width",width);
+            $("#a1").css("height",width);
+
             $("#cameras").removeClass("ms-width-15-per");
             $("#cameras").removeClass("ms-margin-left-1rem");
-//            $("#cameras").removeClass("ms-layout-wrap-vertical");
+            $("#cameras").removeClass("ms-layout-center-horizontal");
             $("#cameras").removeClass("z-depth-2");
             $("#cameras").removeClass("ms-height-40-per");
 
+            $("#cameras").css("width","");
+            $("#cameras").css("height",height-width);
+
             $("#cameras").addClass("ms-height-40-per");
+            $("#cameras").addClass("ms-layout-nowrap-vertical");
 //            $("#cameras").addClass("debug");
             $("#cameras").addClass("ms-width-100-per");
-            $("#cameras").addClass("ms-margin-top-1rem");
+//            $("#cameras").addClass("ms-margin-top-1rem");
 //            $("#cameras").addClass("ms-layout-center-wrap-horizontal");
             $(".cdiv").removeClass("ms-layout-nowrap-vertical");
             $(".cdiv").addClass("ms-layout-center-horizontal");
+//            $(".cdiv").addClass("ms-height-50-per");
+            $(".ccdiv").css("height","100%");
 
             $(".ccdiv").removeClass("ms-width-60-per");
             $(".ccdiv").removeClass("ms-height-25-per");
             $(".ccdiv").addClass("ms-width-50-per");
             $(".ccdiv").addClass("ms-height-100-per");
+
+            $("#b10").css("border-right","0");
+            $("#b22").css("border-right","0");
+            $("#b22").css("border-top","0");
+
+            $("#b23").css("border-top","0");
 
         }
 
