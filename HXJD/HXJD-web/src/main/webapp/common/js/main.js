@@ -239,7 +239,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	//var bpath = ${BPATH};
 	//var path =  window.location.host;
 	//console.log(path);
-	ws1 = new WebSocket("ws://" + window.location.host + "/HXJD-web/IndexWebsocketTest.ws");
+	ws1 = new WebSocket("ws://" + window.location.host + "/web/IndexWebsocketTest.ws");
 	ws1.onopen = function(event) {
      		console.log("websocket ws1 has been opened!");  
      		ws1.send("1");

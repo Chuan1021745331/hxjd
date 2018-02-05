@@ -41,7 +41,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#menuDiv").remove();
 		$("#userDiv").remove();
 		$("#pcDiv").removeClass("displayNone");
-		resizeSize(200,60,360);
+		resizeSize(180,60,360);
 	}
 	function resizeSize(left,size,width) {
 		$(window).on('resize', function() {

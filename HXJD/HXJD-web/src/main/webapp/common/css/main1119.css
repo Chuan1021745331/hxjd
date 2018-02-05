@@ -106,7 +106,7 @@ html, body {
 .button-group {
 	position: absolute;
 	bottom: 0px;
-	left: -10px;
+	left: 0px;
 	font-size: 12px;
 	padding: 10px;
 }

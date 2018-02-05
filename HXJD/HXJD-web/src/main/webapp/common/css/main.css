@@ -57,9 +57,11 @@
 	font-size: 16px;
 	line-height: 60px;
 }
-
-.layui-side-scroll {
-	width: 200px;
+.layui-layout-admin .layui-side{
+	width: 180px;
+}
+.layui-side-scroll,.layui-nav-tree {
+	width: 180px;
 }
 
 .layui-side-right {
@@ -139,6 +141,7 @@
 
 .layui-layout-admin .layui-body {
 	top: 60px;
+	left: 180px;
 }
 
 /* .layui-layout-admin .layui-body { */
