@@ -333,12 +333,16 @@ function drawChart() {
 
 
 function newsScroll(){
+	var height = $("#items").children().first().height();
+	if($("#items").children().length<0){
+		return false;
+	}
 	if(flag){//向上滚动
 		if(itemIndex == 1){
 			flag = false;
 			itemIndex = $("#items").children().size();
 		} else {
-			firstItem.animate({marginTop:"-=19px"});			
+			firstItem.animate({marginTop:"-="+height+"px"});			
 			itemIndex = itemIndex - 1;
 		}
 	} else {//向下滚动
@@ -346,7 +350,7 @@ function newsScroll(){
 			flag = true;
 			itemIndex = $("#items").children().size();
 		} else {
-			firstItem.animate({marginTop:"+=19px"});			
+			firstItem.animate({marginTop:"+="+height+"px"});			
 			itemIndex = itemIndex - 1;
 		}
  		
