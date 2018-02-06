@@ -9,6 +9,7 @@ import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.CameraService;
 import com.base.service.CircuitService;
+import com.base.service.TbmService;
 import com.base.service.WorkSiteService;
 
 import java.util.List;
@@ -68,7 +69,13 @@ public class RouteController extends BaseController {
      */
     public void tbm(){
         Integer tid = getParaToInt("tid");
+        List<JCamera> cameras = CameraService.me().findCamerasByTbmId(tid);
+        int hasCamera = 0;
+        if(cameras != null && cameras.size() > 0){
+            hasCamera = 1;
+        }
         setAttr("tbmid",tid);
+        setAttr("hascamera",hasCamera);
         render("tbm.html");
     }
 

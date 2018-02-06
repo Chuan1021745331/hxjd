@@ -38,7 +38,9 @@
 			<li><a href="">报警状态</a></li>
 			<li><a href="">累计量</a></li>
 			<li><a href="">历史记录</a></li>
-			<li style="border: none;"><a href="${BPATH}/route/camera?tid=${tbmid!}" adata="${tbmid!}" target="zero_tab_content">摄像头</a></li>
+			<#if hascamera gt 0>
+				<li style="border: none;"><a href="${BPATH}/route/camera?tid=${tbmid!}" adata="${tbmid!}" target="zero_tab_content">摄像头</a></li>
+			</#if>
 		</ul>
 	</div>
 		
@@ -55,7 +57,9 @@
 			<li class="layui-col-sm1 layui-col-md1"><a href="">报警状态</a></li>
 			<li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
 			<li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/camera?tid=${tbmid!}" target="zero_tab_content" >摄像头</a></li>
+			<#if hascamera gt 0>
+				<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/camera?tid=${tbmid!}" target="zero_tab_content" >摄像头</a></li>
+			</#if>
 		</ul>
 	</div>
 	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
