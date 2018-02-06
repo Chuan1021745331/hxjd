@@ -141,11 +141,6 @@
         </dependency>
  
         <dependency>
-            <groupId>org.directwebremoting</groupId>
-            <artifactId>dwr</artifactId>
-            <version>3.0.2-RELEASE</version>
-        </dependency>
-        <dependency>
             <groupId>com.jfinal</groupId>
             <artifactId>cos</artifactId>
             <version>26Dec2008</version>
