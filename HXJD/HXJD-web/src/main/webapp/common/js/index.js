@@ -208,25 +208,26 @@ layui.use(['jquery', 'layer', 'element'], function() {
     $("#fold-chart").click(function () {
         var chartRight=0;
         var floadRight=360;
+        var time=500;
         if($("#left-menu-chart").css("right")=='0px'){
             chartRight=-361;
             floadRight=0;
             $(this).find("i").html("&#xe65a;")
             $('#zero_tab_content').animate({
                 width:"+=360px"
-            },1000);
+            },time);
         }else{
             $(this).find("i").html("&#xe65b;");
             $('#zero_tab_content').animate({
                 width:"-=360px"
-            },1000);
+            },time);
         }
         $("#left-menu-chart").animate({
             right:chartRight+"px"
-        },1000);
+        },time);
         $(this).animate({
             right:floadRight+"px"
-        },1000);
+        },time);
     });
     $(window).resize(function() {
         var width=360;
