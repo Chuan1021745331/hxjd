@@ -21,14 +21,18 @@
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>jfinal-weixin</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>com.base</groupId>
 			<artifactId>HXJD-utils</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.base</groupId>
+			<artifactId>HXJD-im</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -73,12 +77,6 @@
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -137,20 +135,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.directwebremoting</groupId>
-			<artifactId>dwr</artifactId>
-			<version>3.0.2-RELEASE</version>
-		</dependency>
-		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>cos</artifactId>
 			<version>26Dec2008</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!--             <groupId>com.baidu</groupId> -->
-<!--             <artifactId>ueditor</artifactId> -->
-<!--             <version>1.1.2</version> -->
-<!--         </dependency> -->
+		
         <dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
