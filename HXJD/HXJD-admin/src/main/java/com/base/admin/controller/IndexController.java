@@ -17,8 +17,9 @@ import com.base.utils.SystemUtils;
 import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.aop.Clear;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.util.ThreadUtil;
-import com.xiaoleilu.hutool.util.ZipUtil;
+
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.ZipUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

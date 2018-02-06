@@ -161,8 +161,8 @@
         </dependency>
         
         <dependency>
-            <groupId>com.xiaoleilu</groupId>
-            <artifactId>hutool-all</artifactId>
+           	<groupId>cn.hutool</groupId>
+		   	<artifactId>hutool-all</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
