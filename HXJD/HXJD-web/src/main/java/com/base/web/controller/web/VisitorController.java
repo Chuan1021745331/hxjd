@@ -1,21 +1,15 @@
 package com.base.web.controller.web;
 
-import com.alibaba.fastjson.JSON;
 import com.base.constants.Consts;
 import com.base.core.BaseController;
-import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JDepartment;
 import com.base.model.JVisitor;
-import com.base.query.VisitorQuery;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.DepartmentService;
 import com.base.service.VisitorService;
 import com.base.utils.CookieUtils;
-import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Record;
-import com.jfinal.upload.UploadFile;
-
 import java.util.ArrayList;
 import java.util.List;
 

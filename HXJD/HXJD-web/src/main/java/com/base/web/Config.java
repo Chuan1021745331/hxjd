@@ -3,7 +3,6 @@ package com.base.web;
 import com.base.core.JBase;
 import com.base.core.JBaseConfig;
 import com.base.core.db.DbDialectFactory;
-import com.base.im.server.IMServerStarter;
 import com.base.interceptor.WebInterceptor;
 import com.base.query.OptionQuery;
 import com.base.utils.StringUtils;
