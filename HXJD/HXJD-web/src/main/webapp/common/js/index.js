@@ -30,7 +30,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#left-menu").css("bottom","52px");
 		$("right-user").css("bottom","52px");
 		resizeSize(0,112,0);
-		
+		$("#fold-chart").remove();
 		$("#items").css("display","none");
 		
 	}else{
@@ -41,7 +41,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#menuDiv").remove();
 		$("#userDiv").remove();
 		$("#pcDiv").removeClass("displayNone");
-		resizeSize(180,60,360);
+		$("#fold-chart").removeClass("displayNone");
+		resizeSize(180,60,0);
 	}
 	function resizeSize(left,size,width) {
 		$(window).on('resize', function() {
@@ -158,6 +159,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
         });
     });
 
+    var moreNewsIndex=0;
     $("#more-news").click(function () {
     	// var width=$("#left-menu-chart").width();
     	var width=360;
@@ -165,7 +167,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
     	console.log("width"+width);
     	console.log("height"+height);
         var area=[width+'px', height+'px'];
-        var index = layer.open({
+        moreNewsIndex = layer.open({
             id:"more-news-list",
             type: 2 ,
             title: '今日头条',
@@ -183,15 +185,21 @@ layui.use(['jquery', 'layer', 'element'], function() {
                         tips: 3
                     });
                 },500)
+            },
+            end : function(){
+                moreNewsIndex=0;
+                console.log("endindex值"+moreNewsIndex);
             }
         });
     });
+    /**
+	 * 图表缩进
+     */
     $("#fold-chart").click(function () {
         var chartRight=0;
         var floadRight=360;
-        console.log("右侧"+$("#left-menu-chart").css("right"));
         if($("#left-menu-chart").css("right")=='0px'){
-            chartRight=-360;
+            chartRight=-361;
             floadRight=0;
             $(this).find("i").html("&#xe65a;")
         }else{
@@ -203,6 +211,16 @@ layui.use(['jquery', 'layer', 'element'], function() {
         $(this).animate({
             right:floadRight+"px"
         },1000);
+    });
+    $(window).resize(function() {
+        var width=360;
+        var height=$(window).height()-60;
+    	if(moreNewsIndex!=0){
+            layer.style(moreNewsIndex, {
+                width: width+'px',
+                height: height+'px'
+            });
+        }
     });
     
 });
