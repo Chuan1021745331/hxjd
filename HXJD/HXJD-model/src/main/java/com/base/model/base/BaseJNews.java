@@ -22,9 +22,7 @@ public abstract class BaseJNews<M extends BaseJNews<M>> extends JModel<M> implem
 	public static final String ACTION_UPDATE = "news:update";
 
 	public void removeCache(Object key){
-		if(null == key) {
-			return;
-		}
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 
@@ -133,6 +131,14 @@ public abstract class BaseJNews<M extends BaseJNews<M>> extends JModel<M> implem
 
 	public java.lang.String getAttachment() {
 		return get("attachment");
+	}
+
+	public void setAttachmentName(java.lang.String attachmentName) {
+		set("attachmentName", attachmentName);
+	}
+
+	public java.lang.String getAttachmentName() {
+		return get("attachmentName");
 	}
 
 }

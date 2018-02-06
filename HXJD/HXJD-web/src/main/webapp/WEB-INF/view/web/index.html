@@ -145,7 +145,7 @@
     			$.each(data, function(i, val){
     			    //表示为news
     			    if(val.columns.title!=null){
-                        $("#items").append('<li style="color:white;">'+"【"+val.columns.name+"】 "+ val.columns.title +'</li>');
+    			    	$("#items").append('<li style="color:white;"><a style="color:white;" href="javascript:;" onclick="newsDetails('+val.columns.id+');">【'+val.columns.name+'】'+ val.columns.title+'</a></li>');
                     }else{
                         $("#items").append('<li style="color:white;">'+"【维保记录】 "+ val.columns.circuitname+val.columns.worksitename+val.columns.tbmname +'</li>');
 					}

@@ -1,5 +1,6 @@
 package com.base.web.controller.web;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,7 @@ import com.base.service.NewsService;
 import com.base.service.TbmrepairService;
 import com.base.service.UserService;
 import com.base.utils.StringUtils;
+import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 
@@ -179,8 +181,28 @@ public class NewsController extends BaseController {
 			}			
 		}
 		String str = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
-		renderText(str);
-		
+		renderText(str);		
+	}
+	
+	/**
+	 * 
+	 * getAttachment(这里用一句话描述这个方法的作用)  
+	 * 下载附件   
+	 *void  
+	 * @exception   
+	 * @since  1.0.0
+	 */
+	public void getAttachment(){
+		Integer id = getParaToInt("id");
+		Record news = NewsService.me().getById(id);
+		String project = JFinal.me().getContextPath();
+		String str = JFinal.me().getServletContext().getRealPath("");
+		int i = str.lastIndexOf("\\");
+		String disk = str.substring(0,i);
+		String path = disk + project.replaceAll("web", "admin") + news.get("attachment");
+		String name = news.get("attachmentName");
+		File f = new File(path);
+		renderFile(f, name);
 	}
 	
 	/**

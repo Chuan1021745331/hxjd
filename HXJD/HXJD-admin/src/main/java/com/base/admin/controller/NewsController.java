@@ -23,6 +23,7 @@ import com.base.utils.CookieUtils;
 import com.base.utils.DateUtils;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
+import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
@@ -77,6 +78,11 @@ public class NewsController extends BaseController {
 			String prefix = "news";
 			String path = AttachmentUtils.moveFile(upfile,prefix);
 			news.setAttachment(path);
+			
+			String fileName = upfile.getFileName();
+			if(StringUtils.isNotEmpty(fileName)){
+				news.setAttachmentName(fileName);
+			}			
 		}
 		
 		
@@ -152,5 +158,7 @@ public class NewsController extends BaseController {
 			renderAjaxResultForError(MessageConstants.DEL_DEFEAT);
 		}
 	}
+	
+
 }
 

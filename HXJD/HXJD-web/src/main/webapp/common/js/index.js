@@ -339,7 +339,7 @@ function newsScroll(){
 		return false;
 	}
 	if(flag){//向上滚动
-		if(itemIndex == 1){
+		if(itemIndex == 2){
 			flag = false;
 			itemIndex = $("#items").children().size();
 		} else {
@@ -347,7 +347,7 @@ function newsScroll(){
 			itemIndex = itemIndex - 1;
 		}
 	} else {//向下滚动
- 		if(itemIndex == 1){
+ 		if(itemIndex == 2){
 			flag = true;
 			itemIndex = $("#items").children().size();
 		} else {
@@ -356,4 +356,26 @@ function newsScroll(){
 		}
  		
 	} 
+}
+function newsDetails(id){
+	var windowHeight = window.screen.availHeight;
+	var windowWidth = window.screen.availWidth;
+
+	var height = Math.ceil(windowHeight*0.71);
+	var width = Math.ceil(windowWidth*0.71);
+	var area = [width+'px',height+"px"];
+	var index = parent.layer.open({
+        id:"news-sel",
+        type: 2 ,
+        title: '新闻详情',
+        content: bpath+"/news/getNewsById?id="+id,
+        resize: false,
+        area: area,
+        move: false,
+        shade:0,
+        anim: Math.ceil(Math.random() * 6),
+        success : function(layero, index){
+        	
+        }
+    });
 }
