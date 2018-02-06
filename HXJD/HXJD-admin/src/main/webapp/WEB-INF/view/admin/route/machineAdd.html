@@ -68,7 +68,6 @@ active_id="dashboard">
     <!--map-->
     <div class="layui-col-md9  ms-left-border-2px-black ms-height-100-per" style="height: 800px;">
         <div id="container" class="ms-height-100-per ms-width-100-per ">
-
         </div>
     </div>
 
@@ -91,6 +90,82 @@ active_id="dashboard">
             zoom: 13,
             center: [106.545474,29.601621]
         });
+
+        /*自定义图层*/
+       /* var canvas = document.createElement('canvas');
+        canvas.width = map.getSize().width;
+        canvas.height = map.getSize().height;
+
+        map.plugin(['AMap.CustomLayer'], function() {
+
+                    canvas = document.createElement('canvas');
+                    canvas.width = map.getSize().width;
+                    canvas.height = map.getSize().height;
+                    var cus = new AMap.CustomLayer(canvas, {
+                        zooms: 15,
+                        zIndex: 12
+                    });
+            var context = canvas.getContext('2d');
+                    cus.render = onRender;
+                    cus.setMap(map);
+            cus.addEventListener('click', function(e){
+                alert(2);
+                var x, y;
+                if (ev.layerX || ev.layerX == 0) {
+                    x = ev.layerX;
+                    y = ev.layerY;
+                } else if (ev.offsetX || ev.offsetX == 0) { // Opera
+                    x = ev.offsetX;
+                    y = ev.offsetY;
+                }
+                alert(x)
+                context.fillStyle = "#1424DE";
+                context.fillRect(x,y,20,20);
+            }, false)
+        });
+
+    function onRender() {
+        console.log(1);
+        var context = canvas.getContext('2d');
+        context.fillStyle = "#1424DE";
+//        var ll = map.containTolnglat(new AMap.Pixel(106.566883, 29.577162));
+        var pixel = map.lnglatTocontainer([106.566883, 29.577162]);
+        var x = pixel.getX();
+        var y = pixel.getY();
+//        var x = ll.getLng();
+//        var y = ll.getLat();
+//        var strs = map.lngLatToContainer(106.566883,29.577162);
+        context.fillRect(x,y,20,20);
+    };*/
+    /*var customLayer = new AMap.CustomLayer(canvas, {
+            zooms: 15,
+            zIndex: 12
+        });
+        customLayer.render = onRender;
+        customLayer.setMap(map);
+        function onRender() {
+            var context = canvas.getContext('2d');
+            context.fillStyle = "#1424DE";
+            var strs = map.lngLatToContainer(106.566883,29.577162);
+            context.fillRect(strs[0],strs[1],20,20);
+
+//            context.clearRect(0, 0, canvas.width, canvas.height);
+//            context.drawImage("${CPATH}/images/tbm/tbm02.png",10,10);
+            /!*context.addEventListener('click', function(e){
+                var x, y;
+                if (ev.layerX || ev.layerX == 0) {
+                    x = ev.layerX;
+                    y = ev.layerY;
+                } else if (ev.offsetX || ev.offsetX == 0) { // Opera
+                    x = ev.offsetX;
+                    y = ev.offsetY;
+                }
+                alert(x)
+                context.fillStyle = "#1424DE";
+                context.fillRect(x,y,20,20);
+                context.stroke();
+            }, false)*!/
+        }*/
 
         /*全局变量*/
         var marker = "NULL";
@@ -195,7 +270,7 @@ active_id="dashboard">
                     imageOffset: new AMap.Pixel(0, -60)
                 }),*/
                 icon: "${CPATH}/images/tbm/tbm02.png",
-//                offset: new AMap.Pixel(-8,0),
+//                offset: new AMap.Pixel(0,2),
                 draggable:true,
                 cursor: 'move',
 //                raiseOnDrag: true,
@@ -213,6 +288,7 @@ active_id="dashboard">
             marker.on("dragend", function (e) {
                 var x = e.lnglat.getLng();
                 var y = e.lnglat.getLat();
+                console.log(x+","+y)
                 setAddPoints(x,y,"NULL");
             });
             marker.setMap(map);
