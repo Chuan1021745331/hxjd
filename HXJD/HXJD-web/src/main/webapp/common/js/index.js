@@ -42,7 +42,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#userDiv").remove();
 		$("#pcDiv").removeClass("displayNone");
 		$("#fold-chart").removeClass("displayNone");
-		resizeSize(180,60,0);
+		resizeSize(180,60,360);
 	}
 	function resizeSize(left,size,width) {
 		$(window).on('resize', function() {
@@ -62,7 +62,9 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		if($("#left-menu").css("display") == 'none' ){
 			$("#menuDiv").removeClass("color-black");
 		}else{
-			$("#menuDiv").addClass("color-black");
+			//添加遮罩
+            $("body").append("<div class=\"layui-layer-shade\" id=\"layui-layer-shade1\" times='1'  style=\"z-index: 999; background-color: rgb(0, 0, 0); opacity: 0;\"></div>")
+            $("#menuDiv").addClass("color-black");
 		}
 		if(type==1){
 			$("#right-user").hide();
@@ -76,9 +78,17 @@ layui.use(['jquery', 'layer', 'element'], function() {
 			}else{
 				$("#menuDiv").addClass("color-black");
 			}
-			
 		}
 	});
+    /**
+	 * 遮罩点击事件
+     */
+    $("body").on("click","#layui-layer-shade1",function () {
+        console.log("layui-layer-shade1 click");
+        $("#menuDiv").trigger("click");
+        $("#layui-layer-shade1").remove();
+    });
+
 	$("#header-right").click(function(){
 		$("#right-user").toggle();
 	});
@@ -202,8 +212,14 @@ layui.use(['jquery', 'layer', 'element'], function() {
             chartRight=-361;
             floadRight=0;
             $(this).find("i").html("&#xe65a;")
+            $('#zero_tab_content').animate({
+                width:"+=360px"
+            },1000);
         }else{
-            $(this).find("i").html("&#xe65b;")
+            $(this).find("i").html("&#xe65b;");
+            $('#zero_tab_content').animate({
+                width:"-=360px"
+            },1000);
         }
         $("#left-menu-chart").animate({
             right:chartRight+"px"
