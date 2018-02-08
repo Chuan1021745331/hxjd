@@ -231,7 +231,7 @@ layui.use(['form','layer','element'], function() {
         marker.on('mouseover', infoWindowOpen);
         marker.on('mouseout', infoWindowClose);
         marker.on('click', function(){
-            markerClick(tid);
+            markerClick(tid, tname);
         });
         /*marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
             offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
@@ -253,15 +253,17 @@ layui.use(['form','layer','element'], function() {
     }
 
     /*点击标记事件*/
-    function markerClick(tid) {
+    function markerClick(tid, tname) {
         // var tdata = $(this).attr("tdata");
-        var iframe = window.parent.document.getElementsByClassName("tbmiframe")[0];
+    	var iframe = window.parent.document.getElementsByClassName("tbmiframe")[0];
         var url = bpath+"/route/tbm?tid=" + tid;
         var index = top.layer.open({
-            type: 2,
+            title: ""+tname,
+        	type: 2,
             resize: false,
             anim: Math.ceil(Math.random() * 6),
             content: [url] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+
         });
         top.layer.full(index);
 

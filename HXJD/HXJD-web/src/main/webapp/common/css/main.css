@@ -372,3 +372,18 @@
 .colAll_ .colText {
 	height: 70px;
 }
+.colAll .colPng {
+	padding: 5px 10px;
+	background-color: #fff;
+}
+.colAll .myColText {
+	padding: 5px 10px;
+	background-color: #fff;
+
+}
+
+.colAll .myColText div {
+	padding: 5px;
+	height: 25px;
+	line-height: 25px;
+}

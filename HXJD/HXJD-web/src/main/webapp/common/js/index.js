@@ -174,8 +174,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
     	// var width=$("#left-menu-chart").width();
     	var width=360;
     	var height=$("#left-menu-chart").height();
-    	console.log("width"+width);
-    	console.log("height"+height);
         var area=[width+'px', height+'px'];
         moreNewsIndex = layer.open({
             id:"more-news-list",

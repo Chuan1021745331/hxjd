@@ -22,7 +22,18 @@
 <body style="background-color: #EDF0F5;">
 <div class="layui-row">
     <div id="anchorI"></div>
-    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-space10" style="margin: 0px;">
+<!--     <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-space10" style="margin: 0px;">
+    	<button class="layui-btn layui-btn-danger">停止</button>
+    
+    </div> -->
+    
+    
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-space10 " style="margin: 0px;">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText" style="font-size: 100%;">
+        		<button class="layui-btn  layui-btn-danger">停止</button>&nbsp;&nbsp;第<span style="color:red;">972</span>环 &nbsp;&nbsp;PCL连接正常
+        	</div>
+        </div>
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >刀盘监控</div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
@@ -84,34 +95,78 @@
         </div>
         <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >HBV压力</div>
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText" >
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">内密封：0.4bar</div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">外密封：0.0bar</div>
             </div>
         </div>
         <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >EP2压力</div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">内密封：0.4bar</div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">外密封：0.0bar</div>
             </div>
         </div>
         <div class="layui-col-xs4 layui-col-sm4 layui-col-md2 colAll colAll_">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" >注浆压力</div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">内密封：0.4bar</div>
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">外密封：0.0bar</div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">内密封：0.4bar</div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding:0px;">外密封：0.0bar</div>
             </div>
         </div>
         <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 colAll colAll_">
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader orange" >其他</div>
             <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText" id="test">
-                dfsf
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="padding:0px;">中尾盾盾体夹角：0.00°</div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="padding:0px;">齿轮油罐压力：0.0 bar</div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="padding:0px;">皮带机带速：0.0 m/s</div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="padding:0px;">设备桥压力：0 bar</div>
             </div>
         </div>
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
-            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText"></div>
-        </div>
+        
+        
+        <div id="pcBox" class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">      
+	            <div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colText" style="height:180px;">
+	            		 <!-- 左 -->
+	            		 <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+	            		 	<div><span class="layui-badge">1</span> 前部压力：0.0 bar</div>
+	            		 	<div><span class="layui-badge">2</span> 后部压力：0.2 bar</div>
+	            		 	<div><span class="layui-badge" style="background-color:#66CD00">3</span> 螺机上闸门：850 mm</div>
+	            		 	<div><span class="layui-badge" style="background-color:#66CD00">4</span> 螺机下闸门：850 mm</div>         		 
+	            		 </div>
+	            		 <!-- 中 -->
+	            		 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	            		 	<img alt="" src="../common/images/tbm-1.png""> 
+	            		 </div>
+	            		 <!-- 右 -->
+	            		 <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+	            		 	<div><span class="layui-badge" style="background-color:#3F51B5">5</span> 螺机转速：0.0 r/min</div>
+	            		 	<div><span class="layui-badge" style="background-color:#3F51B5">6</span> 螺机扭矩：0.0 KN.m</div>
+	            		 	<div><span class="layui-badge layui-bg-orange">7</span> 螺机压力：0 bar</div>
+	            		 	<div><span class="layui-badge layui-bg-orange">8</span> 螺机补油压力：0 bar</div>
+	            		 </div>	
+	            </div>
+	       </div>
+	       <div id="mobileBox" class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="display:none">     
+	            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+	            		 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colPng">
+	            		 	<img style="height: 100%;width: 100%;" alt="" src="../common/images/tbm-1.png""> 
+	            		 </div>
+	            		 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 myColText" style="padding:0px;">
+	            		 	<div><span class="layui-badge">1</span> 前部压力：0.0 bar</div>
+	            		 	<div><span class="layui-badge" style="background-color:#66CD00">3</span> 螺机上闸门：850 mm</div>
+	            		 	<div><span class="layui-badge" style="background-color:#3F51B5">5</span> 螺机转速：0.0 r/min</div>
+	            		 	<div><span class="layui-badge layui-bg-orange">7</span> 螺机压力：0 bar</div>	            		 	        		 
+	            		 </div>
+	            		 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 myColText" style="padding:0px;">
+	            		 	<div><span class="layui-badge">2</span> 后部压力：0.2 bar</div>
+	            		 	<div><span class="layui-badge" style="background-color:#66CD00">4</span> 螺机下闸门：850 mm</div> 
+	            		 	<div><span class="layui-badge" style="background-color:#3F51B5">6</span> 螺机扭矩：0.0 KN.m</div>	            		 	
+	            		 	<div><span class="layui-badge layui-bg-orange">8</span> 螺机补油压力：0 bar</div>
+	            		 </div>	
+	            </div>
+		</div>        
+        
     </div>
     <div id="bigDiv" class="layui-col-xs12 layui-col-sm12 layui-col-md6 c">
         <canvas id="circleData" class="c1">
@@ -157,7 +212,7 @@
         <li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
         <li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
     </ul>
-</div>
+
 <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
@@ -165,6 +220,7 @@
 <script type="text/javascript" src="${CPATH}/js/main.js"></script>
 
 <script type="text/javascript">
+
 
 
 </script>

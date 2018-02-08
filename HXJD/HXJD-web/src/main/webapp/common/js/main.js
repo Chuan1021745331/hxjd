@@ -17,12 +17,16 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	
 	if(device.android || device.ios){
 		client = "phone";
+		$("#pcBox").css("display","none");
+		$("#mobileBox").css("display","");
+		
 		$("#bigDiv").insertAfter($("#anchorI"));
 		bigDivW = parent.$("#zero_tab_content").outerWidth();
-		console.log("bigDivW: "+bigDivW);
 		drawCircle(0,bigDivW-10,zero_tab_contentH);
 	}else{
 		client = "pc";
+		$("#mobileBox").css("display","none");
+		$("#pcBox").css("display","");
 		if(zero_tab_contentW<1024){
 			$("#bigDiv").insertAfter($("#anchorI"));
 			bigDivW = parent.$("#zero_tab_content").outerWidth();
@@ -77,9 +81,19 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	
 	function DrawData(data){
 		ctx1.clearRect(0,0,width,height);
-		ctx1.drawImage(beauty, 0, 0,(wh-10)*pixelRatio,(wh-10)*pixelRatio);
-    	var width = $("#circleDiv").attr("width");
-		var height = $("#circleDiv").attr("height");
+		if(client != "phone"){
+			ctx1.drawImage(beauty, 0, 0,(wh-10-$("#pcDiv").height()*2)*pixelRatio,(wh-10-$("#pcDiv").height()*2)*pixelRatio);
+		} else{
+			ctx1.drawImage(beauty, 0, 0,(wh-10)*pixelRatio,(wh-10)*pixelRatio);
+		}
+		if(client != "phone"){
+			var width = $("#circleDiv").attr("width")-$("#pcDiv").height()*2;
+			var height = $("#circleDiv").attr("height")-$("#pcDiv").height()*2;
+		} else {
+			var width = $("#circleDiv").attr("width");
+			var height = $("#circleDiv").attr("height");
+		}
+    	
     	
     	ctx1.globalAlpha=0.6;
 	    //ctx2.globalCompositeOperation="source-over";		    
@@ -161,8 +175,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	    ctx1.fillText("抓举头压力: ", width*0.400, height*0.660);
 		
 
-		var width = $("#circleDiv").attr("width");
-		var height = $("#circleDiv").attr("height");
+/*		var width = $("#circleDiv").attr("width")-$("#pcDiv").height()*2;
+		var height = $("#circleDiv").attr("height")-$("#pcDiv").height()*2;*/
 		var dataCanvas = document.getElementById("circleData");
 		$("#circleData").attr("width",$("#circleDiv").attr("width"));
 		$("#circleData").attr("height",$("#circleDiv").attr("height"));
@@ -240,7 +254,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	//var bpath = ${BPATH};
 	//var path =  window.location.host;
 	//console.log(path);
-	ws1 = new WebSocket("ws://" + window.location.host + "/web/IndexWebsocketTest.ws");
+	ws1 = new WebSocket("ws://" + window.location.host + "/HXJD-web/IndexWebsocketTest.ws");
 	ws1.onopen = function(event) {
      		console.log("websocket ws1 has been opened!");
      		ws1.send("1");

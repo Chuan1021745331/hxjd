@@ -18,10 +18,19 @@
     bpath='${BPATH}';
 </script>
 <style>
+		 .selected a{
+		 	color:white;		 	
+		 }
+		 .pcUl .selected{
+		 	background-color: #3F51B5;
+		 }
+		 .pcUl li {
+		 	padding:10px 0px 10px 0px;
+		 }	
 </style>
 </head>
 <body style="background-color: #EDF0F5;">
-  	<iframe id="zero_tab_content" name="zero_tab_content" width='100%' height='100%' frameborder='0' src="${BPATH}/route/tbmMain" style="position: absolute;top: 0px;bottom: 41px;"></iframe>
+  	<iframe id="zero_tab_content" name="tbm_content" width='100%' height='100%' frameborder='0' src="${BPATH}/route/tbmMain" style="position: absolute;top: 0px;bottom: 41px;"></iframe>
 	<div id ="phoneDiv" class="layui-phone displayNone icon iconfont icon-fenlei"></div>
 	<div class="UlDiv">
 		<ul class="phoneUl" style=" border-right: 1px dashed #ccc;">
@@ -44,21 +53,21 @@
 		</ul>
 	</div>
 		
-	<div id ="pcDiv" class="layui-footer">
+	<div id ="pcDiv" style="position:fixed; bottom:0; left:0; width:100%;z-index:999;background-color: #fff;">
 		<ul class="layui-row pcUl">
-			<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/tbmMain"  target="zero_tab_content"  >主监控</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="" >泡沫系统</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">注浆系统</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">电力参数</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">辅助系统</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">盾尾密封</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">启动条</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">导向仪</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">报警状态</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">累计量</a></li>
-			<li class="layui-col-sm1 layui-col-md1"><a href="">历史记录</a></li>
+			<li class="layui-col-sm1 layui-col-md1 selected"><a href="${BPATH}/route/tbmMain"  target="tbm_content">主监控</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/tbmMain" target="tbm_content">泡沫系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/tbmMain" target="tbm_content">注浆系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/tbmMain"  target="tbm_content">电力参数</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">辅助系统</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">盾尾密封</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">启动条</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">导向仪</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">报警状态</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">累计量</a></li>
+			<li class="layui-col-sm1 layui-col-md1"><a href="" target="tbm_content">历史记录</a></li>
 			<#if hascamera gt 0>
-				<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/camera?tid=${tbmid!}" target="zero_tab_content" >摄像头</a></li>
+				<li class="layui-col-sm1 layui-col-md1"><a href="${BPATH}/route/camera?tid=${tbmid!}" target="tbm_content" >摄像头</a></li>
 			</#if>
 		</ul>
 	</div>
