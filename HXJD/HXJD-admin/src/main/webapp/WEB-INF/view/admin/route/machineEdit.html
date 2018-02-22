@@ -216,7 +216,8 @@ active_id="dashboard">
                 cursor: 'move',
 //                offset: new AMap.Pixel(3,-6),
 //                raiseOnDrag: true,
-                position: [x, y]
+                position: [x, y],
+                zIndex:1001
             });
             marker.on("dragend", function (e) {
                 var x = e.lnglat.getLng();
