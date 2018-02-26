@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.base.core.BaseController;
+import com.base.model.JNews;
 import com.base.model.JNewstype;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
@@ -146,7 +147,11 @@ public class NewsController extends BaseController {
 	public void getNewsById(){
 		int id = getParaToInt("id");
 		Record news = NewsService.me().getNewsById(id);
-		
+		//增加阅读次数
+		JNews jNews = NewsService.me().getJNewsById(id);
+		jNews.setReadcount(jNews.getReadcount()+1);
+		jNews.saveOrUpdate();
+		news.set("readcount",news.getInt("readcount")+1);
 		//news.getStr(column)
 /*		String content =  news.getStr("content");
 		String con = subStringHTML(content, 20, "");

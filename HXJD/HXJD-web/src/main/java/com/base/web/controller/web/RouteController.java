@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.base.core.BaseController;
 import com.base.model.JCamera;
 import com.base.model.dto.CircuitWorksiteDto;
+import com.base.model.dto.TreeSimpDto;
 import com.base.model.dto.WorkSiteDto2;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
-import com.base.service.CameraService;
-import com.base.service.CircuitService;
-import com.base.service.TbmService;
-import com.base.service.WorkSiteService;
+import com.base.service.*;
 
 import java.util.List;
 
@@ -38,6 +36,16 @@ public class RouteController extends BaseController {
         setAttr("dtos",circuitWorksiteDtos);
         setAttr("circuitWorksiteDtos",json);
         render("circuitSel.html");
+    }
+
+    /**
+     * 树形显示
+     */
+    public void tree(){
+        List<TreeSimpDto> m = RouteService.me().getRouteSimp();
+        //设置首页
+        m.get(0).setName("首页");
+        renderJson(m);
     }
 
     /**

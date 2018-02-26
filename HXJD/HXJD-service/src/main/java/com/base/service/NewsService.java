@@ -64,6 +64,10 @@ public class NewsService {
 	public Record getNewsById(int id){
 		return NewsQuery.me().getById(id);
 	}
+
+	public JNews getJNewsById(int id){
+		return NewsQuery.me().getNewsById(id);
+	}
 	
 	
 	@Before(Tx.class)

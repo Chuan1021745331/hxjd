@@ -37,8 +37,13 @@
 
 
 <form class="layui-form" id="form" action="" style="margin: 10px 10px 0px 10px;overflow-x:hidden;">
-	<div class="layui-form-item" align="center">
+	<div class="layui-form-item" align="center" style="font-size: 20px;font-weight:280">
 		${news.title!}
+	</div>
+	<div class="layui-form-item" >
+        <div class="layui-inline" style="color: #888888">
+            ${news.postTime}&nbsp;&nbsp;&nbsp;&nbsp; ${news.postMan}&nbsp;&nbsp;&nbsp;&nbsp;阅读次数:${news.readcount!}
+        </div>
 	</div>
 	<hr>
 	<div class="layui-form-item" style="word-wrap:break-word;">
@@ -49,10 +54,8 @@
 			附件：<a href="${BPATH}/news/getAttachment?id=${news.id}"> <#if news.attachmentName??>${news.attachmentName!}<#else>附件</#if></a>		     
 		</div>
 	</#if>
-	<div class="layui-form-item" align="right">
-		${news.postMan} &nbsp;&nbsp;&nbsp;&nbsp; ${news.postTime}
-	</div>
-	
+
+
 </form>
 <!-- 侧边按钮 -->
 	<div style="">

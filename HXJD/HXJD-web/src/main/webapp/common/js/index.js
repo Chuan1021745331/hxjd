@@ -42,6 +42,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		$("#userDiv").remove();
 		$("#pcDiv").removeClass("displayNone");
 		$("#fold-chart").removeClass("displayNone");
+		$("#more-news").removeClass("displayNone");
 		resizeSize(180,60,360);
 	}
 	function resizeSize(left,size,width) {
@@ -80,9 +81,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
 			}
 		}
 	});
-    /**
-	 * 遮罩点击事件
-     */
+
+	//遮罩点击事件
     $("body").on("click","#layui-layer-shade1",function () {
         console.log("layui-layer-shade1 click");
         $("#menuDiv").trigger("click");
@@ -110,6 +110,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		}
 	});
 
+    //显示访客详情
 	$("#user-sel").click(function (){
 		var area=['30%', '86%'];
         if(device.android || device.ios){
@@ -133,10 +134,11 @@ layui.use(['jquery', 'layer', 'element'], function() {
             }
         });
 	});
+	//修改访客密码
     $("#user-edit").click(function (){
-        var area=['30%', '30%'];
+        var area=['420px', '220px'];
         if(device.android || device.ios){
-            area=['90%', '40%'];
+            area=['90%', '35%'];
         }
         var index = layer.open({
             type: 2 ,
@@ -144,6 +146,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
             content: bpath+"/visitor/edit?id="+visitorId,
             resize: false,
             area: area,
+            move: false,
             anim: Math.ceil(Math.random() * 6),
             success : function(layero, index){
                 setTimeout(function(){
@@ -154,6 +157,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
             }
         });
     });
+    //退出登录
     $("#user-logout").click(function (){
         layer.confirm('是否确认退出',{
             icon: 3,
@@ -175,6 +179,11 @@ layui.use(['jquery', 'layer', 'element'], function() {
     	var width=360;
     	var height=$("#left-menu-chart").height();
         var area=[width+'px', height+'px'];
+
+        //隐藏个人详情
+		if($("#right-user").css("display")!="none"){
+            $("#right-user").toggle();
+		}
         moreNewsIndex = layer.open({
             id:"more-news-list",
             type: 2 ,
@@ -200,9 +209,15 @@ layui.use(['jquery', 'layer', 'element'], function() {
             }
         });
     });
-    /**
-	 * 图表缩进
-     */
+
+    $("#bottomDiv").children().click(function () {
+		//隐藏个人详情
+        if($("#right-user").css("display")!="none"){
+			$("#userDiv").trigger("click");
+        }
+    });
+
+    //图表缩进
     $("#fold-chart").click(function () {
         var chartRight=0;
         var floadRight=360;
@@ -237,7 +252,91 @@ layui.use(['jquery', 'layer', 'element'], function() {
             });
         }
     });
-    
+
+    //树形菜单
+    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    $(function() {
+        var setting = {
+            isSimpleData: true,              //数据是否采用简单 Array 格式，默认false
+            treeNodeKey: "id",               //在isSimpleData格式下，当前节点id属性
+            showLine: true,                  //是否显示节点间的连线
+            view: {
+                /*addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom,*/
+                selectedMulti: false
+            },
+            edit: {
+                enable: false,
+                editNameSelectAll: true,
+               /* showRemoveBtn: showRemoveBtn,
+                showRenameBtn: showRenameBtn,
+                removeTitle: "删除节点",
+                renameTitle: "编辑节点"*/
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId"
+                }
+            },
+            callback: {
+                beforeClick: beforeClick,
+                onClick: zTreeOnClick
+            }
+        };
+
+
+        function beforeClick(treeId, treeNode) {
+            var check = (treeNode && !treeNode.isParent);
+            /*if(treeNode.id!=0){
+             if (!check) top.parent.MSG(2, "末尾节点才拥有功能按钮");
+             return check;
+             }*/
+
+        }
+
+        /**
+		 * 点击节点,展开路线工地信息
+         * @param event
+         * @param treeId
+         * @param treeNode
+         */
+        function zTreeOnClick(event, treeId, treeNode) {
+            where = treeNode.id;
+            //1级为路线，2级为工点
+            var atype=treeNode.level;
+            var adata = treeNode.id;
+            var url;
+            if(atype == 1){
+                url = bpath+"/route/index?cid=" + adata;
+            }else if(atype == 2) {
+                url = bpath+"/route/workSiteSel?wid=" + adata;
+            }else {
+                url = bpath+"/main";
+            }
+
+            $(".tbmiframe").attr("src", url);
+            console.log("树形点击数据:"+treeId);
+            console.log(treeNode);
+        };
+
+        function reloadTreeData() {
+            $.ajax({
+                url: bpath + "/route/tree",
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
+                    console.log("树形数据");
+                    console.log(data);
+                    zTree.expandAll(true);
+                }
+            });
+        }
+        reloadTreeData();
+    });
+
 });
 function drawChart() {
 	if(type==1){

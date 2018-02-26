@@ -27,6 +27,8 @@ public class NewsQuery {
 			return DAO.doFindCount(sqlBuilder.toString());
 		}
 	}
+
+
 	
 	public List<Record> findListNews(int page, int limit,String where) {
 		StringBuilder sqlBuilder = new StringBuilder("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.attachment, n.attachmentName, n.type, nt.name  ");
@@ -68,13 +70,17 @@ public class NewsQuery {
 		sqlBuilder.append(" order by n.postTime DESC limit 0,"+limit);
 		return Db.find(sqlBuilder.toString());
 	}
-	
+
+	public JNews getNewsById(int id){
+		return DAO.findById(id);
+	}
+
 	public boolean deleteById(Integer id){
 		return DAO.deleteById(id);
 	}
 	
 	public Record getById(Integer id){
-		return Db.findFirst("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.type, n.attachment, n.attachmentName, nt.name from j_news n join j_newsType nt on nt.id = n.type where n.id =  ? ", id);
+		return Db.findFirst("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.type, n.attachment, n.attachmentName,n.readcount,nt.name from j_news n join j_newsType nt on nt.id = n.type where n.id =  ? ", id);
 	}
 	
 	public List<Record> getNewsByPageTag(Integer start, Integer tag){

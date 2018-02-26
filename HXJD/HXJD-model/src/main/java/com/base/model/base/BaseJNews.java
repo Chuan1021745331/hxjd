@@ -141,4 +141,12 @@ public abstract class BaseJNews<M extends BaseJNews<M>> extends JModel<M> implem
 		return get("attachmentName");
 	}
 
+	public void setReadcount(java.lang.Integer readcount) {
+		set("readcount", readcount);
+	}
+
+	public java.lang.Integer getReadcount() {
+		return get("readcount");
+	}
+
 }

@@ -13,25 +13,25 @@ layui.use(['form','layer','element'], function() {
     /*隐藏动画*/
     $(".animationHide").on("click", function () {
 
-        $("#cutline").css("animation", "myfirst 2s");
-        $("#cutline").css("-moz-animation", "myfirst 2s");
-        $("#cutline").css("-webkit-animation", "myfirst 2s");
-        $("#cutline").css("-o-animation", "myfirst 2s");
+        $("#cutline").css("animation", "myfirst 1s");
+        $("#cutline").css("-moz-animation", "myfirst 1s");
+        $("#cutline").css("-webkit-animation", "myfirst 1s");
+        $("#cutline").css("-o-animation", "myfirst 1s");
         $("#cutline").removeClass("button-group");
         $("#cutline").addClass("button-group-190-left");
 
         /*动画二*/
 
-        $("#bordercutline").css("animation", "myBorder 1s 2.3s")
-        $("#bordercutline").css("-moz-animation", "myBorder 1s 2.3s")
-        $("#bordercutline").css("-webkit-animation", "myBorder 1s 2.3s")
-        $("#bordercutline").css("-o-animation", "myBorder 1s 2.3s")
+        $("#bordercutline").css("animation", "myBorder 1.5s 1s")
+        $("#bordercutline").css("-moz-animation", "myBorder 1.5s 1s")
+        $("#bordercutline").css("-webkit-animation", "myBorder 1.5s 1s")
+        $("#bordercutline").css("-o-animation", "myBorder 1.5s 1s")
         setTimeout(function () {
             $("#cutline").removeClass("button-group");
             $("#cutline").addClass("button-group-190-left");
             $("#bordercutline").removeClass("button-group-70-left");
             $("#bordercutline").addClass("button-group-45-left");
-        }, 2500);
+        }, 1100);
 
     })
     /*显示动画*/
@@ -44,10 +44,10 @@ layui.use(['form','layer','element'], function() {
         $("#bordercutline").addClass("button-group-70-left");
 
 
-        $("#cutline").css("animation", "myfirst2 2s 1s");
-        $("#cutline").css("-moz-animation", "myfirst2 2s 1s");
-        $("#cutline").css("-webkit-animation", "myfirst2 2s 1s");
-        $("#cutline").css("-o-animation", "myfirst2 2s 1s");
+        $("#cutline").css("animation", "myfirst2 1.5s 0.8s");
+        $("#cutline").css("-moz-animation", "myfirst2 1.5s 0.8s");
+        $("#cutline").css("-webkit-animation", "myfirst2 1.5s 0.8s");
+        $("#cutline").css("-o-animation", "myfirst2 1.5s 0.8s");
 
         setTimeout(function () {
             $("#cutline").removeClass("button-group-190-left");

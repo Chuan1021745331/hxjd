@@ -165,4 +165,12 @@ public abstract class BaseJTbmrepair<M extends BaseJTbmrepair<M>> extends JModel
 		return get("userId");
 	}
 
+	public void setReadcount(java.lang.Integer readcount) {
+		set("readcount", readcount);
+	}
+
+	public java.lang.Integer getReadcount() {
+		return get("readcount");
+	}
+
 }

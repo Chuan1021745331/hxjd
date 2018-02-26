@@ -10,6 +10,7 @@
 
 <title>盾构机监控--v1.0</title>
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+<link href="${CPATH}/plus/zTree/css/metroStyle/metroStyle.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${CPATH}/css/font/iconfont.css" media="all">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
 <script type="text/javascript">
@@ -24,14 +25,14 @@
 </head>
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
-		<div class="layui-header" style="overflow:hidden;">
+		<div class="layui-header" style="overflow:hidden;z-index:999999">
 			<div id="logoDiv" class="layui-logo"><!--盾构机监控-->
 				<img id="tbm-logo" style="width: 45px;height: 45px" src="<#if tbm_logo??>${tbm_logo!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/256.png';this.onerror=null">
 				<#if tbm_title??>${tbm_title}</#if>
 			</div>
 			<!-- 新闻条滚动 -->
 			<div style="float: left;margin-left:65%;margin-top:18px;width:50px;height:20px;">
-				<button id="more-news" class="layui-btn layui-btn-xs layui-btn-normal">更多</button>
+				<button id="more-news" class="layui-btn layui-btn-xs layui-btn-normal displayNone">更多</button>
 			</div>
 			<div id="items" style="overflow:hidden;margin-left:68%;margin-top:0.6%;width:20%;height:70%;" >
 			
@@ -40,21 +41,21 @@
 			<img id="header-right" src="${BPATH}<#if _visitor.avatar??>${_visitor.avatar!}</#if>" onerror="this.src='${BPATH}/attachment/avatar/astronaut.png';this.onerror=null" class="layui-nav-img layui-nav layui-layout-right top-right-img displayNone">
 		</div>
 		<!-- 左侧导航区域S -->
-		<div id="left-menu" class="layui-side layui-bg-black displayNone" style="z-index: 99999">
-		    <div class="layui-side-scroll">
-				<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+		<div id="left-menu" class="layui-side layui-bg-black displayNone" style="z-index: 99999;box-shadow: 0px 0px 10px #000">
+		    <div class="layui-side-scroll" style="background-color: #ffffff;">
+				<!--<ul class="layui-nav layui-nav-tree"  lay-filter="test">
 					<li class="layui-nav-item layui-this">
 						<a style="cursor:pointer"  adata="00" atype="0" class="aclick"><span>首页</span></a>
 					</li>
 					<#if circuitWorksiteDtos??>
 						<#list circuitWorksiteDtos as item>
 
-							<li class="layui-nav-item">
-								<a><span style="cursor:pointer"  adata="${item.id!}" atype="1"  class="aclick">${item.name!}</span></a>
+							<li class="layui-nav-item" style="background-color: #ffffff">
+								<a><span style="cursor:pointer;color: #111111"  adata="${item.id!}" atype="1"  class="aclick">${item.name!}</span></a>
 								<dl class="layui-nav-child">
 									<#if item.worksites??>
 										<#list item.worksites as worksite>
-										<dd><a style="cursor:pointer"  adata="${worksite.id!}" atype="2" class="aclick wname" target="ifr_0">${worksite.name}</a></dd>
+										<dd><a style="cursor:pointer;color: #111111"  adata="${worksite.id!}" atype="2" class="aclick wname" target="ifr_0">${worksite.name}</a></dd>
 										</#list>
 									</#if>
 								</dl>
@@ -62,16 +63,16 @@
 
 						</#list>
 					</#if>
-
-				</ul>
+				</ul>-->
+				<ul id="treeDemo" class="ztree"></ul>
 		    </div>
 		</div>
 		<!-- 左侧导航区域E -->
 		
 		<iframe class="tbmiframe zero-iframe layui-body" data-id='0' name="ifr_0" id="zero_tab_content" width='100%' height='100%' frameborder='0' src="${BPATH}/main"></iframe>
 
-		<div id="fold-chart" class="displayNone">
-			<a href="#"><i class="layui-icon">&#xe65b;</i></a>
+		<div id="fold-chart" class="displayNone" style="cursor: pointer">
+			<i class="layui-icon">&#xe65b;</i>
 		</div>
 		<!-- 右侧数据统计S -->
 		<div id="left-menu-chart" class="layui-side-chart displayNone">
@@ -82,32 +83,34 @@
 		<!-- 右侧数据统计E -->
 		
 		<!-- 左侧菜单按钮S -->
-		<div id ="menuDiv" class="layui-menu displayNone icon iconfont icon-liebiao"></div>
+		<div id ="menuDiv" class="layui-menu displayNone icon iconfont icon-liebiao" style="z-index:9999999"></div>
 		<!-- 左侧菜单按钮E -->
 		
 		<!-- 右侧用户按钮S -->
-		<div id ="userDiv" class="layui-user displayNone icon iconfont icon-renyuan"></div>
+		<div id ="userDiv" class="layui-user displayNone icon iconfont icon-renyuan" style="z-index:9999999"></div>
 		<div id="right-user" class="layui-side-right displayNone" style="z-index: 9999">
 			<div class="layui-row paddingDiv">
-				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-					<p>用户名:</p><br>
-					<span><strong><#if (_visitor.visitorname)??>${_visitor.visitorname}</#if></strong></span>
-					<hr class="layui-bg-green">
+				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="margin-top: 5px">
+					<p>用户名:</p>
+					<div style="margin-top: 7px;padding: 0"><span><strong><#if (_visitor.visitorname)??>${_visitor.visitorname}</#if></strong></span></div>
+					<hr class="layui-bg-green" style="margin-bottom: 0">
 				</div>
 				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-					<p>职位:</p><br>
-					<span><strong><#if (position.name)??>${position.name}<#else>暂无职位</#if></strong></span>
-					<hr class="layui-bg-green">
+					<p>职位:</p>
+					<div style="margin-top: 7px;padding: 0"><span><strong><#if (position.name)??>${position.name}<#else>暂无职位</#if></strong></span></div>
+					<hr class="layui-bg-green" style="margin-bottom: 0">
 				</div>
 				<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-					<p>部门:</p><br>
-					<#if (parents.size()==0)>
-					<span><strong>暂无部门</strong></span>
-					</#if>
-					<#list parents as department>
-					<span><strong><#if (department.name)??>${department.name}</#if></strong></span>
-				</#list>
-				<hr class="layui-bg-green">
+					<p>部门:</p>
+					<div style="margin-top: 7px;padding: 0">
+						<#if (parents.size()==0)>
+						<span><strong>暂无部门</strong></span>
+						</#if>
+						<#list parents as department>
+						<span><strong><#if (department.name)??>${department.name}</#if></strong></span>
+						</#list>
+					</div>
+				<hr class="layui-bg-green" style="margin-bottom: 0">
 			</div>
 		</div>
 			<div>
@@ -130,6 +133,7 @@
 	<script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/plus/toastr/toastr.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+	<script type="text/javascript" src="${CPATH}/plus/zTree/js/jquery.ztree.all.min.js" ></script>
 	<script type="text/javascript" src="${CPATH}/js/index.js"></script>
 	<script type="text/javascript" src="${CPATH}/plus/echarts.min.js"></script>
 	<script type="text/javascript" src="${CPATH}/plus/shine.js"></script>

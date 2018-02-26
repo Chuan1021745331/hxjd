@@ -44,6 +44,10 @@ public class TbmRepairController extends BaseController{
     public void sel(){
         Integer id = getParaToInt("id");
         JTbmrepair tbmrepair = TbmrepairService.me().findTbmrepairByTbmrepairId(id);
+        //增加阅读次数
+        tbmrepair.setReadcount(tbmrepair.getReadcount()+1);
+        tbmrepair.saveOrUpdate();
+
         JUser user= UserService.me().findById(tbmrepair.getUserId());
 
         //盾构机详情

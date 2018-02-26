@@ -104,6 +104,8 @@ public class NewsController extends BaseController {
 			news.setPostMan(user.getRelname());
 		}
 		news.setPostTime(new Date());
+		//初始化阅读次数为0
+		news.setReadcount(0);
 		boolean a =  NewsService.me().addSave(news);
 		if(a){
 			renderAjaxResultForSuccess(MessageConstants.ADD_SUCCESS);
