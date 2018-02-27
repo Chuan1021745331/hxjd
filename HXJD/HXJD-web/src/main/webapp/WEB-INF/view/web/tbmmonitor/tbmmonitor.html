@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    <title>华夏九鼎军民融合科学技术研究院|</title>
+    <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/base.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+    <script type="text/javascript">
+        var bpath = "${BPATH}";
+        var cpath = "${CPATH}";
+        var apath = "${APATH}";
+    </script>
+    	<style type="text/css">  
+		 img{
+		 	width:100% !important;
+		 	height:100% !important;
+		 	}
+		.item{
+			cursor: pointer;
+		}
+
+	</style>  
+</head>
+<body style="overflow:auto">
+<div id="mobile" >
+	<div id="tag" style="margin-left: 1%;margin-top:1%;">
+		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="margin-bottom:5px;background-color: #3F51B5;">全部</button>
+		<#if circuitList??>
+			<#list circuitList as bean>
+				<button class="layui-btn layui-btn-sm layui-btn-radius tag circuitTag" id="${bean.id!}" style="margin-bottom:5px;background-color: #3F51B5;">${bean.name!}</button>
+			</#list>
+		</#if>
+		<hr class="layui-bg-blue">
+	</div>
+	<div id="circuitCard" class="layui-row" style="overflow-x:hidden;">
+
+	</div> 	
+	<!-- 侧边按钮 -->
+	<div style="">
+		<ul class="layui-fixbar">
+			<!-- 返回 -->
+			<!-- <li id="back"  class="layui-icon" lay-type="bar1" style="">&#xe65c;</li> -->
+			<!-- 分享 -->
+			<!-- <li id="share" class="layui-icon" lay-type="bar1" style="">&#xe641;</li> -->
+			<!-- 回到顶部 -->
+			<li id="top" class="layui-icon layui-fixbar-top" lay-type="top" style="width:40px;height:40px;line-height:45px ;display: list-item;">&#xe604;</li>
+		</ul>
+	</div>
+	
+	
+</div>
+
+
+</body>
+<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+<script type="text/javascript">
+  	var page = 1;
+    var limit=10;
+    $(window).scroll(function(){
+    	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
+    	var scrollTop = $(this).scrollTop();  
+        //整个文档的高度
+        var scrollHeight = $(document).height(); 
+        //当前可见区域的大小
+        var windowHeight = $(this).height(); 
+        //滚动到底部
+        if(scrollTop + windowHeight == scrollHeight){
+            page += 1;           
+            showMore(page);
+        }
+    });
+    //初始化数据
+    $(function () {
+		$(".all").trigger("click");
+    });
+	
+    //新闻类详情
+	$("#circuitCard").on("click",".item",function(){
+			var device = layui.device();
+			var id = $(this).find(".id").text();
+			if(device.android || device.ios){				
+				//手机页面
+				window.location = "${BPATH}/route/tbm?tid="+id;
+			} else {
+				var windowHeight = window.screen.availHeight;
+				var windowWidth = window.screen.availWidth;
+
+				var height = Math.ceil(windowHeight*0.71);
+				var width = Math.ceil(windowWidth*0.71);
+				var area = [width+'px',height+"px"];
+				var index = parent.layer.open({
+		            id:"tbm-sel",
+		            type: 2 ,
+		            title: '盾构机详情',
+		            content: "${BPATH}/route/tbm?tid="+id,
+		            resize: false,
+		            area: area,
+		            move: false,
+		            shade:0,
+		            anim: Math.ceil(Math.random() * 6),
+		            success : function(layero, index){
+/* 		                setTimeout(function(){
+		                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+		                        tips: 3
+		                    });
+		                },500) */
+		            }
+		        });
+			}
+	});
+    /**
+	 * 标签点击
+     */
+	$(".tag").unbind('click').click(function(){	
+		$(this).css("background-color","#3CB371");
+		$(this).siblings().css("background-color","#3F51B5");
+		$(this).addClass("selected");
+		$(this).siblings().removeClass("selected");
+		//页数复位
+		page = 1;
+		//新闻类的Tag
+		if($(this).hasClass("circuitTag")){
+			var id = $(this).attr("id");
+            $("#circuitCard").empty();
+            getTbmData(id,page,limit);
+		}
+	});
+
+	$(".all").unbind('click').click(function(){
+		//页数复位
+        page=1;
+		$(".tag").removeClass("selected");
+		$(".tag").css("background-color","#3F51B5");
+        $("#circuitCard").empty();
+        getAllData(page,limit);
+		$(".item").show();
+	});
+
+	function getAllData(page,limit){
+        $.ajax({
+            url:"${BPATH}" + "/tbmmonitor/getAllTbm?page="+page+"&limit="+limit,
+            success:function(result){
+                var data=result.data;
+                console.log("data");
+                console.log(data);
+                $.each(data,function(index,value,array){
+					$("#circuitCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">\n' +
+                        '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                        '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
+                        '\t\t\t\t    \t\t\n' +
+                        '\t\t\t\t    \t</div>\t    \t\n' +
+                        '\t\t\t\t    </div>');
+                });
+
+            }
+        });
+	}
+    function getTbmData(circuitId,page,limit) {
+        $.ajax({
+            url:"${BPATH}" + "/tbmmonitor/getTbmByCircuitId?id="+circuitId+"&page="+page+"&limit="+limit,
+            success:function(result){
+                var data = result.data;
+                console.log("新闻类的Tag");
+                console.log(data);
+                $.each(data, function(i, value){
+                    $("#circuitCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">\n' +
+                        '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                        '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 " style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
+                        '\t\t\t\t    \t\t\n' +
+                        '\t\t\t\t    \t</div>\t    \t\n' +
+                        '\t\t\t\t    </div>');
+                });
+            }
+        });
+    }
+
+    function showMore(page){
+    	//alert("加载");
+    	if(null!=$(".selected") && typeof($(".selected")) != "undefined"&&$(".selected").length>0){
+    		//新闻类的Tag
+    		if($(".selected").hasClass("circuitTag")){
+        		var id = $(".selected").attr("id");
+                getTbmData(id,page,limit);
+        	}
+    	}else{
+            getAllData(page,limit);
+		}
+
+    }
+    $("#top").unbind('click').click(function(){
+    	$(window).scrollTop(0);
+    })
+  
+</script>
+</html>

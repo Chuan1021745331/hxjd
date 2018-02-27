@@ -8,20 +8,26 @@ import java.util.regex.Pattern;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.base.constants.Consts;
 import com.base.core.BaseController;
+import com.base.interceptor.InterUtils;
 import com.base.model.JNews;
 import com.base.model.JNewstype;
+import com.base.model.JVisitor;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
+import com.base.service.MongoDBService;
 import com.base.service.NewsService;
 import com.base.service.TbmrepairService;
 import com.base.service.UserService;
 import com.base.utils.StringUtils;
+import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 
 import cn.hutool.core.date.DateUtil;
+import org.joda.time.DateTime;
 
 
 /**
@@ -147,17 +153,24 @@ public class NewsController extends BaseController {
 	public void getNewsById(){
 		int id = getParaToInt("id");
 		Record news = NewsService.me().getNewsById(id);
-		//增加阅读次数
-		JNews jNews = NewsService.me().getJNewsById(id);
-		jNews.setReadcount(jNews.getReadcount()+1);
-		jNews.saveOrUpdate();
-		news.set("readcount",news.getInt("readcount")+1);
-		//news.getStr(column)
-/*		String content =  news.getStr("content");
-		String con = subStringHTML(content, 20, "");
-		news.set("con", con);*/
+
+		//加缓存,保存阅读记录
+		JVisitor visitor = InterUtils.tryToGetVisitor(this);
+		MongoQuery query=new MongoQuery();
+		query.use(Consts.MONGO_COLLECTION_RECORD).set("id","news"+news.getInt("id"))
+				.set("visitor",visitor.getRelname())
+				.set("title",news.getStr("title"))
+				.set("time", DateTime.now().toString("yyyy-MM-dd HH:mm:ss")).save();
+
 		setAttr("news", news);
 		render("sel.html");
+	}
+
+	public void getNewsRecordCount(){
+		int id = getParaToInt("id");
+		MongoQuery query=new MongoQuery();
+		long count = query.use(Consts.MONGO_COLLECTION_RECORD).eq("id", "news" + id).count();
+		renderAjaxResult("ok",0,count);
 	}
 	
 	public void getNewsByPageTag(){

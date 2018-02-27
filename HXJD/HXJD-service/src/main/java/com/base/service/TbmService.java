@@ -120,6 +120,25 @@ public class TbmService {
         return routeList;
     }
 
+    /**
+     * 分页查询所有盾构机加工点信息
+     * @param page
+     * @param limit
+     * @param count
+     * @return
+     */
+    public List<Record> findAllTbmWorksite(int page, int limit, long count){
+        List<Record> routeList=new ArrayList<>();
+        if(count!=0){
+            page = (page>count/limit && count%limit==0)?page-1:page ;
+            routeList = TbmQuery.me().findAllTbmWorksite(page, limit);
+        }
+        for(Record record:routeList){
+            checkRecordData(record);
+        }
+        return routeList;
+    }
+
     public void checkRecordData(Record record){
         Map<String, Object> columns = record.getColumns();
         for(Map.Entry<String, Object> entry:columns.entrySet()){

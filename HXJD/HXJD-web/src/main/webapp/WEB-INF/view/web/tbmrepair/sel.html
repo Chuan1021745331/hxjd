@@ -99,7 +99,7 @@
         </div>
     </div>
     <div class="layui-form-item" align="right" style="color: #888888">
-        阅读次数:${tbmrepair.readcount!}
+        阅读次数:<span id="recordcount"></span>
     </div>
 </form>
 <!-- 侧边按钮 -->
@@ -131,7 +131,20 @@
     })
     $("#back").unbind('click').click(function(){
         history.go(-1);
-    })
+    });
+
+    /**
+     * 获取阅读记录
+     */
+    $(function () {
+        $.ajax({
+            url:"${BPATH}" + "/web/tbmrepair/getRecordCount?id=${tbmrepair.id}",
+            success:function(result){
+                var count=result.data;
+                $("#recordcount").html(count+"");
+            }
+        });
+    });
 </script>
 
 </body>

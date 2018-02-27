@@ -106,8 +106,6 @@ public class TbmrepairController extends BaseController {
         tbmrepair.setCreatetime(DateTime.now());
         //补全盾构机信息
         JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
-        //初始化阅读次数
-        tbmrepair.setReadcount(0);
         TbmrepairService.me().addTbmInfo(tbmrepair,tbm);
 
         boolean b = tbmrepair.save();

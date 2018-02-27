@@ -7,6 +7,7 @@ import com.base.query.UserQuery;
 import com.base.service.VisitorService;
 import com.base.utils.CookieUtils;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 
 
 public class InterUtils {
@@ -20,7 +21,11 @@ public class InterUtils {
 	}
 
 	public static JVisitor tryToGetVisitor(Invocation inv) {
-		String visitorId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_VISITOR);
+		return tryToGetVisitor(inv.getController());
+	}
+
+	public static JVisitor tryToGetVisitor(Controller controller) {
+		String visitorId = CookieUtils.get(controller, Consts.COOKIE_LOGINED_VISITOR);
 		if (visitorId != null && !"".equals(visitorId)) {
 			return VisitorService.me().findVisitorById(Integer.parseInt(visitorId));
 		}

@@ -1,15 +1,20 @@
 package com.base.web.controller.web;
 
+import com.base.constants.Consts;
 import com.base.core.BaseController;
+import com.base.interceptor.InterUtils;
 import com.base.model.JTbm;
 import com.base.model.JTbmrepair;
 import com.base.model.JUser;
+import com.base.model.JVisitor;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.service.TbmService;
 import com.base.service.TbmrepairService;
 import com.base.service.UserService;
+import com.cybermkd.mongo.kit.MongoQuery;
 import com.jfinal.plugin.activerecord.Record;
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -44,12 +49,16 @@ public class TbmRepairController extends BaseController{
     public void sel(){
         Integer id = getParaToInt("id");
         JTbmrepair tbmrepair = TbmrepairService.me().findTbmrepairByTbmrepairId(id);
-        //增加阅读次数
-        tbmrepair.setReadcount(tbmrepair.getReadcount()+1);
-        tbmrepair.saveOrUpdate();
+
+        //添加缓存，保存阅读记录
+        JVisitor visitor = InterUtils.tryToGetVisitor(this);
+        MongoQuery query=new MongoQuery();
+        query.use(Consts.MONGO_COLLECTION_RECORD).set("id","tbmrepair"+tbmrepair.getInt("id"))
+                .set("visitor",visitor.getRelname())
+                .set("title",tbmrepair.getTbmname())
+                .set("time", DateTime.now().toString("yyyy-MM-dd HH:mm:ss")).save();
 
         JUser user= UserService.me().findById(tbmrepair.getUserId());
-
         //盾构机详情
         JTbm tbm = TbmService.me().findTbmById(tbmrepair.getTbmId());
 
@@ -57,5 +66,12 @@ public class TbmRepairController extends BaseController{
         setAttr("user",user);
         setAttr("tbm",tbm);
         render("sel.html");
+    }
+
+    public void getRecordCount(){
+        Integer id = getParaToInt("id");
+        MongoQuery query=new MongoQuery();
+        long count = query.use(Consts.MONGO_COLLECTION_RECORD).eq("id", "tbmrepair" + id).count();
+        renderAjaxResult("ok",0,count);
     }
 }

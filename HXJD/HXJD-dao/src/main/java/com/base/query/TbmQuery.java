@@ -90,7 +90,7 @@ public class TbmQuery {
      */
     public List<Record> findTbmTbmrepairByCircuitId(int page, int limit, int circutid){
         //连表查询维修记录最近的一次
-        StringBuilder sql=new StringBuilder("select t.*,tb.repairtime,tb.repairman,tb.cycle");
+        StringBuilder sql=new StringBuilder("select t.*,jw.name worksiteName,tb.repairtime,tb.repairman,tb.cycle");
         sql.append(" from j_worksite jw join j_tbm t on jw.id = t.worksiteid left join (select * from j_tbmrepair group by tbmId having max(repairtime)) tb on t.id=tb.tbmId");
         sql.append(" where jw.circuitid=?");
         sql.append(" order by id asc limit ?,?");
@@ -111,6 +111,16 @@ public class TbmQuery {
         //连表查询维修记录最近的一次
         StringBuilder sql=new StringBuilder("select t.*,tb.repairtime,tb.repairman,tb.cycle");
         sql.append(" from j_tbm t left join (select * from j_tbmrepair group by tbmId having max(repairtime)) tb on t.id=tb.tbmId");
+        sql.append(" order by id asc limit ?,?");
+        LinkedList<Object> params = new LinkedList<Object>();
+        params.add(limit*page-limit);
+        params.add(limit);
+        return Db.find(sql.toString(),params.toArray());
+    }
+
+    public List<Record> findAllTbmWorksite(int page, int limit){
+        StringBuilder sql=new StringBuilder("select t.*,w.name worksiteName");
+        sql.append(" from j_tbm t left join j_worksite w on t.worksiteid=w.id");
         sql.append(" order by id asc limit ?,?");
         LinkedList<Object> params = new LinkedList<Object>();
         params.add(limit*page-limit);

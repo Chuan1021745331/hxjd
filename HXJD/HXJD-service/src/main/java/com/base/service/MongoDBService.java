@@ -24,6 +24,11 @@ import org.slf4j.LoggerFactory;
 public class MongoDBService extends BaseService {
 	private final static Logger logger = LoggerFactory.getLogger(MongoDBService.class);
 
+	public static void save(String collection,Object o){
+		MongoQuery query = new MongoQuery();
+		query.use(collection).set(o).save();
+	}
+
 	public static void save(Record record) {
 		MongoQuery query = new MongoQuery();
 		query.use("test").set(record).save();
