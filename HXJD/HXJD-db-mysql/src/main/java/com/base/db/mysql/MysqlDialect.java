@@ -66,6 +66,7 @@ public class MysqlDialect extends DbDialect {
 		return druidPlugin;
 	}
 
+	@Override
 	public String doTableConvert(String sql) {
 		for (Map.Entry<String, String> entry : tableMapping.entrySet()) {
 			sql = sql.replace(" " + entry.getKey() + " ", String.format(" `%s` ", entry.getValue()));
