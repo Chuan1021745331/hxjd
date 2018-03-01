@@ -54,7 +54,7 @@
 				    	</div>	    	
 				    </div>
 				<#else>
-					<div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item ${bean.type}" style="margin: 0px;white-space:normal;">
+					<div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  ${bean.type}" style="margin: 0px;white-space:normal;">
 						<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 							<div class="id" style="display:none">${bean.id!}</div>
 							<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【${bean.name!}】${bean.title!}</div>
@@ -108,43 +108,38 @@
     })
 	
     //新闻类详情
-	$("#newsCard").on("click",".colHeader",function(){
-		if($(this).hasClass("newsTitle")){
-			var device = layui.device();
-			var id = $(this).prev().text();			
-			if(device.android || device.ios){				
-				//手机页面
-				window.location = "${BPATH}/news/getNewsById?id="+id;
-			} else {
-				var windowHeight = window.screen.availHeight;
-				var windowWidth = window.screen.availWidth;
+	$("#newsCard").on("click",".news-item",function(){
+		var device = layui.device();
+		var id = $(this).find(".id").text();
+		if(device.android || device.ios){
+			//手机页面
+			window.location = "${BPATH}/news/getNewsById?id="+id;
+		} else {
+			var windowHeight = window.screen.availHeight;
+			var windowWidth = window.screen.availWidth;
 
-				var height = Math.ceil(windowHeight*0.71);
-				var width = Math.ceil(windowWidth*0.71);
-				var area = [width+'px',height+"px"];
-				var index = parent.layer.open({
-		            id:"news-sel",
-		            type: 2 ,
-		            title: '新闻详情',
-		            content: "${BPATH}/news/getNewsById?id="+id,
-		            resize: false,
-		            area: area,
-		            move: false,
-		            shade:0,
-		            anim: Math.ceil(Math.random() * 6),
-		            success : function(layero, index){
+			var height = Math.ceil(windowHeight*0.71);
+			var width = Math.ceil(windowWidth*0.71);
+			var area = [width+'px',height+"px"];
+			var index = parent.layer.open({
+				id:"news-sel",
+				type: 2 ,
+				title: '新闻详情',
+				content: "${BPATH}/news/getNewsById?id="+id,
+				resize: false,
+				area: area,
+				move: false,
+				shade:0,
+				anim: Math.ceil(Math.random() * 6),
+				success : function(layero, index){
 /* 		                setTimeout(function(){
-		                    layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
-		                        tips: 3
-		                    });
-		                },500) */
-		            }
-		        });
-			}
-			
-			
+						layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+							tips: 3
+						});
+					},500) */
+				}
+			});
 		}
-		
 	}),
 	$("#newsCard").on("click",".tbmrepair-item",function () {
         var id=$($(this).find(".id")[0]).html();
@@ -196,7 +191,7 @@
 	    				var data = eval('('+result+')');
 	        			$("#newsCard").empty();
 						$.each(data, function(i, val){						
-							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item  news-item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
 							$("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
 							$("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
 							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');
@@ -261,7 +256,7 @@
                             '\t\t\t\t    \t</div>\t    \t\n' +
                             '\t\t\t\t    </div>');
                     }else{
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item news-item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
                             '\t\t\t\t\t\t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                             '\t\t\t\t\t\t\t<div class="id" style="display:none">'+value.id+'</div>\n' +
                             '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
@@ -309,7 +304,7 @@
     	    			success:function(result){
     	    				var data = eval('('+result+')');
     						$.each(data, function(i, val){						
-    							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+    							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
     							$("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
     							$("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
     							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');

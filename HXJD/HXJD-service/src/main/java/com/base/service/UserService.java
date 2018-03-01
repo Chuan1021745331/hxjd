@@ -165,10 +165,12 @@ public class UserService {
 	        list = UserQuery.me().findListUserRole(page, limit, where);
 	        for(Record record:list){
 				JDepartment department = DepartmentService.me().findDepartmentByUserId(record.getInt("id"));
-				if(department!=null)
+				if(department!=null){
 					record.set("departmentName",department.getName());
-				else
+				}
+				else{
 					record.set("departmentName","暂无职称");
+				}
 			}
 		}
 		return list;

@@ -84,7 +84,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
 
 	//遮罩点击事件
     $("body").on("click","#layui-layer-shade1",function () {
-        console.log("layui-layer-shade1 click");
         $("#menuDiv").trigger("click");
         $("#layui-layer-shade1").remove();
     });
@@ -205,7 +204,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
             },
             end : function(){
                 moreNewsIndex=0;
-                console.log("endindex值"+moreNewsIndex);
             }
         });
     });
@@ -317,8 +315,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
             }
 
             $(".tbmiframe").attr("src", url);
-            console.log("树形点击数据:"+treeId);
-            console.log(treeNode);
         };
 
         function reloadTreeData() {
@@ -328,8 +324,6 @@ layui.use(['jquery', 'layer', 'element'], function() {
                 dataType: 'json',
                 success: function (data) {
                     zTree = $.fn.zTree.init($("#treeDemo"), setting, data);
-                    console.log("树形数据");
-                    console.log(data);
                     zTree.expandAll(true);
                 }
             });

@@ -107,7 +107,7 @@ public abstract class JBaseConfig extends JFinalConfig {
 
 		//加载MongoDB
 		MongoJFinalPlugin jFinalPlugin = new MongoJFinalPlugin();
-		jFinalPlugin.add("127.0.0.1", 27017);
+		jFinalPlugin.add("192.168.0.165", 27017);
 		jFinalPlugin.setDatabase("tbm");
 		jFinalPlugin.setDebug(false);
 		

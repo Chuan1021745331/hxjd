@@ -58,10 +58,12 @@ public class VisitorService {
             list=VisitorQuery.me().findListVisitorDepartment(page,limit,search);
             for(Record record:list){
                 JDepartment department = DepartmentService.me().findDepartmentByVisitorId(record.getInt("id"));
-                if(department!=null)
+                if(department!=null){
                     record.set("departmentName",department.getName());
-                else
+                }
+                else{
                     record.set("departmentName","暂无职称");
+                }
             }
         }
         return list;
@@ -100,8 +102,9 @@ public class VisitorService {
      */
     public boolean isExists(String visitorname){
         JVisitor visitor = VisitorQuery.me().findByVisitorName(visitorname);
-        if(null==visitor)
+        if(null==visitor){
             return false;
+        }
         return true;
     }
 

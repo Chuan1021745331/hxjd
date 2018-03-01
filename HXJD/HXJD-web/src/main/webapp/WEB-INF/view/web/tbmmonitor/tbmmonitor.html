@@ -28,13 +28,13 @@
 
 	</style>  
 </head>
-<body style="overflow:auto">
+<body style="overflow-x:hidden">
 <div id="mobile" >
 	<div id="tag" style="margin-left: 1%;margin-top:1%;">
-		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="margin-bottom:5px;background-color: #3F51B5;">全部</button>
+		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="margin-top:5px;background-color: #3F51B5;">全部</button>
 		<#if circuitList??>
 			<#list circuitList as bean>
-				<button class="layui-btn layui-btn-sm layui-btn-radius tag circuitTag" id="${bean.id!}" style="margin-bottom:5px;background-color: #3F51B5;">${bean.name!}</button>
+				<button class="layui-btn layui-btn-sm layui-btn-radius tag circuitTag" id="${bean.id!}" style="margin-top:5px;background-color: #3F51B5;">${bean.name!}</button>
 			</#list>
 		</#if>
 		<hr class="layui-bg-blue">
@@ -62,7 +62,7 @@
 <script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
 <script type="text/javascript">
   	var page = 1;
-    var limit=10;
+    var limit=15;
     $(window).scroll(function(){
     	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
     	var scrollTop = $(this).scrollTop();  
@@ -148,13 +148,11 @@
             url:"${BPATH}" + "/tbmmonitor/getAllTbm?page="+page+"&limit="+limit,
             success:function(result){
                 var data=result.data;
-                console.log("data");
-                console.log(data);
                 $.each(data,function(index,value,array){
 					$("#circuitCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">\n' +
                         '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                         '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius layui-col-xs12 layui-col-sm12 layui-col-md12 " style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
                         '\t\t\t\t    \t\t\n' +
                         '\t\t\t\t    \t</div>\t    \t\n' +
                         '\t\t\t\t    </div>');
@@ -168,13 +166,11 @@
             url:"${BPATH}" + "/tbmmonitor/getTbmByCircuitId?id="+circuitId+"&page="+page+"&limit="+limit,
             success:function(result){
                 var data = result.data;
-                console.log("新闻类的Tag");
-                console.log(data);
                 $.each(data, function(i, value){
                     $("#circuitCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item" style="margin: 0px;white-space:normal;">\n' +
                         '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                         '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 " style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius layui-col-xs12 layui-col-sm12 layui-col-md12 " style="height:20%">【'+value.worksiteName+'】'+value.name+'</div>\n' +
                         '\t\t\t\t    \t\t\n' +
                         '\t\t\t\t    \t</div>\t    \t\n' +
                         '\t\t\t\t    </div>');
