@@ -97,10 +97,16 @@
                 <input type="text"  value="${user.relname!}" readonly class="layui-input">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">阅读次数</label>
+            <div class="layui-input-inline" style="width: 50px">
+                <input type="text" id="recordcount"  readonly class="layui-input">
+            </div>
+        </div>
     </div>
-    <div class="layui-form-item" align="right" style="color: #888888">
-        阅读次数:<span id="recordcount"></span>
-    </div>
+    <!--<div class="layui-form-item" align="right" style="color: #888888">
+        阅读次数:<span id=""></span>
+    </div>-->
 </form>
 <!-- 侧边按钮 -->
 <div  style=""  class="right-btn-group displayNone">
@@ -141,7 +147,8 @@
             url:"${BPATH}" + "/web/tbmrepair/getRecordCount?id=${tbmrepair.id}",
             success:function(result){
                 var count=result.data;
-                $("#recordcount").html(count+"");
+                $("#recordcount").val(count+"");
+                console.log("recordcount"+ $("#recordcount").val());
             }
         });
     });

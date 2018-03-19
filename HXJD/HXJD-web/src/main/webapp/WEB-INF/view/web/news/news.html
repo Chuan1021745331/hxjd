@@ -25,19 +25,21 @@
 		.item{
 			cursor: pointer;
 		}
-
+		.tag{
+			margin-top: 5px;
+		}
 	</style>  
 </head>
 <body style="overflow:auto">
 <div id="mobile" >
 	<div id="tag" style="margin-left: 1%;margin-top:1%;">
-		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="background-color: #3F51B5;">全部</button>
+		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="margin-top:5px;background-color: #3F51B5;">全部</button>
 		<#if newsType??>
 			<#list newsType as bean>
 				<button class="layui-btn layui-btn-sm layui-btn-radius tag newsTag" id="${bean.id!}" style="background-color: #3F51B5;">${bean.name!}</button>
 			</#list>
 		</#if>
-	<button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag tag" id="" style="background-color: #3F51B5;">维保记录</button>
+	<button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag tag"  style="background-color: #3F51B5;">维保记录</button>
 
 	</div>
 	<div id="newsCard" class="layui-row" style="overflow-x:hidden;">
@@ -51,7 +53,7 @@
 				    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.content!}</div>
 				    		<div >${bean.writer!} 填写于 ${bean.createtime!}</div>
 				    		<hr class="layui-bg-blue">
-				    	</div>	    	
+				    	</div>
 				    </div>
 				<#else>
 					<div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  ${bean.type}" style="margin: 0px;white-space:normal;">
