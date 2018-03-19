@@ -1,6 +1,7 @@
 package com.base.query;
 
 import com.base.model.JWorksite;
+import com.jfinal.plugin.activerecord.Db;
 
 import javax.swing.plaf.PanelUI;
 import java.util.List;
@@ -41,5 +42,9 @@ public class WorkSiteQuery {
      */
     public boolean delWorksiteById(int id){
         return DAO.deleteById(id);
+    }
+
+    public long findAllworksiteCount(){
+        return Db.queryLong("SELECT count(*) FROM j_worksite");
     }
 }

@@ -3,9 +3,7 @@ package com.base.admin.controller;
 import com.base.router.RouterMapping;
 import com.base.router.RouterNotAllowConvert;
 import com.base.query.MenuQuery;
-import com.base.service.IndexService;
-import com.base.service.MenuService;
-import com.base.service.UserService;
+import com.base.service.*;
 import com.base.utils.CookieUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.GZipUtil;
@@ -107,7 +105,20 @@ public class IndexController extends BaseController {
 		map.put("med", med);
 		map.put("sea", sea);
 		map.put("gro", gro);
-		
+
+		//获取所有线路数量
+		long circuitCount = CircuitService.me().getAllCircuitCount();
+		//获取所有工点数量
+		long worksiteCount = WorkSiteService.me().findAllworksiteCount();
+		//获取所有盾构机数量
+		long tbmCount = TbmService.me().findAllTbmCount();
+		//获取所有用户人员数量
+		long visitorCount = VisitorService.me().findAllVisitorCount();
+		map.put("circuitCount", circuitCount);
+		map.put("worksiteCount", worksiteCount);
+		map.put("tbmCount", tbmCount);
+		map.put("visitorCount", visitorCount);
+
 		setAttr("map", map);
 		render("main.html");
 	}

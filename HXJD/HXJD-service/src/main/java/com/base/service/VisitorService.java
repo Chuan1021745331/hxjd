@@ -10,6 +10,7 @@ import com.base.utils.AttachmentUtils;
 import com.base.utils.EncryptUtils;
 import com.base.utils.StringUtils;
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -175,5 +176,9 @@ public class VisitorService {
         visitor.setPassword(newPasswordEn);
         visitor.saveOrUpdate();
         return true;
+    }
+
+    public long findAllVisitorCount(){
+        return VisitorQuery.me().findAllVisitorCount();
     }
 }

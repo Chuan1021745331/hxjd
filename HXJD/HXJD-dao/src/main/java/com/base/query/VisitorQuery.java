@@ -69,4 +69,8 @@ public class VisitorQuery {
     public boolean delById(int visitorId){
        return DAO.deleteById(visitorId);
     }
+
+    public long findAllVisitorCount(){
+        return Db.queryLong("select count(*) from j_visitor");
+    }
 }

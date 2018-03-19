@@ -9,6 +9,7 @@ import com.base.router.RouterNotAllowConvert;
 import com.base.service.DepartmentService;
 import com.base.service.VisitorService;
 import com.base.utils.CookieUtils;
+import com.base.utils.StringUtils;
 import com.jfinal.plugin.activerecord.Record;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,13 @@ public class VisitorController extends BaseController{
         Integer id = getParaToInt("visitorId");
         String newPassword = getPara("newPassword");
         String oldPassword = getPara("oldPassword");
+        String sureNewPassword = getPara("sureNewPassword");
+        if(!StringUtils.isNotEmpty(newPassword)&&StringUtils.isNotEmpty(sureNewPassword)){
+            renderAjaxResultForError("密码不能为空");
+        }
+        if(!newPassword.equals(sureNewPassword)){
+            renderAjaxResultForError("两次密码不一致");
+        }
         JVisitor visitor = VisitorService.me().findVisitorById(id);
         boolean b = VisitorService.me().editPassword(visitor, oldPassword, newPassword);
         if(b){

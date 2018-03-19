@@ -3,6 +3,7 @@ package com.base.query;
 import com.base.model.JCircuit;
 import com.base.model.JWorksite;
 import com.base.model.dto.CircuitWorksiteDto;
+import com.jfinal.plugin.activerecord.Db;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,10 @@ public class CircuitQuery {
      */
     public List<JCircuit> getAllCircuit(){
         return DAO.find("select * from j_circuit");
+    }
+
+    public long getAllCircuitCount(){
+        return Db.queryLong("select count(*) from j_circuit");
     }
 
 

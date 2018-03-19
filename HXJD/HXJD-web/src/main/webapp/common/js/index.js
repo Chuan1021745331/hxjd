@@ -135,9 +135,9 @@ layui.use(['jquery', 'layer', 'element'], function() {
 	});
 	//修改访客密码
     $("#user-edit").click(function (){
-        var area=['420px', '220px'];
+        var area=['420px', '260px'];
         if(device.android || device.ios){
-            area=['90%', '35%'];
+            area=['90%', '41%'];
         }
         var index = layer.open({
             type: 2 ,

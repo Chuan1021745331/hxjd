@@ -61,6 +61,12 @@
     layui.use(['form'], function() {
         var form = layui.form;
         form.on('submit(formDemo)', function(data) {
+            var surePassword=$("input[name='sureNewPassword']").val();
+            var newPassword=$("input[name='newPassword']").val();
+            if(surePassword!=newPassword){
+                layer.msg('两次密码不一致', {icon: 5});
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            }
             $.ajax({
                 url:bpath+'/visitor/editSave',
                 type:"POST",

@@ -66,6 +66,14 @@ public class CircuitService {
     }
 
     /**
+     * 获取所有线路数量
+     * @return
+     */
+    public long getAllCircuitCount(){
+        return CircuitQuery.me().getAllCircuitCount();
+    }
+
+    /**
      * 获取路线以及路线下的工点
      * @return
      */

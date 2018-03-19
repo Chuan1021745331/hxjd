@@ -97,4 +97,12 @@ public class WorkSiteService {
     public boolean delWorkSiteById(int id){
         return WorkSiteQuery.me().delWorksiteById(id);
     }
+
+    /**
+     * 获取所有工点数量
+     * @return
+     */
+    public long findAllworksiteCount(){
+        return WorkSiteQuery.me().findAllworksiteCount();
+    }
 }
