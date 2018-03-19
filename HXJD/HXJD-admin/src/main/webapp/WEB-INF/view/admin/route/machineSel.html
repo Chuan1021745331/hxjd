@@ -2,116 +2,146 @@
 active_id="dashboard">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/msmart.css">
 <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
+<link rel="stylesheet" href="${CPATH}/css/main1119.css"/>
+<link rel="stylesheet" href="${CPATH}/css/cxColor/jquery.cxcolor.css"/>
+
+</script>
 <style type="text/css">
    .layui-form-label{
        width:90px;
    }
+   .mainBody{
+   	width: 50%;
+	overflow-y: auto;
+	padding: 5px;
+   }
 </style>
-<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
-    <input type="hidden" name="jTbm.worksiteid" value="<#if worksite??>${worksite.id}</#if>">
-    <input type="hidden" name="jTbm.id" value="<#if tbm??>${tbm.id}</#if>">
-    <div class="layui-form-item">
-        <label class="layui-form-label">所属节点</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" class="layui-input" value="根节点" readonly = "readonly" style="color: #009688;font-weight: bolder;">
-
-            </div>
-
-            <div class="layui-form-mid">——></div>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" class="layui-input" value="${circuit.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
-
-            </div>
-
-            <div class="layui-form-mid">——></div>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" class="layui-input" value="${worksite.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
-
-            </div>
-
-
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">名称</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" readonly value="<#if tbm??>${tbm.name!}</#if>">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">盾构机编码</label>
-        <div class="layui-input-inline">
-            <input type="text" readonly value="<#if tbm??>${tbm.code!}</#if>"  class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">客户端Mac地址</label>
-        <div class="layui-input-inline">
-            <input type="text" readonly value="<#if tbm??>${tbm.mac!}</#if>"  class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-    </div>
-    <#if tbmrepair??>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">最近一次维修</label>
-                <div class="layui-input-inline">
-                    <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">维修人</label>
-                <div class="layui-input-inline">
-                    <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">下次维修时间</label>
-                <div class="layui-input-inline" >
-                    <input type="text" id="cycle"  value="${tbmrepair.cycle!}" readonly  class="layui-input choose-time">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <p id="selTbmrepair" class="layui-btn layui-btn-sm"><i class="icon iconfont"></i><cite>查看所有记录</p>
-            </div>
-        </div>
-    <#else>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">暂无维保记录</label>
-            </div>
-        </div>
-    </#if>
-</form>
-<!--添加摄像头-->
-<div class="layui-row ms-margin-left-2rem ">
-    <!--<div class="layui-col-md1 debug"> </div>-->
-    <button id="addCamera" class="layui-btn ms-margin-left-2rem ">
-        <i class="layui-icon">&#xe608;</i> 添加摄像头
-    </button>
+<div class="layui-row">
+	<div class="layui-col-md6">
+		<form class="layui-form" action="" style="margin: 10px 10px 0px 10px;">
+		    <input type="hidden" name="jTbm.worksiteid" value="<#if worksite??>${worksite.id}</#if>">
+		    <input type="hidden" name="jTbm.id" value="<#if tbm??>${tbm.id}</#if>">
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">所属节点</label>
+		            <div class="layui-input-inline" style="width: 100px;">
+		                <input type="text" class="layui-input" value="根节点" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+		
+		            </div>
+		
+		            <div class="layui-form-mid">——></div>
+		            <div class="layui-input-inline" style="width: 100px;">
+		                <input type="text" class="layui-input" value="${circuit.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+		
+		            </div>
+		
+		            <div class="layui-form-mid">——></div>
+		            <div class="layui-input-inline" style="width: 100px;">
+		                <input type="text" class="layui-input" value="${worksite.name}" readonly = "readonly" style="color: #009688;font-weight: bolder;">
+		
+		            </div>
+		
+		
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">名称</label>
+		        <div class="layui-input-inline">
+		            <input type="text" class="layui-input" readonly value="<#if tbm??>${tbm.name!}</#if>">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">盾构机编码</label>
+		        <div class="layui-input-inline">
+		            <input type="text" readonly value="<#if tbm??>${tbm.code!}</#if>"  class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">客户端Mac地址</label>
+		        <div class="layui-input-inline">
+		            <input type="text" readonly value="<#if tbm??>${tbm.mac!}</#if>"  class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		    </div>
+		    <#if tbmrepair??>
+		        <div class="layui-form-item">
+		            <div class="layui-inline">
+		                <label class="layui-form-label">最近一次维修</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" value="${tbmrepair.repairtime!}" readonly class="layui-input choose-time">
+		                </div>
+		            </div>
+		            <div class="layui-inline">
+		                <label class="layui-form-label">维修人</label>
+		                <div class="layui-input-inline">
+		                    <input type="text"  value="${tbmrepair.repairman!}" readonly class="layui-input">
+		                </div>
+		            </div>
+		            <div class="layui-inline">
+		                <label class="layui-form-label">下次维修时间</label>
+		                <div class="layui-input-inline" >
+		                    <input type="text" id="cycle"  value="${tbmrepair.cycle!}" readonly  class="layui-input choose-time">
+		                </div>
+		            </div>
+		            <div class="layui-inline">
+		                <p id="selTbmrepair" class="layui-btn layui-btn-sm"><i class="icon iconfont"></i><cite>查看所有记录</p>
+		            </div>
+		        </div>
+		    <#else>
+		        <div class="layui-form-item">
+		            <div class="layui-inline">
+		                <label class="layui-form-label">暂无维保记录</label>
+		            </div>
+		        </div>
+		    </#if>
+		</form>
+		<!--添加摄像头-->
+		<div class="layui-row ms-margin-left-2rem ">
+		    <!--<div class="layui-col-md1 debug"> </div>-->
+		    <button id="addCamera" class="layui-btn ms-margin-left-2rem ">
+		        <i class="layui-icon">&#xe608;</i> 添加摄像头
+		    </button>
+		</div>
+		<hr class="layui-bg-gray">
+		<!--展示摄像头-->
+		<div id="showCamera" class="ms-padding-left-2rem sm-layout-center-vertical ">
+		<table id="cameraList" class="layui-table" lay-even lay-skin="nob" lay-filter="cameraList">
+			 <tbody>
+			    <#if cameras??>
+			    	<#list cameras as camera>
+			    		<tr id="camera${camera.id!}">
+			    			<td  id="cameraName${camera.id!}">${camera.name!}</td>
+			    			<td  id="cameraRtsp${camera.id!}">${camera.rtsp!}</td>
+			    			<td>
+			    				<button data="${camera.id!}"  class="editCamera layui-btn layui-btn-sm layui-btn-primary">
+		                     		<i class="layui-icon">&#xe642;</i>
+		                 		</button>
+		                 		<button data="${camera.id!}"  class="delCamera layui-btn layui-btn-sm layui-btn-primary">
+		                    		<i class="layui-icon">&#xe640;</i>
+		                		</button>
+		                 	</td>
+			    		</tr>
+			    	</#list>
+			    </#if>
+			  </tbody>		
+		</table>
+		</div>
+	</div>	
+	<div class="layui-col-md6">
+		<!--隐藏的线路坐标数据-->
+	    <input id="hiddenPoints" type="hidden" value="<#if circuit??>${circuit.points}</#if>"/>
+	    <input id="hiddenCircuitColor" type="hidden" value="<#if circuit??>${circuit.color}</#if>"/>
+	    <!--隐藏的工点坐标数据-->
+	    <input id="hiddenCoord" type="hidden" value="<#if worksite??>${worksite.coord}</#if>"/>
+	    <input id="hiddenWorksiteColor" type="hidden" value="<#if worksite??>${worksite.color}</#if>"/>
+	
+	    <!--map-->
+	    <div class="" style="height: 800px;">
+	        <div id="container" class=" ">
+	        </div>
+	    </div>
+	</div>
 </div>
-<hr class="layui-bg-gray">
-<!--展示摄像头-->
-<div id="showCamera" class="sm-width-80-per ms-padding-left-2rem sm-layout-center-vertical ">
-<#if cameras??>
-    <#list cameras as camera>
-        <div id="camera${camera.id!}" class="sm-width-100-per sm-height-20-per ms-margin-top-1rem ms-layout-center-horizontal " style="background-color: #f2f2f2;">
-             <div id="cameraName${camera.id!}" class="ms-width-20-per sm-height-100-per    "  style="background-color: #f2f2f2;">${camera.name!}</div>
-             <div id="cameraRtsp${camera.id!}" class="ms-width-60-per sm-height-100-per    "  style="background-color: #f2f2f2;">${camera.rtsp!}</div>
-             <div class="ms-width-5-per  sm-height-100-per ms-margin-left-1rem  ms-layout-center-horizontal "  style="background-color: #ffffff;" >
-                 <button data="${camera.id!}"  class="editCamera layui-btn layui-btn-sm layui-btn-primary">
-                     <i class="layui-icon">&#xe642;</i>
-                 </button>
-             </div>
-            <div class="ms-width-18-per  sm-height-100-per  "  style="background-color: #ffffff;">
-                <button data="${camera.id!}"  class="delCamera layui-btn layui-btn-sm layui-btn-primary">
-                    <i class="layui-icon">&#xe640;</i>
-                </button>
-            </div>
-        </div>
-    </#list>
-</#if>
-</div>
+
 <!--添加摄像头模态框-->
 <div id="addCameraDiv" hidden>
     <form class="layui-form " action="" style="margin: 10px 10px 0px 10px;">
@@ -168,16 +198,23 @@ active_id="dashboard">
 </div>
 
 
+<script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=6bcb8a1e8feb4b3da331adac45ae2dea"></script>
 <script>
-    layui.use(["layer","form","element","common"],function () {
+    layui.use(["layer","form","element","common","table"],function () {
         var layer = layui.layer
         var form = layui.form
+        var table = layui.table
         var element = layui.element
         var common = layui.common
         var index;
         var cameraID="NULL";
         var addIndex;
-
+		
+/*         table.render({ //其它参数省略
+        	  id: '#cameraList'
+        	}); */
+        
         $("#selTbmrepair").click(function () {
             var id='<#if tbm??>${tbm.id}</#if>';
             parent.layui.common.tableOpenLayer('${tbm.name}维修记录','icon-xiangqing',bpath+'/admin/route/tbmrepair?id='+id);
@@ -187,7 +224,7 @@ active_id="dashboard">
         $("#addCamera").click(function () {
             addIndex = layer.open({
                 type: 1,
-                area: ['550px', '260px'],
+                area: ['80%', '70%'],
                 content: $('#addCameraDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
             });
         })
@@ -205,7 +242,7 @@ active_id="dashboard">
                 $("#cameraRtsp").val(cameraRtsp);
                 index = layer.open({
                     type: 1,
-                    area: ['550px', '260px'],
+                    area: ['80%', '70%'],
                     content: $('#editCameraDiv'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
                     cancel: function(){
                         //右上角关闭回调
@@ -221,15 +258,17 @@ active_id="dashboard">
         function formSubmitDelCamera(url) {
             $(".delCamera").click(function () {
                 var cameraId = $(this).attr('data');
+                alert(cameraId);
                 $.ajax({
                     url:url,
                     type:"POST",
                     data:{cid:cameraId},
                     dataType:"json",
                     success:function(json){
-                        if(json.errorCode==0){
+                        if(json.errorCode==0){                            
+                            $("#camera"+cameraId).remove();  
                             top.parent.MSG(4,  json.message);
-                            $("#showCamera").children().remove("#camera"+cameraId);
+                            //$("#showCamera").children().remove("#camera"+cameraId);
                         }else{
                             top.parent.MSG(3,  json.message);
                         }
@@ -267,7 +306,14 @@ active_id="dashboard">
                             var rtsp = data.rtsp;
                             /*添加摄像头*/
                             if(cameraID == 'NULL'){
-                                var html = '<div id="camera'+cid+'" class="sm-width-100-per sm-height-20-per ms-margin-top-1rem ms-layout-center-horizontal " style="background-color: #f2f2f2;">'
+                                var html = '<tr id="camera'+cid+'">'
+                                			+ '<td id="cameraName'+cid+'">'+name+'</td>'
+                                			+ '<td id="cameraRtsp'+cid+'">'+rtsp+'</td>'
+                                			+ '<td><button data="'+cid+'" class="editCamera layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon">&#xe642;</i></button>'
+                                			+ '<button data="'+cid+'" class="delCamera layui-btn layui-btn-sm layui-btn-primary"><i class="layui-icon">&#xe640;</i></button></td></tr>';
+                            	                          	
+/*                             	
+                            	var html = '<div id="camera'+cid+'" class="sm-width-100-per sm-height-20-per ms-margin-top-1rem ms-layout-center-horizontal " style="background-color: #f2f2f2;">'
                                                 +'<div id="cameraName'+cid+'" class="ms-width-20-per sm-height-100-per   "  style="background-color: #f2f2f2;">'+name+'</div>'
                                                  +'<div id="cameraRtsp'+cid+'" class="ms-width-60-per sm-height-100-per    "  style="background-color: #f2f2f2;">'+rtsp+'</div>'
                                                  +'<div class="ms-width-5-per  sm-height-100-per ms-margin-left-1rem  ms-layout-center-horizontal "  style="background-color: #ffffff;">'
@@ -280,9 +326,9 @@ active_id="dashboard">
                                                             +'<i class="layui-icon">&#xe640;</i>'
                                                         +'</button>'
                                                  +'</div>'
-                                            + '</div>';
+                                            + '</div>'; */
 
-                                $("#showCamera").append(html)
+                                $("tbody").append(html)
 
                                 /*解除修改摄像头信息的模态框弹出事件*/
                                 $(".editCamera").unbind();
@@ -321,6 +367,143 @@ active_id="dashboard">
         }
 
     });
+    
+    
+    
+    /*创建高德地图*/
+    var map = new AMap.Map('container', {
+        layers: [new AMap.TileLayer.Satellite({zIndex:10})],
+        zoom: 13,
+        center: [106.545474,29.601621]
+    });
+    
+    /*全局变量*/
+    var marker = "NULL";
+
+    map.on('click',function (e) {
+        if(marker != "NULL"){
+            clearTag();
+        }
+        var x = e.lnglat.getLng();
+        var y = e.lnglat.getLat();
+        creatMaker(x,y);
+    });
+
+    /*初始化*/
+    function init() {
+        initLine();
+        initWorkSite();
+    }
+
+    init();
+
+    /*解析坐标为数组*/
+    function analysisPoints(points) {
+        var lineStr = new Array();
+        lineStr = points.split("#");
+
+        var items = new Array();
+        for(var j = 0;j<lineStr.length;j++){
+
+            var str = lineStr[j].split(",");
+            var x = str[0];
+            var y = str[1];
+            items[j]= [x,y];
+        }
+        return items;
+    }
+    /*将盾构机坐标保存到表单*/
+    function setAddPoints(x,y,oth) {
+        var data ;
+        if(oth == "NULL"){
+            data = x+","+y;
+            $("#addTbmCoord").val(data);
+        }
+    }
+
+    /*初始化线路*/
+    function initLine() {
+        var pointsPart = "NULL";
+        pointsPart = $("#hiddenPoints").val();
+        if(pointsPart != "NULL"){
+            var items = analysisPoints(pointsPart);
+            var pcolor = $("#hiddenCircuitColor").val();
+            draw(items,"init",pcolor,3);
+        }
+
+    }
+
+    /*初始化工点段*/
+    function initWorkSite() {
+        var coordPart = "NULL";
+        coordPart = $("#hiddenCoord").val();
+        if(coordPart != "NULL"){
+            var items = analysisPoints(coordPart);
+            var wcolor = $("#hiddenWorksiteColor").val();
+            draw(items,"init",wcolor,8);
+        }
+
+    }
+
+    /*监听重置按钮*/
+    $(".restPoints").on('click',function (e) {
+        clearTag()
+    });
+
+    /*清除标记点*/
+    function clearTag() {
+        map.remove(marker);
+        marker = "NULL";
+//        $("#addTbmCoord").val('');
+    }
+    /*绘制*/
+    function draw(points,order,color,lineWidth) {
+        if(lineWidth == "NULL"){
+            lineWidth = 3;
+        }
+        var polyline = new AMap.Polyline({
+            path: points,          //设置线覆盖物路径
+            strokeColor: color, //线颜色
+            strokeOpacity: 1,       //线透明度
+            strokeWeight: lineWidth,        //线宽
+            strokeStyle: "solid",   //线样式
+            strokeDasharray: [10, 5] //补充线样式
+        });
+        polyline.setMap(map);
+    }
+    /*绘制tag*/
+    function creatMaker(x,y) {
+        marker = new AMap.Marker({
+            /*icon: new AMap.Icon({
+                size: new AMap.Size(40, 50),  //图标大小
+                image: "${CPATH}/images/tbm/tbm2.png",
+                imageOffset: new AMap.Pixel(0, -60)
+            }),*/
+            icon: "${CPATH}/images/tbm/tbm02.png",
+//            offset: new AMap.Pixel(0,2),
+            draggable:true,
+            cursor: 'move',
+//            raiseOnDrag: true,
+            position: [x, y]
+
+
+//            map: map,
+//            position: [x, y],
+//            icon: new AMap.Icon({
+//                size: new AMap.Size(40, 50),  //图标大小
+//                image: "http://webapi.amap.com/theme/v1.3/images/newpc/way_btn2.png",
+//                imageOffset: new AMap.Pixel(-20, -40)
+//            })
+        });
+        marker.on("dragend", function (e) {
+            var x = e.lnglat.getLng();
+            var y = e.lnglat.getLat();
+            console.log(x+","+y)
+            setAddPoints(x,y,"NULL");
+        });
+        marker.setMap(map);
+        setAddPoints(x,y,"NULL");
+    }
 
 </script>
 </@layout>

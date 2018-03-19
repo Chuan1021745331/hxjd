@@ -238,7 +238,13 @@
         active = {
             <!-- 新增操作 -->
             add:function(){
-                common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/route/addTbm?workSiteId='+$("#hiddenValue").val());
+                var workSite = $("#hiddenValue").val();
+                if(workSite == null || typeof(workSite)=="undefined" || workSite == 0){
+                	top.parent.MSG(2, "请在根节点下选择路段！！");
+                } else {
+                	common.tableOpenLayer('职位新增','icon-xinzeng',bpath+'/admin/route/addTbm?workSiteId='+$("#hiddenValue").val());	               	
+                }
+                
             },
             <!-- 修改操作 -->
             edit:function(){

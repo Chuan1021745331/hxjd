@@ -21,25 +21,21 @@
       </select>	
     </div>
   </div>
-    <div class="layui-form-item">
+  <#if news.attachment??>
+		<div class="layui-form-item" style="">	
+			<label class="layui-form-label">附件：</label>
+			<a href="javascript:getAtta(${news.id})"> <#if news.attachmentName??>${news.attachmentName!}<#else>附件</#if></a>		     
+		</div>
+	</#if>
+  
+  
+<!--     <div class="layui-form-item">
     <label class="layui-form-label">附件</label>
     <div class="layui-input-inline" style="width:40%;">
       <input type="file" id="attachment" name="attachment">
     </div>
-  </div>
-<!--   <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline" >
-      <textarea name="jOption.remark" placeholder="请输入参数说明" class="layui-textarea"></textarea>
-    </div>
   </div> -->
-  
-<!--   <div class="layui-form-item">
-    <label class="layui-form-label">参数说明</label>
-    <div class="layui-input-inline">
-      <input type="text" name="jOption.remark" placeholder="请输入参数说明" autocomplete="off" class="layui-input">
-    </div>
-  </div> -->
+
   <div class="layui-form-item">
     <div class="layui-input-block">
       <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
@@ -70,6 +66,22 @@
 			afterBlur: function(){this.sync();}
 		});
 	});
+	
+	function getAtta(id){
+		$.ajax({
+			url:"${BPATH}/admin/news/getAttachment?id="+id,
+			success:function(result){
+				if(result.errorCode==0){
+					top.parent.MSG(3, result.message);
+				} else {
+					//top.parent.MSG(1, result.message);
+					window.location = "${BPATH}/admin/news/downAttachment?id="+id;
+				}
+			}
+			//javascript:getAtta(${news.id})
+			//${BPATH}/admin/news/getAttachment?id=${news.id}
+		})
+	}
 	
 </script>
 </@layout>

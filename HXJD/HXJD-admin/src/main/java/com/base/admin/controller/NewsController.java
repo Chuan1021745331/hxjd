@@ -1,8 +1,11 @@
 package com.base.admin.controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -159,6 +162,48 @@ public class NewsController extends BaseController {
 		}
 	}
 	
-
+	/**
+	 * 
+	 * getAttachment(这里用一句话描述这个方法的作用)  
+	 * 下载附件   
+	 *void  
+	 * @exception   
+	 * @since  1.0.0
+	 */
+	public void getAttachment(){
+		Integer id = getParaToInt("id");
+		Record news = NewsService.me().getById(id);
+		String project = JFinal.me().getContextPath();
+		String str = JFinal.me().getServletContext().getRealPath("");
+		int i = str.lastIndexOf("\\");
+		String disk = str.substring(0,i);
+		String path = disk + project.replaceAll("web", "admin") + news.get("attachment");
+		String name = news.get("attachmentName");
+		File f = new File(path);
+		
+		if(!f.exists()){
+			renderAjaxResult("文件已失效！！！", 0);
+			return;
+		} else {
+			//renderFile(f, name);
+			renderAjaxResult("附件已下载！！！", 1);
+			return;
+		}		
+	}
+	
+	public void downAttachment(){
+		Integer id = getParaToInt("id");
+		Record news = NewsService.me().getById(id);
+		String project = JFinal.me().getContextPath();
+		String str = JFinal.me().getServletContext().getRealPath("");
+		int i = str.lastIndexOf("\\");
+		String disk = str.substring(0,i);
+		String path = disk + project.replaceAll("web", "admin") + news.get("attachment");
+		String name = news.get("attachmentName");
+		File f = new File(path);
+		renderFile(f, name);
+	
+	}
+		
 }
 
