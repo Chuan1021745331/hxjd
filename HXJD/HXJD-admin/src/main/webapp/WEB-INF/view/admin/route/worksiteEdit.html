@@ -99,6 +99,7 @@ active_id="dashboard">
 <!-- UI组件库 1.0 -->
 <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/initKindeditor.js"></script>
 <script charset="utf-8" src="${CPATH}/js/jquery.cxcolor.min.js"></script>
 <script>
     layui.use(['form', 'common', 'layer'], function () {
@@ -111,6 +112,7 @@ active_id="dashboard">
         var editor = null;
         editor = KindEditor;
         editor.create('#addgeneral',{
+            items:KindeditorOption.items,
             cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
             uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
             fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',

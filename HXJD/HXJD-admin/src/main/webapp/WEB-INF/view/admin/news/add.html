@@ -44,6 +44,7 @@
 <!-- ///HXJD-web/src/main/webapp/common/plus/kindeditor/kindeditor-all-min.js -->
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
 <script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/initKindeditor.js"></script>
 <script>
 	layui.use(['form','common'], function() {
 		var form = layui.form,
@@ -52,8 +53,9 @@
 		
 		var editor = null;
 		editor = KindEditor;
-		editor.create('#content',{	
-			cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
+		editor.create('#content',{
+            items:KindeditorOption.items,
+            cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
 			uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
 			fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
 			width:'100%',

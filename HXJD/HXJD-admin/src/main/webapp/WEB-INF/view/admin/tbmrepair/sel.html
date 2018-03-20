@@ -77,6 +77,7 @@ active_id="dashboard">
         var editor = null;
         editor = KindEditor;
         editor.create('#content',{
+            items:KindeditorOption.items,
             cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
             uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
             fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',

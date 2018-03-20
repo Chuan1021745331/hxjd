@@ -18,5 +18,12 @@
  	<body>
 		<#nested>
  	</body>
+	<style>
+		.ke-icon-mytemplate{
+			background-image: url(${CPATH}/images/dot2.png);
+			width: 16px;
+			height: 16px;
+		}
+	</style>
 	</html>
 </#macro>

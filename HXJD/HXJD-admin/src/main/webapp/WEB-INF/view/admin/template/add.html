@@ -1,0 +1,107 @@
+<#include "../../_include/_layout.inc.tag"/> 
+<@layout active_id="dashboard">
+<form class="layui-form" id="myForm" action="" style="margin: 10px 10px 0px 10px;">
+  <div id="selector" class="layui-form-item">
+    <label class="layui-form-label">模板名</label>
+    <div class="layui-input-inline" >
+      <input type="text" name="jTemplate.name" required  lay-verify="required" placeholder="请输入模板名" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">描述</label>
+      <div class="layui-input-inline">
+        <textarea name="jTemplate.descript" required  lay-verify="required" placeholder="请输入模板描述信息"  class="layui-textarea"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">模板内容</label>
+    <div class="layui-input-inline" style="width:62%; height:30%;">
+      <textarea name="jTemplate.content" id="content" required  lay-verify="required" placeholder="请输入模板内容" class="layui-textarea"></textarea>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+
+  </div>
+</form>
+
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="${CPATH}/plus/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="${CPATH}/js/initKindeditor.js"></script>
+<script>
+ 	layui.use(['form','common','laydate'], function() {
+		var form = layui.form,
+			common = layui.common;
+		var layer=layui.layer;
+
+        //kindeditor富文本编辑器
+        var editor = null;
+        editor = KindEditor;
+        editor.create('#content',{
+            items:KindeditorOption.items,
+            cssPath : '${CPATH}/plus/kindeditor/plugins/code/prettify.css',
+            uploadJson : '${CPATH}/plus/kindeditor/jsp/upload_json.jsp',
+            fileManagerJson : '${CPATH}/plus/kindeditor/jsp/file_manager_json.jsp',
+            width:'100%',
+            height:'330px',
+            resizeType: 0,
+            autoHeightMode : false,
+            allowFileManager : true,
+            afterBlur: function(){this.sync();}
+        });
+		//表单提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:bpath+'/admin/template/addSave',
+                type:"POST",
+                data:data.field,
+                dataType:"json",
+                success:function(json){
+                    if(json.errorCode==0){
+                        top.parent.MSG(4,  json.message);
+                        if(typeof(parent.t) != "undefined"){
+                            parent.t.reload({
+                                page: {
+                                    curr: page //重新从第 1 页开始
+                                },
+                                where: { //设定异步数据接口的额外参数，任意设
+                                    menuId: where
+                                }
+                            })
+                        }
+                        if(parent.treeNode_ != null){
+                            if(parent.treeType==1){
+                                parent.zTree.addNodes(parent.treeNode_, {id:json.data.id, pId:json.data.parent, name:json.data.name});
+                            }else if(parent.treeType==2){
+                                var node = parent.zTree.getNodeByParam("id", json.data.id, null);
+                                node.name=json.data.name;
+                                parent.zTree.updateNode(node);
+                            }
+
+                            parent.treeNode_ =null;
+                            parent.treeType = 0;
+                        }
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        top.parent.MSG(3,  json.message);
+                    }
+
+                },
+                error:function(res){
+                    top.parent.MSG(3, "数据提交异常");
+                }
+            });
+            return false;
+        });
+	});
+</script>
+</@layout>
+
