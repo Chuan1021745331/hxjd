@@ -182,11 +182,11 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	            $("#zero_left_menu li").removeClass("layui-nav-itemed");
 	            
 	            $('#zero_left_menu a').each(function(){
-		            　　		if($(this).attr("data-url")==nowIframe.attr("src")){
-		            　　			$(this).parent().parent().parent().addClass('layui-nav-itemed');
-		            　　			$(this).parent().addClass('layui-this');
-		            　　		}
-		            　　	});
+	            　　		if($(this).attr("data-url")==nowIframe.attr("src")){
+	            　　			$(this).parent().parent().parent().addClass('layui-nav-itemed');
+	            　　			$(this).parent().addClass('layui-this');
+	            　　		}
+	            　　	});
 	    	}
 	        /** tab栏与菜单栏联动---结束 **/
 	    	
@@ -224,11 +224,32 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	    	$("#zero_admin_out").toggleClass("layui-anim-fadein hideLeftNav");
 	    	if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
 	    		numSize(54);
+	    		leftATips();
 	    	}else{
 	    		numSize(204);
+	    		unleftATips();
 	    	}
 	    	
 	    });
+	    function leftATips() {
+			if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
+				$("#zero_left_menu a").each(function(i){ 
+					$(this).bind("mouseover",{MenuIndex:i},function(event){
+						$(this).attr("id","tips-"+i);
+						layer.tips($(this).html(), '#tips-'+i);
+					})
+				});
+			}
+		}
+	    function unleftATips() {
+			$("#zero_left_menu a").each(function(i){ 
+				$(this).unbind("mouseover");
+			});
+		}
+		function myFunction(event) {
+			
+			layer.tips('默认就是向右的', '.icon-zixun');
+		}
 	    function numSize(a) {
 	    	$('#zero_body').width($('#zero_admin_out').width() - a);
 	    	$('#zero_body').height($('#zero_admin_out').height() - 84);

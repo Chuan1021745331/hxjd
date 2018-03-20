@@ -46,6 +46,7 @@ layui.use(['jquery','zeroElem','layer','common','form','zeroMenu','zeroTab'],fun
     	 zeroTab.on('click(zeroSide)',group,function(data){
               zeroTab.tabAdd(data.field);
     	 });
+    	 leftATips();
     })
     $('#zero_top_menu li').eq(0).click();
     // 2若不存在顶级菜单 注释以上顶级菜单监听js
@@ -176,7 +177,16 @@ layui.use(['jquery','zeroElem','layer','common','form','zeroMenu','zeroTab'],fun
 			docE.webkitRequestFullScreen();
 		}
 	}
-
+	function leftATips() {
+		if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
+			$("#zero_left_menu a").each(function(i){ 
+				$(this).bind("mouseover",{MenuIndex:i},function(event){
+					$(this).attr("id","tips-"+i);
+					layer.tips($(this).html(), '#tips-'+i);
+				})
+			});
+		}
+	}
 	// 退出全屏
 	function exitFullScreen() {
 		var docE = document;
