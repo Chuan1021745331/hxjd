@@ -244,6 +244,7 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	    function unleftATips() {
 			$("#zero_left_menu a").each(function(i){ 
 				$(this).unbind("mouseover");
+				$(this).removeAttr("id");
 			});
 		}
 		function myFunction(event) {
