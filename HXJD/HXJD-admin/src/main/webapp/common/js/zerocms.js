@@ -177,16 +177,6 @@ layui.use(['jquery','zeroElem','layer','common','form','zeroMenu','zeroTab'],fun
 			docE.webkitRequestFullScreen();
 		}
 	}
-	function leftATips() {
-		if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
-			$("#zero_left_menu a").each(function(i){ 
-				$(this).bind("mouseover",{MenuIndex:i},function(event){
-					$(this).attr("id","tips-"+i);
-					layer.tips($(this).html(), '#tips-'+i);
-				})
-			});
-		}
-	}
 	// 退出全屏
 	function exitFullScreen() {
 		var docE = document;
@@ -386,6 +376,16 @@ layui.use(['jquery','zeroElem','layer','common','form','zeroMenu','zeroTab'],fun
           $('.zerocms-top').width($('#zero_admin_out').width()-200);
 	}else if(navigator.userAgent.indexOf("Chrome") <= 60 && navigator.userAgent.indexOf("Chrome") > -1){
           $('.zerocms-top').width($('#zero_admin_out').width()-200);
+	}
+	function leftATips() {
+		if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
+			$("#zero_left_menu a").each(function(i){ 
+				$(this).bind("mouseover",{MenuIndex:i},function(event){
+					$(this).attr("id","tips-"+i);
+					layer.tips($(this).html(), '#tips-'+i);
+				})
+			});
+		}
 	}
 
 });

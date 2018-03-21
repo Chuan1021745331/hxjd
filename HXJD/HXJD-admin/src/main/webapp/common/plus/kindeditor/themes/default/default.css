@@ -23,7 +23,7 @@
 	-moz-box-shadow: 1px 1px 3px #A0A0A0;
 	-webkit-box-shadow: 1px 1px 3px #A0A0A0;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#A0A0A0', Direction=135, Strength=3);
-	background-color: #F0F0EE;
+	background-color: #F8F8F8;
 }
 .ke-menu a,
 .ke-menu a:hover,
@@ -416,7 +416,7 @@
 /* container */
 .ke-container {
 	display: block;
-	border: 1px solid #CCCCCC;
+/* 	border: 1px solid #CCCCCC; */
 	background-color: #FFF;
 	overflow: hidden;
 	margin: 0;
@@ -424,8 +424,8 @@
 }
 /* toolbar */
 .ke-toolbar {
-	border-bottom: 1px solid #CCC;
-	background-color: #F0F0EE;
+	border: 1px solid #D2D2D2;
+	background-color: #F8F8F8;
 	padding: 2px 5px;
 	text-align: left;
 	overflow: hidden;
@@ -442,7 +442,7 @@
 	background-image: url(default.png);
 }
 .ke-toolbar .ke-outline {
-	border: 1px solid #F0F0EE;
+	border: 1px solid #F8F8F8;
 	margin: 1px;
 	padding: 1px 2px;
 	font-size: 0;
@@ -484,6 +484,8 @@
 /* edit */
 .ke-edit {
 	padding: 0;
+	border: 1px solid #D2D2D2;
+	border-top: none;
 }
 .ke-edit-iframe,
 .ke-edit-textarea {
@@ -504,8 +506,8 @@
 /* statusbar */
 .ke-statusbar {
 	position: relative;
-	background-color: #F0F0EE;
-	border-top: 1px solid #CCCCCC;
+/* 	background-color: #F8F8F8; */
+/* 	border-top: 1px solid #CCCCCC; */
 	font-size: 0;
 	line-height: 0;
 	*height: 12px;
@@ -601,7 +603,7 @@
 .ke-colorpicker-cell {
 	font-size: 0;
 	line-height: 0;
-	border: 1px solid #F0F0EE;
+	border: 1px solid #F8F8F8;
 	cursor: pointer;
 	margin:3px;
 	padding:0;
@@ -610,7 +612,7 @@
 	font-family: "sans serif",tahoma,verdana,helvetica;
 	font-size: 12px;
 	line-height: 24px;
-	border: 1px solid #F0F0EE;
+	border: 1px solid #F8F8F8;
 	cursor: pointer;
 	margin:0;
 	padding:0;
@@ -670,13 +672,13 @@
 	-moz-box-shadow: 3px 3px 7px #999;
 	-webkit-box-shadow: 3px 3px 7px #999;
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3', MakeShadow='true', ShadowOpacity='0.4');
-	background-color: #F0F0EE;
+	background-color: #F8F8F8;
 }
 .ke-dialog-header {
 	border:0;
 	margin:0;
 	padding: 0 10px;
-	background: url(background.png) repeat scroll 0 0 #F0F0EE;
+	background: url(background.png) repeat scroll 0 0 #F8F8F8;
 	border-bottom: 1px solid #CFCFCF;
 	height: 24px;
 	font: 12px/24px "sans serif",tahoma,verdana,helvetica;
@@ -891,7 +893,7 @@
 .ke-tabs-li {
 	position: relative;
 	border: 1px solid #A0A0A0;
-	background-color: #F0F0EE;
+	background-color: #F8F8F8;
 	margin: 0 2px -1px 0;
 	padding: 0 20px;
 	float: left;
@@ -1042,7 +1044,7 @@
 .ke-plugin-emoticons .ke-cell {
 	margin:0;
 	padding:1px;
-	border:1px solid #F0F0EE;
+	border:1px solid #F8F8F8;
 	cursor:pointer;
 }
 .ke-plugin-emoticons .ke-on {

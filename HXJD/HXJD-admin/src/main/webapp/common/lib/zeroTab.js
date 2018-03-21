@@ -231,22 +231,7 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
 	    	}
 	    	
 	    });
-	    function leftATips() {
-			if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
-				$("#zero_left_menu a").each(function(i){ 
-					$(this).bind("mouseover",{MenuIndex:i},function(event){
-						$(this).attr("id","tips-"+i);
-						layer.tips($(this).html(), '#tips-'+i);
-					})
-				});
-			}
-		}
-	    function unleftATips() {
-			$("#zero_left_menu a").each(function(i){ 
-				$(this).unbind("mouseover");
-				$(this).removeAttr("id");
-			});
-		}
+	    
 		function myFunction(event) {
 			
 			layer.tips('默认就是向右的', '.icon-zixun');
@@ -1112,6 +1097,24 @@ layui.define(['jquery', 'zeroElem', 'layer', 'common'], function(exports) {
     			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
     	}
     }
+    
+    function leftATips() {
+		if($("#zero_admin_out").attr("class").indexOf("hideLeftNav")!=-1){
+			$("#zero_left_menu a").each(function(i){ 
+				$(this).bind("mouseover",{MenuIndex:i},function(event){
+					$(this).attr("id","tips-"+i);
+					layer.tips($(this).html(), '#tips-'+i);
+				})
+			});
+		}
+	}
+    function unleftATips() {
+		$("#zero_left_menu a").each(function(i){ 
+			$(this).unbind("mouseover");
+			$(this).removeAttr("id");
+		});
+	}
+    
     // 测试方法
     zeroTab.prototype.test = function(callback,msg){
     	callback();
