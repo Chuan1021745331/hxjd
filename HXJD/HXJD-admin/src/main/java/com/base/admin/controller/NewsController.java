@@ -12,6 +12,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.base.constants.Consts;
 import com.base.constants.MessageConstants;
+import com.base.constants.NewsConstants;
 import com.base.core.BaseController;
 import com.base.interceptor.NewButtonInterceptor;
 import com.base.model.JNews;
@@ -30,6 +31,8 @@ import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJson;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -48,21 +51,69 @@ import com.jfinal.upload.UploadFile;
 @RouterMapping(url = "/admin/news", viewPath = "/view/admin/news")
 @RouterNotAllowConvert
 public class NewsController extends BaseController {
+	private static final Logger log= LoggerFactory.getLogger(NewsController.class);
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Before(NewButtonInterceptor.class)
 	public void index() {
-		
 		renderTable("news.html");
 	}
-	
+
+	@Before(NewButtonInterceptor.class)
+	public void projectdoc(){
+		setAttr("type",4);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void inspection(){
+		setAttr("type",5);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void handleinfo(){
+		setAttr("type",6);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void checkreport(){
+		setAttr("type",7);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void safeinfo(){
+		setAttr("type",8);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void copyfile(){
+		setAttr("type",9);
+		renderTable("news.html");
+	}
+
+	@Before(NewButtonInterceptor.class)
+	public void other(){
+		setAttr("type",NewsConstants.OTHER_TYPE);
+		renderTable("news.html");
+	}
+
 	public void newsData(){
 		Integer page = getParaToInt("page");
 		Integer limit = getParaToInt("limit");
-		String where = getPara("id");
-		
-		long count = NewsService.me().findConunt(where);
-		List<Record> list = NewsService.me().findListNews(page, limit, where, count);
+		int  type=1;
+		try{
+			type = getParaToInt("type");
+		}catch (Exception e){
+			type=NewsConstants.OTHER_TYPE;
+			log.error(e.toString());
+		}
+
+		long count = NewsService.me().findConuntByType(type);
+		List<Record> list = NewsService.me().findListNewsByType(page, limit, type, count);
 
 		renderPageResult(0, "", (int)count, list);
 	}
@@ -72,7 +123,15 @@ public class NewsController extends BaseController {
 		setAttr("newsType", list);
 		render("add.html");
 	}
-	
+
+	/**
+	 * 获取普通信息类型
+	 */
+	public void getCommonNewsType(){
+		List<JNewstype> newstypes = NewsService.me().getNewsTypeByType(NewsConstants.NEWS_TYPE_COMMON);
+		renderAjaxResult("",0,newstypes);
+	}
+
 	public void addSave(){
 		UploadFile upfile = getFile("attachment");
 		//upfile.getFile();

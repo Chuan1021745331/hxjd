@@ -88,6 +88,17 @@ public class NewsController extends BaseController {
 		setAttr("news",results);
 		setAttr("lastNews",lastNews);
 		setAttr("lastTbmrepair",lastTbmrepair);
+
+		//判断是手机还是电脑
+		String type = getPara("type");
+		if(StringUtils.isNotBlank(type)){
+			if(type.equals("mobile")){
+				render("newsMobile.html");
+			}else{
+				render("news.html");
+			}
+			return;
+		}
 		render("news.html");
 	}
 

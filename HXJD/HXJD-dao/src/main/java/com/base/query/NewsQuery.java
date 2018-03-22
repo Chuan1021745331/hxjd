@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
+import com.base.constants.NewsConstants;
 import com.base.model.JNews;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -28,7 +29,36 @@ public class NewsQuery {
 		}
 	}
 
+	/**
+	 * 根据信息typeId查询信息数量
+	 * @param type
+	 * @return
+	 */
+	public long findCountByTypeId(int type){
+		StringBuilder sqlBuilder = new StringBuilder("SELECT count(*)");
+		sqlBuilder.append(" from j_news n join j_newsType nt on nt.id = n.type ");
+		if(type>0){
+			sqlBuilder.append(" where n.type="+type);
+		}else{
+			sqlBuilder.append(" where nt.type="+ NewsConstants.NEWS_TYPE_COMMON);
+		}
+		return Db.queryLong(sqlBuilder.toString());
+	}
 
+	public List<Record> findListNewsByType(int page,int limit,int type){
+		StringBuilder sqlBuilder = new StringBuilder("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.attachment, n.attachmentName, n.type, nt.name  ");
+		sqlBuilder.append(" from j_news n join j_newsType nt on nt.id = n.type ");
+		if(type>0){
+			sqlBuilder.append(" where n.type="+type);
+		}else{
+			sqlBuilder.append(" where nt.type="+ NewsConstants.NEWS_TYPE_COMMON);
+		}
+		sqlBuilder.append(" order by n.id asc LIMIT ?, ? ");
+		LinkedList<Object> params = new LinkedList<Object>();
+		params.add(limit*page-limit);
+		params.add(limit);
+		return Db.find(sqlBuilder.toString(), params.toArray());
+	}
 	
 	public List<Record> findListNews(int page, int limit,String where) {
 		StringBuilder sqlBuilder = new StringBuilder("SELECT n.id, n.title, n.postTime, n.postMan, n.content, n.attachment, n.attachmentName, n.type, nt.name  ");

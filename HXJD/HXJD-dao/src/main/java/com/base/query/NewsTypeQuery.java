@@ -13,7 +13,7 @@ public class NewsTypeQuery {
 	}
 	
 	public List<JNewstype> getAll(){
-		return DAO.find("SELECT nt.id , nt.name, nt.type FROM j_newstype nt ");
+		return DAO.find("SELECT nt.id , nt.name, nt.type FROM j_newstype nt order by Length(nt.name)");
 	}
 	
 	public JNewstype saveByName(String name, Integer type){
@@ -22,5 +22,14 @@ public class NewsTypeQuery {
 		newstype.setType(type);
 		newstype.saveOrUpdate();
 		return newstype;
+	}
+
+	/**
+	 * 根据类型获取信息类型
+	 * @param type
+	 * @return
+	 */
+	public List<JNewstype> getByType(int type){
+		return DAO.find("SELECT nt.id , nt.name, nt.type FROM j_newstype nt where nt.type="+type);
 	}
 }

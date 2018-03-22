@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/base.css">
     <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/smart/smart.css">
     <script type="text/javascript">
         var bpath = "${BPATH}";
         var cpath = "${CPATH}";
@@ -22,48 +23,75 @@
 		 	width:100% !important;
 		 	height:100% !important;
 		 	}
+         html,body{
+             height: 100%;
+         }
 		.item{
 			cursor: pointer;
 		}
-		.tag{
-			margin-top: 5px;
-		}
-	</style>  
+         #tag li{
+             height: 40px;
+             font-size: 14px;
+             color: #676767;
+             cursor: default;
+         }
+        #newsCard{
+            background-color: #f8f8f8;
+            padding: 10px;
+        }
+        .newsTitle{
+            padding-left: 15px;
+            line-height: 35px;
+            height: 20%;
+            color: #3f51b5;
+            background-color: #e6e8f2;
+            font-size: 14px;
+        }
+        .item{
+            white-space:normal;
+            background-color: #fff;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            margin-left: 5px;
+
+        }
+        .colAll{
+            padding:0px;
+        }
+	</style>
 </head>
-<body style="overflow:auto">
-<div id="mobile" >
-	<div id="tag" style="margin-left: 1%;margin-top:1%;">
-		<button class="layui-btn layui-btn-sm layui-btn-radius all" style="margin-top:5px;background-color: #3F51B5;">全部</button>
+<body style="overflow-y: hidden">
+<div id="mobile" class="sm-width-100-per sm-height-100-per sm-layout-left-top">
+	<ul id="tag" style="" class="sm-width-25-per sm-layout-top-left">
+		<li class="sm-width-90-per sm-padding-left-15px sm-layout-left-center all">全部</li>
 		<#if newsType??>
 			<#list newsType as bean>
-				<button class="layui-btn layui-btn-sm layui-btn-radius tag newsTag" id="${bean.id!}" style="background-color: #3F51B5;">${bean.name!}</button>
+				<li  class="sm-padding-left-15px sm-width-90-per sm-layout-left-center tag newsTag" id="${bean.id!}">${bean.name!}</li>
 			</#list>
 		</#if>
-	<button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag tag"  style="background-color: #3F51B5;">维保记录</button>
+		<li  class="sm-width-90-per sm-padding-left-15px sm-layout-left-center tbmrepair-tag tag"  >维保记录</li>
 
-	</div>
-	<div id="newsCard" class="layui-row" style="overflow-x:hidden;">
+	</ul>
+	<div id="newsCard" class="sm-height-100-per layui-row" style="overflow-y:scroll;width: 75%;">
 	   <#if news??>
 	   		<#list news as bean>
 	   			<#if bean.tbmId?? >
-		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">
+		   			<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="">
 				    	<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 				   		 	<div class="id" style="display:none">${bean.id!}</div>
-				   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】${bean.circuitname!}${bean.worksitename!}${bean.tbmname!}</div>
-				    		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.content!}</div>
-				    		<div >${bean.writer!} 填写于 ${bean.createtime!}</div>
-				    		<hr class="layui-bg-blue">
-				    	</div>
+				   		 	<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 newsTitle" style="">【维保记录】${bean.circuitname!}${bean.worksitename!}${bean.tbmname!}</div>
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">${bean.content!}</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-md-offset6" style="color: #676767;padding-bottom: 10px">${bean.writer!} 填写于 ${bean.createtime!}</div>
+                            </div>
 				    </div>
 				<#else>
-					<div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  ${bean.type}" style="margin: 0px;white-space:normal;">
+					<div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  ${bean.type}" >
 						<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
 							<div class="id" style="display:none">${bean.id!}</div>
-							<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【${bean.name!}】${bean.title!}</div>
-							<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">${bean.con!}</div>
-							<div >${bean.postMan!} 发布于 ${bean.postTime!}</div>
-							<hr class="layui-bg-blue">
-						</div>
+							<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 newsTitle" style="">【${bean.name!}】${bean.title!}</div>
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">${bean.con!}</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">${bean.postMan!}  发布于  ${bean.postTime!}</div>
+                        </div>
 					</div>
 			    </#if>
 	   		</#list>
@@ -95,15 +123,18 @@
     var limit=10;
     var lastTbmrepair="${lastTbmrepair}";
     var lastNews="${lastNews}";
-    $(window).scroll(function(){
+    $("#newsCard").scroll(function(){
     	//scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
     	var scrollTop = $(this).scrollTop();  
         //整个文档的高度
-        var scrollHeight = $(document).height(); 
+        var scrollHeight = this.scrollHeight;
         //当前可见区域的大小
-        var windowHeight = $(this).height(); 
+        var windowHeight = $(this).innerHeight();
+        console.log("scrollTop scrollHeight windowHeight");
+        console.log(scrollTop+" "+scrollHeight+" "+windowHeight);
         //滚动到底部
         if(scrollTop + windowHeight == scrollHeight){
+            console.log("翻页了");
             page += 1;           
             showMore(page);
         }
@@ -178,8 +209,10 @@
 
 	});
 	$(".tag").unbind('click').click(function(){	
-		$(this).css("background-color","#3CB371");
-		$(this).siblings().css("background-color","#3F51B5");
+		$(this).css("background-color","#e6e8f2");
+        $(this).css("color","#3f51b5");
+		$(this).siblings().css("background-color","#fff");
+		$(this).siblings().css("color","#676767");
 		$(this).addClass("selected");
 		$(this).siblings().removeClass("selected");
 		//页数复位
@@ -193,13 +226,12 @@
 	    				var data = eval('('+result+')');
 	        			$("#newsCard").empty();
 						$.each(data, function(i, val){						
-							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item  news-item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item  news-item '+val.columns.type+'"></div>');
 							$("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
 							$("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
-							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');
-							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+val.columns.con+'</div>');
-							$("#"+val.columns.id).children().append('<div >'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
-							$("#"+val.columns.id).children().append('<hr class="layui-bg-blue">');
+							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12  newsTitle">【'+val.columns.name+'】'+val.columns.title+'</div>');
+							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+val.columns.con+'</div>');
+							$("#"+val.columns.id).children().append('<div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
 						})
 						
 	    			}
@@ -232,8 +264,11 @@
         page=1;
         lastNews="";
         lastTbmrepair="";
+        $(this).css("background-color","#e6e8f2");
+        $(this).css("color","#3f51b5");
 		$(".tag").removeClass("selected");
-		$(".tag").css("background-color","#3F51B5");
+		$(".tag").css("background-color","#fff");
+		$(".tag").css("color","#676767");
         $("#newsCard").empty();
         getAllData(lastNews,lastTbmrepair,limit);
 		$(".item").show();
@@ -248,23 +283,21 @@
                 lastTbmrepair=result.data.lastTbmrepair;
                 $.each(data,function(index,value,array){
                     if(typeof(value.tbmId) != "undefined"){
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" >\n' +
                             '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                             '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                            '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
-                            '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
-                            '\t\t\t\t    \t\t<div >'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
-                            '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 newsTitle" >【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                            '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.content+'</div>\n' +
+                            '\t\t\t\t    \t\t<div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
                             '\t\t\t\t    \t</div>\t    \t\n' +
                             '\t\t\t\t    </div>');
                     }else{
-                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item news-item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item news-item '+value.type+'" >\n' +
                             '\t\t\t\t\t\t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                             '\t\t\t\t\t\t\t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
-                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.con+'</div>\n' +
-                            '\t\t\t\t\t\t\t<div >'+value.postMan+' 发布于 '+value.postTime+'</div>\n' +
-                            '\t\t\t\t\t\t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12  newsTitle" >【'+value.name+'】'+value.title+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.con+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">'+value.postMan+' 发布于 '+value.postTime+'</div>\n' +
                             '\t\t\t\t\t\t</div>\n' +
                             '\t\t\t\t\t</div>');
                     }
@@ -279,13 +312,12 @@
             success:function(result){
                 var data=result.data;
                 $.each(data,function(index,value,array){
-                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" >\n' +
                         '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
                         '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
-                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
-                        '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+value.content+'</div>\n' +
-                        '\t\t\t\t    \t\t<div >'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
-                        '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 newsTitle">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                        '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.content+'</div>\n' +
+                        '\t\t\t\t    \t\t<div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
                         '\t\t\t\t    \t</div>\t    \t\n' +
                         '\t\t\t\t    </div>');
                 });
@@ -306,13 +338,12 @@
     	    			success:function(result){
     	    				var data = eval('('+result+')');
     						$.each(data, function(i, val){						
-    							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+    							$("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  '+val.columns.type+'"></div>');
     							$("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
     							$("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
-    							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');
-    							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;">'+val.columns.con+'</div>');
-    							$("#"+val.columns.id).children().append('<div >'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
-    							$("#"+val.columns.id).children().append('<hr class="layui-bg-blue">');
+    							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12  newsTitle" >【'+val.columns.name+'】'+val.columns.title+'</div>');
+    							$("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+val.columns.con+'</div>');
+    							$("#"+val.columns.id).children().append('<div class="layui-col-xs6 layui-col-sm6 layui-col-md6 layui-col-xs-offset6" style="color: #676767;padding-bottom: 10px">'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
     						})
     						
     	    			}
@@ -328,7 +359,7 @@
 
     }
     $("#top").unbind('click').click(function(){
-    	$(window).scrollTop(0);
+    	$("#newsCard").scrollTop(0);
     })
   
 </script>

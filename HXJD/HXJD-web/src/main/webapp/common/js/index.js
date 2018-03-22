@@ -14,7 +14,7 @@ layui.use(['jquery', 'layer', 'element'], function() {
 		common = layui.common,
 		element = layui.element,
 		device = layui.device();
-	
+
 	if(device.android || device.ios){
 		type = 1;
 		$("#pcDiv").remove();
@@ -175,8 +175,12 @@ layui.use(['jquery', 'layer', 'element'], function() {
     var moreNewsIndex=0;
     $("#more-news").click(function () {
     	// var width=$("#left-menu-chart").width();
-    	var width=360;
-    	var height=$("#left-menu-chart").height();
+    	// var width=360;
+    	var width=600;
+    	console.log()
+    	var height=$(window).height()-60;
+    	console.log("height");
+    	console.log(height);
         var area=[width+'px', height+'px'];
 
         //隐藏个人详情
@@ -194,7 +198,8 @@ layui.use(['jquery', 'layer', 'element'], function() {
             offset:'rb'	,
             move: false,
             shade:0,
-            anim: Math.ceil(Math.random() * 6),
+            // anim: Math.ceil(Math.random() * 6),
+            anim: 2,
             success : function(layero, index){
                 setTimeout(function(){
                     layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {

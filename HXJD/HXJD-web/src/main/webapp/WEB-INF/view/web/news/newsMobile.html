@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    <title>华夏九鼎军民融合科学技术研究院|</title>
+    <script type="text/javascript" src="${CPATH}/plus/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/frame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/base.css">
+    <link rel="stylesheet" type="text/css" media="all" href="${CPATH}/css/main.css">
+    <script type="text/javascript">
+        var bpath = "${BPATH}";
+        var cpath = "${CPATH}";
+        var apath = "${APATH}";
+    </script>
+    <style type="text/css">
+        img{
+            width:100% !important;
+            height:100% !important;
+        }
+        .item{
+            cursor: pointer;
+        }
+        .tag{
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body style="overflow:auto">
+<div id="mobile" >
+    <div id="tag" style="margin-left: 1%;margin-top:1%;">
+        <button class="layui-btn layui-btn-sm layui-btn-radius all" style="background-color: #3F51B5;margin-left: 10px">全部</button>
+        <#if newsType??>
+        <#list newsType as bean>
+        <button class="layui-btn layui-btn-sm layui-btn-radius tag newsTag" id="${bean.id!}" style="background-color: #3F51B5;">${bean.name!}</button>
+    </#list>
+</#if>
+<button class="layui-btn layui-btn-sm layui-btn-radius tbmrepair-tag tag"  style="background-color: #3F51B5;">维保记录</button>
+
+</div>
+<div id="newsCard" class="layui-row" style="overflow-x:hidden;">
+    <#if news??>
+    <#list news as bean>
+    <#if bean.tbmId?? >
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">
+        <div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
+            <div class="id" style="display:none">${bean.id!}</div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】${bean.circuitname!}${bean.worksitename!}${bean.tbmname!}</div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">${bean.content!}</div>
+            <div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">${bean.writer!} 填写于 ${bean.createtime!}</div>
+            <hr class="layui-bg-blue">
+        </div>
+    </div>
+    <#else>
+    <div id="${bean.name!}" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  ${bean.type}" style="margin: 0px;white-space:normal;">
+        <div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">
+            <div class="id" style="display:none">${bean.id!}</div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【${bean.name!}】${bean.title!}</div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">${bean.con!}</div>
+            <div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">${bean.postMan!} 发布于 ${bean.postTime!}</div>
+            <hr class="layui-bg-blue">
+        </div>
+    </div>
+</#if>
+</#list>
+</#if>
+</div>
+<!-- 侧边按钮 -->
+<div style="">
+    <ul class="layui-fixbar">
+        <!-- 返回 -->
+        <!-- <li id="back"  class="layui-icon" lay-type="bar1" style="">&#xe65c;</li> -->
+        <!-- 分享 -->
+        <!-- <li id="share" class="layui-icon" lay-type="bar1" style="">&#xe641;</li> -->
+        <!-- 回到顶部 -->
+        <li id="top" class="layui-icon layui-fixbar-top" lay-type="top" style="width:40px;height:40px;line-height:45px ;display: list-item;">&#xe604;</li>
+    </ul>
+</div>
+
+
+</div>
+
+
+</body>
+<script type="text/javascript" src="${CPATH}/frame/layui/layui.js"></script>
+<script type="text/javascript">
+
+
+
+    var page = 1;
+    var limit=10;
+    var lastTbmrepair="${lastTbmrepair}";
+    var lastNews="${lastNews}";
+    $(window).scroll(function(){
+        //scrollTop() 方法返回或设置匹配元素的滚动条的垂直位置
+        var scrollTop = $(this).scrollTop();
+        //整个文档的高度
+        var scrollHeight = $(document).height();
+        //当前可见区域的大小
+        var windowHeight = $(this).height();
+        //滚动到底部
+        if(scrollTop + windowHeight == scrollHeight){
+            page += 1;
+            showMore(page);
+        }
+    })
+
+    //新闻类详情
+    $("#newsCard").on("click",".news-item",function(){
+        var device = layui.device();
+        var id = $(this).find(".id").text();
+        if(device.android || device.ios){
+            //手机页面
+            window.location = "${BPATH}/news/getNewsById?id="+id;
+        } else {
+            var windowHeight = window.screen.availHeight;
+            var windowWidth = window.screen.availWidth;
+
+            var height = Math.ceil(windowHeight*0.71);
+            var width = Math.ceil(windowWidth*0.71);
+            var area = [width+'px',height+"px"];
+            var index = parent.layer.open({
+                id:"news-sel",
+                type: 2 ,
+                title: '新闻详情',
+                content: "${BPATH}/news/getNewsById?id="+id,
+                resize: false,
+                area: area,
+                move: false,
+                shade:0.3,
+                anim: Math.ceil(Math.random() * 6),
+                success : function(layero, index){
+                    /*                         setTimeout(function(){
+                                            layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                                                tips: 3
+                                            });
+                                        },500) */
+                }
+            });
+        }
+    }),
+        $("#newsCard").on("click",".tbmrepair-item",function () {
+            var id=$($(this).find(".id")[0]).html();
+            //var area=['700px', '550px'];
+            var area = [Math.ceil(window.screen.availWidth*0.71)+'px',Math.ceil(window.screen.availHeight*0.71)+'px']
+            var device = layui.device();
+            // var scrollTop = $(window).height();
+            var scrollTop = window.screen.availHeight;
+            var height=Math.ceil(scrollTop*0.8);
+
+            if(device.android || device.ios){
+                // area=['90%', height+'px'];
+                window.location.href=bpath+"/web/tbmrepair/sel?id="+id;
+                return;
+            }
+            var index = parent.layer.open({
+                id:"tbmrepair-sel",
+                type: 2 ,
+                title: '维保记录详情',
+                content: bpath+"/web/tbmrepair/sel?id="+id,
+                resize: false,
+                area: area,
+                move: false,
+                shade:0.3,
+                anim: Math.ceil(Math.random() * 6),
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            });
+
+        });
+    $(".tag").unbind('click').click(function(){
+        $(this).css("background-color","#3CB371");
+        $(this).siblings().css("background-color","#3F51B5");
+        $(this).addClass("selected");
+        $(this).siblings().removeClass("selected");
+        //页数复位
+        page = 1;
+        //新闻类的Tag
+        if($(this).hasClass("newsTag")){
+            var tag = $(this).attr("id");
+            $.ajax({
+                url:"${BPATH}" + "/news/getByTag?tag="+tag,
+                success:function(result){
+                    var data = eval('('+result+')');
+                    $("#newsCard").empty();
+                    $.each(data, function(i, val){
+                        $("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item  news-item '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+                        $("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
+                        $("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
+                        $("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');
+                        $("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+val.columns.con+'</div>');
+                        $("#"+val.columns.id).children().append('<div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
+                        $("#"+val.columns.id).children().append('<hr class="layui-bg-blue">');
+                    })
+
+                }
+            });
+        }
+        //维保记录
+        if($(this).hasClass("tbmrepair-tag")){
+            $("#newsCard").empty();
+            getTbmrepairData(page,limit);
+        }
+
+
+        /*
+                if($(this).hasClass("selected")){
+                    $(this).removeClass("selected");
+                    $(this).css("background-color","#3F51B5");
+                    $(".item").show();
+                }else{
+                    $(this).addClass("selected");
+                    $(this).css("background-color","#3CB371");
+                    $(this).siblings().css("background-color","#3F51B5");
+                    $(this).siblings().removeClass("selected");
+                    $(".item").hide();
+                    //console.log($(this).attr("id"));
+                    $("."+$(this).attr("id")).show();
+                } */
+    })
+    $(".all").unbind('click').click(function(){
+        //页数复位
+        page=1;
+        lastNews="";
+        lastTbmrepair="";
+        $(".tag").removeClass("selected");
+        $(".tag").css("background-color","#3F51B5");
+        $("#newsCard").empty();
+        getAllData(lastNews,lastTbmrepair,limit);
+        $(".item").show();
+    });
+
+    function getAllData(mylastNews,mylastTbmrepair,limit){
+        $.ajax({
+            url:"${BPATH}" + "/news/allData?lastNews="+mylastNews+"&lastTbmrepair="+mylastTbmrepair+"&limit="+limit,
+            success:function(result){
+                var data=result.data.results;
+                lastNews=result.data.lastNews;
+                lastTbmrepair=result.data.lastTbmrepair;
+                $.each(data,function(index,value,array){
+                    if(typeof(value.tbmId) != "undefined"){
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                            '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                            '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                            '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                            '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.content+'</div>\n' +
+                            '\t\t\t\t    \t\t<div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
+                            '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t    \t</div>\t    \t\n' +
+                            '\t\t\t\t    </div>');
+                    }else{
+                        $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item news-item '+value.type+'" style="margin: 0px;white-space:normal;">\n' +
+                            '\t\t\t\t\t\t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                            '\t\t\t\t\t\t\t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="height:20%">【'+value.name+'】'+value.title+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.con+'</div>\n' +
+                            '\t\t\t\t\t\t\t<div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">'+value.postMan+' 发布于 '+value.postTime+'</div>\n' +
+                            '\t\t\t\t\t\t\t<hr class="layui-bg-blue">\n' +
+                            '\t\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t\t</div>');
+                    }
+                });
+
+            }
+        });
+    }
+    function getTbmrepairData(page,limit) {
+        $.ajax({
+            url:"${BPATH}" + "/web/tbmrepair/tbmrepairData?page="+page+"&limit="+limit,
+            success:function(result){
+                var data=result.data;
+                $.each(data,function(index,value,array){
+                    $("#newsCard").append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 item tbmrepair-item" style="margin: 0px;white-space:normal;">\n' +
+                        '\t\t\t\t    \t<div  class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll">\n' +
+                        '\t\t\t\t   \t\t \t<div class="id" style="display:none">'+value.id+'</div>\n' +
+                        '\t\t\t\t   \t\t \t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader" style="height:20%">【维保记录】'+value.circuitname+value.worksitename+value.tbmname+'</div>\n' +
+                        '\t\t\t\t    \t\t<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+value.content+'</div>\n' +
+                        '\t\t\t\t    \t\t<div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">'+value.writer+' 填写于 '+value.createtime+'</div>\n' +
+                        '\t\t\t\t    \t\t<hr class="layui-bg-blue">\n' +
+                        '\t\t\t\t    \t</div>\t    \t\n' +
+                        '\t\t\t\t    </div>');
+                });
+            }
+        });
+    }
+
+
+
+    function showMore(page){
+        //alert("加载");
+        if(null!=$(".selected") && typeof($(".selected")) != "undefined"&&$(".selected").length>0){
+            //新闻类的Tag
+            if($(".selected").hasClass("newsTag")){
+                var tag = $(".selected").attr("id");
+                $.ajax({
+                    url:"${BPATH}" + "/news/getNewsByPageTag?tag="+tag+"&page="+page,
+                    success:function(result){
+                        var data = eval('('+result+')');
+                        $.each(data, function(i, val){
+                            $("#newsCard").append('<div id="'+val.columns.id+'" class="layui-col-xs12 layui-col-sm12 layui-col-md12 layui-col-space10 news-item item  '+val.columns.type+'" style="margin: 0px;white-space:normal;"></div>');
+                            $("#"+val.columns.id).append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colAll" style="font-size: 13px;"></div');
+                            $("#"+val.columns.id).children().append('<div class="id" style="display:none">'+val.columns.id+'</div>');
+                            $("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 colHeader newsTitle" style="line-height: 35px;background-color: #3F51B5;color: #fff;padding-left: 15px;height:20%">【'+val.columns.name+'】'+val.columns.title+'</div>');
+                            $("#"+val.columns.id).children().append('<div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="word-wrap:break-word;padding: 10px">'+val.columns.con+'</div>');
+                            $("#"+val.columns.id).children().append('<div class="layui-col-xs7 layui-col-sm8 layui-col-md8 layui-col-xs-offset5" style="color: #676767;padding-bottom: 10px">'+val.columns.postMan+' 发布于 '+val.columns.postTime+'</div>');
+                            $("#"+val.columns.id).children().append('<hr class="layui-bg-blue">');
+                        })
+
+                    }
+                });
+            }
+            if($(".selected").hasClass("tbmrepair-tag")){
+
+                getTbmrepairData(page,limit);
+            }
+        }else{
+            getAllData(lastNews,lastTbmrepair,limit);
+        }
+
+    }
+    $("#top").unbind('click').click(function(){
+        $(window).scrollTop(0);
+    })
+
+</script>
+</html>

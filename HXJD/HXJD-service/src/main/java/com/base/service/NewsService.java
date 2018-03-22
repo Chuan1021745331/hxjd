@@ -37,7 +37,33 @@ public class NewsService {
 	public long findConunt(String where){
 		return NewsQuery.me().findCount(where);
 	}
-	
+
+	/**
+	 * 根据信息类型获取信息数量
+	 * @param type
+	 * @return
+	 */
+	public long findConuntByType(int type){
+		return NewsQuery.me().findCountByTypeId(type);
+	}
+
+	/**
+	 * 根据信息类型分页查询
+	 * @param page
+	 * @param limit
+	 * @param type
+	 * @param count
+	 * @return
+	 */
+	public List<Record> findListNewsByType(Integer page, Integer limit, int type, long count){
+		List<Record> list = new ArrayList<Record>();
+		if(count!=0){
+			page = (page>count/limit && count%limit==0)?page-1:page ;
+			list = NewsQuery.me().findListNewsByType(page, limit, type);
+		}
+		return list;
+	}
+
 	public List<Record> findListNews(Integer page, Integer limit, String where, long count){
 		List<Record> list = new ArrayList<Record>();
 		if(count!=0){
@@ -92,7 +118,17 @@ public class NewsService {
 	public List<JNewstype> getNewsType(){
 		return NewsTypeQuery.me().getAll();
 	}
-	
+
+	/**
+	 * 根据类型获取信息类型
+	 * @param type
+	 * @return
+	 */
+	public List<JNewstype> getNewsTypeByType(int type){
+		return  NewsTypeQuery.me().getByType(type);
+	}
+
+
 	public List<Record> getNewsByPageTag(Integer page, Integer tag){
 		return NewsQuery.me().getNewsByPageTag((page-1)*10, tag);
 	}

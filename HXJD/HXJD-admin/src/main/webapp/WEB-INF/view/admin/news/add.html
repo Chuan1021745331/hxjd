@@ -1,6 +1,6 @@
 <#include "../../_include/_layout.inc.tag"/> 
 <@layout active_id="dashboard">
-<form class="layui-form" id="newsform" action="" style="margin: 10px 10px 0px 10px;" enctype="multipart/form-data" method="post">
+<form class="layui-form" id="newsform" action="" style="margin: 10px 10px 0px 10px;height: 100%;overflow-y: scroll" enctype="multipart/form-data" method="post">
   <div class="layui-form-item">
     <label class="layui-form-label">标题</label>
     <div class="layui-input-inline" style="width:40%;">
@@ -14,18 +14,23 @@
     </div>
   </div>
   <div class="layui-form-item">
-    <label class="layui-form-label">类型</label>
-    <div id="type">
-    	<#if newsType??>
-    		<#list newsType as bean>
-    			<input class="newsType" type="radio" name="jNews.type" value="${bean.id!}" title="${bean.name!}" lay-filter="newsType">
-    		</#list>    	
-    	</#if>
-		
-		<!-- <input type="radio" name="typeName" value="" title=" "><input id="addItem" type="text" class="layui-input" style="width:5%;"> -->
-    </div>
+      <label class="layui-form-label">类型</label>
+      <div id="type">
+          <#if newsType??>
+              <#list newsType as bean>
+                  <div class="layui-inline">
+                    <input class="newsType" type="radio" name="jNews.type" value="${bean.id!}" title="${bean.name!}" lay-filter="newsType">
+                  </div>
+              </#list>
+          </#if>
+          <!-- <input type="radio" name="typeName" value="" title=" "><input id="addItem" type="text" class="layui-input" style="width:5%;"> -->
+      </div>
 <!--     <button id="addType" class="layui-icon layui-btn layui-btn-sm layui-btn-primary">&#xe608; 添加</button> -->
-<i id="addType" class="layui-icon">&#xe608; 添加</i>   
+  <div class="layui-form-item">
+    <label class="layui-form-label">
+      <i id="addType" class="layui-icon">&#xe608; 添加</i>
+    </label>
+  </div>
   </div>
     <div class="layui-form-item">
     <label class="layui-form-label">附件</label>
@@ -49,8 +54,10 @@
 	layui.use(['form','common'], function() {
 		var form = layui.form,
 			common = layui.common;
-		form.render();		
-		
+		form.render();
+		console.log("parentTypeId");
+        console.log(parent.type);
+
 		var editor = null;
 		editor = KindEditor;
 		editor.create('#content',{
@@ -65,6 +72,46 @@
 			allowFileManager : true,
 			afterBlur: function(){this.sync();}
 		});
+
+        /**
+         * 根据信息类型显示具体类型
+         */
+		$(function () {
+            var type=parent.type;
+            console.log(type);
+            console.log("type");
+            if(type!=null&&type!=""&&type!="-1"){
+                $("#type").find("input[value!="+type+"]").parent().remove();
+                if($("#type").find("input[value="+type+"]").length>0){
+                    $("#type").find("input[value="+type+"]")[0].checked=true;
+                }
+                $("#addType").remove();
+                form.render();
+            }else{
+                //说明是其他信息类型
+                $.ajax({
+                   url:'${BPATH}/admin/news/getCommonNewsType',
+                   type:"get",
+                   dataType:"json",
+                   success:function (result) {
+                       console.log(result);
+                       if(result.errorCode==0){
+                           $("#type").empty();
+                           result.data.forEach(function (val, index) {
+                               $("#type").append("<div class=\"layui-inline\">\n" +
+                                   "                    <input class=\"newsType\" type=\"radio\" name=\"jNews.type\" value=\""+val.id+"\" title=\""+val.name+"\" lay-filter=\"newsType\">\n" +
+                                   "                  </div>");
+                           });
+                       }
+                       form.render();
+                   },
+                   error:function (result) {
+
+                   }
+                });
+            }
+        });
+
 		//新增类型弹出框
 		$("#addType").unbind("click").click(function(){
 			var type;

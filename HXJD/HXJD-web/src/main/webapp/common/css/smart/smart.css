@@ -39,6 +39,15 @@ body{
     justify-content: flex-start;
     align-items: center;
 }
+.sm-layout-left-top
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 .sm-layout-right-center
 {
     display: flex;
@@ -56,6 +65,15 @@ body{
 
     justify-content: flex-start;
     align-items: center;
+}
+.sm-layout-top-left
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 .sm-layout-top-center-with-wrap
 {
