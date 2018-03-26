@@ -33,7 +33,7 @@
 <body style="overflow:auto">
 <div id="mobile" >
     <div id="tag" style="margin-left: 1%;margin-top:1%;">
-        <button class="layui-btn layui-btn-sm layui-btn-radius all" style="background-color: #3F51B5;margin-left: 10px">全部</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius tag all" style="background-color: #3F51B5;margin-left: 10px">全部</button>
         <#if newsType??>
         <#list newsType as bean>
         <button class="layui-btn layui-btn-sm layui-btn-radius tag newsTag" id="${bean.id!}" style="background-color: #3F51B5;">${bean.name!}</button>
