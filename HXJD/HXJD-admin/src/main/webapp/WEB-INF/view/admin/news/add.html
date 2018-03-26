@@ -28,8 +28,11 @@
 <!--     <button id="addType" class="layui-icon layui-btn layui-btn-sm layui-btn-primary">&#xe608; 添加</button> -->
   <div class="layui-form-item">
     <label class="layui-form-label">
-      <i id="addType" class="layui-icon">&#xe608; 添加</i>
+
     </label>
+      <div class="layui-inline">
+          <i id="addType" class="layui-icon">&#xe608; 添加</i>
+      </div>
   </div>
   </div>
     <div class="layui-form-item">
@@ -85,6 +88,7 @@
                 if($("#type").find("input[value="+type+"]").length>0){
                     $("#type").find("input[value="+type+"]")[0].checked=true;
                 }
+                $("#type").parent().hide();
                 $("#addType").remove();
                 form.render();
             }else{
